@@ -15,10 +15,13 @@ import { useGetAllProductsVariants } from '../../api/products';
 import { useAddToCartItem } from '../../api/cart';
 import { useGetProfile } from '../../api/auth';
 import { Link } from 'react-router-dom';
+import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist';
 
 function ShowAllProducts() {
 
   const { data: products = [] } = useGetAllProductsVariants();
+  const { data: wishlistData } = useGetAllWishlist();
+  const { mutate: addWishlist } = useAddWishlist();
 
   const variants = products || [];
   const productsList = variants.map(v => ({
@@ -79,6 +82,51 @@ function ShowAllProducts() {
     );
   };
 
+
+  // Add wishlist
+  const handleAddWishlist = (variant) => {
+    if (!user) {
+      addToast({
+        title: 'Cart',
+        description: 'You have to login first!',
+        color: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+    addWishlist(
+      variant.variantId,
+      {
+        onSuccess: () => {
+          addToast({
+            title: 'Wishlist',
+            description: `${variant.product.name} added to Wishlist successfully!`,
+            color: 'success',
+            duration: 4000,
+            isClosable: true,
+          });
+        },
+        onError: () => {
+          addToast({
+            title: 'Wishlist',
+            description: `Failed to add ${variant.product.name} to cart`,
+            color: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+        },
+      }
+    );
+  };
+
+  const wishlistProductIds = wishlistData?.data?.map(item =>
+    item.product_variant?.id
+  ) || [];
+
+  const isProductInWishlist = (variantId) => {
+    return wishlistProductIds.includes(variantId);
+  };
 
 
   const [showFilters, setShowFilters] = useState(false);
@@ -147,8 +195,10 @@ function ShowAllProducts() {
                     />
                   </Link>
 
-                  <button className="absolute top-0 right-0 cursor-pointer rounded-full p-1 transition">
-                    <WishListIcon />
+                  <button
+                    onClick={() => handleAddWishlist(product)}
+                    className="absolute top-0 right-0 cursor-pointer rounded-full p-1 transition">
+                    <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
                   </button>
 
                   <div className="p-4">
