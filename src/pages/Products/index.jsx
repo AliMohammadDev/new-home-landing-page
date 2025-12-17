@@ -14,18 +14,18 @@ import ProductFilters from './ProductFilters.jsx';
 import { useGetProductsVariantsByCategory } from '../../api/products.jsx';
 import { useAddToCartItem } from '../../api/cart.jsx';
 import { useGetProfile } from '../../api/auth.jsx';
-import { useAddWishlist } from '../../api/wishlist.jsx';
+import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist.jsx';
 
 const Product = () => {
   const { categoryId } = useParams();
   const [showFilters, setShowFilters] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isMobile, setIsMobile] = useState(false);
+  const { data: wishlistData } = useGetAllWishlist();
 
   const { data: user } = useGetProfile();
   const { mutate: addToCart, isLoading } = useAddToCartItem();
   const { mutate: addWishlist } = useAddWishlist();
-
   const { data: products = [] } = useGetProductsVariantsByCategory(categoryId);
   const productsList = (products || []).map(v => ({
     ...v.product,
@@ -43,7 +43,6 @@ const Product = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
 
   // Add to cart 
   const handleAddCartItem = (variant) => {
@@ -99,7 +98,6 @@ const Product = () => {
       });
       return;
     }
-
     addWishlist(
       variant.variantId,
       {
@@ -123,6 +121,15 @@ const Product = () => {
         },
       }
     );
+  };
+
+
+  const wishlistProductIds = wishlistData?.data?.map(item =>
+    item.product_variant?.id
+  ) || [];
+
+  const isProductInWishlist = (variantId) => {
+    return wishlistProductIds.includes(variantId);
   };
 
 
@@ -189,7 +196,10 @@ const Product = () => {
                   <button
                     onClick={() => handleAddWishlist(product)}
                     className="absolute top-0 right-0 cursor-pointer rounded-full p-1 transition">
-                    <WishListIcon />
+                    {/* <WishListIcon /> */}
+
+                    <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
+
                   </button>
 
                   <div className="p-4">
