@@ -1,0 +1,18 @@
+<svg width="455" height="915" viewBox="0 0 455 915" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-100" y="-100" width="655" height="1115"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(50px);clip-path:url(#bgblur_0_1504_6613_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="100">
+<path d="M28 0.75H289.5C304.274 0.750003 316.25 12.7264 316.25 27.5C316.25 43.102 328.898 55.75 344.5 55.75H427C442.05 55.75 454.25 67.9502 454.25 83V887C454.25 902.05 442.05 914.25 427 914.25H28C12.9502 914.25 0.75 902.05 0.75 887V28C0.75 12.9502 12.9502 0.75 28 0.75Z" fill="black" fill-opacity="0.69"/>
+<path d="M28 0.75H289.5C304.274 0.750003 316.25 12.7264 316.25 27.5C316.25 43.102 328.898 55.75 344.5 55.75H427C442.05 55.75 454.25 67.9502 454.25 83V887C454.25 902.05 442.05 914.25 427 914.25H28C12.9502 914.25 0.75 902.05 0.75 887V28C0.75 12.9502 12.9502 0.75 28 0.75Z" stroke="url(#paint0_radial_1504_6613)" stroke-width="1.5"/>
+<path d="M28 0.75H289.5C304.274 0.750003 316.25 12.7264 316.25 27.5C316.25 43.102 328.898 55.75 344.5 55.75H427C442.05 55.75 454.25 67.9502 454.25 83V887C454.25 902.05 442.05 914.25 427 914.25H28C12.9502 914.25 0.75 902.05 0.75 887V28C0.75 12.9502 12.9502 0.75 28 0.75Z" stroke="url(#paint1_radial_1504_6613)" stroke-width="1.5"/>
+</g>
+<defs>
+<clipPath id="bgblur_0_1504_6613_clip_path" transform="translate(100 100)"><path d="M28 0.75H289.5C304.274 0.750003 316.25 12.7264 316.25 27.5C316.25 43.102 328.898 55.75 344.5 55.75H427C442.05 55.75 454.25 67.9502 454.25 83V887C454.25 902.05 442.05 914.25 427 914.25H28C12.9502 914.25 0.75 902.05 0.75 887V28C0.75 12.9502 12.9502 0.75 28 0.75Z"/>
+</clipPath><radialGradient id="paint0_radial_1504_6613" cx="0" cy="0" r="1" gradientTransform="matrix(-485.302 81.3622 -46.7585 -244.718 456.999 261.475)" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0.2"/>
+</radialGradient>
+<radialGradient id="paint1_radial_1504_6613" cx="0" cy="0" r="1" gradientTransform="matrix(129.557 -218.363 125.422 64.7286 62.7685 715.002)" gradientUnits="userSpaceOnUse">
+<stop stop-color="white" stop-opacity="0.5"/>
+<stop offset="1" stop-color="white" stop-opacity="0.2"/>
+</radialGradient>
+</defs>
+</svg>

@@ -1,0 +1,46 @@
+@import "tailwindcss";
+@plugin './hero.js';
+/* Note: You may need to change the path to fit your project structure */
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
+
+
+
+
+/* CUSTOM FONTS */
+
+@font-face {
+  font-family: Expo-arabic;
+  src: url('/public/fonts/Expo-Arabic-Book.ttf');
+}
+
+@font-face {
+  font-family: Expo-bold;
+  src: url('/public/fonts/Expo-Arabic-Bold.ttf');
+}
+
+@font-face {
+  font-family: Expo-light;
+  src: url('/public/fonts/Expo-Arabic-light.ttf');
+}
+
+@font-face {
+  font-family: Expo-book;
+  src: url('/public/fonts/Expo-Arabic-Book.ttf');
+}
+
+@font-face {
+  font-family: Expo-medium;
+  src: url('/public/fonts/Expo-Arabic-Medium.ttf');
+}
+
+@font-face {
+  font-family: Asteroid;
+  src: url('/public/fonts/Asteroid.ttf');
+}
+
+@font-face {
+  font-family: Qanduchia;
+  src: url('/public/fonts/Qanduchia.ttf');
+}
+
