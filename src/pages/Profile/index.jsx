@@ -56,7 +56,7 @@ function Profile() {
   if (isLoading) return null;
 
   return (
-    <div className="w-full min-h-screen bg-[#025043] flex justify-center items-start py-20 md:py-32 px-6 lg:px-20 text-white">
+    <div className="w-full min-h-screen bg-[#025043] flex items-start py-20 md:py-32 px-6 lg:px-20 text-white">
       <div
         className="w-full max-w-3xl rounded-2xl p-8 md:p-12 flex flex-col gap-8 shadow-xl"
         style={{
@@ -114,6 +114,7 @@ function Profile() {
                 },
               })}
               type="password"
+              autoComplete='new-password'
               className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white shadow-sm"
             />
           </div>
@@ -145,7 +146,7 @@ function Profile() {
           <button
             type="submit"
             disabled={isPending}
-            className="w-full py-3 bg-white text-[#025043] rounded-lg font-semibold hover:bg-gray-200 transition disabled:opacity-50"
+            className="w-full py-3 bg-black hover:opacity-90  text-white rounded-lg font-semibold transition disabled:opacity-50"
           >
             {isPending ? 'Saving...' : 'Save Changes'}
           </button>

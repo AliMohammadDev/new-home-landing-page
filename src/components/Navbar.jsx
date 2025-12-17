@@ -20,6 +20,8 @@ import {
 } from '@heroui/react';
 import { useGetCategories } from '../api/categories.jsx';
 import { useDecreaseItem, useGetAllCartItems, useIncreaseItem, useRemoveFromCartItem } from '../api/cart.jsx';
+import LogoutIcon from '../assets/icons/LogoutIcon.jsx';
+import OrderIcon from '../assets/icons/OrderIcon.jsx';
 
 const Navbar = () => {
 
@@ -216,10 +218,16 @@ const Navbar = () => {
                     My Cart
                   </NavLink>
                   <NavLink
-                    to="/wishlist"
+                    to="/wishlists"
                     className="block px-4 py-2 hover:bg-[#9f9f9f9f] hover:rounded transition-colors"
                   >
                     WishList
+                  </NavLink>
+                  <NavLink
+                    to="/my-orders"
+                    className="block px-4 py-2 hover:bg-[#9f9f9f9f] hover:rounded transition-colors"
+                  >
+                    My Orders
                   </NavLink>
                   <NavLink
                     to="/logout"
@@ -322,7 +330,11 @@ const Navbar = () => {
 
                           {/* + */}
                           <button
-                            onClick={() => increaseItem(item.id)}
+
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              increaseItem(item.id);
+                            }}
                             className="p-1 bg-[#025043] text-white rounded-xl cursor-pointer ">
                             <PlusIcon />
                           </button>
@@ -332,7 +344,10 @@ const Navbar = () => {
 
                           {/* - */}
                           <button
-                            onClick={() => decreaseItem(item.id)}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              decreaseItem(item.id);
+                            }}
                             className="p-1 bg-[#025043] text-white rounded-xl cursor-pointer ">
                             <MinusIcon />
                           </button>
@@ -389,7 +404,10 @@ const Navbar = () => {
                   }}
                   className="py-2 hover:bg-gray-100 cursor-pointer mr-14"
                 >
-                  My Profile
+                  <div className="flex items-center gap-3">
+                    {/* <ProfileIcon className="w-5 h-5" /> */}
+                    <span>My Profile</span>
+                  </div>
                 </DropdownItem>
 
                 <DropdownItem
@@ -399,11 +417,30 @@ const Navbar = () => {
                   }}
                   className="py-2 hover:bg-gray-100 cursor-pointer mr-14"
                 >
-                  My cart
+                  <div className="flex items-center gap-3">
+                    {/* <CartIcon className="w-5 h-5" /> */}
+                    <span>My Cart</span>
+                  </div>
                 </DropdownItem>
+
+
+                <DropdownItem
+                  onClick={() => {
+                    setIsCartOpen(false);
+                    navigate('/my-orders');
+                  }}
+                  className="py-2 hover:bg-gray-100 cursor-pointer mr-14"
+                >
+                  <div className="flex items-center gap-3">
+                    {/* <OrderIcon className="w-5 h-5" /> */}
+                    <span>My Orders</span>
+                  </div>
+                </DropdownItem>
+
                 <DropdownItem className="py-2 cursor-pointer">
                   <Link to="/logout" className="flex items-center">
-                    Logout
+                    {/* <LogoutIcon className="w-5 h-5" /> */}
+                    <span>Logout</span>
                   </Link>
                 </DropdownItem>
               </DropdownMenu>

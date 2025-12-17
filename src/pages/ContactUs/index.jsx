@@ -1,16 +1,14 @@
-import { useForm } from "react-hook-form";
-import { useSendMail } from "../../api/auth";
-import { addToast } from "@heroui/react";
+import { useForm } from 'react-hook-form';
+import { useSendMail } from '../../api/auth';
+import { addToast } from '@heroui/react';
 
 const Contact = () => {
-
   const { register, handleSubmit, reset } = useForm();
   const { mutate, isPending: loading } = useSendMail();
 
   const onSubmit = (data) => {
     mutate(data, {
       onSuccess: () => {
-
         addToast({
           title: 'Contact Us',
           description: 'Message sent successfully!',
@@ -19,13 +17,13 @@ const Contact = () => {
           isClosable: true,
         });
 
-
         reset();
       },
       onError: (error) => {
         addToast({
           title: 'Contact Us',
-          description: error.message || 'Failed to send message. Please try again.',
+          description:
+            error.message || 'Failed to send message. Please try again.',
           color: 'error',
           duration: 4000,
           isClosable: true,
@@ -33,7 +31,6 @@ const Contact = () => {
       },
     });
   };
-
 
   return (
     <div className="w-full flex flex-col md:flex-row justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]">
@@ -109,18 +106,18 @@ const Contact = () => {
             type="submit"
             className={`w-full bg-black text-white py-2 rounded-xl hover:opacity-80 transition
 
-                 ${loading
-                ? 'bg-gray-400 cursor-not-allowed'
-                : 'bg-black hover:opacity-90'}
+                 ${
+                   loading
+                     ? 'bg-gray-400 cursor-not-allowed'
+                     : 'bg-black hover:opacity-90'
+                 }
                 `}
           >
-
             {loading ? 'Sending...' : 'SEND MESSAGE'}
           </button>
         </form>
-
       </div>
-    </div >
+    </div>
   );
 };
 

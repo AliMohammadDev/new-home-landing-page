@@ -14,6 +14,9 @@ import ShowAllProducts from '../pages/Products/ShowAllProducts';
 import ErrorFallback from '../pages/ErrorFallback';
 import Logout from '../pages/Logout';
 import Carts from '../pages/Carts';
+import Orders from '../pages/Orders';
+import OrdersInfo from '../pages/Orders/OrderInfo';
+import ShowAllOrders from '../pages/Orders/ShowAllOrders';
 
 const router = createBrowserRouter([
   {
@@ -26,8 +29,22 @@ const router = createBrowserRouter([
       { path: 'contact', element: <Contact /> },
       {
         path: 'checkouts',
-        element: <Checkouts />,
+        children: [
+          { index: true, element: <Checkouts /> },
+          {
+            path: 'orders/:checkoutId',
+            // element: <Orders />,
+            children: [
+              { index: true, element: <Orders /> },
+              {
+                path: 'orders-info/:orderId',
+                element: <OrdersInfo />,
+              },
+            ],
+          },
+        ],
       },
+
       {
         path: 'wishlists',
         element: <Wishlists />,
@@ -36,6 +53,11 @@ const router = createBrowserRouter([
         path: 'carts',
         element: <Carts />,
       },
+      {
+        path: 'my-orders',
+        element: <ShowAllOrders />,
+      },
+
       {
         path: 'profile',
         element: <Profile />,
