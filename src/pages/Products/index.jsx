@@ -1,7 +1,7 @@
 import FilterIcon from '../../assets/icons/FilterIcon.jsx';
 import WishListIcon from '../../assets/icons/WishListIcon.jsx';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   Drawer,
   DrawerContent,
@@ -178,18 +178,19 @@ const Product = () => {
             {productsList.map((product) => (
               <div key={product.variantId} className="md:px-1">
                 <div className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
-                  />
+                  <Link to={`/products/${categoryId}/product-info/${product.variantId}`}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover hover:opacity-90 transition"
+                    />
+                  </Link>
+
                   <button
                     onClick={() => handleAddWishlist(product)}
                     className="absolute top-0 right-0 cursor-pointer rounded-full p-1 transition">
                     <WishListIcon />
                   </button>
-
-
 
                   <div className="p-4">
                     <h3 className="text-[#025043] text-[16px] font-medium mb-2">
@@ -208,12 +209,7 @@ const Product = () => {
                         <span className="text-xs text-gray-500">
                           ({product.reviews_count})
                         </span>
-                        {/* <button className="text-sm hover:underline">
-                          view more
-                        </button> */}
                       </div>
-
-
                       <button
                         onClick={() => handleAddCartItem(product)}
                         disabled={isLoading}

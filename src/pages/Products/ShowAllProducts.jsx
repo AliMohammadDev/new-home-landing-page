@@ -14,9 +14,10 @@ import WishListIcon from '../../assets/icons/WishListIcon';
 import { useGetAllProductsVariants } from '../../api/products';
 import { useAddToCartItem } from '../../api/cart';
 import { useGetProfile } from '../../api/auth';
+import { Link } from 'react-router-dom';
 
 function ShowAllProducts() {
-  // const { data: products = [] } = useGetAllProducts();
+
   const { data: products = [] } = useGetAllProductsVariants();
 
   const variants = products || [];
@@ -32,6 +33,11 @@ function ShowAllProducts() {
   const { data: user } = useGetProfile();
 
   const { mutate: addToCart, isLoading } = useAddToCartItem();
+  const [visibleCount, setVisibleCount] = useState(8);
+
+  const handleShowMore = () => {
+    setVisibleCount(prev => prev + 8);
+  };
 
   const handleAddCartItem = (variant) => {
     if (!user) {
@@ -130,14 +136,17 @@ function ShowAllProducts() {
           <div
             className={`${showFilters ? 'w-3/2' : 'w-full'} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-5 transition-all duration-300`}
           >
-            {productsList.map((product, i) => (
+            {productsList.slice(0, visibleCount).map((product, i) => (
               <div key={i} className="md:px-1">
                 <div className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
-                  />
+                  <Link to={`/products/${product.category.id}/product-info/${product.variantId}`}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover hover:opacity-90 transition cursor-pointer"
+                    />
+                  </Link>
+
                   <button className="absolute top-0 right-0 cursor-pointer rounded-full p-1 transition">
                     <WishListIcon />
                   </button>
@@ -173,7 +182,20 @@ function ShowAllProducts() {
                 </div>
               </div>
             ))}
+
+            {/* زر Show More */}
+            {visibleCount < productsList.length && (
+              <div className="col-span-full flex justify-center mt-5">
+                <button
+                  onClick={handleShowMore}
+                  className="px-6 py-2 bg-[#025043] text-white rounded-md hover:bg-[#01382f] transition"
+                >
+                  Show More...
+                </button>
+              </div>
+            )}
           </div>
+
         </div>
 
         <Drawer isOpen={isOpen} placement="bottom" onOpenChange={onOpenChange}>

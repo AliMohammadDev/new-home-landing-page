@@ -1,11 +1,126 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import LeftIcon from '../../assets/icons/LeftIcon';
 import PlusIcon from '../../assets/icons/PlusIcon';
 import MinusIcon from '../../assets/icons/MinusIcon';
-import CloseIcon from '../../assets/icons/CloseIcon';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
+import { useGetProductVariant } from '../../api/products';
+import { COLOR_MAP } from '../../constants/color';
+import { useGetCategories } from '../../api/categories';
+import { addToast } from '@heroui/react';
+import { useAddToCartItem } from '../../api/cart';
+import { useAddWishlist } from '../../api/wishlist';
+import { useGetProfile } from '../../api/auth';
+
+
 
 const ProductInfo = () => {
+
+  const { productId } = useParams();
+  const { data } = useGetProductVariant(productId);
+  const { data: categories = [] } = useGetCategories();
+  const { data: user } = useGetProfile();
+  const { mutate: addToCart, isLoading } = useAddToCartItem();
+  const { mutate: addWishlist } = useAddWishlist();
+
+
+
+  const product = data?.product;
+  const variant = data;
+
+  const activeCategoryId = product?.category?.id;
+
+
+  // Add to cart 
+  const handleAddCartItem = (variant) => {
+    if (!user) {
+      addToast({
+        title: 'Cart',
+        description: 'You have to login first!',
+        color: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    addToCart(
+      {
+        product_variant_id: variant.id,
+        quantity: 1,
+      },
+      {
+        onSuccess: () => {
+          addToast({
+            title: 'Cart',
+            description: `${variant.product.name} added to cart successfully!`,
+            color: 'success',
+            duration: 4000,
+            isClosable: true,
+          });
+        },
+        onError: () => {
+          addToast({
+            title: 'Cart',
+            description: `Failed to add ${variant.product.name} to cart`,
+            color: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+        },
+      }
+    );
+  };
+
+
+  // Add wishlist
+  const handleAddWishlist = (variant) => {
+    if (!user) {
+      addToast({
+        title: 'Cart',
+        description: 'You have to login first!',
+        color: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    addWishlist(
+      variant.id,
+      {
+        onSuccess: () => {
+          addToast({
+            title: 'Wishlist',
+            description: `${variant.product.name} added to Wishlist successfully!`,
+            color: 'success',
+            duration: 4000,
+            isClosable: true,
+          });
+        },
+        onError: () => {
+          addToast({
+            title: 'Wishlist',
+            description: `Failed to add ${variant.product.name} to cart`,
+            color: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+        },
+      }
+    );
+  };
+
+
+
+
+  const getColorHex = (colorName) => {
+    return COLOR_MAP[colorName?.toLowerCase()] || '#E5E7EB';
+  };
+  if (!data || !product || !variant) {
+    return <p className="text-center mt-20">Loading product...</p>;
+  }
+
+
   return (
     <div className="w-full text-black px-4 md:px-10 lg:px-20 py-10 bg-white min-h-screen relative">
       {/* Back Button */}
@@ -20,24 +135,36 @@ const ProductInfo = () => {
       </h1>
       <hr className="mt-5 border-[#025043]" />
       {/* Category Menu */}
-      <div className="flex flex-wrap justify-center md:justify-end items-center gap-4 md:space-x-15 mt-4 text-sm md:text-base">
-        <span className="font-bold">Cookware</span>
-        <span>Bowl</span>
-        <span>Mugs</span>
-        <span>Utensil</span>
-        <span>Tableware</span>
-        <span>Cups</span>
+      <div className="flex flex-wrap justify-center md:justify-end items-center gap-4 mt-4 text-sm md:text-base">
+        {categories.map((category) => {
+          const isActive = category.id === activeCategoryId;
+
+          return (
+            <span
+              key={category.id}
+              className={` px-3 py-1 rounded-full transition
+          ${isActive
+                  ? 'bg-[#025043] text-white font-bold'
+                  : 'text-gray-600'
+                }`}
+            >
+              {category.name}
+            </span>
+          );
+        })}
       </div>
+
       <hr className="mt-4 border-[#025043]" />
       {/* Main Section */}
       <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mt-1">
         {/* Left Image Section */}
         <div className="w-full lg:w-1/2">
           <img
-            src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765364809/productInfo_d9c0pg.png"
-            alt="product-info"
+            src={product?.image}
+            alt={product?.name}
             className="w-full h-auto object-cover shadow-md rounded-2xl"
           />
+
           <p className="mt-10 text-center text-black leading-relaxed">
             Almanzel-Alhadith is a company specializing in providing
             high-quality kitchen tools and hospitality equipment for homes,
@@ -49,78 +176,118 @@ const ProductInfo = () => {
           {/* Left Subsection */}
           <div className="md:w-1/2 pr-4 flex-1 space-y-4">
             <h2 className="text-2xl md:text-3xl font-semibold font-[Expo-arabic]">
-              CHASSEUR ROUND FRENCH OVEN
+              {product?.name}
             </h2>
             {/* Price */}
             <div className="text-lg">
-              <span className="line-through text-gray-400">1,000,000 sp</span>
+              {product?.discount > 0 && (
+                <span className="line-through text-gray-400">
+                  {product.price} SYP
+                </span>
+              )}
               <br />
-              <span className="font-bold text-black">500,000 sp</span>{' '}
-              <span className="bg-yellow-300 px-2 py-0.5 rounded-full text-sm font-medium">
-                50% OFF PRP
+
+              <span className="font-bold text-black">
+                {product?.final_price} SYP
               </span>
+
+              {product?.discount > 0 && (
+                <span className="bg-yellow-300 px-2 py-0.5 rounded-full text-sm font-medium ml-2">
+                  {Math.round(
+                    ((product.price - product.final_price) / product.price) * 100
+                  )}
+                  % OFF
+                </span>
+              )}
             </div>
+
+
             {/* Colors */}
             <div className="space-x-2">
-              <span className="font-bold font-[Expo-arabic] ">COLORS</span>
+              <span className="font-bold font-[Expo-arabic]">COLOR</span>
               <br />
-              <span className="inline-block w-4 h-4 bg-gray-400 rounded-full border-white"></span>
-              <span className="inline-block w-4 h-4 bg-yellow-400 rounded-full border-white"></span>
-              <span className="inline-block w-4 h-4 bg-green-500 rounded-full border-white"></span>
-              <span className="inline-block w-4 h-4 bg-red-500 rounded-full border-white"></span>
+              <span
+                className="inline-block w-5 h-5 rounded-full border border-gray-300"
+                style={{ backgroundColor: getColorHex(variant.color) }}
+              ></span>
             </div>
+
             {/* Size */}
             <div className="text-sm">
-              <span className="font-bold font-[Expo-arabic]">
-                Size
-                <br />
-              </span>{' '}
-              Large one size available
+              <span className="font-bold font-[Expo-arabic]">Size</span>
+              <br />
+              {variant?.size}
             </div>
+
             {/* Rating */}
             <div className="font-bold font-[Expo-arabic]">
               Rate
               <br />
-              <span className="text-[#025043]">☆ ☆ ☆ ☆ ☆</span>
-              <span className="ml-2 font-bold">out of 5 stars</span>
+              <span className="text-[#025043]">
+                {'★'.repeat(Math.round(product?.reviews_avg || 0))}
+                {'☆'.repeat(5 - Math.round(product?.reviews_avg || 0))}
+              </span>
+              <span className="ml-2 font-bold">
+                ({product?.reviews_count || 0})
+              </span>
             </div>
+
             {/* Quantity + Add to cart */}
             <div className="flex flex-col mt-6 w-full">
               <div className="flex items-center justify-between w-full">
                 {/* Quantity Controls */}
-                <div className="relative flex items-center border-white rounded-md bg-gray-200 px-2 py-1">
-                  <button className="p-2 ml-1 rounded-full bg-black text-white hover:opacity-80 cursor-pointer">
+                {/* <div className="relative flex items-center border-white rounded-md bg-gray-200 px-2 py-1">
+                  <button
+                    onClick={() => {
+                      increaseItem(variant.id);
+                    }}
+                    className="p-2 ml-1 rounded-full bg-black text-white hover:opacity-80 cursor-pointer">
                     <PlusIcon color="black" />
                   </button>
 
                   <span className="px-4 text-black p-1 font-bold text-center">
-                    0
+                    {product.quantity}
                   </span>
 
-                  <button className="p-2 -ml-1 rounded-full bg-black text-white hover:opacity-80 cursor-pointer">
+                  <button
+                    onClick={() => {
+                      decreaseItem(variant.id);
+                    }}
+                    className="p-2 -ml-1 rounded-full bg-black text-white hover:opacity-80 cursor-pointer">
                     <MinusIcon color="black" />
                   </button>
-                </div>
+                </div> */}
 
                 {/* Add to Cart + Chevron Icon */}
                 <div className="flex items-center gap-2">
-                  <button className="px-6 py-1 bg-black  text-white rounded-md hover:opacity-80 transition whitespace-nowrap">
-                    Add to Cart
-                  </button>
 
-                  {/* Circle Chevron Icon */}
-                  <div className="w-8 h-8 bg-black flex items-center justify-center border border-black rounded-full hover:opacity-80 transition">
-                    <ChevronRightIcon color="white" />
+
+                  <div className='flex gap-1'>
+                    <button
+                      onClick={() => handleAddCartItem(product)}
+                      disabled={isLoading}
+                      className="px-6 py-1 bg-black cursor-pointer  text-white rounded-md hover:opacity-80 transition whitespace-nowrap"
+                    >
+                      {isLoading ? 'Adding...' : 'Add to cart'}
+                    </button>
+
+                    {/* Circle Chevron Icon */}
+                    <div className="w-8 h-8 bg-black flex items-center justify-center border border-black  rounded-full hover:opacity-80 transition">
+                      <ChevronRightIcon color="white" />
+                    </div>
                   </div>
                 </div>
               </div>
               {/* Add to favorites */}
-              <a
-                href="#"
-                className="text-xs text-gray-600 mt-1 mr-12 text-right hover:underline-offset-2"
+              <span
+                onClick={() => handleAddWishlist(product)}
+                className="text-sm cursor-pointer text-gray-600 mt-1 mr-12 text-right hover:underline-offset-2"
               >
                 Add to favorites+
-              </a>
+              </span>
+
+
+
             </div>
             <hr className="mt-6 border-[#025043]" />
             <p className="font-[Expo-arabic] text-black">
@@ -136,12 +303,12 @@ const ProductInfo = () => {
 
           {/* Right Subsection */}
           <div className="md:w-1/2 pl-4 flex-1 space-y-3">
-            <div className="flex items-center gap-2 text-sm  text-gray-500">
+            {/* <div className="flex items-center gap-2 text-sm  text-gray-500">
               <span className='hover:opacity-80'>
                 <CloseIcon />
               </span>
               <span>Remove</span>
-            </div>
+            </div> */}
 
             <h3 className="text-xl md:text-2xl font-semibold font-[Expo-arabic]">
               PRODUCT DESCRIPTION
@@ -156,10 +323,10 @@ const ProductInfo = () => {
                 MATERIAL
               </h4>
               <p className="text-black mt-1 leading-relaxed font-[Expo-arabic]">
-                Made of lasting enamel cast iron for even heat distribution,
-                better heat retention, and prevention of hot spots.
+                {variant?.material}
               </p>
             </div>
+
             <hr className="mt-6 border-[#025043]" />
           </div>
         </div>

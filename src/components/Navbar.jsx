@@ -20,8 +20,7 @@ import {
 } from '@heroui/react';
 import { useGetCategories } from '../api/categories.jsx';
 import { useDecreaseItem, useGetAllCartItems, useIncreaseItem, useRemoveFromCartItem } from '../api/cart.jsx';
-import LogoutIcon from '../assets/icons/LogoutIcon.jsx';
-import OrderIcon from '../assets/icons/OrderIcon.jsx';
+
 
 const Navbar = () => {
 
@@ -382,7 +381,9 @@ const Navbar = () => {
 
           <div className="text-[#025043] font-[Expo-bold] flex cursor-pointer">
             <div className="text-[#025043] font-[Expo-bold] flex cursor-pointer relative">
-              <div className="bg-[#025043] p-2 rounded-full hover:bg-[#507771] transition-all duration-200 wishlist-button">
+              <div
+                onClick={(e) => { e.stopPropagation() }}
+                className="bg-[#025043] p-2 rounded-full hover:bg-[#507771] transition-all duration-200 wishlist-button">
                 <Link to={'/wishlists'}>
                   <FavoriteIcon />
                 </Link>

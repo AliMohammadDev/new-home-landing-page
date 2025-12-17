@@ -143,9 +143,9 @@ function ProductSlider1({ products = [] }) {
                           <span className="text-xs text-gray-500">
                             ({product.reviews_count})
                           </span>
-                          {/* <Link to={'/products'} className="text-sm hover:underline ml-2">
+                          <Link to={'/products'} className="text-sm hover:underline ml-2">
                             view more
-                          </Link> */}
+                          </Link>
                         </div>
                         <button
                           onClick={() => handleAddCartItem(variant)}

@@ -1,5 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import Cookie from 'cookie-universal';
+
+const cookies = Cookie();
 
 // export const useGetSlidersProducts = () => {
 //   return useQuery({
@@ -88,3 +91,19 @@ export const useGetAllProductsVariants = () => {
     },
   });
 };
+
+
+export const useGetProductVariant = (product_variant_id) => {
+
+  return useQuery({
+    queryKey: ['checkout', product_variant_id],
+    enabled: !!cookies.get('token') && !!product_variant_id,
+    queryFn: async () => {
+      const res = await axios.get(`product-variants/${product_variant_id}`);
+      return res.data.data;
+    },
+    retry: 1,
+  });
+};
+
+
