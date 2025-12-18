@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 
 export const useGetAllReviews = (userId) => {
@@ -15,10 +15,15 @@ export const useGetAllReviews = (userId) => {
 };
 
 export const useAddReviews = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (payload) => {
       const res = await axios.post('/reviews', payload);
       return res.data.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['variants'] });
     },
   });
 };

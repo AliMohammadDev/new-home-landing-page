@@ -44,6 +44,8 @@ function ShowAllProducts() {
     size: v.size,
     material: v.material,
     stock_quantity: v.stock_quantity,
+    rating: Number(v.reviews_avg),
+    reviews_count: v.reviews_count,
   }));
 
   const { data: user } = useGetProfile();
