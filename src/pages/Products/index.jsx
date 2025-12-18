@@ -15,9 +15,14 @@ import { useGetProductsVariantsByCategory } from '../../api/products.jsx';
 import { useAddToCartItem } from '../../api/cart.jsx';
 import { useGetProfile } from '../../api/auth.jsx';
 import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist.jsx';
+import { useAddReviews } from '../../api/reviews.jsx';
+import RatingStars from '../../components/RatingStars.jsx';
 
 const Product = () => {
   const { categoryId } = useParams();
+
+
+
   const [showFilters, setShowFilters] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isMobile, setIsMobile] = useState(false);
@@ -34,8 +39,11 @@ const Product = () => {
     size: v.size,
     material: v.material,
     stock_quantity: v.stock_quantity,
+    rating: Number(v.reviews_avg),
+    reviews_count: v.reviews_count,
   }));
   const category = products[0]?.product?.category;
+
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -133,11 +141,47 @@ const Product = () => {
   };
 
 
+  const { mutate: addReview } = useAddReviews();
 
-  const renderStars = (rating = 0) => {
-    const fullStars = Math.round(rating);
-    return '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+  const handleRateProduct = (variantId, rating) => {
+    if (!user) {
+      addToast({
+        title: 'Rating',
+        description: 'You have to login first!',
+        color: 'warning',
+      });
+      return;
+    }
+
+
+
+
+    addReview(
+      {
+        product_variant_id: variantId,
+        rating,
+      },
+      {
+        onSuccess: () => {
+          addToast({
+            title: 'Thank you!',
+            description: 'Your review has been submitted',
+            color: 'success',
+          });
+        },
+        onError: (error) => {
+          addToast({
+            title: 'Error',
+            description:
+              error.response?.data?.message || 'Failed to submit review',
+            color: 'error',
+          });
+        }
+      }
+    );
+
   };
+
 
   return (
     <div className="bg-[#EDEAE2] min-h-screen">
@@ -196,7 +240,6 @@ const Product = () => {
                   <button
                     onClick={() => handleAddWishlist(product)}
                     className="absolute top-0 right-0 cursor-pointer rounded-full p-1 transition">
-                    {/* <WishListIcon /> */}
 
                     <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
 
@@ -215,7 +258,12 @@ const Product = () => {
 
                     <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">
                       <div className="flex items-center gap-1 text-sm">
-                        <span>{renderStars(product.rating)}</span>
+                        <RatingStars
+                          rating={product.rating}
+                          onRate={(star) =>
+                            handleRateProduct(product.variantId, star)
+                          }
+                        />
                         <span className="text-xs text-gray-500">
                           ({product.reviews_count})
                         </span>
