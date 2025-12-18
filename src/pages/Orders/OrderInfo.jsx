@@ -41,7 +41,7 @@ function OrdersInfo() {
                     </p>
 
                     <p><strong>Total:</strong> {order.total_amount} 4</p>
-                    <p><strong>Payment Method:</strong> {order.payment_method}</p>
+                    {/* <p><strong>Payment Method:</strong> {order.payment_method}</p> */}
                     <p><strong>Created At:</strong> {(order.created_at)}</p>
 
                     {/* User information */}

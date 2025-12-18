@@ -160,7 +160,6 @@ function ProductSlider1({ products = [] }) {
                       alt="stainless steel cookware"
                       className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
                     />
-
                     <div className="p-4">
                       <h3 className="text-[#025043] text-[16px] font-medium mb-2">
                         {product.name}
@@ -180,9 +179,6 @@ function ProductSlider1({ products = [] }) {
                               handleRateProduct(variant.id, star)
                             }
                           />
-
-
-
                           <span className="text-xs text-gray-500">
                             ({variant.reviews_count || 0})
                           </span>

@@ -96,7 +96,7 @@ export const useGetAllProductsVariants = () => {
 export const useGetProductVariant = (product_variant_id) => {
 
   return useQuery({
-    queryKey: ['checkout', product_variant_id],
+    queryKey: ['variant', product_variant_id],
     enabled: !!cookies.get('token') && !!product_variant_id,
     queryFn: async () => {
       const res = await axios.get(`product-variants/${product_variant_id}`);

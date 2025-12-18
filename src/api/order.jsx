@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Cookie from 'cookie-universal';
 
@@ -22,6 +22,7 @@ export const useGetAllOrders = () => {
 
 
 export const usePlaceOrder = () => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ checkout_id, payment_method }) => {
       try {
@@ -31,11 +32,22 @@ export const usePlaceOrder = () => {
         });
 
         return res.data;
+
+
+
       } catch (error) {
         throw new Error(
           error.response?.data?.message || 'Failed to place order'
         );
       }
+
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cart-items'] });
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+
+      queryClient.removeQueries({ queryKey: ['checkout'] });
     },
 
   });
@@ -47,7 +59,7 @@ export const usePlaceOrder = () => {
 export const useGetOrder = (orderId) => {
 
   return useQuery({
-    queryKey: ['checkout', orderId],
+    queryKey: ['order', orderId],
     enabled: !!cookies.get('token') && !!orderId,
     queryFn: async () => {
       const res = await axios.get(`orders/${orderId}`);

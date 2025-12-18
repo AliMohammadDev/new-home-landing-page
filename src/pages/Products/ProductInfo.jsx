@@ -10,6 +10,8 @@ import { addToast } from '@heroui/react';
 import { useAddToCartItem } from '../../api/cart';
 import { useAddWishlist } from '../../api/wishlist';
 import { useGetProfile } from '../../api/auth';
+import RatingStars from '../../components/RatingStars';
+import { useAddReviews } from '../../api/reviews';
 
 
 
@@ -26,6 +28,8 @@ const ProductInfo = () => {
 
   const product = data?.product;
   const variant = data;
+
+
 
   const activeCategoryId = product?.category?.id;
 
@@ -111,6 +115,42 @@ const ProductInfo = () => {
   };
 
 
+  const { mutate: addReview } = useAddReviews();
+
+  const handleRateProduct = (variantId, rating) => {
+    if (!user) {
+      addToast({
+        title: 'Rating',
+        description: 'You have to login first!',
+        color: 'warning',
+      });
+      return;
+    }
+    addReview(
+      {
+        product_variant_id: variantId,
+        rating,
+      },
+      {
+        onSuccess: () => {
+          addToast({
+            title: 'Thank you!',
+            description: 'Your review has been submitted',
+            color: 'success',
+          });
+        },
+        onError: (error) => {
+          addToast({
+            title: 'Error',
+            description:
+              error.response?.data?.message || 'Failed to submit review',
+            color: 'error',
+          });
+        }
+      }
+    );
+
+  };
 
 
   const getColorHex = (colorName) => {
@@ -223,10 +263,17 @@ const ProductInfo = () => {
             <div className="font-bold font-[Expo-arabic]">
               Rate
               <br />
-              <span className="text-[#025043]">
+              {/* <span className="text-[#025043]">
                 {'★'.repeat(Math.round(product?.reviews_avg || 0))}
                 {'☆'.repeat(5 - Math.round(product?.reviews_avg || 0))}
-              </span>
+              </span> */}
+
+              <RatingStars
+                rating={Number(variant.reviews_avg) || 0}
+                onRate={(star) =>
+                  handleRateProduct(variant.id, star)
+                }
+              />
               <span className="ml-2 font-bold">
                 ({product?.reviews_count || 0})
               </span>
