@@ -27,8 +27,8 @@ function ShowAllProducts() {
     sizes: [],
     materials: [],
     price: {
-      min: 100,
-      max: 1000000,
+      min: 0.2,
+      max: 100,
     },
   });
 
@@ -48,6 +48,7 @@ function ShowAllProducts() {
     rating: Number(v.reviews_avg),
     reviews_count: v.reviews_count,
   }));
+
 
   const { data: user } = useGetProfile();
 
