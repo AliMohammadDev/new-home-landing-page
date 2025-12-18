@@ -16,8 +16,21 @@ import { useAddToCartItem } from '../../api/cart';
 import { useGetProfile } from '../../api/auth';
 import { Link } from 'react-router-dom';
 import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist';
+import RatingStars from '../../components/RatingStars';
+import { useAddReviews } from '../../api/reviews';
 
 function ShowAllProducts() {
+  const [filters, setFilters] = useState({
+    colors: [],
+    categories: [],
+    sizes: [],
+    materials: [],
+    price: {
+      min: 100,
+      max: 1000000,
+    },
+  });
+
 
   const { data: products = [] } = useGetAllProductsVariants();
   const { data: wishlistData } = useGetAllWishlist();
@@ -141,9 +154,104 @@ function ShowAllProducts() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const renderStars = (rating = 0) => {
-    const fullStars = Math.round(rating);
-    return '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+
+  const updatePrice = (type, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      price: {
+        ...prev.price,
+        [type]: Number(value),
+      },
+    }));
+  };
+  const toggleFilter = (type, value) => {
+    setFilters((prev) => {
+      if (!Array.isArray(prev[type])) return prev;
+
+      const exists = prev[type].includes(value);
+
+      return {
+        ...prev,
+        [type]: exists
+          ? prev[type].filter((v) => v !== value)
+          : [...prev[type], value],
+      };
+    });
+  };
+
+
+
+  const filteredProducts = productsList.filter((product) => {
+    // Category filter
+    const matchCategory =
+      filters.categories.length === 0 ||
+      filters.categories.includes(product.category.name);
+
+    // Color filter
+    const matchColor =
+      filters.colors.length === 0 ||
+      filters.colors.includes(product.color);
+
+    // Size filter
+    const matchSize =
+      filters.sizes.length === 0 ||
+      filters.sizes.includes(product.size);
+
+    // Material filter
+    const matchMaterial =
+      filters.materials.length === 0 ||
+      filters.materials.includes(product.material);
+
+    // Price filter
+    const matchPrice =
+      Number(product.final_price) >= filters.price.min &&
+      Number(product.final_price) <= filters.price.max;
+
+    return (
+      matchCategory &&
+      matchColor &&
+      matchSize &&
+      matchMaterial &&
+      matchPrice
+    );
+  });
+
+
+
+  const { mutate: addReview } = useAddReviews();
+  const handleRateProduct = (variantId, rating) => {
+    if (!user) {
+      addToast({
+        title: 'Rating',
+        description: 'You have to login first!',
+        color: 'warning',
+      });
+      return;
+    }
+    addReview(
+      {
+        product_variant_id: variantId,
+        rating,
+      },
+      {
+        onSuccess: () => {
+          addToast({
+            title: 'Thank you!',
+            description: 'Your review has been submitted',
+            color: 'success',
+          });
+        },
+        onError: (error) => {
+          addToast({
+            title: 'Error',
+            description:
+              error.response?.data?.message || 'Failed to submit review',
+            color: 'error',
+          });
+        }
+      }
+    );
+
   };
 
   return (
@@ -177,14 +285,20 @@ function ShowAllProducts() {
           <div
             className={`${showFilters ? 'w-2.8 md:w-1/4' : 'w-0 hidden'} transition-all duration-300`}
           >
-            {!isMobile && showFilters && <ProductFilters />}
+            {!isMobile && showFilters && (
+              <ProductFilters
+                filters={filters}
+                onChange={toggleFilter}
+                onPriceChange={updatePrice}
+              />
+            )}
           </div>
 
           {/* All products */}
           <div
             className={`${showFilters ? 'w-3/2' : 'w-full'} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-5 transition-all duration-300`}
           >
-            {productsList.slice(0, visibleCount).map((product, i) => (
+            {filteredProducts.slice(0, visibleCount).map((product, i) => (
               <div key={i} className="md:px-1">
                 <div className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
                   <Link to={`/products/${product.category.id}/product-info/${product.variantId}`}>
@@ -214,7 +328,12 @@ function ShowAllProducts() {
 
                     <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">
                       <div className="flex items-center gap-1 text-sm">
-                        <span>{renderStars(product.rating)}</span>
+                        <RatingStars
+                          rating={product.rating}
+                          onRate={(star) =>
+                            handleRateProduct(product.variantId, star)
+                          }
+                        />
                         <span className="text-xs text-gray-500">
                           ({product.reviews_count})
                         </span>
@@ -255,7 +374,11 @@ function ShowAllProducts() {
                 Filters
               </DrawerHeader>
               <DrawerBody>
-                <ProductFilters />
+                <ProductFilters
+                  filters={filters}
+                  onChange={toggleFilter}
+                  onPriceChange={updatePrice}
+                />
               </DrawerBody>
             </>
           </DrawerContent>

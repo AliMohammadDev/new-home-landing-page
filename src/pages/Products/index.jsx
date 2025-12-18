@@ -20,7 +20,16 @@ import RatingStars from '../../components/RatingStars.jsx';
 
 const Product = () => {
   const { categoryId } = useParams();
-
+  const [filters, setFilters] = useState({
+    colors: [],
+    categories: [],
+    sizes: [],
+    materials: [],
+    price: {
+      min: 100,
+      max: 1000000,
+    },
+  });
 
 
   const [showFilters, setShowFilters] = useState(false);
@@ -35,6 +44,7 @@ const Product = () => {
   const productsList = (products || []).map(v => ({
     ...v.product,
     variantId: v.id,
+    category: v.product.category,
     color: v.color,
     size: v.size,
     material: v.material,
@@ -51,6 +61,8 @@ const Product = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+
 
   // Add to cart 
   const handleAddCartItem = (variant) => {
@@ -152,10 +164,6 @@ const Product = () => {
       });
       return;
     }
-
-
-
-
     addReview(
       {
         product_variant_id: variantId,
@@ -181,6 +189,66 @@ const Product = () => {
     );
 
   };
+
+
+  const updatePrice = (type, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      price: {
+        ...prev.price,
+        [type]: Number(value),
+      },
+    }));
+  };
+  const toggleFilter = (type, value) => {
+    setFilters((prev) => {
+      const exists = prev[type].includes(value);
+
+      return {
+        ...prev,
+        [type]: exists
+          ? prev[type].filter((v) => v !== value)
+          : [...prev[type], value],
+      };
+    });
+  };
+
+
+  const filteredProducts = productsList.filter((product) => {
+
+    // Category filter
+    const matchCategory =
+      filters.categories.length === 0 ||
+      filters.categories.includes(product.category.name);
+
+    // Color filter
+    const matchColor =
+      filters.colors.length === 0 ||
+      filters.colors.includes(product.color);
+
+    // Size filter
+    const matchSize =
+      filters.sizes.length === 0 ||
+      filters.sizes.includes(product.size);
+
+    // Material filter
+    const matchMaterial =
+      filters.materials.length === 0 ||
+      filters.materials.includes(product.material);
+
+    // Price filter
+    const matchPrice =
+      Number(product.final_price) >= filters.price.min &&
+      Number(product.final_price) <= filters.price.max;
+
+    return (
+      matchCategory &&
+      matchColor &&
+      matchSize &&
+      matchMaterial &&
+      matchPrice
+    );
+  });
 
 
   return (
@@ -219,14 +287,21 @@ const Product = () => {
           <div
             className={`${showFilters ? 'w-2.8 md:w-1/4' : 'w-0 hidden'} transition-all duration-300`}
           >
-            {!isMobile && showFilters && <ProductFilters />}
+            {!isMobile && showFilters && (
+              <ProductFilters
+                filters={filters}
+                onChange={toggleFilter}
+                onPriceChange={updatePrice}
+              />
+            )}
+
           </div>
 
           {/* All products */}
           <div
             className={`${showFilters ? 'w-3/2' : 'w-full'} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-5 transition-all duration-300`}
           >
-            {productsList.map((product) => (
+            {filteredProducts.map((product) => (
               <div key={product.variantId} className="md:px-1">
                 <div className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
                   <Link to={`/products/${categoryId}/product-info/${product.variantId}`}>
@@ -290,7 +365,11 @@ const Product = () => {
                 Filters
               </DrawerHeader>
               <DrawerBody>
-                <ProductFilters />
+                <ProductFilters
+                  filters={filters}
+                  onChange={toggleFilter}
+                  onPriceChange={updatePrice}
+                />
               </DrawerBody>
             </>
           </DrawerContent>
