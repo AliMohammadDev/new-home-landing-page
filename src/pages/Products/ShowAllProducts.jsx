@@ -4,6 +4,7 @@ import {
   DrawerBody,
   DrawerContent,
   DrawerHeader,
+  Spinner,
   useDisclosure,
 } from '@heroui/react';
 import { useEffect } from 'react';
@@ -325,7 +326,7 @@ function ShowAllProducts() {
                     <div className="border-b border-[#025043]/50 mb-3"></div>
 
                     <p className="text-[#025043] text-[18px] font-semibold mb-4">
-                      {product.final_price} SYP
+                      {product.final_price} $
                     </p>
 
                     <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">
@@ -361,7 +362,17 @@ function ShowAllProducts() {
                   onClick={handleShowMore}
                   className="px-6 py-2 bg-[#025043] text-white rounded-md hover:bg-[#01382f] transition"
                 >
-                  Show More...
+                  <div className="flex items-center gap-2">
+                    <span className="text-white">Show More</span>
+
+                    <Spinner
+                      variant="dots"
+                      size="sm"
+                      color="default"
+                    />
+                  </div>
+
+
                 </button>
               </div>
             )}

@@ -85,8 +85,8 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
       <AccordionItem key="4" aria-label="Price" title="Price">
         <div className="space-y-4">
           <div className="flex justify-between text-sm text-gray-700">
-            <span>{filters.price.min} SYP</span>
-            <span>{filters.price.max} SYP</span>
+            <span>{filters.price.min} $</span>
+            <span>{filters.price.max} $</span>
           </div>
 
           {/* Min price */}

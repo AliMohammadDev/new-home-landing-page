@@ -112,7 +112,7 @@ function Wishlists() {
                       ${item.product_variant?.price}
                     </span>
                     <span className="text-[#E2995E] font-semibold">
-                      SYP{item.product_variant?.final_price}
+                      ${item.product_variant?.final_price}
                     </span>
                   </div>
                 </td>

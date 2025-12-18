@@ -26,8 +26,8 @@ const Product = () => {
     sizes: [],
     materials: [],
     price: {
-      min: 100,
-      max: 1000000,
+      min: 0.2,
+      max: 100,
     },
   });
 
@@ -328,7 +328,7 @@ const Product = () => {
                     <div className="border-b border-[#025043]/50 mb-3"></div>
 
                     <p className="text-[#025043] text-[18px] font-semibold mb-4">
-                      {product.final_price} SYP
+                      {product.final_price} $
                     </p>
 
                     <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">

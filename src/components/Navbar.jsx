@@ -316,7 +316,7 @@ const Navbar = () => {
                         />
 
                         {/* Price */}
-                        <span className="font-medium">{item.total_price} SYP</span>
+                        <span className="font-medium">{item.total_price} $</span>
 
                         {/* Quantity Box */}
                         <div className="relative flex items-center border rounded-2xl bg-white text-[#025043] px-2  py-1">
@@ -360,7 +360,7 @@ const Navbar = () => {
                     {/* Total */}
                     <div className="flex flex-col items-center">
                       <span className="font-semibold">TOTAL</span>
-                      <span className="font-bold text-lg">{cartData.cart_total} SYP</span>
+                      <span className="font-bold text-lg">{cartData.cart_total} $</span>
                     </div>
 
                     {/* Checkout Button */}

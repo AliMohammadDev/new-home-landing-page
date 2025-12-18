@@ -182,13 +182,13 @@ const ProductInfo = () => {
             <div className="text-lg">
               {product?.discount > 0 && (
                 <span className="line-through text-gray-400">
-                  {product.price} SYP
+                  {product.price} $
                 </span>
               )}
               <br />
 
               <span className="font-bold text-black">
-                {product?.final_price} SYP
+                {product?.final_price} $
               </span>
 
               {product?.discount > 0 && (

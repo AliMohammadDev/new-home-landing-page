@@ -119,7 +119,7 @@ function Orders() {
                             <h3 className="text-lg font-[Expo-arabic]">
                                 {item.product_variant.name}
                             </h3>
-                            <p className="text-sm text-white/70">{item.total_price} SYP</p>
+                            <p className="text-sm text-white/70">{item.total_price} $</p>
                         </div>
                     </div>
                 ))}
@@ -128,7 +128,7 @@ function Orders() {
 
                 <div className="flex justify-between text-xl font-bold">
                     <span>Total</span>
-                    <span>{cartDataItems?.cart_total || 0} SYP</span>
+                    <span>{cartDataItems?.cart_total || 0} $</span>
                 </div>
 
                 {/* Place Order Button */}

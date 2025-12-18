@@ -40,7 +40,7 @@ function ShowAllOrders() {
                                 <p className="text-sm text-white/60">Order #{order.id}</p>
 
                                 <p className="text-lg font-bold">
-                                    Total: {order.total_amount} SYP
+                                    Total: {order.total_amount} $
                                 </p>
 
                                 <span

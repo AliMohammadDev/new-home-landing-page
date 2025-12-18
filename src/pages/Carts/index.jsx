@@ -86,7 +86,7 @@ function Carts() {
                                         {/* Price */}
                                         <td className="py-6">
                                             <span className="text-[#E2995E] font-semibold">
-                                                {item.total_price} SYP
+                                                {item.total_price} $
                                             </span>
                                         </td>
 
@@ -130,14 +130,14 @@ function Carts() {
 
                     <div className="flex justify-between mb-4">
                         <span>Subtotal</span>
-                        <span className="font-semibold">{total} SYP</span>
+                        <span className="font-semibold">{total} $</span>
                     </div>
 
                     <div className="border-b my-4"></div>
 
                     <div className="flex justify-between text-lg font-bold mb-8">
                         <span>Total</span>
-                        <span>{total} SYP</span>
+                        <span>{total} $</span>
                     </div>
 
                     <Link to="/checkouts">

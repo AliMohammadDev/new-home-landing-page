@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { useAddToCartItem } from '../../api/cart.jsx';
 import { addToast } from '@heroui/react';
 import { useGetProfile } from '../../api/auth.jsx';
+import RatingStars from '../RatingStars.jsx';
+import { useAddReviews } from '../../api/reviews.jsx';
 function ProductSlider1({ products = [] }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { data: user } = useGetProfile();
@@ -91,12 +93,45 @@ function ProductSlider1({ products = [] }) {
 
   const progress = products.length > 0 ? ((currentSlide + 1) / products.length) * 100 : 0;
 
-  const renderStars = (rating = 0) => {
-    const fullStars = Math.round(rating);
-    return '★'.repeat(fullStars) + '☆'.repeat(5 - fullStars);
+
+
+
+  const { mutate: addReview } = useAddReviews();
+
+  const handleRateProduct = (variantId, rating) => {
+    if (!user) {
+      addToast({
+        title: 'Rating',
+        description: 'You have to login first!',
+        color: 'warning',
+      });
+      return;
+    }
+    addReview(
+      {
+        product_variant_id: variantId,
+        rating,
+      },
+      {
+        onSuccess: () => {
+          addToast({
+            title: 'Thank you!',
+            description: 'Your review has been submitted',
+            color: 'success',
+          });
+        },
+        onError: (error) => {
+          addToast({
+            title: 'Error',
+            description:
+              error.response?.data?.message || 'Failed to submit review',
+            color: 'error',
+          });
+        }
+      }
+    );
+
   };
-
-
 
 
   return (
@@ -134,14 +169,22 @@ function ProductSlider1({ products = [] }) {
                       <div className="border-b border-[#025043]/50 mb-3"></div>
 
                       <p className="text-[#025043] text-[18px] font-semibold mb-4">
-                        {product.final_price} SYP
+                        {product.final_price} $
                       </p>
 
                       <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">
                         <div className="flex items-center gap-1 text-sm">
-                          <span>{renderStars(product.rating)}</span>
+                          <RatingStars
+                            rating={Number(variant.reviews_avg) || 0}
+                            onRate={(star) =>
+                              handleRateProduct(variant.id, star)
+                            }
+                          />
+
+
+
                           <span className="text-xs text-gray-500">
-                            ({product.reviews_count})
+                            ({variant.reviews_count || 0})
                           </span>
                           <Link to={'/products'} className="text-sm hover:underline ml-2">
                             view more

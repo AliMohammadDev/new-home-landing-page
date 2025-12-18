@@ -40,7 +40,7 @@ function OrdersInfo() {
                         </span>
                     </p>
 
-                    <p><strong>Total:</strong> {order.total_amount} SYP</p>
+                    <p><strong>Total:</strong> {order.total_amount} 4</p>
                     <p><strong>Payment Method:</strong> {order.payment_method}</p>
                     <p><strong>Created At:</strong> {(order.created_at)}</p>
 
@@ -71,7 +71,7 @@ function OrdersInfo() {
                         <img src={item.product_variant.image} alt={item.product_variant.name} className="w-20 h-20 rounded-xl object-cover" />
                         <div className="flex-1">
                             <h3 className="text-lg font-[Expo-arabic]">{item.product_variant.name}</h3>
-                            <p className="text-sm text-white/70">{item.total} SYP</p>
+                            <p className="text-sm text-white/70">{item.total} $</p>
                         </div>
                         <p className="text-white font-bold">{item.quantity}x</p>
                     </div>
@@ -79,7 +79,7 @@ function OrdersInfo() {
                 <div className="w-full h-0.5 bg-white/40"></div>
                 <div className="flex justify-between text-xl font-bold">
                     <span>Total</span>
-                    <span>{order.total_amount} SYP</span>
+                    <span>{order.total_amount} $</span>
                 </div>
             </div>
         </div>

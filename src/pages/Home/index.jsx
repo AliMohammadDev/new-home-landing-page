@@ -79,11 +79,6 @@ const Home = () => {
         <AboutSection />
 
         {/* Sliders & Products */}
-        {/* <ProductSlider1 products={sliderProducts.new} />
-        <ProductSlider2 products={sliderProducts.discounted} />
-        <MostProduct products={sliderProducts.featured} /> */}
-
-
         <ProductSlider1 products={sliderProducts.new || []} />
         <ProductSlider2 products={sliderProducts.discounted || []} />
 
