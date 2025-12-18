@@ -86,7 +86,7 @@ const Product = () => {
         onSuccess: () => {
           addToast({
             title: 'Cart',
-            description: `${variant.product.name} added to cart successfully!`,
+            description: `${variant.name} added to cart successfully!`,
             color: 'success',
             duration: 4000,
             isClosable: true,
@@ -95,7 +95,7 @@ const Product = () => {
         onError: () => {
           addToast({
             title: 'Cart',
-            description: `Failed to add ${variant.product.name} to cart`,
+            description: `Failed to add ${variant.name} to cart`,
             color: 'error',
             duration: 4000,
             isClosable: true,
@@ -124,7 +124,7 @@ const Product = () => {
         onSuccess: () => {
           addToast({
             title: 'Wishlist',
-            description: `${variant.product.name} added to Wishlist successfully!`,
+            description: `${variant.name} added to Wishlist successfully!`,
             color: 'success',
             duration: 4000,
             isClosable: true,
@@ -133,7 +133,7 @@ const Product = () => {
         onError: () => {
           addToast({
             title: 'Wishlist',
-            description: `Failed to add ${variant.product.name} to cart`,
+            description: `Failed to add ${variant.name} to cart`,
             color: 'error',
             duration: 4000,
             isClosable: true,
@@ -161,6 +161,8 @@ const Product = () => {
         title: 'Rating',
         description: 'You have to login first!',
         color: 'warning',
+        duration: 4000,
+        isClosable: true,
       });
       return;
     }

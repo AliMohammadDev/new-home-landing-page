@@ -104,6 +104,8 @@ function ProductSlider1({ products = [] }) {
         title: 'Rating',
         description: 'You have to login first!',
         color: 'warning',
+        duration: 4000,
+        isClosable: true,
       });
       return;
     }
