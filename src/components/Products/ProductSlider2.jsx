@@ -173,31 +173,29 @@ function ProductSlider2({ products = [] }) {
                         {product.final_price} $
                       </p>
 
-                      <div className="flex items-center justify-between md:flex-col  lg:flex-row  text-[#025043]">
-                        <div className="flex items-center gap-1 text-sm">
+                      <div className="flex flex-col md:flex-col xl:flex-col text-[#025043]">
+                        {/* Row: RatingStars + view more */}
+                        <div className="flex items-center gap-2 mb-3">
                           <RatingStars
                             rating={Number(variant.reviews_avg) || 0}
-                            onRate={(star) =>
-                              handleRateProduct(variant.id, star)
-                            }
+                            onRate={(star) => handleRateProduct(variant.id, star)}
                           />
-
-                          <span className="text-xs text-gray-500">
-                            ({variant.reviews_count || 0})
-                          </span>
+                          <span className="text-xs text-gray-500">({variant.reviews_count || 0})</span>
                           <Link to={'/products'} className="text-sm hover:underline ml-2">
                             view more
                           </Link>
                         </div>
 
+                        {/* Add to Cart button below */}
                         <button
                           onClick={() => handleAddCartItem(variant)}
                           disabled={isLoading}
-                          className="bg-[#025043] text-white text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
+                          className="bg-[#025043] text-white text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50 w-full md:w-auto"
                         >
                           {isLoading ? 'Adding...' : 'Add to cart'}
                         </button>
                       </div>
+
                     </div>
                   </div>
                 </div>
