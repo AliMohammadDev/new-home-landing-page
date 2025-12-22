@@ -44,14 +44,16 @@ function ShowAllOrders() {
                                 </p>
 
                                 <span
-                                    className={`inline-block px-4 py-1 rounded-full text-sm font-semibold
-                    ${order.status === 'pending'
-                                            ? 'bg-yellow-400/20 text-yellow-300'
-                                            : 'bg-green-400/20 text-green-300'
-                                        }`}
+                                    className={`inline-block px-4 py-1 rounded-full text-sm font-semibold ${order.status === 'pending'
+                                            ? 'bg-yellow-100 text-yellow-600'
+                                            : order.status === 'completed'
+                                                ? 'bg-green-100 text-green-600'
+                                                : 'bg-gray-100 text-gray-500'
+                                        } capitalize`}
                                 >
-                                    {order.status === 'pending' ? 'Pending' : 'Completed'}
+                                    {order.status.replace('_', ' ')}
                                 </span>
+
                             </div>
 
                             {/* Action */}

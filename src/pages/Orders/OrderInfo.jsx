@@ -30,14 +30,17 @@ function OrdersInfo() {
                         <strong>Status:</strong>{' '}
                         <span
                             className={`font-bold ${order.status === 'pending'
-                                ? 'text-yellow-400'
+                                ? 'text-yellow-500'
                                 : order.status === 'completed'
                                     ? 'text-green-500'
-                                    : 'text-gray-300'
-                                }`}
+                                    : order.status === 'cancelled'
+                                        ? 'text-red-500'
+                                        : 'text-gray-400'
+                                } capitalize`}
                         >
-                            {order.status}
+                            {order.status.replace('_', ' ')}
                         </span>
+
                     </p>
 
                     <p><strong>Total:</strong> {order.total_amount} 4</p>

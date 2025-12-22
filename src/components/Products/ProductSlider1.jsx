@@ -66,9 +66,9 @@ function ProductSlider1({ products = [] }) {
       }}
     >
       {direction === 'next' ? (
-        <ChevronRightIcon color="black" />
+        <ChevronRightIcon color="#025043" />
       ) : (
-        <ChevronLeftIcon color="black" />
+        <ChevronLeftIcon color="#025043" />
       )}
     </button>
   );
