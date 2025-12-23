@@ -3,17 +3,15 @@ import Slider from 'react-slick';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
 import { Link } from 'react-router-dom';
-import { useAddToCartItem } from '../../api/cart.jsx';
 import { addToast } from '@heroui/react';
 import { useGetProfile } from '../../api/auth.jsx';
 import RatingStars from '../RatingStars.jsx';
-import { useAddReviews } from '../../api/reviews.jsx';
+import { useAddToCartItem } from '../../api/cart.jsx';
 function ProductSlider1({ products = [] }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { data: user } = useGetProfile();
 
   const { mutate: addToCart, isLoading } = useAddToCartItem();
-
   const handleAddCartItem = (variant) => {
     if (!user) {
       addToast({
@@ -55,7 +53,6 @@ function ProductSlider1({ products = [] }) {
   };
 
 
-
   const CustomArrow = ({ onClick, direction }) => (
     <button
       onClick={onClick}
@@ -93,47 +90,43 @@ function ProductSlider1({ products = [] }) {
 
   const progress = products.length > 0 ? ((currentSlide + 1) / products.length) * 100 : 0;
 
+  // const { mutate: addReview } = useAddReviews();
+  // const handleRateProduct = (variantId, rating) => {
+  //   if (!user) {
+  //     addToast({
+  //       title: 'Rating',
+  //       description: 'You have to login first!',
+  //       color: 'warning',
+  //       duration: 4000,
+  //       isClosable: true,
+  //     });
+  //     return;
+  //   }
+  //   addReview(
+  //     {
+  //       product_variant_id: variantId,
+  //       rating,
+  //     },
+  //     {
+  //       onSuccess: () => {
+  //         addToast({
+  //           title: 'Thank you!',
+  //           description: 'Your review has been submitted',
+  //           color: 'success',
+  //         });
+  //       },
+  //       onError: (error) => {
+  //         addToast({
+  //           title: 'Error',
+  //           description:
+  //             error.response?.data?.message || 'Failed to submit review',
+  //           color: 'error',
+  //         });
+  //       }
+  //     }
+  //   );
 
-
-
-  const { mutate: addReview } = useAddReviews();
-
-  const handleRateProduct = (variantId, rating) => {
-    if (!user) {
-      addToast({
-        title: 'Rating',
-        description: 'You have to login first!',
-        color: 'warning',
-        duration: 4000,
-        isClosable: true,
-      });
-      return;
-    }
-    addReview(
-      {
-        product_variant_id: variantId,
-        rating,
-      },
-      {
-        onSuccess: () => {
-          addToast({
-            title: 'Thank you!',
-            description: 'Your review has been submitted',
-            color: 'success',
-          });
-        },
-        onError: (error) => {
-          addToast({
-            title: 'Error',
-            description:
-              error.response?.data?.message || 'Failed to submit review',
-            color: 'error',
-          });
-        }
-      }
-    );
-
-  };
+  // };
 
 
   return (
@@ -177,9 +170,9 @@ function ProductSlider1({ products = [] }) {
                         <div className="flex items-center gap-1 text-sm">
                           <RatingStars
                             rating={Number(variant.reviews_avg) || 0}
-                            onRate={(star) =>
-                              handleRateProduct(variant.id, star)
-                            }
+                          // onRate={(star) =>
+                          //   handleRateProduct(variant.id, star)
+                          // }
                           />
                           <span className="text-xs text-gray-500">
                             ({variant.reviews_count || 0})
@@ -191,7 +184,7 @@ function ProductSlider1({ products = [] }) {
                         <button
                           onClick={() => handleAddCartItem(variant)}
                           disabled={isLoading}
-                          className="bg-[#025043] text-white text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
+                          className="bg-[#025043] text-white  cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
                         >
                           {isLoading ? 'Adding...' : 'Add to cart'}
                         </button>

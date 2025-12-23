@@ -296,8 +296,8 @@ const Product = () => {
                 onPriceChange={updatePrice}
               />
             )}
-
           </div>
+
 
           {/* All products */}
           <div
@@ -305,6 +305,7 @@ const Product = () => {
           >
             {filteredProducts.map((product) => (
               <div key={product.variantId} className="md:px-1">
+
                 <div className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
                   <Link to={`/products/${categoryId}/product-info/${product.variantId}`}>
                     <img

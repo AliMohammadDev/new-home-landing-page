@@ -17,6 +17,8 @@ import Carts from '../pages/Carts';
 import Orders from '../pages/Orders';
 import OrdersInfo from '../pages/Orders/OrderInfo';
 import ShowAllOrders from '../pages/Orders/ShowAllOrders';
+import ForgetPassword from '../pages/Auth/ForgetPassword';
+import ResetPassword from '../pages/Auth/ResetPassword';
 
 const router = createBrowserRouter([
   {
@@ -71,7 +73,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Product /> },
           {
-            path: 'product-info/:productId',
+            path: 'product-info/:variantId',
             element: <ProductInfo />,
           },
         ],
@@ -85,6 +87,14 @@ const router = createBrowserRouter([
   {
     path: '/logout',
     element: <Logout />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgetPassword />,
+  },
+  {
+    path: '/reset-password/:token',
+    element: <ResetPassword />,
   },
   {
     path: 'register',

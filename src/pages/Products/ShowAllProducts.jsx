@@ -361,7 +361,7 @@ function ShowAllProducts() {
             ))}
 
             {/* زر Show More */}
-            {visibleCount < productsList.length && (
+            {visibleCount < filteredProducts.length && filteredProducts.length > 0 && (
               <div className="col-span-full flex justify-center mt-5">
                 <button
                   onClick={handleShowMore}
@@ -369,18 +369,16 @@ function ShowAllProducts() {
                 >
                   <div className="flex items-center gap-2">
                     <span className="text-white">Show More</span>
-
                     <Spinner
                       variant="dots"
                       size="sm"
                       color="default"
                     />
                   </div>
-
-
                 </button>
               </div>
             )}
+
           </div>
 
         </div>

@@ -3,9 +3,8 @@ import LeftIcon from '../../assets/icons/LeftIcon';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
 
 const AboutUs = () => {
-
   return (
-    <div className="flex flex-col md:flex-row justify-around items-start text-black px-4 sm:px-6 lg:px-20 py-10 gap-6 bg-white min-h-screen ">
+    <div className="flex flex-col md:flex-row justify-around items-start text-black px-4 sm:px-6 lg:px-20 py-10 gap-6 bg-white min-h-screen relative">
       {/* Back Button */}
       <div className="absolute top-2 sm:top-4 md:top-6 left-4 sm:left-6 z-20">
         <Link to={-1} className="hover:opacity-80 transition">
@@ -71,7 +70,7 @@ const AboutUs = () => {
           </ul>
 
           <div className="flex flex-col md:flex-row items-center md:items-end text-center md:text-left mt-10">
-            <span className="font-[Asteroid] text-5xl sm:text-4xl md:text-7xl text-black relative md:-left-6 mb-6 -bottom-2  sm:-top-2">
+            <span className="font-[Asteroid] text-5xl sm:text-4xl md:text-7xl text-black relative md:-left-6 mb-6 -bottom-2 sm:-top-2">
               We
             </span>
             <p className="font-[Expo-book] text-xs sm:text-sm md:text-lg text-black max-w-2xl mt-2 md:mt-0 md:-left-5 leading-snug text-balance">
@@ -80,9 +79,12 @@ const AboutUs = () => {
             </p>
           </div>
         </section>
+
         <div className="flex items-center gap-1 justify-end">
-          <Link to={'/products'}
-            className="px-6 py-1 bg-black text-white rounded-md hover:opacity-80 transition whitespace-nowrap">
+          <Link
+            to={'/products'}
+            className="px-6 py-1 bg-black text-white rounded-md hover:opacity-80 transition whitespace-nowrap"
+          >
             click to show gallery
           </Link>
 
@@ -90,6 +92,20 @@ const AboutUs = () => {
           <div className="w-9 h-9 flex items-center bg-black justify-center border border-black rounded-full hover:opacity-80 transition">
             <ChevronRightIcon color="white" />
           </div>
+        </div>
+
+        {/* Google Map */}
+        <div className="mt-10 w-full h-64 md:h-96">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d103019.56928146418!2d37.230985581401605!3d36.20640640850586!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x152ff86477bcc0bb%3A0x15e58eabbe0ff127!2z2YLZhNi52Kkg2K3ZhNioLi4uLg!5e0!3m2!1sar!2snl!4v1766520804768!5m2!1sar!2snl"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Company Location"
+          ></iframe>
         </div>
       </div>
 

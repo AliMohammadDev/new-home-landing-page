@@ -8,7 +8,6 @@ import { useGetProfile } from '../../api/auth.jsx';
 import { useAddToCartItem } from '../../api/cart.jsx';
 import { addToast } from '@heroui/react';
 import RatingStars from '../RatingStars.jsx';
-import { useAddReviews } from '../../api/reviews.jsx';
 
 function ProductSlider2({ products = [] }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -94,44 +93,43 @@ function ProductSlider2({ products = [] }) {
   const progress = products.length > 0 ? ((currentSlide + 1) / products.length) * 100 : 0;
 
 
-  const { mutate: addReview } = useAddReviews();
+  // const { mutate: addReview } = useAddReviews();
+  // const handleRateProduct = (variantId, rating) => {
+  //   if (!user) {
+  //     addToast({
+  //       title: 'Rating',
+  //       description: 'You have to login first!',
+  //       color: 'warning',
+  //       duration: 4000,
+  //       isClosable: true,
+  //     });
+  //     return;
+  //   }
+  //   addReview(
+  //     {
+  //       product_variant_id: variantId,
+  //       rating,
+  //     },
+  //     {
+  //       onSuccess: () => {
+  //         addToast({
+  //           title: 'Thank you!',
+  //           description: 'Your review has been submitted',
+  //           color: 'success',
+  //         });
+  //       },
+  //       onError: (error) => {
+  //         addToast({
+  //           title: 'Error',
+  //           description:
+  //             error.response?.data?.message || 'Failed to submit review',
+  //           color: 'error',
+  //         });
+  //       }
+  //     }
+  //   );
 
-  const handleRateProduct = (variantId, rating) => {
-    if (!user) {
-      addToast({
-        title: 'Rating',
-        description: 'You have to login first!',
-        color: 'warning',
-        duration: 4000,
-        isClosable: true,
-      });
-      return;
-    }
-    addReview(
-      {
-        product_variant_id: variantId,
-        rating,
-      },
-      {
-        onSuccess: () => {
-          addToast({
-            title: 'Thank you!',
-            description: 'Your review has been submitted',
-            color: 'success',
-          });
-        },
-        onError: (error) => {
-          addToast({
-            title: 'Error',
-            description:
-              error.response?.data?.message || 'Failed to submit review',
-            color: 'error',
-          });
-        }
-      }
-    );
-
-  };
+  // };
 
 
   return (
@@ -165,8 +163,6 @@ function ProductSlider2({ products = [] }) {
                       <h3 className="text-[#025043] text-[16px] font-medium mb-2" >
                         {product.name}
                       </h3>
-
-
                       <div className="border-b border-[#025043]/50 mb-3"></div>
 
                       <p className="text-[#025043] text-[18px] font-semibold mb-4">
@@ -178,7 +174,7 @@ function ProductSlider2({ products = [] }) {
                         <div className="flex items-center gap-2 mb-3">
                           <RatingStars
                             rating={Number(variant.reviews_avg) || 0}
-                            onRate={(star) => handleRateProduct(variant.id, star)}
+                          // onRate={(star) => handleRateProduct(variant.id, star)}
                           />
                           <span className="text-xs text-gray-500">({variant.reviews_count || 0})</span>
                           <Link to={'/products'} className="text-sm hover:underline ml-2">
@@ -190,7 +186,7 @@ function ProductSlider2({ products = [] }) {
                         <button
                           onClick={() => handleAddCartItem(variant)}
                           disabled={isLoading}
-                          className="bg-[#025043] text-white text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50 w-full md:w-auto"
+                          className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50 w-full md:w-auto"
                         >
                           {isLoading ? 'Adding...' : 'Add to cart'}
                         </button>

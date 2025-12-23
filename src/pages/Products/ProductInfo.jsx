@@ -1,10 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import LeftIcon from '../../assets/icons/LeftIcon';
-import PlusIcon from '../../assets/icons/PlusIcon';
-import MinusIcon from '../../assets/icons/MinusIcon';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
 import { useGetProductVariant } from '../../api/products';
-import { COLOR_MAP } from '../../constants/color';
 import { useGetCategories } from '../../api/categories';
 import { addToast } from '@heroui/react';
 import { useAddToCartItem } from '../../api/cart';
@@ -14,21 +11,15 @@ import RatingStars from '../../components/RatingStars';
 import { useAddReviews } from '../../api/reviews';
 
 
-
 const ProductInfo = () => {
-
-  const { productId } = useParams();
-  const { data } = useGetProductVariant(productId);
+  const { variantId } = useParams();
+  const { data } = useGetProductVariant(variantId);
   const { data: categories = [] } = useGetCategories();
   const { data: user } = useGetProfile();
   const { mutate: addToCart, isLoading } = useAddToCartItem();
   const { mutate: addWishlist } = useAddWishlist();
-
-
-
   const product = data?.product;
   const variant = data;
-
 
 
   const activeCategoryId = product?.category?.id;
@@ -153,9 +144,7 @@ const ProductInfo = () => {
   };
 
 
-  const getColorHex = (colorName) => {
-    return COLOR_MAP[colorName?.toLowerCase()] || '#E5E7EB';
-  };
+
   if (!data || !product || !variant) {
     return <p className="text-center mt-20">Loading product...</p>;
   }
@@ -241,14 +230,13 @@ const ProductInfo = () => {
               )}
             </div>
 
-
             {/* Colors */}
             <div className="space-x-2">
               <span className="font-bold font-[Expo-arabic]">COLOR</span>
               <br />
               <span
                 className="inline-block w-5 h-5 rounded-full border border-gray-300"
-                style={{ backgroundColor: getColorHex(variant.color) }}
+                style={{ backgroundColor: variant.color?.hex_code }}
               ></span>
             </div>
 
