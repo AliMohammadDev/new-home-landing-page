@@ -117,3 +117,50 @@ export const useSendMail = () => {
     },
   });
 };
+
+
+
+export const useForgotPassword = (onSuccess) => {
+  return useMutation({
+    mutationFn: async (data) => {
+      try {
+        const res = await axios.post('forgot-password', data);
+        return res.data;
+      } catch (error) {
+        const message =
+          error.response?.data?.errors?.email?.[0] ||
+          error.response?.data?.message ||
+          'Failed to send reset link';
+        throw new Error(message);
+      }
+    },
+    onSuccess: (data) => {
+      onSuccess?.(data);
+    },
+  });
+};
+
+
+export const useResetPassword = (onSuccess) => {
+  const navigate = useNavigate();
+
+  return useMutation({
+    mutationFn: async (data) => {
+      try {
+        const res = await axios.post('reset-password', data);
+        return res.data;
+      } catch (error) {
+        const message =
+          error.response?.data?.errors?.password?.[0] ||
+          error.response?.data?.message ||
+          'Failed to reset password';
+
+        throw new Error(message);
+      }
+    },
+    onSuccess: (data) => {
+      onSuccess?.(data);
+      navigate('/login');
+    },
+  });
+};
