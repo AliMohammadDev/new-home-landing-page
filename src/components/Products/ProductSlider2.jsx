@@ -59,7 +59,7 @@ function ProductSlider2({ products = [] }) {
   const CustomArrow = ({ onClick, direction }) => (
     <button
       onClick={onClick}
-      className="absolute -top-14 bg-[#D9D9D9] cursor-pointer text-black rounded-full w-8 h-8 md:w-12 md:h-12 transition flex items-center justify-center"
+      className="absolute -top-14 bg-[#D9D9D9] cursor-pointer text-black  hover:bg-gray-300 rounded-full w-8 h-8 mr-1 md:w-12 md:h-12 transition flex items-center justify-center"
       style={{
         right: direction === 'next' ? 0 : 50,
         zIndex: 10,
@@ -142,13 +142,13 @@ function ProductSlider2({ products = [] }) {
         </p>
       </span>
 
-      <div className="grid grid-cols-1 md:grid-cols-2  items-center ">
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
         <div className="flex justify-start">
-          <img src={Group} alt="Group" className="rounded-xl object-contain" />
+          <img src={Group} alt="Group" className="rounded-xl object-contain " />
         </div>
 
         {/* Slider */}
-        <div className="relative w-full md:mt-1 0">
+        <div className="relative w-full md:-mt-4">
           <Slider {...settings}>
             {products.map((variant) => {
               const product = variant.product;

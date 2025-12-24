@@ -1,4 +1,4 @@
-const ChevronRightIcon = ({ color = '#EDEAE2' }) => {
+const ChevronRightIcon = ({ color = 'black' }) => {
   return (
     <svg
       width="9"

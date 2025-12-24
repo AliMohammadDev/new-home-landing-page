@@ -53,22 +53,27 @@ function ProductSlider1({ products = [] }) {
   };
 
 
-  const CustomArrow = ({ onClick, direction }) => (
-    <button
-      onClick={onClick}
-      className="absolute -top-10 md:-top-14 bg-[#D9D9D9] cursor-pointer text-black rounded-full w-8 h-8 md:w-12 md:h-12 transition flex items-center justify-center md:mt-1"
-      style={{
-        right: direction === 'next' ? 0 : 50,
-        zIndex: 10,
-      }}
-    >
-      {direction === 'next' ? (
-        <ChevronRightIcon color="#025043" />
-      ) : (
-        <ChevronLeftIcon color="#025043" />
-      )}
-    </button>
-  );
+  const CustomArrow = ({ onClick, direction, currentSlide, slideCount }) => {
+    const isDisabled =
+      (direction === 'prev' && currentSlide === 0) ||
+      (direction === 'next' && currentSlide === slideCount - 1);
+
+    return (
+      <button
+        onClick={onClick}
+        disabled={isDisabled}
+        className={`absolute -top-10 md:-top-14 cursor-pointer rounded-full w-8 h-8 mr-1 md:w-12 md:h-12 flex items-center justify-center transition
+        ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300 hover:text-white'}
+      `}
+        style={{
+          right: direction === 'next' ? 0 : 50,
+          zIndex: 10,
+        }}
+      >
+        {direction === 'next' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+      </button>
+    );
+  };
 
   const settings = {
     infinite: true,

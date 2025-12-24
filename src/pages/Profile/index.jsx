@@ -2,8 +2,11 @@ import { useForm } from 'react-hook-form';
 import { useEditProfile, useGetProfile } from '../../api/auth';
 import { useEffect } from 'react';
 import { addToast } from '@heroui/react';
+import { Link } from 'react-router-dom';
+
 function Profile() {
   const { data: profile, isLoading } = useGetProfile();
+
   const {
     register,
     handleSubmit,
@@ -56,101 +59,144 @@ function Profile() {
   if (isLoading) return null;
 
   return (
-    <div className="w-full min-h-screen bg-[#025043] flex items-start py-20 md:py-32 px-6 lg:px-20 text-white">
-      <div
-        className="w-full max-w-3xl rounded-2xl p-8 md:p-12 flex flex-col gap-8 shadow-xl"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%)',
-          backdropFilter: 'blur(8px)',
-        }}
-      >
-        <h1 className="text-3xl font-[Expo-bold] text-center">Edit Profile</h1>
+    <div className="w-full min-h-screen bg-[#025043] py-20 md:py-32 px-6 lg:px-20 text-white">
+      <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
 
-        <form
-          className="flex flex-col gap-6 font-[Expo-arabic]"
-          onSubmit={handleSubmit(onSubmit)}
+        {/* ================= LEFT: EDIT FORM ================= */}
+        <div
+          className="lg:col-span-2 rounded-2xl p-8 md:p-12 shadow-xl"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%)',
+            backdropFilter: 'blur(8px)',
+          }}
         >
-          {/* Name */}
-          <div className="flex flex-col">
-            <label className="mb-2 font-semibold">Full Name</label>
-            <input
-              {...register('name', { required: 'Name is required' })}
-              type="text"
-              className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white shadow-sm"
-            />
-            {errors.name && (
-              <span className="text-red-300 text-sm">
-                {errors.name.message}
-              </span>
-            )}
-          </div>
+          <h1 className="text-3xl font-[Expo-bold] text-center mb-10">
+            Edit Profile
+          </h1>
 
-          {/* Email */}
-          <div className="flex flex-col">
-            <label className="mb-2 font-semibold">Email</label>
-            <input
-              {...register('email', {
-                required: 'Email is required',
-              })}
-              type="email"
-              className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white shadow-sm"
-            />
-            {errors.email && (
-              <span className="text-red-300 text-sm">
-                {errors.email.message}
-              </span>
-            )}
-          </div>
-
-          {/* Password */}
-          <div className="flex flex-col">
-            <label className="mb-2 font-semibold">New Password</label>
-            <input
-              {...register('password', {
-                minLength: {
-                  value: 6,
-                  message: 'Password must be at least 6 characters',
-                },
-              })}
-              type="password"
-              autoComplete='new-password'
-              className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white shadow-sm"
-            />
-          </div>
-
-          {/* Password Confirmation */}
-          {password && (
+          <form
+            className="flex flex-col gap-6 font-[Expo-arabic]"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            {/* Name */}
             <div className="flex flex-col">
-              <label className="mb-2 font-semibold">Confirm Password</label>
+              <label className="mb-2 font-semibold">Full Name</label>
               <input
-                {...register('password_confirmation', {
-                  validate: (value) =>
-                    value === password || 'Passwords do not match',
-                })}
-                type="password"
-                className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white shadow-sm"
+                {...register('name', { required: 'Name is required' })}
+                type="text"
+                className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white"
               />
-              {errors.password_confirmation && (
+              {errors.name && (
                 <span className="text-red-300 text-sm">
-                  {errors.password_confirmation.message}
+                  {errors.name.message}
                 </span>
               )}
             </div>
-          )}
 
-          {error && (
-            <p className="text-red-300 text-sm text-center">{error.message}</p>
-          )}
+            {/* Email */}
+            <div className="flex flex-col">
+              <label className="mb-2 font-semibold">Email</label>
+              <input
+                {...register('email', { required: 'Email is required' })}
+                type="email"
+                className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white"
+              />
+              {errors.email && (
+                <span className="text-red-300 text-sm">
+                  {errors.email.message}
+                </span>
+              )}
+            </div>
 
-          <button
-            type="submit"
-            disabled={isPending}
-            className="w-full py-3 bg-black hover:opacity-90  text-white rounded-lg font-semibold transition disabled:opacity-50"
-          >
-            {isPending ? 'Saving...' : 'Save Changes'}
-          </button>
-        </form>
+            {/* Password */}
+            <div className="flex flex-col">
+              <label className="mb-2 font-semibold">New Password</label>
+              <input
+                {...register('password', {
+                  minLength: {
+                    value: 6,
+                    message: 'Password must be at least 6 characters',
+                  },
+                })}
+                type="password"
+                autoComplete="new-password"
+                className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white"
+              />
+            </div>
+
+            {/* Confirm Password */}
+            {password && (
+              <div className="flex flex-col">
+                <label className="mb-2 font-semibold">
+                  Confirm Password
+                </label>
+                <input
+                  {...register('password_confirmation', {
+                    validate: (value) =>
+                      value === password || 'Passwords do not match',
+                  })}
+                  type="password"
+                  className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white"
+                />
+                {errors.password_confirmation && (
+                  <span className="text-red-300 text-sm">
+                    {errors.password_confirmation.message}
+                  </span>
+                )}
+              </div>
+            )}
+
+            {error && (
+              <p className="text-red-300 text-sm text-center">
+                {error.message}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={isPending}
+              className="w-full py-3 bg-black hover:opacity-90 text-white rounded-lg font-semibold transition disabled:opacity-50"
+            >
+              {isPending ? 'Saving...' : 'Save Changes'}
+            </button>
+          </form>
+        </div>
+
+        {/* ================= RIGHT: SIDE PANEL ================= */}
+        <div
+          className="rounded-2xl p-6 shadow-xl flex flex-col gap-6"
+          style={{
+            background:
+              'linear-gradient(180deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 100%)',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          {/* Avatar */}
+          <div className="flex flex-col items-center gap-3 text-center">
+            <div className="w-24 h-24 rounded-full bg-white/90 flex items-center justify-center text-black text-3xl font-bold">
+              {profile.name?.charAt(0)}
+            </div>
+            <p className="font-semibold">{profile.name}</p>
+            <p className="text-sm opacity-80">{profile.email}</p>
+          </div>
+
+          <div className="h-px bg-white/20" />
+
+          {/* Account Info */}
+          <div className="flex flex-col gap-3 text-sm">
+            <p>📧 Email status: <span className="font-semibold">Active</span></p>
+            <p>🛒 Orders: <Link to={'/my-orders'} className="font-semibold">View orders</Link></p>
+          </div>
+
+          <div className="h-px bg-white/20" />
+
+          {/* Actions */}
+          <Link to={'/logout'} className="py-3 text-center rounded-lg bg-white/10 hover:bg-white/20 transition text-sm">
+            Logout
+          </Link>
+        </div>
+
       </div>
     </div>
   );
