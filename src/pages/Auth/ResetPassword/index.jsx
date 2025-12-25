@@ -115,7 +115,7 @@ function ResetPassword() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full rounded-xl py-2 font-semibold transition
+                className={`w-full cursor-pointer rounded-xl py-2 font-semibold transition
                   ${loading
                     ? 'bg-gray-400 cursor-not-allowed'
                     : 'bg-black hover:opacity-90'}

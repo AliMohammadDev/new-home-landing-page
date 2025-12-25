@@ -1,10 +1,10 @@
+import { addToast } from '@heroui/react';
 import {
   useDecreaseItem,
   useGetAllCartItems,
   useIncreaseItem,
   useRemoveFromCartItem,
 } from '../../api/cart';
-
 import CartIcon from '../../assets/icons/CartIcon';
 import MinusIcon from '../../assets/icons/MinusIcon';
 import PlusIcon from '../../assets/icons/PlusIcon';
@@ -26,6 +26,34 @@ function Carts() {
 
   const items = cartItems?.data || [];
   const total = cartItems?.cart_total || 0;
+
+
+  // Remove item from cart
+  const handleRemoveCartItem = (cartItemId, productName) => {
+    removeItem(cartItemId, {
+      onSuccess: () => {
+        addToast({
+          title: 'Cart',
+          description: `${productName} removed from cart successfully!`,
+          color: 'success',
+          duration: 4000,
+          isClosable: true,
+        });
+      },
+      onError: (error) => {
+        addToast({
+          title: 'Cart',
+          description:
+            error.response?.data?.message ||
+            'Failed to remove item from cart.',
+          color: 'error',
+          duration: 4000,
+          isClosable: true,
+        });
+      },
+    });
+  };
+
 
   return (
     <div className="w-full bg-[#025043] min-h-screen px-6 lg:px-24 py-24 font-[Expo-arabic] text-white">
@@ -60,8 +88,13 @@ function Carts() {
                     <td className="py-6">
                       <div className="flex items-center gap-4">
                         <button
-                          onClick={() => removeItem(item.id)}
-                          className="text-white/50 hover:text-red-400 text-sm"
+                          onClick={() =>
+                            handleRemoveCartItem(
+                              item.id,
+                              item.product_variant?.name
+                            )
+                          }
+                          className="text-white/50 cursor-pointer hover:text-red-400 text-sm"
                         >
                           ✕
                         </button>

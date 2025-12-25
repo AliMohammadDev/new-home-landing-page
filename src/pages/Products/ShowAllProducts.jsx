@@ -60,7 +60,7 @@ function ShowAllProducts() {
   };
 
 
-
+  // Add to cart
   const handleAddCartItem = (variant) => {
     if (!user) {
       addToast({
@@ -106,7 +106,7 @@ function ShowAllProducts() {
   const handleAddWishlist = (variant) => {
     if (!user) {
       addToast({
-        title: 'Cart',
+        title: 'Wishlist',
         description: 'You have to login first!',
         color: 'warning',
         duration: 4000,
@@ -114,22 +114,38 @@ function ShowAllProducts() {
       });
       return;
     }
+
+    // ✅ المنتج موجود مسبقاً
+    if (isProductInWishlist(variant.variantId)) {
+      addToast({
+        title: 'Wishlist',
+        description: 'This product is already in your wishlist.',
+        color: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    // ⬇️ إضافة للمفضلة
     addWishlist(
       variant.variantId,
       {
         onSuccess: () => {
           addToast({
             title: 'Wishlist',
-            description: `${variant.name} added to Wishlist successfully!`,
+            description: `${variant.name} added to wishlist successfully!`,
             color: 'success',
             duration: 4000,
             isClosable: true,
           });
         },
-        onError: () => {
+        onError: (error) => {
           addToast({
             title: 'Wishlist',
-            description: `Failed to add ${variant.name} to cart`,
+            description:
+              error.response?.data?.message ||
+              `Failed to add ${variant.name} to wishlist`,
             color: 'error',
             duration: 4000,
             isClosable: true,
@@ -138,6 +154,7 @@ function ShowAllProducts() {
       }
     );
   };
+
 
   const wishlistProductIds = wishlistData?.data?.map(item =>
     item.product_variant?.id

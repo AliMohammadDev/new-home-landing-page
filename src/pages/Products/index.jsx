@@ -106,11 +106,12 @@ const Product = () => {
   };
 
 
-  // Add wishlist
+
+  // Add to wishList
   const handleAddWishlist = (variant) => {
     if (!user) {
       addToast({
-        title: 'Cart',
+        title: 'Wishlist',
         description: 'You have to login first!',
         color: 'warning',
         duration: 4000,
@@ -118,13 +119,27 @@ const Product = () => {
       });
       return;
     }
+
+    // ✅ إذا المنتج موجود بالمفضلة
+    if (isProductInWishlist(variant.variantId)) {
+      addToast({
+        title: 'Wishlist',
+        description: 'This product is already in your wishlist.',
+        color: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    // ⬇️ إذا مو موجود
     addWishlist(
       variant.variantId,
       {
         onSuccess: () => {
           addToast({
             title: 'Wishlist',
-            description: `${variant.name} added to Wishlist successfully!`,
+            description: `${variant.name} added to wishlist successfully!`,
             color: 'success',
             duration: 4000,
             isClosable: true,
@@ -133,7 +148,7 @@ const Product = () => {
         onError: () => {
           addToast({
             title: 'Wishlist',
-            description: `Failed to add ${variant.name} to cart`,
+            description: 'Failed to add product to wishlist.',
             color: 'error',
             duration: 4000,
             isClosable: true,
@@ -142,6 +157,7 @@ const Product = () => {
       }
     );
   };
+
 
 
   const wishlistProductIds = wishlistData?.data?.map(item =>

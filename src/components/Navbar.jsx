@@ -132,7 +132,7 @@ const Navbar = () => {
                 onClick={() => setIsProductMenuOpen(false)}
               >
                 {category.name}
-                <ChevronRightIcon className="text-primary duration-150 sm:scale-100" />
+                <ChevronRightIcon color='white' className="text-primary duration-150 sm:scale-100" />
               </NavLink>
             ))}
           </div>

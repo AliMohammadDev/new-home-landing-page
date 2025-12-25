@@ -12,6 +12,7 @@ function Wishlists() {
 
   const { mutate: addToCart, isLoading } = useAddToCartItem();
 
+  // Add to cart
   const handleAddCartItem = (variant) => {
     if (!user) {
       addToast({
@@ -52,6 +53,35 @@ function Wishlists() {
     );
   };
 
+
+  // Remove from wishlist
+  const handleRemoveWishlist = (wishlistId, productName) => {
+    removeWishlist.mutate(wishlistId, {
+      onSuccess: () => {
+        addToast({
+          title: 'Wishlist',
+          description: `${productName} removed from wishlist successfully!`,
+          color: 'success',
+          duration: 4000,
+          isClosable: true,
+        });
+      },
+      onError: (error) => {
+        addToast({
+          title: 'Wishlist',
+          description:
+            error.response?.data?.message ||
+            'Failed to remove product from wishlist.',
+          color: 'error',
+          duration: 4000,
+          isClosable: true,
+        });
+      },
+    });
+  };
+
+
+
   return (
     <div className="w-full bg-[#025043] min-h-screen  px-6 lg:px-24 py-24 font-[Expo-arabic] text-white">
       {/* Header */}
@@ -86,12 +116,18 @@ function Wishlists() {
                 <td className="py-6">
                   <div className="flex items-center gap-4">
                     <button
-                      onClick={() => removeWishlist.mutate(item.id)}
+                      onClick={() =>
+                        handleRemoveWishlist(
+                          item.id,
+                          item.product_variant?.name
+                        )
+                      }
                       title="Remove from wishlist"
-                      className="text-white/50 hover:text-red-400 transition text-sm"
+                      className="text-white/50 cursor-pointer hover:text-red-400 transition text-sm"
                     >
                       ✕
                     </button>
+
 
                     <img
                       src={item.product_variant?.image}
