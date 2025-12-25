@@ -9,15 +9,10 @@ import Header from '../../components/Header';
 import { useGetCategories } from '../../api/categories';
 import AboutSection from '../../components/AboutSection';
 import { useGetProductsVariantsByLimit, useGetSlidersProductsVariants } from '../../api/products';
+import AnimateOnScroll from '../../components/AnimateOnScroll';
 
 const Home = () => {
-
   const { data: categories = [] } = useGetCategories();
-
-  // const { data: sliderProducts = [] } = useGetSlidersProducts();
-  // const { data: productsByLimit = [] } = useGetProductsByLimit();
-
-
   const { data: sliderProducts = [] } = useGetSlidersProductsVariants();
   const { data: variantsByLimit = [] } = useGetProductsVariantsByLimit();
 
@@ -32,79 +27,106 @@ const Home = () => {
 
   return (
     <>
-      <Header />
+      <AnimateOnScroll direction="down">
+        <Header />
+      </AnimateOnScroll>
       {/* HomePage */}
       <div className="bg-[#025043] py-10">
-        <h1 className="text-center text-white font-[Qanduchia] text-4xl sm:text-2xl md:text-3xl lg:text-8xl">
-          Welcome{' '}
-        </h1>
-        {/* divider */}
-        <div className="w-24 h-0.5 bg-white mx-auto mt-4 mb-6"></div>
 
-        <p className="font-[Expo-arabic] text-2xl p-4 text-white text-center">
-          Almanzel-Alhadith where elegance meets functionality. We bring you a
-          curated selection of premium kitchen tools, home essentials, and
-          tasteful gift collections.
-        </p>
-        <div className="flex justify-center mt-20">
-          <img
-            src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
-            alt="Logo"
-            className="w-full max-w-[880px] md:w-[570px] h-auto object-contain"
-          />
-        </div>
+
+        {/* Hero / Welcome Section */}
+        <AnimateOnScroll direction="up" delay={0.1}>
+
+          <h1 className="text-center text-white font-[Qanduchia] text-4xl sm:text-2xl md:text-3xl lg:text-8xl">
+            Welcome{' '}
+          </h1>
+          {/* divider */}
+          <div className="w-24 h-0.5 bg-white mx-auto mt-4 mb-6"></div>
+
+          <p className="font-[Expo-arabic] text-2xl p-4 text-white text-center">
+            Almanzel-Alhadith where elegance meets functionality. We bring you a
+            curated selection of premium kitchen tools, home essentials, and
+            tasteful gift collections.
+          </p>
+          <div className="flex justify-center mt-20">
+            <img
+              src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
+              alt="Logo"
+              className="w-full max-w-[880px] md:w-[570px] h-auto object-contain"
+            />
+          </div>
+        </AnimateOnScroll>
+
+
 
         {/* All Categories */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-20 p-2 sm:p-2 md:p-4">
-          <div className="text-center text-white transition-shadow duration-300">
-            <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[140px]  font-[Qanduchia]">
-              Our
-            </span>
-            <p className="transform -translate-y-12 translate-x-5 md:-translate-y-14 md:translate-x-9 font-[Asteroid]  text-[50px] md:text-[60px] lg:text-[100px]">
-              Product
-            </p>
-          </div>
+        <AnimateOnScroll direction="up" delay={0.2}>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-20 p-2 sm:p-2 md:p-4">
+            <div className="text-center text-white transition-shadow duration-300">
+              <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[140px]  font-[Qanduchia]">
+                Our
+              </span>
+              <p className="transform -translate-y-12 translate-x-5 md:-translate-y-14 md:translate-x-9 font-[Asteroid]  text-[50px] md:text-[60px] lg:text-[100px]">
+                Product
+              </p>
+            </div>
 
-          {categories.map((category) => (
-            <CategoryCard
-              key={category.id}
-              title={category.name}
-              image={category.image}
-              description={category.description}
-            />
-          ))}
-        </div>
+            {categories.map((category) => (
+              <CategoryCard
+                key={category.id}
+                title={category.name}
+                image={category.image}
+                description={category.description}
+              />
+            ))}
+          </div>
+        </AnimateOnScroll>
+
 
         {/* About Us Section */}
-        <AboutSection />
+        <AnimateOnScroll direction="left" delay={0.5}>
+          <AboutSection />
+        </AnimateOnScroll>
 
         {/* Sliders & Products */}
-        <ProductSlider1 products={sliderProducts.new || []} />
-        <ProductSlider2 products={sliderProducts.discounted || []} />
+        {/* Sliders & Products Section */}
+        <AnimateOnScroll direction="up" delay={0.6}>
+          <ProductSlider1 products={sliderProducts.new || []} />
+        </AnimateOnScroll>
 
-        <MostProduct products={sliderProducts.featured?.map(v => v.product) || []} />
+        <AnimateOnScroll direction="up" delay={0.7}>
+          <ProductSlider2 products={sliderProducts.discounted || []} />
+        </AnimateOnScroll>
+
+        <AnimateOnScroll direction="up" delay={0.8}>
+          <MostProduct products={sliderProducts.featured?.map(v => v.product) || []} />
+        </AnimateOnScroll>
 
 
-        <AllProductSlider3 products={productsByLimit} />
+        <AnimateOnScroll direction="zoom" delay={0.9}>
+          <AllProductSlider3 products={productsByLimit} />
+        </AnimateOnScroll>
 
-        {/* Before Footer */}
-        <div className="flex flex-col md:flex-row items-center justify-around py-5 px-1 md:px-0">
-          <div className="w-full md:w-1/2 flex justify-center">
-            <img
-              src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358482/footer2_b3gzji.png"
-              alt="final"
-              className="w-full  h-auto object-contain"
-            />
+        {/* Footer / Before Footer Section */}
+        <AnimateOnScroll direction="up" delay={1}>
+          <div className="flex flex-col md:flex-row items-center justify-around py-5 px-1 md:px-0">
+            <div className="w-full md:w-1/2 flex justify-center">
+              <img
+                src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358482/footer2_b3gzji.png"
+                alt="final"
+                className="w-full h-auto object-contain"
+              />
+            </div>
+            <div className="w-full md:w-1/2 flex justify-center-safe">
+              <img
+                src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358486/footer1_baaibi.png"
+                alt="final"
+                className="w-full max-w-[700px]"
+              />
+            </div>
           </div>
-          <div className="w-full md:w-1/2 flex justify-center-safe ">
-            <img
-              src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358486/footer1_baaibi.png"
-              alt="final"
-              className="w-full max-w-[700px]"
-            />
-          </div>
-        </div>
-      </div>
+        </AnimateOnScroll>
+      </div >
     </>
   );
 };

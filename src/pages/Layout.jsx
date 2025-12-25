@@ -8,6 +8,8 @@ import ChevronDoubleUp from '../assets/icons/ChevronDoubleUp';
 const Layout = () => {
   const [showButton, setShowButton] = useState(false);
 
+
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
@@ -21,6 +23,8 @@ const Layout = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -31,6 +35,7 @@ const Layout = () => {
   const location = useLocation();
   const isAboutPage = location.pathname.includes('/about');
   const isProductInfoPage = location.pathname.includes('/product-info');
+
 
   return (
     <div className="flex flex-col min-h-screen relative">

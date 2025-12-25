@@ -6,6 +6,13 @@
 
 
 
+html,
+body {
+  overflow-x: hidden;
+  position: relative;
+  width: 100%;
+}
+
 
 /* CUSTOM FONTS */
 
@@ -43,4 +50,3 @@
   font-family: Qanduchia;
   src: url('/public/fonts/Qanduchia.ttf');
 }
-
