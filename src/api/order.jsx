@@ -5,14 +5,17 @@ import Cookie from 'cookie-universal';
 const cookies = Cookie();
 
 
-export const useGetAllOrders = () => {
+export const useGetAllOrders = (page = 1) => {
   const cookies = Cookie();
+
   return useQuery({
-    queryKey: ['orders'],
+    queryKey: ['orders', page],
     enabled: !!cookies.get('token'),
     queryFn: async () => {
-      const res = await axios.get('orders');
-      return res.data.data;
+      const res = await axios.get('orders', {
+        params: { page },
+      });
+      return res.data;
     },
     retry: 1,
   });

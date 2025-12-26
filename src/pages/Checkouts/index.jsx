@@ -146,7 +146,7 @@ function Checkouts() {
           <button
             disabled={loading}
             type="submit"
-            className={`w-full py-4 rounded-xl font-bold transition
+            className={`w-full py-4 cursor-pointer rounded-xl font-bold transition
               ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90 text-white'}`}
           >
             {loading ? 'Sending...' : 'Save & Continue'}

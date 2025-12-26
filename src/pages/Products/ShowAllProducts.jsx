@@ -367,7 +367,7 @@ function ShowAllProducts() {
                       <button
                         onClick={() => handleAddCartItem(product)}
                         disabled={isLoading}
-                        className="bg-[#025043] text-white text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
+                        className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
                       >
                         {isLoading ? 'Adding...' : 'Add to cart'}
                       </button>
