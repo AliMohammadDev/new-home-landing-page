@@ -1,19 +1,26 @@
-import { addToast, Divider } from '@heroui/react';
+import { useState } from 'react';
+import { addToast } from '@heroui/react';
 import FavoriteIcon from '../../assets/icons/FavoriteIcon';
 import { useGetAllWishlist, useRemoveWishlist } from '../../api/wishlist';
 import { useAddToCartItem } from '../../api/cart';
 import { useGetProfile } from '../../api/auth';
 
 function Wishlists() {
-  const { data: wishlistItems = [] } = useGetAllWishlist();
   const removeWishlist = useRemoveWishlist();
+
+  const [page, setPage] = useState(1);
+
+  const { data: response } = useGetAllWishlist(page);
+
+  const wishlistItems = response?.data || [];
+  const meta = response?.meta;
 
   const { data: user } = useGetProfile();
 
-  const { mutate: addToCart, isLoading } = useAddToCartItem();
+  const { mutate: addToCart, isLoading: isAdding } = useAddToCartItem();
 
   // Add to cart
-  const handleAddCartItem = (variant) => {
+  const handleAddCartItem = (item) => {
     if (!user) {
       addToast({
         title: 'Cart',
@@ -27,14 +34,14 @@ function Wishlists() {
 
     addToCart(
       {
-        product_variant_id: variant.id,
+        product_variant_id: item.product_variant.id,
         quantity: 1,
       },
       {
         onSuccess: () => {
           addToast({
             title: 'Cart',
-            description: `${variant.product.name} added to cart successfully!`,
+            description: `${item.product_variant.name} added to cart successfully!`,
             color: 'success',
             duration: 4000,
             isClosable: true,
@@ -43,7 +50,7 @@ function Wishlists() {
         onError: () => {
           addToast({
             title: 'Cart',
-            description: `Failed to add ${variant.product.name} to cart`,
+            description: `Failed to add ${item.product_variant.name} to cart`,
             color: 'error',
             duration: 4000,
             isClosable: true,
@@ -52,7 +59,6 @@ function Wishlists() {
       }
     );
   };
-
 
   // Remove from wishlist
   const handleRemoveWishlist = (wishlistId, productName) => {
@@ -80,16 +86,12 @@ function Wishlists() {
     });
   };
 
-
-
   return (
-    <div className="w-full bg-[#025043] min-h-screen  px-6 lg:px-24 py-24 font-[Expo-arabic] text-white">
+    <div className="w-full bg-[#025043] min-h-screen px-6 lg:px-24 py-24 font-[Expo-arabic] text-white">
       {/* Header */}
       <div className="text-center mb-16">
         <div className="flex justify-center mb-4">
-          <span className="">
-            <FavoriteIcon size={48} />
-          </span>
+          <FavoriteIcon size={48} />
         </div>
         <h1 className="text-4xl font-bold tracking-wide">My Wishlist</h1>
       </div>
@@ -110,9 +112,8 @@ function Wishlists() {
           </thead>
 
           <tbody>
-            {wishlistItems?.data?.map((item) => (
+            {wishlistItems.map((item) => (
               <tr key={item.id} className="border-b last:border-none">
-                {/* Product */}
                 <td className="py-6">
                   <div className="flex items-center gap-4">
                     <button
@@ -122,12 +123,10 @@ function Wishlists() {
                           item.product_variant?.name
                         )
                       }
-                      title="Remove from wishlist"
                       className="text-white/50 cursor-pointer hover:text-red-400 transition text-sm"
                     >
                       ✕
                     </button>
-
 
                     <img
                       src={item.product_variant?.image}
@@ -141,7 +140,6 @@ function Wishlists() {
                   </div>
                 </td>
 
-                {/* Price */}
                 <td className="py-6">
                   <div className="flex gap-2 items-center">
                     <span className="line-through text-gray-400">
@@ -153,7 +151,6 @@ function Wishlists() {
                   </div>
                 </td>
 
-                {/* Action */}
                 <td className="py-6 text-right">
                   <div className="flex flex-col items-end gap-2">
                     <span className="text-xs text-gray-400">
@@ -162,10 +159,10 @@ function Wishlists() {
 
                     <button
                       onClick={() => handleAddCartItem(item)}
-                      disabled={isLoading}
-                      className="bg-white text-black px-5 py-2 rounded-full text-sm hover:bg-gray-200 transition"
+                      disabled={isAdding}
+                      className="bg-white text-black px-5 py-2 cursor-pointer rounded-full text-sm hover:bg-gray-200 transition"
                     >
-                      {isLoading ? 'Adding...' : 'Add to cart'}
+                      {isAdding ? 'Adding...' : 'Add to cart'}
                     </button>
                   </div>
                 </td>
@@ -173,6 +170,30 @@ function Wishlists() {
             ))}
           </tbody>
         </table>
+
+        {meta && meta.last_page > 1 && (
+          <div className="flex justify-center items-center gap-6 mt-12">
+            <button
+              disabled={meta.current_page === 1}
+              onClick={() => setPage((p) => p - 1)}
+              className="px-5 py-2 rounded-full cursor-pointer bg-white/10 disabled:opacity-40 hover:bg-white/20 transition"
+            >
+              Previous
+            </button>
+
+            <span className="text-sm text-white/70">
+              Page {meta.current_page} of {meta.last_page}
+            </span>
+
+            <button
+              disabled={meta.current_page === meta.last_page}
+              onClick={() => setPage((p) => p + 1)}
+              className="px-5 py-2 rounded-full cursor-pointer bg-white/10 disabled:opacity-40 hover:bg-white/20 transition"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

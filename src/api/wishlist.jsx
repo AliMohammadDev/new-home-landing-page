@@ -2,19 +2,23 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Cookie from 'cookie-universal';
 
-export const useGetAllWishlist = () => {
+export const useGetAllWishlist = (page = 1) => {
   const cookies = Cookie();
 
   return useQuery({
-    queryKey: ['wishlist'],
+    queryKey: ['wishlist', page],
     enabled: !!cookies.get('token'),
     queryFn: async () => {
-      const res = await axios.get('wishlists');
+      const res = await axios.get('wishlists', {
+        params: { page },
+      });
       return res.data;
     },
+    keepPreviousData: true,
     retry: 1,
   });
 };
+
 
 export const useAddWishlist = () => {
   const queryClient = useQueryClient();

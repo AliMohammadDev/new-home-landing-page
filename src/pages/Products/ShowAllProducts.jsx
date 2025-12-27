@@ -384,7 +384,7 @@ function ShowAllProducts() {
                   onClick={handleShowMore}
                   className="px-6 py-2 bg-[#025043] text-white rounded-md hover:bg-[#01382f] transition"
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 cursor-pointer">
                     <span className="text-white">Show More</span>
                     <Spinner
                       variant="dots"

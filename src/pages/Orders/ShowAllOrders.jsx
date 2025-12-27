@@ -22,7 +22,7 @@ function ShowAllOrders() {
   return (
     <div className="w-full min-h-screen bg-[#025043] text-white font-[Expo-arabic] px-6 lg:px-24 py-20">
       {/* Header */}
-      <div className="flex items-center gap-4 mb-10">
+      <div className="flex items-center gap-4 mb-10 mt-10">
         <div className="p-3 rounded-2xl bg-white/10">
           <OrderIcon className="w-7 h-7" />
         </div>
@@ -114,7 +114,7 @@ function ShowAllOrders() {
             <button
               disabled={meta.current_page === 1}
               onClick={() => setPage((p) => p - 1)}
-              className="px-5 py-2 rounded-full bg-white/10 disabled:opacity-40
+              className="px-5 py-2 rounded-full cursor-pointer bg-white/10 disabled:opacity-40
               hover:bg-white/20 transition"
             >
               Previous
@@ -127,7 +127,7 @@ function ShowAllOrders() {
             <button
               disabled={meta.current_page === meta.last_page}
               onClick={() => setPage((p) => p + 1)}
-              className="px-5 py-2 rounded-full bg-white/10 disabled:opacity-40
+              className="px-5 py-2 rounded-full cursor-pointer bg-white/10 disabled:opacity-40
               hover:bg-white/20 transition"
             >
               Next
