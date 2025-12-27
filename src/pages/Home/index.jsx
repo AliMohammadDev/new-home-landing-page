@@ -27,9 +27,7 @@ const Home = () => {
 
   return (
     <>
-      <AnimateOnScroll direction="down">
-        <Header />
-      </AnimateOnScroll>
+      <Header />
       {/* HomePage */}
       <div className="bg-[#025043] py-10">
 
