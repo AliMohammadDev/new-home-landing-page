@@ -173,6 +173,21 @@ const Navbar = () => {
                 Home
               </NavLink>
 
+              <NavLink
+                to="/contact"
+                className="block px-4 py-2 hover:bg-[#9f9f9f9f] hover:rounded transition-colors"
+              >
+                Get in touch
+              </NavLink>
+
+              <NavLink
+                to="/about"
+                className="block px-4 py-2 hover:bg-[#9f9f9f9f] hover:rounded transition-colors"
+              >
+                About us
+              </NavLink>
+
+
               {/* Categories dropdown */}
               <div className="flex flex-col">
                 <button
@@ -211,7 +226,6 @@ const Navbar = () => {
               {profile ? (
                 <>
 
-
                   <NavLink
                     to="/profile"
                     className="block px-4 py-2 hover:bg-[#9f9f9f9f] hover:rounded transition-colors"
@@ -229,7 +243,7 @@ const Navbar = () => {
                     to="/wishlists"
                     className="block px-4 py-2 hover:bg-[#9f9f9f9f] hover:rounded transition-colors"
                   >
-                    WishList
+                    My Wishlist
                   </NavLink>
                   <NavLink
                     to="/my-orders"

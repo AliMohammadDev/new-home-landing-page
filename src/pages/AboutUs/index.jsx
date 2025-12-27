@@ -114,7 +114,7 @@ const AboutUs = () => {
 
       {/* Image Section */}
       <div className="w-full md:w-1/2 mt-10 md:mt-0 md:pl-10 flex flex-col items-center md:items-start">
-        <div className="w-[80%] sm:w-[70%] md:w-[90%] mx-auto">
+        <div className="w-[90%]">
           <img
             src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-black_dicco2.svg"
             alt="Home Logo 1"
@@ -122,7 +122,7 @@ const AboutUs = () => {
           />
         </div>
         <div className="w-full h-0.5 my-8 bg-black"></div>
-        <div className="w-[80%] sm:w-[70%] md:w-[90%] mx-auto">
+        <div className="w-[90%]">
           <img
             src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765367108/Home-Log2_s17e8a.svg"
             alt="Home Logo 2"
