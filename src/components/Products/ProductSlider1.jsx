@@ -171,29 +171,34 @@ function ProductSlider1({ products = [] }) {
                         {product.final_price} $
                       </p>
 
-                      <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">
-                        <div className="flex items-center gap-1 text-sm">
-                          <RatingStars
-                            rating={Number(variant.reviews_avg) || 0}
-                          // onRate={(star) =>
-                          //   handleRateProduct(variant.id, star)
-                          // }
-                          />
+                      <div className="flex flex-col gap-3 text-[#025043]">
+                        {/* reviews + view more */}
+                        <div className="flex items-center gap-1 text-sm flex-wrap">
+                          <RatingStars rating={Number(variant.reviews_avg) || 0} />
                           <span className="text-xs text-gray-500">
                             ({variant.reviews_count || 0})
                           </span>
-                          <Link to={'/products'} className="text-sm hover:underline ml-2">
+                          <Link
+                            to="/products"
+                            className="text-sm hover:underline ml-2 whitespace-nowrap"
+                          >
                             view more
                           </Link>
                         </div>
+
+                        {/* add to cart */}
                         <button
                           onClick={() => handleAddCartItem(variant)}
                           disabled={isLoading}
-                          className="bg-[#025043] text-white  cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
+                          className="w-full bg-[#025043] text-white text-sm px-4 py-2 rounded-full 
+             hover:bg-[#01382f] transition disabled:opacity-50 
+             flex items-center justify-center"
                         >
                           {isLoading ? 'Adding...' : 'Add to cart'}
                         </button>
+
                       </div>
+
                     </div>
                   </div>
                 </div>

@@ -4,7 +4,7 @@ import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
 
 const AboutUs = () => {
   return (
-    <div className="flex flex-col md:flex-row justify-around items-start text-black px-4 sm:px-6 lg:px-20 py-10 gap-6 bg-white min-h-screen relative">
+    <div className="flex flex-col lg:flex-row justify-around items-start text-black px-4 sm:px-6 lg:px-20 py-10 gap-6 bg-white min-h-screen relative">
       {/* Back Button */}
       <div className="absolute top-2 sm:top-4 md:top-6 left-4 sm:left-6 z-20">
         <Link to={-1} className="hover:opacity-80 transition">
@@ -13,7 +13,7 @@ const AboutUs = () => {
       </div>
 
       {/* Text Section */}
-      <div className="w-full md:w-1/2 space-y-6 text-left md:border-gray-300 wrap-break-word leading-relaxed">
+      <div className="w-full lg:w-1/2 space-y-6 text-left md:border-gray-300 wrap-break-word leading-relaxed">
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-[Asteroid]">
           About
           <span className="font-[Asteroid] text-5xl sm:text-6xl md:text-7xl ml-2">
@@ -110,10 +110,10 @@ const AboutUs = () => {
       </div>
 
       {/* Divider line */}
-      <div className="hidden md:block w-px bg-black h-auto mx-8 self-stretch"></div>
+      <div className="hidden lg:block w-px bg-black h-auto mx-8 self-stretch"></div>
 
       {/* Image Section */}
-      <div className="w-full md:w-1/2 mt-10 md:mt-0 md:pl-10 flex flex-col items-center md:items-start">
+      <div className="w-full lg:w-1/2 mt-10 lg:mt-0 lg:pl-10 flex flex-col items-center md:items-start">
         <div className="w-[90%]">
           <img
             src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-black_dicco2.svg"
