@@ -1,96 +1,107 @@
 import { Link } from 'react-router-dom';
 import LeftIcon from '../../assets/icons/LeftIcon';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
+import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon';
+import { useTranslation } from 'react-i18next';
 
 const AboutUs = () => {
+  const { t, i18n } = useTranslation();
+
+
   return (
-    <div className="flex flex-col lg:flex-row justify-around items-start text-black px-4 sm:px-6 lg:px-20 py-10 gap-6 bg-white min-h-screen relative">
+    <div
+      className={`flex flex-col lg:flex-row ${i18n.language === 'ar' ? 'lg:flex-row-reverse' : ''
+        } justify-around items-start text-black px-4 sm:px-6 lg:px-20 py-10 gap-6 bg-white min-h-screen relative`}
+    >
+
+
       {/* Back Button */}
-      <div className="absolute top-2 sm:top-4 md:top-6 left-4 sm:left-6 z-20">
-        <Link to={-1} className="hover:opacity-80 transition">
-          <LeftIcon />
-        </Link>
-      </div>
+      <Link to={-1} className="hover:opacity-80 transition">
+        <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
+      </Link>
+
 
       {/* Text Section */}
-      <div className="w-full lg:w-1/2 space-y-6 text-left md:border-gray-300 wrap-break-word leading-relaxed">
+      <div
+        className={`w-full lg:w-1/2 space-y-6 text-start wrap-break-word leading-relaxed
+    ${i18n.language === 'ar' ? 'lg:order-2' : 'lg:order-1'}
+  `}
+      >
+
         <h1 className="text-4xl sm:text-5xl md:text-7xl font-[Asteroid]">
-          About
-          <span className="font-[Asteroid] text-5xl sm:text-6xl md:text-7xl ml-2">
-            Us
-          </span>
+          {t('about.about_us')}
         </h1>
 
         <div className="w-full h-0.5 bg-black"></div>
 
         <div className="space-y-4 text-sm sm:text-base md:text-lg">
-          <p>
-            Almanzil-Alhadith is a company specialized in many different home
-            tools and kitchenware in addition to other restaurant and hotel
-            equipment and supplies.
-          </p>
+          <p>{t('about.company_desc')}</p>
         </div>
 
         <div className="w-full h-0.5 bg-black"></div>
 
         <section className="text-[#025043]">
-          <span className="font-[Expo-book] text-black text-3xl sm:text-4xl md:text-5xl block mb-6 pl-2 sm:pl-4 md:pl-0">
-            Intro to the company
+          <span className="font-[Expo-book] text-black text-3xl sm:text-4xl md:text-5xl block mb-6 ps-2 sm:ps-4 md:ps-0">
+            {t('about.intro_company')}
           </span>
 
-          <p className="text-black text-sm sm:text-base md:text-2xl mb-4 pl-2 sm:pl-4 md:pl-0">
-            Almanzel-Alhadith is a company specializing in providing
-            high-quality kitchen tools and hospitality equipment for homes,
-            restaurants, and hotels.
+          <p className="text-black text-sm sm:text-base md:text-2xl mb-4 ps-2 sm:ps-4 md:ps-0">
+            {t('about.company_desc')}
             <span className="text-black text-sm sm:text-lg md:text-[24px] block mb-4">
-              Our core product range includes:
+              {t('about.core_products')}
             </span>
           </p>
 
-          <ul className="list-none font-[Expo-light] text-black space-y-2 pl-6 sm:pl-10 md:pl-20 text-sm sm:text-base md:text-lg">
-            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:mr-3 before:align-middle">
-              Elegant glassware, cups, mugs, jars, and all tabletop essentials.
+          <ul className="list-none font-[Expo-light] text-black space-y-2 ps-6 sm:ps-10 md:ps-20 text-sm sm:text-base md:text-lg">
+            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:me-3 before:align-middle">
+              {t('about.product_1')}
             </li>
-            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:mr-3 before:align-middle">
-              Decorative homeware, gifts, crystal items, and ornaments. Premium.
+            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:me-3 before:align-middle">
+              {t('about.product_2')}
             </li>
-            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:mr-3 before:align-middle">
-              White porcelain and gold-accented porcelain for fine dining.
+            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:me-3 before:align-middle">
+              {t('about.product_3')}
             </li>
-            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:mr-3 before:align-middle">
-              Durable stainless steel and high-grade metal kitchen tools.
+            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:me-3 before:align-middle">
+              {t('about.product_4')}
             </li>
-            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:mr-3 before:align-middle">
-              Specialized equipment for meat, dairy, and cold storage.
+            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:me-3 before:align-middle">
+              {t('about.product_5')}
             </li>
-            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:mr-3 before:align-middle">
-              Plastic kitchenware, including chopping boards and fridge
-              containers.
+            <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:me-3 before:align-middle">
+              {t('about.product_6')}
             </li>
           </ul>
 
-          <div className="flex flex-col md:flex-row items-center md:items-end text-center md:text-left mt-10">
-            <span className="font-[Asteroid] text-5xl sm:text-4xl md:text-7xl text-black relative md:-left-6 mb-6 -bottom-2 sm:-top-2">
-              We
-            </span>
-            <p className="font-[Expo-book] text-xs sm:text-sm md:text-lg text-black max-w-2xl mt-2 md:mt-0 md:-left-5 leading-snug text-balance">
-              combine functionality with refined aesthetics to meet the needs of
-              both domestic and professional kitchens.
+          <div className="flex flex-col md:flex-row items-center md:items-end text-center md:text-start mt-10">
+            <p className="font-[Expo-book] text-xs sm:text-sm md:text-lg text-black max-w-2xl mt-2 md:mt-0 leading-snug text-balance">
+              {t('about.we_desc')}
             </p>
           </div>
         </section>
 
+        {/* Gallery Link */}
         <div className="flex items-center gap-1 justify-end">
           <Link
             to={'/products'}
             className="px-6 py-1 bg-black text-white rounded-md hover:opacity-80 transition whitespace-nowrap"
           >
-            click to show gallery
+            {t('about.click_gallery')}
           </Link>
 
-          {/* Circle Chevron Icon */}
           <div className="w-9 h-9 flex items-center bg-black justify-center border border-black rounded-full hover:opacity-80 transition">
-            <ChevronRightIcon color="white" />
+            {
+              i18n.language === 'ar' ? (
+                <ChevronLeftIcon
+                  color="white"
+                />
+              ) : (
+                <ChevronRightIcon
+                  color="white"
+                />
+              )
+            }
+
           </div>
         </div>
 
@@ -110,19 +121,31 @@ const AboutUs = () => {
       </div>
 
       {/* Divider line */}
-      <div className="hidden lg:block w-px bg-black h-auto mx-8 self-stretch"></div>
+      <div className="hidden lg:block absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-px bg-black"></div>
+
+
 
       {/* Image Section */}
-      <div className="w-full lg:w-1/2 mt-10 lg:mt-0 lg:pl-10 flex flex-col items-center md:items-start">
-        <div className="w-[90%]">
+      <div
+        className={`w-full lg:w-1/2 mt-10 lg:mt-0 flex flex-col
+    ${i18n.language === 'ar'
+            ? 'lg:items-end lg:pe-10'
+            : 'lg:items-start lg:ps-10'
+          }
+    items-center`}
+      >
+        <div className="w-[80%]">
           <img
             src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-black_dicco2.svg"
             alt="Home Logo 1"
             className="w-full h-auto object-contain"
           />
         </div>
-        <div className="w-full h-0.5 my-8 bg-black"></div>
-        <div className="w-[90%]">
+
+        <div className="self-stretch h-0.5 my-8 lg:-ml-33 lg:mr-22 bg-black"></div>
+
+
+        <div className="w-[80%]">
           <img
             src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765367108/Home-Log2_s17e8a.svg"
             alt="Home Logo 2"
@@ -130,6 +153,9 @@ const AboutUs = () => {
           />
         </div>
       </div>
+
+
+
     </div>
   );
 };

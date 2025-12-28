@@ -1,15 +1,30 @@
 import Footer from '../components/Footer';
 import { Outlet, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ChevronDoubleUp from '../assets/icons/ChevronDoubleUp';
+import { useTranslation } from 'react-i18next';
 
 const Layout = () => {
   const [showButton, setShowButton] = useState(false);
+  const { i18n } = useTranslation();
+  const location = useLocation();
+
+  // Effect to set page direction (LTR/RTL) based on selected language
+  useEffect(() => {
+    document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+  }, [i18n.language]);
 
 
+  useEffect(() => {
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang && i18n.language !== savedLang) {
+      i18n.changeLanguage(savedLang);
+    }
+  }, []);
 
+
+  // Effect to track scroll position and toggle scroll-to-top button
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 300) {
@@ -23,8 +38,7 @@ const Layout = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-
-
+  // Function to scroll smoothly to the top
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -32,19 +46,24 @@ const Layout = () => {
     });
   };
 
-  const location = useLocation();
+  // Determine if current page is About or Product Info (to hide Navbar if needed)
   const isAboutPage = location.pathname.includes('/about');
   const isProductInfoPage = location.pathname.includes('/product-info');
 
-
   return (
     <div className="flex flex-col min-h-screen relative">
+      {/* Show Navbar only if not About or Product Info page */}
       {!isAboutPage && !isProductInfoPage && <Navbar />}
+
+      {/* Main content rendered from Outlet (child routes) */}
       <div className="grow mx-auto w-full">
         <Outlet />
       </div>
+
+      {/* Footer always visible */}
       <Footer />
 
+      {/* Scroll-to-top button */}
       {showButton && (
         <button
           onClick={scrollToTop}

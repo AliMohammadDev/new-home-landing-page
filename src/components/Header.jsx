@@ -2,21 +2,23 @@ import FacebookIcon from '../assets/icons/FacebookIcon';
 import InstagramIcon from '../assets/icons/InstagramIcon';
 import WhatsappIcon from '../assets/icons/WhatsappIcon';
 import TelegramIcon from '../assets/icons/TelegramIcon';
-// import HomeImage from '../assets/images/Home.png';
 
 const Header = () => {
+
+
   return (
     <div
       className="
-        w-full 
-        h-screen 
-        xl:h-[1500px] 
-        2xl:h-[1800px]
-        bg-cover bg-no-repeat bg-center md:bg-right 
-        relative
-      "
+    w-full 
+    h-screen 
+    xl:h-[1500px] 
+    2xl:h-[1800px]
+    bg-cover bg-no-repeat bg-center md:bg-right 
+    relative
+    "
       style={{ backgroundImage: `url(https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358692/HomePage_xvczts.png)` }}
     >
+
       {/* TEXT CONTAINER */}
       <div
         className="

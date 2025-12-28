@@ -4,16 +4,18 @@ import PasswordIcon from '../../../assets/icons/PasswordIcon';
 import LeftIcon from '../../../assets/icons/LeftIcon';
 import { useForm } from 'react-hook-form';
 import { useLogin } from '../../../api/auth';
-function Login() {
+import { useTranslation } from 'react-i18next';
 
+function Login() {
   const { register, handleSubmit } = useForm();
   const { mutate: login, isPending: loading, error } = useLogin();
-  const onSubmit = (values) => {
-    login(values);
-  };
+  const { t, i18n } = useTranslation();
+
+  const onSubmit = (values) => login(values);
+
   return (
     <div
-      className="w-full min-h-screen  bg-cover bg-no-repeat relative bg-center md:bg-right"
+      className="w-full min-h-screen bg-cover bg-no-repeat relative bg-center md:bg-right"
       style={{ backgroundImage: `url(https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358011/LoginImage_q4fdk3.jpg)` }}
     >
       <div className="absolute top-1 md:top-6 left-6 z-20">
@@ -21,82 +23,87 @@ function Login() {
           <LeftIcon />
         </Link>
       </div>
+
       <div className="flex h-screen items-center justify-center bg-cover bg-center relative">
         <div className="relative w-full max-w-md px-4">
-          <div className="rounded-2xl bg-white/10 backdrop-blur-md p-8 shadow-2xl border border-white/20 text-white">
-            <div className="flex mb-6">
-              <img src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg" className="w-20 h-15" alt="Home Logo" />
+          <div className="rounded-2xl bg-white/10 backdrop-blur-md p-8 shadow-2xl border border-white/20 text-white" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
+            <div className="flex mb-6 justify-center">
+              <img
+                src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
+                className="w-20 h-15"
+                alt="Home Logo"
+              />
             </div>
 
-            <h2 className="text-2xl mb-1">Welcome back!</h2>
-            <p className=" text-gray-200 mb-6">
-              Hello, please log in to access your account.
-            </p>
+            <h2 className="text-2xl mb-1">{t('auth.welcome_back')}</h2>
+            <p className="text-gray-200 mb-6">{t('auth.login_desc')}</p>
 
             {error && (
               <div className="mb-4 rounded-md bg-red-500/20 border border-red-500/40 px-3 py-2 text-sm text-red-200">
                 {error.message}
               </div>
             )}
+
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+              {/* Email */}
               <div className="relative">
                 <div className="pointer-events-none absolute left-1 top-1/2 -translate-y-1/2">
                   <EmailIcon />
                 </div>
-
                 <input
                   type="text"
-                  {...register("email")}
-                  className="block w-full rounded-md border border-white/20 bg-white/20 px-3 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2  sm:text-sm"
-                  autoComplete="new-name"
+                  {...register('email')}
+                  placeholder={t('auth.email_placeholder')}
+                  className="block w-full rounded-md border border-white/20 bg-white/20 px-3 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2 sm:text-sm"
+                  autoComplete="email"
                   required
-                  placeholder="E-mail Address"
                 />
               </div>
 
+              {/* Password */}
               <div className="relative">
                 <div className="pointer-events-none absolute left-1 top-1/2 -translate-y-1/2">
                   <PasswordIcon />
                 </div>
-
                 <input
                   type="password"
-                  {...register("password")}
-                  className="block w-full rounded-md border border-white/20 bg-white/20 px-3 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2  sm:text-sm"
-                  placeholder="Password"
-                  autoComplete="new-password"
+                  {...register('password')}
+                  placeholder={t('auth.password_placeholder')}
+                  className="block w-full rounded-md border border-white/20 bg-white/20 px-3 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2 sm:text-sm"
+                  autoComplete="current-password"
+                  required
                 />
               </div>
 
+              {/* Remember + Forgot */}
               <div className="flex justify-between items-center gap-3 text-sm text-gray-200">
                 <label className="flex items-center gap-2 select-none">
-                  <input type="checkbox" className="accent-white] w-4 h-4" />
-                  <span>Remember me</span>
+                  <input type="checkbox" className="accent-white w-4 h-4" />
+                  <span>{t('auth.remember_me')}</span>
                 </label>
-                <a
-                  href="/forgot-password"
+                <Link
+                  to="/forgot-password"
                   className="text-white underline underline-offset-2 decoration-white hover:opacity-80 transition"
                 >
-                  Forgot Password?
-                </a>
+                  {t('auth.forgot_password')}
+                </Link>
               </div>
 
+              {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full cursor-pointer rounded-xl py-2 font-semibold transition
-                  ${loading
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-black hover:opacity-90'}
-                `}
+                className={`w-full rounded-xl cursor-pointer py-2 font-semibold transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90'
+                  }`}
               >
-                {loading ? 'Logging in...' : 'Log in'}
+                {loading ? t('auth.logging_in') : t('auth.login_button')}
               </button>
 
+              {/* Create Account */}
               <div className="text-center text-sm text-white mt-4">
-                Don’t have an account?{' '}
+                {t('auth.no_account')}{' '}
                 <Link to="/register" className="text-white hover:underline">
-                  Create one
+                  {t('auth.create_one')}
                 </Link>
               </div>
             </form>

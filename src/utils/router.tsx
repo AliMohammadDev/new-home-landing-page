@@ -35,7 +35,6 @@ const router = createBrowserRouter([
           { index: true, element: <Checkouts /> },
           {
             path: 'orders/:checkoutId',
-            // element: <Orders />,
             children: [
               { index: true, element: <Orders /> },
               {
@@ -46,7 +45,6 @@ const router = createBrowserRouter([
           },
         ],
       },
-
       {
         path: 'wishlists',
         element: <Wishlists />,

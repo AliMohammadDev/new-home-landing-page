@@ -3,20 +3,14 @@ import EmailIcon from '../../../assets/icons/EmailIcon';
 import LeftIcon from '../../../assets/icons/LeftIcon';
 import { useForm } from 'react-hook-form';
 import { useForgotPassword } from '../../../api/auth';
+import { useTranslation } from 'react-i18next';
 
 function ForgetPassword() {
   const { register, handleSubmit } = useForm();
+  const { mutate: forgotPassword, isPending: loading, error, isSuccess } = useForgotPassword();
+  const { t, i18n } = useTranslation();
 
-  const {
-    mutate: forgotPassword,
-    isPending: loading,
-    error,
-    isSuccess,
-  } = useForgotPassword();
-
-  const onSubmit = (values) => {
-    forgotPassword(values);
-  };
+  const onSubmit = (values) => forgotPassword(values);
 
   return (
     <div
@@ -34,9 +28,11 @@ function ForgetPassword() {
 
       <div className="flex h-screen items-center justify-center">
         <div className="w-full max-w-md px-4">
-          <div className="rounded-2xl bg-white/10 backdrop-blur-md p-8 shadow-2xl border border-white/20 text-white">
-
-            <div className="flex mb-6">
+          <div
+            className="rounded-2xl bg-white/10 backdrop-blur-md p-8 shadow-2xl border border-white/20 text-white"
+            dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+          >
+            <div className="flex mb-6 justify-center">
               <img
                 src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
                 className="w-20 h-15"
@@ -44,22 +40,18 @@ function ForgetPassword() {
               />
             </div>
 
-            <h2 className="text-2xl mb-1">Forgot Password?</h2>
-            <p className="text-gray-200 mb-6">
-              Enter your email to receive a reset link.
-            </p>
+            <h2 className="text-2xl mb-1">{t('auth.forgot_password')}</h2>
+            <p className="text-gray-200 mb-6">{t('auth.forgot_desc')}</p>
 
-            {/* Error message */}
             {error && (
               <div className="mb-4 rounded-md bg-red-500/20 border border-red-500/40 px-3 py-2 text-sm text-red-200">
                 {error.message}
               </div>
             )}
 
-            {/* Success message */}
             {isSuccess && (
               <div className="mb-4 rounded-md bg-green-500/20 border border-green-500/40 px-3 py-2 text-sm text-green-200">
-                Check your email for a password reset link.
+                {t('auth.send_reset')}
               </div>
             )}
 
@@ -72,8 +64,8 @@ function ForgetPassword() {
                 <input
                   type="email"
                   {...register('email')}
+                  placeholder={t('auth.email_placeholder')}
                   className="block w-full rounded-md border border-white/20 bg-white/20 px-3 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2 sm:text-sm"
-                  placeholder="E-mail Address"
                   required
                 />
               </div>
@@ -81,30 +73,26 @@ function ForgetPassword() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full cursor-pointer rounded-xl py-2 font-semibold transition
-                  ${loading
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-black hover:opacity-90'}
-                `}
+                className={`w-full cursor-pointer rounded-xl py-2 font-semibold transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90'
+                  }`}
               >
-                {loading ? 'Sending...' : 'Send Reset Link'}
+                {loading ? t('auth.sending') : t('auth.send_reset')}
               </button>
 
               <div className="text-center text-sm text-white mt-4">
-                Remembered your password?{' '}
+                {t('auth.remembered')}{' '}
                 <Link to="/login" className="hover:underline">
-                  Login
+                  {t('auth.login_here')}
                 </Link>
               </div>
 
               <div className="text-center text-sm text-white mt-2">
-                Don’t have an account?{' '}
+                {t('auth.no_account')}{' '}
                 <Link to="/register" className="hover:underline">
-                  Create one
+                  {t('auth.create_account')}
                 </Link>
               </div>
             </form>
-
           </div>
         </div>
       </div>

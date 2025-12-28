@@ -1,26 +1,23 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import PasswordIcon from '../../../assets/icons/PasswordIcon';
+import EmailIcon from '../../../assets/icons/EmailIcon';
 import LeftIcon from '../../../assets/icons/LeftIcon';
 import { useForm } from 'react-hook-form';
 import { useResetPassword } from '../../../api/auth';
-import EmailIcon from '../../../assets/icons/EmailIcon';
+import { useTranslation } from 'react-i18next';
 
 function ResetPassword() {
   const { register, handleSubmit } = useForm();
   const [searchParams] = useSearchParams();
-
   const token = searchParams.get('token');
-  const email = searchParams.get('email');
+  const emailParam = searchParams.get('email');
 
-  const {
-    mutate: resetPassword,
-    isPending: loading,
-    error,
-  } = useResetPassword();
+  const { mutate: resetPassword, isPending: loading, error } = useResetPassword();
+  const { t, i18n } = useTranslation();
 
   const onSubmit = (values) => {
     resetPassword({
-      email,
+      email: emailParam,
       token,
       password: values.password,
       password_confirmation: values.password_confirmation,
@@ -43,9 +40,11 @@ function ResetPassword() {
 
       <div className="flex h-screen items-center justify-center">
         <div className="w-full max-w-md px-4">
-          <div className="rounded-2xl bg-white/10 backdrop-blur-md p-8 shadow-2xl border border-white/20 text-white">
-
-            <div className="flex mb-6">
+          <div
+            className="rounded-2xl bg-white/10 backdrop-blur-md p-8 shadow-2xl border border-white/20 text-white"
+            dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
+          >
+            <div className="flex mb-6 justify-center">
               <img
                 src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
                 className="w-20 h-15"
@@ -53,12 +52,9 @@ function ResetPassword() {
               />
             </div>
 
-            <h2 className="text-2xl mb-1">Reset Password</h2>
-            <p className="text-gray-200 mb-6">
-              Enter your new password below.
-            </p>
+            <h2 className="text-2xl mb-1">{t('auth.reset_password')}</h2>
+            <p className="text-gray-200 mb-6">{t('auth.reset_desc')}</p>
 
-            {/* Error */}
             {error && (
               <div className="mb-4 rounded-md bg-red-500/20 border border-red-500/40 px-3 py-2 text-sm text-red-200">
                 {error.message}
@@ -66,25 +62,22 @@ function ResetPassword() {
             )}
 
             <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-
-
+              {/* Email */}
               <div className="relative">
                 <div className="pointer-events-none absolute left-1 top-1/2 -translate-y-1/2">
                   <EmailIcon />
                 </div>
-
                 <input
-                  type="text"
-                  {...register("email")}
-                  className="block w-full rounded-md border border-white/20 bg-white/20 px-3 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2  sm:text-sm"
-                  autoComplete="new-name"
+                  type="email"
+                  {...register('email')}
+                  placeholder={t('auth.email_placeholder')}
+                  defaultValue={emailParam || ''}
+                  className="block w-full rounded-md border border-white/20 bg-white/20 px-3 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2 sm:text-sm"
                   required
-                  placeholder="E-mail Address"
                 />
               </div>
 
-
-              {/* Password */}
+              {/* New Password */}
               <div className="relative">
                 <div className="pointer-events-none absolute left-1 top-1/2 -translate-y-1/2">
                   <PasswordIcon />
@@ -92,13 +85,13 @@ function ResetPassword() {
                 <input
                   type="password"
                   {...register('password')}
+                  placeholder={t('auth.new_password')}
                   className="block w-full rounded-md border border-white/20 bg-white/20 px-3 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2 sm:text-sm"
-                  placeholder="New Password"
                   required
                 />
               </div>
 
-              {/* Confirm */}
+              {/* Confirm Password */}
               <div className="relative">
                 <div className="pointer-events-none absolute left-1 top-1/2 -translate-y-1/2">
                   <PasswordIcon />
@@ -106,8 +99,8 @@ function ResetPassword() {
                 <input
                   type="password"
                   {...register('password_confirmation')}
+                  placeholder={t('auth.confirm_password')}
                   className="block w-full rounded-md border border-white/20 bg-white/20 px-3 py-3 pl-12 text-white placeholder-gray-300 focus:outline-none focus:ring-2 sm:text-sm"
-                  placeholder="Confirm Password"
                   required
                 />
               </div>
@@ -115,22 +108,18 @@ function ResetPassword() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full cursor-pointer rounded-xl py-2 font-semibold transition
-                  ${loading
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-black hover:opacity-90'}
-                `}
+                className={`w-full cursor-pointer rounded-xl py-2 font-semibold transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90'
+                  }`}
               >
-                {loading ? 'Resetting...' : 'Reset Password'}
+                {loading ? t('auth.resetting') : t('auth.reset_password')}
               </button>
 
               <div className="text-center text-sm text-white mt-4">
-                Remembered your password?{' '}
+                {t('auth.remembered')}{' '}
                 <Link to="/login" className="hover:underline">
-                  Login
+                  {t('auth.login_here')}
                 </Link>
               </div>
-
             </form>
           </div>
         </div>

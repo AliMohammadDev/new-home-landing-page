@@ -16,6 +16,7 @@ const Home = () => {
   const { data: sliderProducts = [] } = useGetSlidersProductsVariants();
   const { data: variantsByLimit = [] } = useGetProductsVariantsByLimit();
 
+
   const productsByLimit = (variantsByLimit || []).map(v => ({
     ...v.product,
     variantId: v.id,
