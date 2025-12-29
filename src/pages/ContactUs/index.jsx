@@ -13,7 +13,7 @@ const Contact = () => {
       onSuccess: () => {
         addToast({
           title: t('contact.form_heading'),
-          description: t('contact.sending'),
+          description: t('contact.contact_success'),
           color: 'success',
           duration: 4000,
           isClosable: true,
@@ -32,7 +32,6 @@ const Contact = () => {
     });
   };
 
-  // تحديد اتجاه الصفحة
   const isRtl = i18n.language === 'ar';
 
   return (

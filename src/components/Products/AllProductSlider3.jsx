@@ -1,9 +1,10 @@
+import { useTranslation } from 'react-i18next';
 import Slider from 'react-slick';
 
 
 
 function AllProductSlider3({ products = [] }) {
-
+  const { t } = useTranslation();
   const CustomNextArrow = (props) => {
     const { onClick } = props;
     return (
@@ -14,7 +15,7 @@ function AllProductSlider3({ products = [] }) {
                  bg-black text-white text-sm font-bold w-24 sm:w-32 md:w-42 
                  h-24 sm:h-32 md:h-42 flex items-center justify-center rounded-full shadow-lg"
       >
-        Drag
+        {t('slider.drag')}
       </div>
     );
   };

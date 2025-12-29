@@ -14,7 +14,6 @@ const LanguageSwitcher = () => {
     localStorage.setItem('lang', lng);
   };
 
-
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -23,18 +22,38 @@ const LanguageSwitcher = () => {
         </button>
       </DropdownTrigger>
 
-      <DropdownMenu className="bg-white text-[#025043] rounded-xl w-28 font-[Expo-arabic] overflow-hidden">
+      <DropdownMenu
+        className="bg-white text-[#025043] rounded-xl w-32 font-[Expo-arabic] p-1 "
+        aria-label="Language Actions"
+      >
         <DropdownItem
+          key="en"
           onClick={() => changeLanguage('en')}
-          className="py-2 hover:bg-gray-100 cursor-pointer"
+          className="hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
         >
-          EN
+          <div className="flex items-center gap-3 py-1">
+            <img
+              src="https://flagcdn.com/w20/gb.png"
+              alt="English"
+              className="w-5 h-auto rounded-sm shadow-sm"
+            />
+            <span className="font-medium">English</span>
+          </div>
         </DropdownItem>
+
         <DropdownItem
+          key="ar"
           onClick={() => changeLanguage('ar')}
-          className="py-2 hover:bg-gray-100 cursor-pointer"
+          className="hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
         >
-          AR
+          <div className="flex items-center gap-3 py-1">
+            <img
+              src="https://flagcdn.com/w20/sy.png"
+              alt="Arabic"
+              className="w-5 h-auto rounded-sm shadow-sm"
+            />
+            <span className="font-medium">العربية</span>
+          </div>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

@@ -23,7 +23,8 @@
     "email_placeholder": "Email",
     "message_placeholder": "Message",
     "send_button": "SEND MESSAGE",
-    "sending": "Sending..."
+    "sending": "Sending...",
+    "contact_success": "Your has been  successfully!"
   },
 
   "footer": {
@@ -77,6 +78,7 @@
     "contact": "Get in touch",
     "about_us": "About us",
     "all_products": "All Products",
+    "our_products": "Our Products",
     "Language": "Language",
     "login": "Login",
     "register": "Register",
@@ -156,9 +158,24 @@
     "previous": "Previous",
     "next": "Next",
     "page": "Page",
-    "of": "of"
+    "of": "of",
+    "checkout_info": "Checkout Information",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "country": "Country",
+    "city": "City",
+    "street": "Street",
+    "floor": "Floor",
+    "postal_code": "Postal Code",
+    "additional_info": "Additional Info",
+    "order_summary": "Order Summary",
+    "total": "Total",
+    "place_order": "Place Order / Pay",
+    "placing_order": "Placing Order...",
+    "order_placed_success": "Your order has been placed successfully!"
   },
-
   "wishlist": {
     "title": "My Wishlist",
     "productName": "Product name",
@@ -174,7 +191,8 @@
     "previous": "Previous",
     "next": "Next",
     "page": "Page",
-    "of": "of"
+    "of": "of",
+    "empty":"Your wishlist is empty."
   },
   "order": {
     "loading": "Loading order...",
@@ -198,5 +216,60 @@
     "pending": "Pending",
     "completed": "Completed",
     "cancelled": "Cancelled"
+  },
+
+  "header": {
+    "small_text": "Cook, serve, impress",
+    "main_title_line1": "Smart kitchen essentials,",
+    "main_title_line2": "For everyday chefs",
+    "bottom_text_bold": "Upgrade",
+    "bottom_text_light": " your Kitchen,",
+    "bottom_subtext": "elevate your cooking"
+  },
+
+  "hero": {
+    "welcome": "Welcome",
+    "description": "Almanzel-Alhadith where elegance meets functionality. We bring you a curated selection of premium kitchen tools, home essentials, and tasteful gift collections.",
+    "logo_alt": "Almanzel-Alhadith Logo"
+  },
+
+  "slider": {
+    "drag": "Drag"
+  },
+
+  "essential_to_prep": {
+    "title": "Essential to prep",
+    "description": "Quality homeware essentials designed to make everyday living easier, more organized, and more stylish.",
+    "add_to_cart": "Add to cart",
+    "adding": "Adding...",
+    "view_more": "view more",
+    "cart_login_warning": "You have to login first!",
+    "cart_success": "{{product}} added to cart successfully!",
+    "cart_error": "Failed to add {{product}} to cart"
+  },
+
+  "about_section": {
+    "title": "Intro to the company",
+    "description": "Almanzel-Alhadith is a company specializing in providing high-quality kitchen tools and hospitality equipment for homes, restaurants, and hotels.",
+    "core_products": "Our core product range includes:",
+    "product_list": [
+      "Elegant glassware, cups, mugs, jars, and all tabletop essentials.",
+      "Decorative homeware, gifts, crystal items, and ornaments. Premium",
+      "White porcelain and embellished or gold-accented porcelain for fine dining.",
+      "Durable stainless steel and high-grade metal kitchen tools.",
+      "Specialized equipment for meat, dairy, and cold storage. Quality",
+      "Plastic kitchenware, including chopping boards and fridge containers."
+    ],
+    "we": "We",
+    "we_description": "combine functionality with refined aesthetics to meet the needs of both domestic and professional kitchens."
+  },
+
+  "most_product": {
+    "title_main": "Most",
+    "title_sub": "Popular",
+    "description_line1": "We preserve every moment with gifts that speak from the heart",
+    "description_line2": "Timeless pieces crafted to celebrate love, warmth, and meaningful occasions.",
+    "show_products": "Click to show products",
+    "footer_description": "Specialized in many different home tools and kitchenware in addition to other restaurant and hotel equipment."
   }
 }

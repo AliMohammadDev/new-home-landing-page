@@ -10,8 +10,10 @@ import { useGetCategories } from '../../api/categories';
 import AboutSection from '../../components/AboutSection';
 import { useGetProductsVariantsByLimit, useGetSlidersProductsVariants } from '../../api/products';
 import AnimateOnScroll from '../../components/AnimateOnScroll';
+import { useTranslation } from 'react-i18next';
 
 const Home = () => {
+  const { t, i18n } = useTranslation();
   const { data: categories = [] } = useGetCategories();
   const { data: sliderProducts = [] } = useGetSlidersProductsVariants();
   const { data: variantsByLimit = [] } = useGetProductsVariantsByLimit();
@@ -35,22 +37,24 @@ const Home = () => {
 
         {/* Hero / Welcome Section */}
         <AnimateOnScroll direction="up" delay={0.1}>
-
+          {/* Title */}
           <h1 className="text-center text-white font-[Qanduchia] text-4xl sm:text-2xl md:text-3xl lg:text-8xl">
-            Welcome{' '}
+            {t('hero.welcome')}
           </h1>
-          {/* divider */}
+
+          {/* Divider */}
           <div className="w-24 h-0.5 bg-white mx-auto mt-4 mb-6"></div>
 
+          {/* Description */}
           <p className="font-[Expo-arabic] text-2xl p-4 text-white text-center">
-            Almanzel-Alhadith where elegance meets functionality. We bring you a
-            curated selection of premium kitchen tools, home essentials, and
-            tasteful gift collections.
+            {t('hero.description')}
           </p>
+
+          {/* Logo */}
           <div className="flex justify-center mt-20">
             <img
               src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
-              alt="Logo"
+              alt={t('hero.logo_alt')}
               className="w-full max-w-[880px] md:w-[570px] h-auto object-contain"
             />
           </div>
@@ -62,13 +66,27 @@ const Home = () => {
         <AnimateOnScroll direction="up" delay={0.2}>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-20 p-2 sm:p-2 md:p-4">
             <div className="text-center text-white transition-shadow duration-300">
-              <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[140px]  font-[Qanduchia]">
-                Our
-              </span>
-              <p className="transform -translate-y-12 translate-x-5 md:-translate-y-14 md:translate-x-9 font-[Asteroid]  text-[50px] md:text-[60px] lg:text-[100px]">
-                Product
-              </p>
+              {i18n.language === 'ar' ? (
+                <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[140px] font-[Qanduchia] block">
+                  {t('navbar.our_products')}
+                </span>
+              ) : (
+                <>
+                  {t('navbar.our_products').split(' ').map((word, idx) => (
+                    idx === 0 ? (
+                      <span key={idx} className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[140px] font-[Qanduchia] block">
+                        {word}
+                      </span>
+                    ) : (
+                      <p key={idx} className="transform -translate-y-12 translate-x-5 md:-translate-y-14 md:translate-x-9 font-[Asteroid] text-[50px] md:text-[60px] lg:text-[100px] block">
+                        {word}
+                      </p>
+                    )
+                  ))}
+                </>
+              )}
             </div>
+
 
             {categories.map((category) => (
               <CategoryCard

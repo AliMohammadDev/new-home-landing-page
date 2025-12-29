@@ -102,7 +102,6 @@ const Navbar = () => {
                 onClick={() => setIsProductMenuOpen(false)}
               >
                 {category.name}
-                {/* هنا نستخدم ChevronLeftIcon للغة العربية */}
                 {i18n.language === 'ar' ? (
                   <ChevronLeftIcon color="white" className="text-primary duration-150 sm:scale-100" />
                 ) : (
@@ -128,7 +127,7 @@ const Navbar = () => {
 
 
         {/* Desktop Actions (Cart, Profile, Lang) - Hidden on Mobile */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center">
           {profile ? (
             <div className="flex items-center gap-1">
               {/* Cart Button */}
@@ -283,9 +282,40 @@ const Navbar = () => {
                 <NavLink to="/login" className="px-4 py-2">{t('navbar.login')}</NavLink>
               )}
 
-              <div className="w-full border-t border-white/10 mt-2 pt-2">
-                <button onClick={() => changeLanguage('en')} className="px-4 py-1 text-xs">EN</button>
-                <button onClick={() => changeLanguage('ar')} className="px-4 py-1 text-xs">AR</button>
+              <div className="w-full border-t border-white/10 mt-4 pt-4 flex items-center justify-around gap-2">
+                <button
+                  onClick={() => changeLanguage('en')}
+                  className={clsx(
+                    "flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-[Expo-bold] transition-all duration-200 border",
+                    i18n.language === 'en'
+                      ? "bg-white text-[#025043] border-white shadow-lg"
+                      : "bg-white/5 text-white border-white/10 hover:bg-white/10"
+                  )}
+                >
+                  <img
+                    src="https://flagcdn.com/w40/gb.png"
+                    alt="English"
+                    className="w-4 h-3 object-cover rounded-sm"
+                  />
+                  ENGLISH
+                </button>
+
+                <button
+                  onClick={() => changeLanguage('ar')}
+                  className={clsx(
+                    "flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-[Expo-bold] transition-all duration-200 border",
+                    i18n.language === 'ar'
+                      ? "bg-white text-[#025043] border-white shadow-lg"
+                      : "bg-white/5 text-white border-white/10 hover:bg-white/10"
+                  )}
+                >
+                  <img
+                    src="https://flagcdn.com/w40/sy.png"
+                    alt="Arabic"
+                    className="w-4 h-3 object-cover rounded-sm"
+                  />
+                  العربية
+                </button>
               </div>
             </div>
           </div>

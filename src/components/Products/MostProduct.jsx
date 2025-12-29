@@ -2,12 +2,14 @@ import { useState } from 'react';
 import Slider from 'react-slick';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
-import ArrowRightLong from '../../assets/icons/ArrowRightLong.jsx';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import ArrowLeftIcon from '../../assets/icons/ArrowLeftIcon.jsx';
+import ArrowRightIcon from '../../assets/icons/ArrowRightIcon.jsx';
 
 function MostProduct({ products = [] }) {
   const [currentSlide, setCurrentSlide] = useState(0);
-
+  const { t, i18n } = useTranslation();
 
   const CustomArrow = ({ onClick, direction }) => (
     <button
@@ -21,11 +23,7 @@ function MostProduct({ products = [] }) {
         zIndex: 10,
       }}
     >
-      {direction === 'next' ? (
-        <ChevronRightIcon color="white" />
-      ) : (
-        <ChevronLeftIcon color="black" />
-      )}
+      {direction === 'next' ? <ChevronRightIcon color="white" /> : <ChevronLeftIcon color="black" />}
     </button>
   );
 
@@ -47,60 +45,49 @@ function MostProduct({ products = [] }) {
     ],
   };
 
-  // const progress = ((currentSlide + 1) / 4) * 100;
   const progress = products.length > 0 ? ((currentSlide + 1) / products.length) * 100 : 0;
-
 
   return (
     <section className="bg-[#EDEAE2] md:px-20 py-10 md:py-5">
       <div className="grid grid-cols-1 md:grid-cols-2 items-start">
-        {/* text */}
+        {/* Text */}
         <div className="flex flex-col">
           <div className="flex flex-col mt-40 md:mt-10 md:flex-row items-center gap-10">
             <span className="font-[Expo-arabic] text-7xl md:text-6xl xl:text-8xl text-black">
-              Most
+              {t('most_product.title_main')}
             </span>
             <span className="font-[Asteroid] mb-20 md:mb-0 text-8xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-8xl">
-              Popular
+              {t('most_product.title_sub')}
             </span>
           </div>
-          <div className=" md:text-xl lg:text-xl mt-4 md:mt-8 ml-5 md:ml-0">
-            <p>We preserve every moment with gifts that speak from the heart</p>
-            <p className="mt-2">
-              timeless pieces crafted to celebrate love, warmth, and meaningful
-              occasions.
-            </p>
+          <div className="md:text-xl lg:text-xl mt-4 md:mt-8 ml-5 md:ml-0">
+            <p>{t('most_product.description_line1')}</p>
+            <p className="mt-2">{t('most_product.description_line2')}</p>
           </div>
 
-          <Link to={'/products'} >
+          <Link to={'/products'}>
             <div className="ml-4 md:ml-0 text-sm font-[Expo-arabic] cursor-pointer flex items-center gap-1">
-              click to show products <ArrowRightLong />
+              {t('most_product.show_products')}
+              {i18n.language === 'ar' ? <ArrowLeftIcon /> : <ArrowRightIcon />}
             </div>
           </Link>
         </div>
 
-        <div className="relative w-full">
+        {/* Slider */}
+        <div className="relative w-full mt-10 md:mt-0">
           <Slider {...settings}>
             {products.map((product, i) => (
               <div key={i} className="md:px-1">
-                <div
-                  key={i}
-                  className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]"
-                >
+                <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
                   <img
                     src={product.image}
-                    alt="stainless steel cookware"
+                    alt={product.name}
                     className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
                   />
-
                   <div className="mt-5 ml-3 md:ml-3">
-                    <h3 className="text-black text-[16px] font-[Qanduchia] mb-2">
-                      {product.name}
-                    </h3>
-                    <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3">
-                      {product.body}
-                    </p>
-                    <span> {product.final_price} $</span>
+                    <h3 className="text-black text-[16px] font-[Qanduchia] mb-2">{product.name}</h3>
+                    <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3">{product.body}</p>
+                    <span>{product.final_price} $</span>
                   </div>
                 </div>
               </div>
@@ -117,9 +104,9 @@ function MostProduct({ products = [] }) {
           </div>
         </div>
       </div>
+
       <div className="flex justify-center items-center text-center mt-20 text-black font-[Expo-arabic] mx-auto max-w-2xl">
-        specialized in many different home tools and kitchenware in addition to
-        other restaurant and hotels equipment and stuffs.
+        {t('most_product.footer_description')}
       </div>
     </section>
   );

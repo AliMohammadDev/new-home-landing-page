@@ -1,49 +1,57 @@
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import FacebookIcon from '../assets/icons/FacebookIcon';
 import InstagramIcon from '../assets/icons/InstagramIcon';
 import WhatsappIcon from '../assets/icons/WhatsappIcon';
 import TelegramIcon from '../assets/icons/TelegramIcon';
 
 const Header = () => {
+  const { t, i18n } = useTranslation();
 
+  const isRTL = i18n.language === 'ar';
 
   return (
     <div
       className="
-    w-full 
-    h-screen 
-    xl:h-[1500px] 
-    2xl:h-[1800px]
-    bg-cover bg-no-repeat bg-center md:bg-right 
-    relative
-    "
-      style={{ backgroundImage: `url(https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358692/HomePage_xvczts.png)` }}
+        w-full 
+        h-screen 
+        xl:h-[1500px] 
+        2xl:h-[1800px]
+        bg-cover bg-no-repeat bg-center md:bg-right 
+        relative
+      "
+      style={{
+        backgroundImage: `url(https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358692/HomePage_xvczts.png)`,
+      }}
+      dir={isRTL ? 'rtl' : 'ltr'} // يضمن توزيع العناصر حسب اتجاه اللغة
     >
-
       {/* TEXT CONTAINER */}
       <div
-        className="
+        className={`
           absolute z-10
           top-20 sm:top-16 md:top-8 lg:top-24 xl:top-[400px] 
-          left-6 sm:left-10 md:left-16 lg:left-1 xl:left-5 2xl:left-30
+          /* التموضع الديناميكي: يبدأ من اليمين في العربي واليسار في الإنجليزي */
+          ${isRTL ? 'right-6 sm:right-10 md:right-16 lg:right-1 xl:right-5 2xl:right-30' : 'left-6 sm:left-10 md:left-16 lg:left-1 xl:left-5 2xl:left-30'}
           p-4 sm:p-6 md:p-10 
           text-white font-[Expo-arabic]
-        "
+          ${isRTL ? 'text-right' : 'text-left'}
+        `}
       >
         {/* Header small text */}
         <div className="flex items-center gap-2 md:gap-3 mb-6 sm:mb-10 md:mb-4">
           <div className="w-6 h-px bg-[#E2995E]" />
           <span className="text-[#E2995E] text-sm sm:text-lg md:text-2xl lg:text-3xl">
-            Cook, serve, impress
+            {t('header.small_text')}
           </span>
         </div>
 
         {/* Main title */}
-        <div className="ml-6 sm:ml-8 md:ml-14 -translate-y-4 md:translate-y-0">
+        <div className="ms-6 sm:ms-8 md:ms-14">
           <p className="text-sm sm:text-xl md:text-2xl lg:text-4xl font-[Qanduchia] mb-2">
-            Smart kitchen essentials,
+            {t('header.main_title_line1')}
           </p>
-          <p className="text-sm sm:text-xl md:text-2xl lg:text-4xl font-[Qanduchia] ml-6 sm:ml-2">
-            For everyday chefs
+          <p className="ms-6 sm:ms-2 text-sm sm:text-xl md:text-2xl lg:text-4xl font-[Qanduchia]">
+            {t('header.main_title_line2')}
           </p>
         </div>
 
@@ -58,19 +66,15 @@ const Header = () => {
         </div>
 
         {/* Bottom Main Text */}
-        <div
-          className="
-            mt-25 sm:mt-16 md:mt-20 lg:mt-10 xl:mt-30 2xl:mt-60
-            ml-6 sm:ml-16 md:ml-24 lg:ml-40 xl:ml-60"
-        >
+        <div className="mt-25 sm:mt-16 md:mt-20 lg:mt-10 xl:mt-30 2xl:mt-60 ms-6 sm:ms-16 md:ms-24 lg:ms-40 xl:ms-60">
           <p>
             <span className="font-[Asteroid] text-4xl sm:text-5xl md:text-7xl">
-              Upgrade
+              {t('header.bottom_text_bold')}
             </span>
-            <span className="font-[Expo-light]"> your Kitchen,</span>
+            <span className="font-[Expo-light] space-x-2 rtl:space-x-reverse">{t('header.bottom_text_light')}</span>
           </p>
-          <p className="font-[Expo-light] ml-10 md:ml-20 text-sm sm:text-base md:text-lg">
-            elevate your cooking
+          <p className="font-[Expo-light] ms-10 md:ms-20 text-sm sm:text-base md:text-lg">
+            {t('header.bottom_subtext')}
           </p>
         </div>
       </div>

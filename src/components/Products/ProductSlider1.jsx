@@ -7,11 +7,16 @@ import { addToast } from '@heroui/react';
 import { useGetProfile } from '../../api/auth.jsx';
 import RatingStars from '../RatingStars.jsx';
 import { useAddToCartItem } from '../../api/cart.jsx';
+import { useTranslation } from 'react-i18next';
+
 function ProductSlider1({ products = [] }) {
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
   const [currentSlide, setCurrentSlide] = useState(0);
   const { data: user } = useGetProfile();
 
   const { mutate: addToCart, isLoading } = useAddToCartItem();
+
   const handleAddCartItem = (variant) => {
     if (!user) {
       addToast({
@@ -19,206 +24,153 @@ function ProductSlider1({ products = [] }) {
         description: 'You have to login first!',
         color: 'warning',
         duration: 4000,
-        isClosable: true,
       });
       return;
     }
 
     addToCart(
-      {
-        product_variant_id: variant.id,
-        quantity: 1,
-      },
+      { product_variant_id: variant.id, quantity: 1 },
       {
         onSuccess: () => {
           addToast({
             title: 'Cart',
-            description: `${variant.product.name} added to cart successfully!`,
+            description: `${variant.product.name} added successfully!`,
             color: 'success',
             duration: 4000,
-            isClosable: true,
-          });
-        },
-        onError: () => {
-          addToast({
-            title: 'Cart',
-            description: `Failed to add ${variant.product.name} to cart`,
-            color: 'error',
-            duration: 4000,
-            isClosable: true,
           });
         },
       }
     );
   };
 
-
   const CustomArrow = ({ onClick, direction, currentSlide, slideCount }) => {
     const isDisabled =
       (direction === 'prev' && currentSlide === 0) ||
       (direction === 'next' && currentSlide === slideCount - 1);
 
+    // عكس المنطق في RTL: اليمين يصبح يسار واليسار يصبح يمين
+    const isNext = direction === 'next';
+
     return (
       <button
         onClick={onClick}
         disabled={isDisabled}
-        className={`absolute -top-10 md:-top-14 cursor-pointer rounded-full w-8 h-8 mr-1 md:w-12 md:h-12 flex items-center justify-center transition
-        ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300 hover:text-white'}
+        className={`absolute -top-10 md:-top-14 cursor-pointer rounded-full w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition z-10
+        ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300'}
       `}
         style={{
-          right: direction === 'next' ? 0 : 50,
-          zIndex: 10,
+          [isRTL ? 'left' : 'right']: isNext ? 0 : 56,
         }}
       >
-        {direction === 'next' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+        {isNext ? (
+          isRTL ? <ChevronLeftIcon /> : <ChevronRightIcon />
+        ) : (
+          isRTL ? <ChevronRightIcon /> : <ChevronLeftIcon />
+        )}
       </button>
     );
   };
 
   const settings = {
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
-    pauseOnHover: true,
+    rtl: isRTL, // تفعيل خاصية RTL البرمجية في السلايدر
     nextArrow: <CustomArrow direction="next" />,
     prevArrow: <CustomArrow direction="prev" />,
     afterChange: (current) => setCurrentSlide(current),
     responsive: [
       { breakpoint: 1280, settings: { slidesToShow: 3 } },
-      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 1024, settings: { slidesToShow: 2 } },
       { breakpoint: 640, settings: { slidesToShow: 1 } },
     ],
   };
 
   const progress = products.length > 0 ? ((currentSlide + 1) / products.length) * 100 : 0;
 
-  // const { mutate: addReview } = useAddReviews();
-  // const handleRateProduct = (variantId, rating) => {
-  //   if (!user) {
-  //     addToast({
-  //       title: 'Rating',
-  //       description: 'You have to login first!',
-  //       color: 'warning',
-  //       duration: 4000,
-  //       isClosable: true,
-  //     });
-  //     return;
-  //   }
-  //   addReview(
-  //     {
-  //       product_variant_id: variantId,
-  //       rating,
-  //     },
-  //     {
-  //       onSuccess: () => {
-  //         addToast({
-  //           title: 'Thank you!',
-  //           description: 'Your review has been submitted',
-  //           color: 'success',
-  //         });
-  //       },
-  //       onError: (error) => {
-  //         addToast({
-  //           title: 'Error',
-  //           description:
-  //             error.response?.data?.message || 'Failed to submit review',
-  //           color: 'error',
-  //         });
-  //       }
-  //     }
-  //   );
-
-  // };
-
-
   return (
-    <>
-      {/* Essential to prep */}
-      <section className="bg-[#EDEAE2] text-[#025043] md:px-20 md:py-10">
-        <span className="font-[Qanduchia] text-black text-[40px] md:text-[64px] block mb-6 pl-4 md:pl-0">
-          Essential to prep
-          <p className="text-black text-[14px] font-[Expo-book] md:text-[15px]">
-            Quality homeware essentials designed to make everyday living easier,
-            more organized, and more stylish.
-          </p>
-        </span>
-        {/* Slider */}
-        <div className="grid grid-cols-1 gap-10 relative">
-          <Slider {...settings}>
+    <section
+      className="bg-[#EDEAE2] text-[#025043] px-6 md:px-20 py-10"
+      dir={isRTL ? 'rtl' : 'ltr'}
+    >
+      {/* Title + Description */}
+      <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
+        <h2 className="font-[Qanduchia] text-black text-[40px] md:text-[64px] mb-4">
+          {t('essential_to_prep.title')}
+        </h2>
+        <p className="text-black text-[14px] md:text-[15px] font-[Expo-book] max-w-3xl">
+          {t('essential_to_prep.description')}
+        </p>
+      </div>
 
-            {products.map((variant) => {
-              const product = variant.product;
+      {/* Slider Container */}
+      <div className="relative">
+        <Slider {...settings}>
+          {products.map((variant) => {
+            const product = variant.product;
+            return (
+              <div key={variant.id} className="px-2">
+                <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-48 sm:h-56 md:h-64 object-cover"
+                  />
+                  <div className="p-4 flex flex-col gap-3 flex-1">
+                    <h3 className="text-[#025043] text-[16px] font-bold h-12 overflow-hidden">
+                      {product.name}
+                    </h3>
 
-              return (
-                <div key={variant.id} className="md:px-1">
-                  <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
-                    <img
-                      src={product.image}
-                      alt="stainless steel cookware"
-                      className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
-                    />
-                    <div className="p-4">
-                      <h3 className="text-[#025043] text-[16px] font-medium mb-2">
-                        {product.name}
-                      </h3>
+                    <div className="border-b border-[#025043]/20"></div>
 
-                      <div className="border-b border-[#025043]/50 mb-3"></div>
+                    <p className="text-[#025043] text-[18px] font-bold">
+                      {product.final_price} $
+                    </p>
 
-                      <p className="text-[#025043] text-[18px] font-semibold mb-4">
-                        {product.final_price} $
-                      </p>
-
-                      <div className="flex flex-col gap-3 text-[#025043]">
-                        {/* reviews + view more */}
-                        <div className="flex items-center gap-1 text-sm flex-wrap">
-                          <RatingStars rating={Number(variant.reviews_avg) || 0} />
-                          <span className="text-xs text-gray-500">
-                            ({variant.reviews_count || 0})
-                          </span>
-                          <Link
-                            to="/products"
-                            className="text-sm hover:underline ml-2 whitespace-nowrap"
-                          >
-                            view more
-                          </Link>
-                        </div>
-
-                        {/* add to cart */}
-                        <button
-                          onClick={() => handleAddCartItem(variant)}
-                          disabled={isLoading}
-                          className="w-full bg-[#025043] text-white text-sm px-4 py-2 rounded-full 
-             hover:bg-[#01382f] transition disabled:opacity-50 
-             flex items-center justify-center"
-                        >
-                          {isLoading ? 'Adding...' : 'Add to cart'}
-                        </button>
-
-                      </div>
-
+                    <div className="flex items-center gap-2 text-sm flex-wrap">
+                      <RatingStars rating={Number(variant.reviews_avg) || 0} />
+                      <span className="text-xs text-gray-400">
+                        ({variant.reviews_count || 0})
+                      </span>
+                      <Link
+                        to={`/product/${variant.id}`}
+                        className={`text-sm hover:underline font-medium ${isRTL ? 'mr-auto' : 'ml-auto'}`}
+                      >
+                        {t('essential_to_prep.view_more')}
+                      </Link>
                     </div>
+
+                    <button
+                      onClick={() => handleAddCartItem(variant)}
+                      disabled={isLoading}
+                      className="w-full bg-[#025043] text-white  cursor-pointer text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
+                    >
+                      {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
+                    </button>
                   </div>
                 </div>
-              )
+              </div>
+            );
+          })}
+        </Slider>
 
-            })}
-
-          </Slider>
-
-          <div className="mt-6 px-2 md:px-0">
-            <div className="w-full h-1 md:h-1 bg-gray-300 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-gray-500 rounded-full transition-all duration-300"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
+        {/* Progress Bar Container */}
+        <div className="mt-8 px-2 md:px-0">
+          <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+            <div
+              className={`h-full bg-[#025043] rounded-full transition-all duration-500 ease-out`}
+              style={{
+                width: `${progress}%`,
+                float: isRTL ? 'right' : 'left'
+              }}
+            />
           </div>
         </div>
-      </section>
-    </>
+      </div>
+    </section>
   );
 }
 
