@@ -4,30 +4,29 @@ import FavoriteIcon from '../../assets/icons/FavoriteIcon';
 import { useGetAllWishlist, useRemoveWishlist } from '../../api/wishlist';
 import { useAddToCartItem } from '../../api/cart';
 import { useGetProfile } from '../../api/auth';
+import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 function Wishlists() {
+  const { t, i18n } = useTranslation();
+  const isAr = i18n.language === 'ar';
+
   const removeWishlist = useRemoveWishlist();
-
   const [page, setPage] = useState(1);
-
-  const { data: response } = useGetAllWishlist(page);
-
+  const { data: response, isLoading: isWishlistLoading } = useGetAllWishlist(page);
   const wishlistItems = response?.data || [];
   const meta = response?.meta;
 
   const { data: user } = useGetProfile();
-
   const { mutate: addToCart, isLoading: isAdding } = useAddToCartItem();
 
-  // Add to cart
+  // إضافة منتج للسلة
   const handleAddCartItem = (item) => {
     if (!user) {
       addToast({
-        title: 'Cart',
-        description: 'You have to login first!',
+        title: t('cart.title') || 'Cart',
+        description: t('wishlist.loginRequired'),
         color: 'warning',
-        duration: 4000,
-        isClosable: true,
       });
       return;
     }
@@ -40,157 +39,169 @@ function Wishlists() {
       {
         onSuccess: () => {
           addToast({
-            title: 'Cart',
-            description: `${item.product_variant.name} added to cart successfully!`,
+            title: t('cart.title') || 'Cart',
+            description: `${item.product_variant.name} ${t('wishlist.addedSuccess')}`,
             color: 'success',
-            duration: 4000,
-            isClosable: true,
           });
         },
         onError: () => {
           addToast({
-            title: 'Cart',
-            description: `Failed to add ${item.product_variant.name} to cart`,
+            title: t('cart.title') || 'Cart',
+            description: t('wishlist.addedError'),
             color: 'error',
-            duration: 4000,
-            isClosable: true,
           });
         },
       }
     );
   };
 
-  // Remove from wishlist
   const handleRemoveWishlist = (wishlistId, productName) => {
     removeWishlist.mutate(wishlistId, {
       onSuccess: () => {
         addToast({
-          title: 'Wishlist',
-          description: `${productName} removed from wishlist successfully!`,
+          title: t('wishlist.title'),
+          description: `${productName} ${t('wishlist.removedSuccess')}`,
           color: 'success',
-          duration: 4000,
-          isClosable: true,
         });
       },
-      onError: (error) => {
+      onError: () => {
         addToast({
-          title: 'Wishlist',
-          description:
-            error.response?.data?.message ||
-            'Failed to remove product from wishlist.',
+          title: t('wishlist.title'),
+          description: t('wishlist.removedError'),
           color: 'error',
-          duration: 4000,
-          isClosable: true,
         });
       },
     });
   };
 
+  if (isWishlistLoading) {
+    return (
+      <div className="w-full bg-[#025043] min-h-screen flex items-center justify-center text-white font-[Expo-arabic]">
+        <p className="animate-pulse">{t('wishlist.loading') || 'Loading...'}</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-full bg-[#025043] min-h-screen px-6 lg:px-24 py-24 font-[Expo-arabic] text-white">
+    <div
+      className="w-full bg-[#025043] min-h-screen px-4 md:px-12 lg:px-24 py-24 font-[Expo-arabic] text-white"
+      dir={isAr ? 'rtl' : 'ltr'}
+    >
       {/* Header */}
       <div className="text-center mb-16">
-        <div className="flex justify-center mb-4">
-          <FavoriteIcon size={48} />
+        <div className="flex justify-center mb-4 transition-transform hover:scale-110 duration-300">
+          <FavoriteIcon size={54} color="white" />
         </div>
-        <h1 className="text-4xl font-bold tracking-wide">My Wishlist</h1>
+        <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
+          {t('wishlist.title')}
+        </h1>
       </div>
 
-      <div className="flex justify-center my-6">
-        <div className="w-100 h-px bg-white/70"></div>
-      </div>
+      {/* Main Content */}
+      <div className="max-w-6xl mx-auto">
+        {wishlistItems.length === 0 ? (
+          <div className="text-center py-20 bg-white/5 rounded-3xl border border-white/10">
+            <p className="text-xl text-gray-300">{t('wishlist.empty') || 'Your wishlist is empty'}</p>
+          </div>
+        ) : (
+          <div className="w-full overflow-x-auto custom-scrollbar">
+            <table className="w-full border-collapse min-w-[700px]">
+              <thead>
+                <tr className="border-b border-white/20 text-sm text-gray-300">
+                  <th className="text-start py-4 px-4 font-light">{t('wishlist.productName')}</th>
+                  <th className="text-start py-4 px-4 font-light">{t('wishlist.unitPrice')}</th>
+                  <th className="text-end py-4 px-4 font-light"></th>
+                </tr>
+              </thead>
 
-      {/* Table */}
-      <div className="w-full overflow-x-auto">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="border-b text-sm text-white">
-              <th className="text-left py-4">Product name</th>
-              <th className="text-left py-4">Unit price</th>
-              <th className="text-right py-4"></th>
-            </tr>
-          </thead>
+              <tbody>
+                {wishlistItems.map((item) => (
+                  <tr
+                    key={item.id}
+                    className="border-b border-white/10 last:border-none group hover:bg-white/5 transition-all duration-300"
+                  >
+                    {/* Product Info */}
+                    <td className="py-6 px-4">
+                      <div className="flex items-center gap-6">
+                        <button
+                          onClick={() => handleRemoveWishlist(item.id, item.product_variant?.name)}
+                          className="text-white/30 hover:text-red-400 cursor-pointer transition-colors p-1"
+                          title={t('wishlist.remove')}
+                        >
+                          <span className="text-lg">✕</span>
+                        </button>
 
-          <tbody>
-            {wishlistItems.map((item) => (
-              <tr key={item.id} className="border-b last:border-none">
-                <td className="py-6">
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() =>
-                        handleRemoveWishlist(
-                          item.id,
-                          item.product_variant?.name
-                        )
-                      }
-                      className="text-white/50 cursor-pointer hover:text-red-400 transition text-sm"
-                    >
-                      ✕
-                    </button>
+                        <div className="relative group-hover:scale-105 transition-transform duration-300">
+                          <img
+                            src={item.product_variant?.image}
+                            alt={item.product_variant?.name}
+                            className="w-16 h-20 object-cover rounded-lg shadow-lg border border-white/10"
+                          />
+                        </div>
 
-                    <img
-                      src={item.product_variant?.image}
-                      alt={item.product_variant?.name}
-                      className="w-16 h-20 object-cover"
-                    />
+                        <span className="font-medium text-lg tracking-wide">
+                          {item.product_variant?.name}
+                        </span>
+                      </div>
+                    </td>
 
-                    <span className="font-medium">
-                      {item.product_variant?.name}
-                    </span>
-                  </div>
-                </td>
+                    {/* Unit Price */}
+                    <td className="py-6 px-4">
+                      <span className="text-[#E2995E] font-bold text-xl">
+                        {item.product_variant?.final_price} $
+                      </span>
+                    </td>
 
-                <td className="py-6">
-                  <div className="flex gap-2 items-center">
-                    <span className="line-through text-gray-400">
-                      ${item.product_variant?.price}
-                    </span>
-                    <span className="text-[#E2995E] font-semibold">
-                      ${item.product_variant?.final_price}
-                    </span>
-                  </div>
-                </td>
+                    {/* Action & Date */}
+                    <td className="py-6 px-4">
+                      <div className="flex flex-col items-end gap-3">
+                        <span className="text-[11px] text-gray-400 font-light italic">
+                          {t('wishlist.addedOn')} {new Date(item.created_at).toLocaleDateString(isAr ? 'ar-EG' : 'en-US')}
+                        </span>
 
-                <td className="py-6 text-right">
-                  <div className="flex flex-col items-end gap-2">
-                    <span className="text-xs text-gray-400">
-                      Added on: {item.created_at}
-                    </span>
+                        <button
+                          onClick={() => handleAddCartItem(item)}
+                          disabled={isAdding}
+                          className={clsx(
+                            "bg-white text-[#025043] font-bold px-8 py-2.5 rounded-full text-sm",
+                            "hover:bg-[#E2995E] hover:text-white transition-all duration-300",
+                            "active:scale-95 disabled:opacity-50 shadow-md cursor-pointer"
+                          )}
+                        >
+                          {isAdding ? t('wishlist.adding') : t('wishlist.addToCart')}
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
 
-                    <button
-                      onClick={() => handleAddCartItem(item)}
-                      disabled={isAdding}
-                      className="bg-white text-black px-5 py-2 cursor-pointer rounded-full text-sm hover:bg-gray-200 transition"
-                    >
-                      {isAdding ? 'Adding...' : 'Add to cart'}
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
+        {/* Pagination */}
         {meta && meta.last_page > 1 && (
-          <div className="flex justify-center items-center gap-6 mt-12">
+          <div className="flex justify-center items-center gap-8 mt-16 pt-8 border-t border-white/10">
             <button
               disabled={meta.current_page === 1}
               onClick={() => setPage((p) => p - 1)}
-              className="px-5 py-2 rounded-full cursor-pointer bg-white/10 disabled:opacity-40 hover:bg-white/20 transition"
+              className="text-sm uppercase tracking-widest disabled:opacity-30 hover:text-[#E2995E] transition-colors cursor-pointer"
             >
-              Previous
+              {t('wishlist.previous') || (isAr ? 'السابق' : 'Previous')}
             </button>
 
-            <span className="text-sm text-white/70">
-              Page {meta.current_page} of {meta.last_page}
-            </span>
+            <div className="flex items-center gap-2 font-medium">
+              <span className="text-[#E2995E]">{meta.current_page}</span>
+              <span className="text-gray-400">/</span>
+              <span>{meta.last_page}</span>
+            </div>
 
             <button
               disabled={meta.current_page === meta.last_page}
               onClick={() => setPage((p) => p + 1)}
-              className="px-5 py-2 rounded-full cursor-pointer bg-white/10 disabled:opacity-40 hover:bg-white/20 transition"
+              className="text-sm uppercase tracking-widest disabled:opacity-30 hover:text-[#E2995E] transition-colors cursor-pointer"
             >
-              Next
+              {t('wishlist.next') || (isAr ? 'التالي' : 'Next')}
             </button>
           </div>
         )}

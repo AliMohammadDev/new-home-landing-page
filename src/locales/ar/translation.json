@@ -85,5 +85,120 @@
     "my_wishlist": "المفضلة",
     "my_orders": "طلباتي",
     "logout": "تسجيل خروج"
+  },
+
+  "cart": {
+    "button": "السلة",
+    "empty": "سلتك فارغة.",
+    "product": "المنتج",
+    "price": "السعر",
+    "qty": "الكمية",
+    "remove": "حذف",
+    "total": "الإجمالي",
+    "checkout": "إتمام الشراء",
+    "my_cart": "سلتي",
+    "loading": "جارٍ تحميل السلة...",
+    "quantity": "الكمية",
+    "subtotal": "المجموع الفرعي",
+    "proceed_checkout": "المتابعة إلى الدفع",
+    "removed_success": "تم إزالة {{product}} من السلة بنجاح!"
+  },
+
+  "checkout": {
+    "contact_information": "معلومات الاتصال",
+    "address": "العنوان",
+    "first_name": "الاسم الأول",
+    "last_name": "اسم العائلة",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "country": "البلد",
+    "city": "المدينة",
+    "street": "الشارع",
+    "floor": "المبنى / الطابق",
+    "postal_code": "الرمز البريدي",
+    "additional_information": "معلومات إضافية",
+    "save_continue": "حفظ والمتابعة",
+    "sending": "جارٍ الإرسال..."
+  },
+  "toast": {
+    "no_active_cart": "لا يوجد سلة نشطة!",
+    "success": "تم إرسال الرسالة بنجاح!",
+    "failed": "فشل الحفظ. يرجى المحاولة مرة أخرى."
+  },
+
+  "profile": {
+    "edit_profile": "تعديل الملف الشخصي",
+    "full_name": "الاسم الكامل",
+    "email": "البريد الإلكتروني",
+    "new_password": "كلمة المرور الجديدة",
+    "confirm_password": "تأكيد كلمة المرور",
+    "saving": "جاري الحفظ...",
+    "save_changes": "حفظ التغييرات",
+    "email_status": "حالة البريد الإلكتروني",
+    "active": "نشط",
+    "orders": "الطلبات",
+    "view_orders": "عرض الطلبات",
+    "logout": "تسجيل الخروج",
+    "profile_updated": "تم تحديث الملف الشخصي بنجاح"
+  },
+
+  "orders": {
+    "loading": "جاري تحميل الطلبات الخاصة بك...",
+    "myOrders": "طلباتي",
+    "noOrders": "لم تقم بتقديم أي طلبات بعد.",
+    "order": "الطلب",
+    "status": {
+      "pending": "قيد الانتظار",
+      "completed": "مكتمل",
+      "canceled": "ملغى"
+    },
+    "viewDetails": "عرض التفاصيل",
+    "latest": "الأحدث",
+    "previous": "السابق",
+    "next": "التالي",
+    "page": "صفحة",
+    "of": "من"
+  },
+
+  "wishlist": {
+    "title": "قائمة المفضلة",
+    "productName": "اسم المنتج",
+    "unitPrice": "سعر الوحدة",
+    "addToCart": "أضف إلى السلة",
+    "adding": "جارٍ الإضافة...",
+    "addedOn": "أضيف بتاريخ",
+    "loginRequired": "يجب تسجيل الدخول أولاً!",
+    "addedSuccess": "تمت إضافة المنتج إلى السلة بنجاح!",
+    "addedError": "فشل إضافة المنتج إلى السلة",
+    "removedSuccess": "تمت إزالة المنتج من المفضلة بنجاح!",
+    "removedError": "فشل إزالة المنتج من المفضلة.",
+    "previous": "السابق",
+    "next": "التالي",
+    "page": "صفحة",
+    "of": "من"
+  },
+
+  "order": {
+    "loading": "جاري تحميل الطلب...",
+    "error": "فشل تحميل معلومات الطلب",
+    "info_title": "معلومات الطلب",
+    "summary_title": "ملخص الطلب",
+    "status": "الحالة",
+    "total": "الإجمالي",
+    "created_at": "تاريخ الإنشاء",
+    "first_name": "الاسم الأول",
+    "last_name": "اسم العائلة",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "country": "الدولة",
+    "city": "المدينة",
+    "street": "الشارع",
+    "floor": "الطابق",
+    "postal_code": "الرمز البريدي",
+    "additional_info": "معلومات إضافية",
+    "quantity": "الكمية",
+    "pending": "قيد المعالجة",
+    "completed": "مكتمل",
+    "cancelled": "ملغي"
   }
 }

@@ -3,8 +3,10 @@ import { useEditProfile, useGetProfile } from '../../api/auth';
 import { useEffect } from 'react';
 import { addToast } from '@heroui/react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function Profile() {
+  const { t } = useTranslation();
   const { data: profile, isLoading } = useGetProfile();
 
   const {
@@ -21,8 +23,8 @@ function Profile() {
     error,
   } = useEditProfile(() => {
     addToast({
-      title: 'Update Profile',
-      description: 'Profile updated successfully',
+      title: t('profile.edit_profile'),
+      description: t('profile.profile_updated'),
       color: 'success',
       duration: 4000,
       isClosable: true,
@@ -72,7 +74,7 @@ function Profile() {
           }}
         >
           <h1 className="text-3xl font-[Expo-bold] text-center mb-10">
-            Edit Profile
+            {t('profile.edit_profile')}
           </h1>
 
           <form
@@ -81,9 +83,9 @@ function Profile() {
           >
             {/* Name */}
             <div className="flex flex-col">
-              <label className="mb-2 font-semibold">Full Name</label>
+              <label className="mb-2 font-semibold">{t('profile.full_name')}</label>
               <input
-                {...register('name', { required: 'Name is required' })}
+                {...register('name', { required: t('profile.full_name') })}
                 type="text"
                 className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white"
               />
@@ -96,9 +98,9 @@ function Profile() {
 
             {/* Email */}
             <div className="flex flex-col">
-              <label className="mb-2 font-semibold">Email</label>
+              <label className="mb-2 font-semibold">{t('profile.email')}</label>
               <input
-                {...register('email', { required: 'Email is required' })}
+                {...register('email', { required: t('profile.email') })}
                 type="email"
                 className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white"
               />
@@ -111,12 +113,12 @@ function Profile() {
 
             {/* Password */}
             <div className="flex flex-col">
-              <label className="mb-2 font-semibold">New Password</label>
+              <label className="mb-2 font-semibold">{t('profile.new_password')}</label>
               <input
                 {...register('password', {
                   minLength: {
                     value: 6,
-                    message: 'Password must be at least 6 characters',
+                    message: t('profile.new_password') + ' ' + 'must be at least 6 characters',
                   },
                 })}
                 type="password"
@@ -129,12 +131,12 @@ function Profile() {
             {password && (
               <div className="flex flex-col">
                 <label className="mb-2 font-semibold">
-                  Confirm Password
+                  {t('profile.confirm_password')}
                 </label>
                 <input
                   {...register('password_confirmation', {
                     validate: (value) =>
-                      value === password || 'Passwords do not match',
+                      value === password || t('profile.confirm_password') + ' ' + 'does not match',
                   })}
                   type="password"
                   className="px-4 py-2 rounded-lg text-black bg-white/90 focus:outline-none focus:ring-2 focus:ring-white"
@@ -156,9 +158,9 @@ function Profile() {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full py-3 bg-black hover:opacity-90 text-white rounded-lg font-semibold transition disabled:opacity-50"
+              className="w-full py-3 bg-black hover:opacity-90 text-white  cursor-pointer rounded-lg font-semibold transition disabled:opacity-50"
             >
-              {isPending ? 'Saving...' : 'Save Changes'}
+              {isPending ? t('profile.saving') : t('profile.save_changes')}
             </button>
           </form>
         </div>
@@ -185,15 +187,15 @@ function Profile() {
 
           {/* Account Info */}
           <div className="flex flex-col gap-3 text-sm">
-            <p>📧 Email status: <span className="font-semibold">Active</span></p>
-            <p>🛒 Orders: <Link to={'/my-orders'} className="font-semibold">View orders</Link></p>
+            <p>📧 {t('profile.email_status')}: <span className="font-semibold">{t('profile.active')}</span></p>
+            <p>🛒 {t('profile.orders')}: <Link to={'/my-orders'} className="font-semibold">{t('profile.view_orders')}</Link></p>
           </div>
 
           <div className="h-px bg-white/20" />
 
           {/* Actions */}
           <Link to={'/logout'} className="py-3 text-center rounded-lg bg-white/10 hover:bg-white/20 transition text-sm">
-            Logout
+            {t('profile.logout')}
           </Link>
         </div>
 

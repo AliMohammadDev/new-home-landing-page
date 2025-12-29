@@ -85,5 +85,118 @@
     "my_wishlist": "My Wishlist",
     "my_orders": "My Orders",
     "logout": "Logout"
+  },
+
+  "cart": {
+    "button": "Cart",
+    "empty": "Your cart is empty.",
+    "product": "Product",
+    "price": "Price",
+    "qty": "QTY",
+    "remove": "Remove",
+    "checkout": "CHECKOUT NOW",
+    "my_cart": "My Cart",
+    "loading": "Loading cart...",
+    "quantity": "Quantity",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "proceed_checkout": "Proceed to Checkout",
+    "removed_success": "{{product}} removed from cart successfully!"
+  },
+
+  "checkout": {
+    "contact_information": "Contact Information",
+    "address": "Address",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "country": "Country",
+    "city": "City",
+    "street": "Street",
+    "floor": "Building / Floor",
+    "postal_code": "Postal Code",
+    "additional_information": "Additional Info",
+    "save_continue": "Save & Continue",
+    "sending": "Sending..."
+  },
+  "toast": {
+    "no_active_cart": "No active cart found!",
+    "success": "Message sent successfully!",
+    "failed": "Failed to save. Please try again."
+  },
+
+  "profile": {
+    "edit_profile": "Edit Profile",
+    "full_name": "Full Name",
+    "email": "Email",
+    "new_password": "New Password",
+    "confirm_password": "Confirm Password",
+    "saving": "Saving...",
+    "save_changes": "Save Changes",
+    "email_status": "Email status",
+    "active": "Active",
+    "orders": "Orders",
+    "view_orders": "View orders",
+    "logout": "Logout",
+    "profile_updated": "Profile updated successfully"
+  },
+  "orders": {
+    "loading": "Loading your orders...",
+    "myOrders": "My Orders",
+    "noOrders": "You haven’t placed any orders yet.",
+    "order": "Order",
+    "status": {
+      "pending": "Pending",
+      "completed": "Completed",
+      "canceled": "Canceled"
+    },
+    "viewDetails": "View details",
+    "latest": "Latest",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
+  },
+
+  "wishlist": {
+    "title": "My Wishlist",
+    "productName": "Product name",
+    "unitPrice": "Unit price",
+    "addToCart": "Add to cart",
+    "adding": "Adding...",
+    "addedOn": "Added on",
+    "loginRequired": "You have to login first!",
+    "addedSuccess": "added to cart successfully!",
+    "addedError": "Failed to add to cart",
+    "removedSuccess": "removed from wishlist successfully!",
+    "removedError": "Failed to remove product from wishlist.",
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
+  },
+  "order": {
+    "loading": "Loading order...",
+    "error": "Failed to load order information",
+    "info_title": "Order Information",
+    "summary_title": "Order Summary",
+    "status": "Status",
+    "total": "Total",
+    "created_at": "Created At",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "country": "Country",
+    "city": "City",
+    "street": "Street",
+    "floor": "Floor",
+    "postal_code": "Postal Code",
+    "additional_info": "Additional Info",
+    "quantity": "Quantity",
+    "pending": "Pending",
+    "completed": "Completed",
+    "cancelled": "Cancelled"
   }
 }
