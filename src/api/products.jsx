@@ -48,60 +48,79 @@ import Cookie from 'cookie-universal';
 // };
 
 
+const getLangHeader = () => {
+  const lang = localStorage.getItem('lang') || 'en';
+  return { 'Accept-Language': lang };
+};
 
+// Sliders Products Variants
 export const useGetSlidersProductsVariants = () => {
+  const lang = localStorage.getItem('lang') || 'en';
   return useQuery({
-    queryKey: ['sliders-products-variants'],
+    queryKey: ['sliders-products-variants', lang],
     queryFn: async () => {
-      const res = await axios.get('variants-sliders');
+      const res = await axios.get('variants-sliders', {
+        headers: getLangHeader(),
+      });
       return res.data;
     },
   });
 };
 
-
+// Products Variants By Limit
 export const useGetProductsVariantsByLimit = (limit = 10) => {
+  const lang = localStorage.getItem('lang') || 'en';
   return useQuery({
-    queryKey: ['variants', limit],
+    queryKey: ['variants', limit, lang],
     queryFn: async () => {
-      const res = await axios.get(`variants-all/${limit}`);
+      const res = await axios.get(`variants-all/${limit}`, {
+        headers: getLangHeader(),
+      });
       return res.data.data;
     },
   });
 };
 
+// Products Variants By Category
 export const useGetProductsVariantsByCategory = (categoryName) => {
+  const lang = localStorage.getItem('lang') || 'en';
   return useQuery({
-    queryKey: ['variants', categoryName],
+    queryKey: ['variants', categoryName, lang],
     queryFn: async () => {
-      const res = await axios.get(`variants-category/${categoryName}`);
+      const res = await axios.get(`variants-category/${categoryName}`, {
+        headers: getLangHeader(),
+      });
       return res.data.data;
     },
     enabled: !!categoryName,
   });
 };
 
-
+// All Products Variants
 export const useGetAllProductsVariants = () => {
+  const lang = localStorage.getItem('lang') || 'en';
   return useQuery({
-    queryKey: ['variants', 'all'],
+    queryKey: ['variants', 'all', lang],
     queryFn: async () => {
-      const res = await axios.get('product-variants');
+      const res = await axios.get('product-variants', {
+        headers: getLangHeader(),
+      });
       return res.data.data;
     },
   });
 };
 
-
+// Single Product Variant
 export const useGetProductVariant = (product_variant_id) => {
+  const lang = localStorage.getItem('lang') || 'en';
   return useQuery({
-    queryKey: ['variant', product_variant_id],
+    queryKey: ['variant', product_variant_id, lang],
     queryFn: async () => {
-      const res = await axios.get(`product-variants/${product_variant_id}`);
+      const res = await axios.get(`product-variants/${product_variant_id}`, {
+        headers: getLangHeader(),
+      });
       return res.data.data;
     },
     retry: 1,
   });
 };
-
-
