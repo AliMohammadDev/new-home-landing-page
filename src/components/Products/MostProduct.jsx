@@ -26,6 +26,7 @@ function MostProduct({ products = [] }) {
       {direction === 'next' ? <ChevronRightIcon color="white" /> : <ChevronLeftIcon color="black" />}
     </button>
   );
+  const isRTL = i18n.language === 'ar';
 
   const settings = {
     infinite: true,
@@ -74,31 +75,45 @@ function MostProduct({ products = [] }) {
         </div>
 
         {/* Slider */}
-        <div className="relative w-full mt-10 md:mt-0">
+        <div className="relative w-full mt-10 md:mt-0" dir={isRTL ? 'rtl' : 'ltr'}>
           <Slider {...settings}>
             {products.map((product, i) => (
-              <div key={i} className="md:px-1">
-                <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
+              <div key={i} className="px-2 md:px-1">
+                <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] h-full flex flex-col pb-4">
                   <img
                     src={product.image}
                     alt={product.name}
                     className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
                   />
-                  <div className="mt-5 ml-3 md:ml-3">
-                    <h3 className="text-black text-[16px] font-[Qanduchia] mb-2">{product.name}</h3>
-                    <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3">{product.body}</p>
-                    <span>{product.final_price} $</span>
+
+                  {/* تم استبدال ml-3 بـ px-4 لضمان توازن المسافات من الطرفين */}
+                  <div className={`mt-5 px-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <h3 className="text-black text-[18px] font-[Qanduchia] mb-2">
+                      {product.name}
+                    </h3>
+
+                    <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3 leading-relaxed">
+                      {product.body}
+                    </p>
+
+                    <span className="text-[#025043] font-bold text-lg">
+                      {product.final_price} $
+                    </span>
                   </div>
                 </div>
               </div>
             ))}
           </Slider>
 
-          <div className="mt-6 px-2 md:px-0">
-            <div className="w-full h-1 md:h-1 bg-gray-500 rounded-full overflow-hidden">
+          {/* Progress Bar */}
+          <div className="mt-8 px-2 md:px-0">
+            <div className="w-full h-1 bg-gray-300 rounded-full overflow-hidden">
               <div
-                className="h-full bg-black rounded-full transition-all duration-300"
-                style={{ width: `${progress}%` }}
+                className="h-full bg-black rounded-full transition-all duration-500 ease-out"
+                style={{
+                  width: `${progress}%`,
+                  float: isRTL ? 'right' : 'left'
+                }}
               />
             </div>
           </div>

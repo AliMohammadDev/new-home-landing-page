@@ -22,7 +22,7 @@ function ProductSlider2({ products = [] }) {
     if (!user) {
       addToast({
         title: 'Cart',
-        description: t('cart.login_required'),
+        description: t('essential_to_prep.cart_login_warning'),
         color: 'warning',
         duration: 4000,
       });
@@ -35,11 +35,23 @@ function ProductSlider2({ products = [] }) {
         onSuccess: () => {
           addToast({
             title: 'Cart',
-            description: `${variant.product.name} added successfully!`,
-            color: 'success',
+            description: t('essential_to_prep.cart_success', {
+              product: variant.product.name,
+            }), color: 'success',
             duration: 4000,
           });
         },
+        onError: () => {
+          addToast({
+            title: 'Cart',
+            description: t('essential_to_prep.cart_error', {
+              product: variant.product.name,
+            }),
+            color: 'danger',
+            duration: 4000,
+          });
+        },
+
       }
     );
   };
@@ -106,7 +118,8 @@ function ProductSlider2({ products = [] }) {
           />
         </div>
 
-        <div className="relative w-full max-w-full lg:max-w-[650px] xl:max-w-[800px]">
+        {/* Slider  */}
+        <div className="relative w-full max-w-full lg:max-w-[650px] xl:max-w-[800px]" dir={isRTL ? 'rtl' : 'ltr'}>
           <Slider {...settings}>
             {products.map((variant) => {
               const product = variant.product;
@@ -120,12 +133,13 @@ function ProductSlider2({ products = [] }) {
                     />
 
                     <div className="p-4 flex-1 flex flex-col">
-                      <h3 className="text-[#025043] text-[16px] font-bold mb-2 h-12 overflow-hidden">
+                      <h3 className={`text-[#025043] text-[16px] font-bold mb-2 h-12 overflow-hidden ${isRTL ? 'text-right' : 'text-left'}`}>
                         {product.name}
                       </h3>
+
                       <div className="border-b border-[#025043]/20 mb-3"></div>
 
-                      <p className="text-[#025043] text-[18px] font-bold mb-4">
+                      <p className={`text-[#025043] text-[18px] font-bold mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
                         {product.final_price} $
                       </p>
 
@@ -133,9 +147,10 @@ function ProductSlider2({ products = [] }) {
                         <div className="flex items-center gap-2 mb-4 flex-wrap">
                           <RatingStars rating={Number(variant.reviews_avg) || 0} />
                           <span className="text-xs text-gray-500">({variant.reviews_count || 0})</span>
+
                           <Link
                             to={'/products'}
-                            className={`text-sm hover:underline font-medium ${isRTL ? 'mr-auto' : 'ml-auto'}`}
+                            className="text-sm hover:underline font-medium ms-auto"
                           >
                             {t('essential_to_prep.view_more')}
                           </Link>

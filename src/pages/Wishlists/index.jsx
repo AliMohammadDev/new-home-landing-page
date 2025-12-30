@@ -20,8 +20,9 @@ function Wishlists() {
   const { data: user } = useGetProfile();
   const { mutate: addToCart, isLoading: isAdding } = useAddToCartItem();
 
-  // إضافة منتج للسلة
+  // Add to cart
   const handleAddCartItem = (item) => {
+
     if (!user) {
       addToast({
         title: t('cart.title') || 'Cart',
@@ -39,15 +40,19 @@ function Wishlists() {
       {
         onSuccess: () => {
           addToast({
-            title: t('cart.title') || 'Cart',
-            description: `${item.product_variant.name} ${t('wishlist.addedSuccess')}`,
+            title: t('cart.button') || 'Cart',
+            description: t('essential_to_prep.cart_success', {
+              product: item.product_variant.name,
+            }),
             color: 'success',
           });
         },
         onError: () => {
           addToast({
-            title: t('cart.title') || 'Cart',
-            description: t('wishlist.addedError'),
+            title: t('cart.button') || 'Cart',
+            description: t('essential_to_prep.cart_error', {
+              product: item.product_variant.name,
+            }),
             color: 'error',
           });
         },
@@ -55,6 +60,7 @@ function Wishlists() {
     );
   };
 
+  // Add to wishlist
   const handleRemoveWishlist = (wishlistId, productName) => {
     removeWishlist.mutate(wishlistId, {
       onSuccess: () => {

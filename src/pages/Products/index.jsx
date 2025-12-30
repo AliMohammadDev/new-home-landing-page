@@ -71,7 +71,7 @@ const Product = () => {
   const handleAddCartItem = (variant) => {
     if (!user) {
       addToast({
-        title: 'Cart',
+        title: t('cart.button'),
         description: t('wishlist.loginRequired'),
         color: 'warning',
         duration: 4000,
@@ -88,7 +88,7 @@ const Product = () => {
       {
         onSuccess: () => {
           addToast({
-            title: 'Cart',
+            title: t('cart.button'),
             description: t('essential_to_prep.cart_success', {
               product: variant.name
             })
@@ -100,7 +100,7 @@ const Product = () => {
         },
         onError: () => {
           addToast({
-            title: 'Cart',
+            title: t('cart.button'),
             description: t('essential_to_prep.cart_error', {
               product: variant.name
             })
@@ -120,9 +120,8 @@ const Product = () => {
   const handleAddWishlist = (variant) => {
     if (!user) {
       addToast({
-        title: 'Wishlist',
-        description: t('wishlist.loginRequired')
-        ,
+        title: t('wishlist.title'),
+        description: t('wishlist.loginRequired'),
         color: 'warning',
         duration: 4000,
         isClosable: true,
@@ -132,23 +131,21 @@ const Product = () => {
 
     if (isProductInWishlist(variant.variantId)) {
       addToast({
-        title: 'Wishlist',
-        description: 'This product is already in your wishlist.',
+        title: t('wishlist.title'),
+        description: t('wishlist.addedError'),
         color: 'warning',
         duration: 4000,
         isClosable: true,
       });
       return;
     }
-
-    // ⬇️ إذا مو موجود
     addWishlist(
       variant.variantId,
       {
         onSuccess: () => {
           addToast({
-            title: 'Wishlist',
-            description: `${variant.name} added to wishlist successfully!`,
+            title: t('wishlist.title'),
+            description: t('wishlist.addedSuccess'),
             color: 'success',
             duration: 4000,
             isClosable: true,
@@ -156,8 +153,8 @@ const Product = () => {
         },
         onError: () => {
           addToast({
-            title: 'Wishlist',
-            description: 'Failed to add product to wishlist.',
+            title: t('wishlist.title'),
+            description: t('wishlist.addedError'),
             color: 'error',
             duration: 4000,
             isClosable: true,
@@ -179,12 +176,12 @@ const Product = () => {
 
 
   const { mutate: addReview } = useAddReviews();
-
+  // Add review
   const handleRateProduct = (variantId, rating) => {
     if (!user) {
       addToast({
-        title: 'Rating',
-        description: 'You have to login first!',
+        title: t('rating.title'),
+        description: t('rating.loginRequired'),
         color: 'warning',
         duration: 4000,
         isClosable: true,
@@ -199,17 +196,16 @@ const Product = () => {
       {
         onSuccess: () => {
           addToast({
-            title: 'Thank you!',
-            description: 'Your review has been submitted',
+            title: t('rating.successTitle'),
+            description: t('rating.successMessage'),
             color: 'success',
           });
         },
-        onError: (error) => {
+        onError: () => {
           addToast({
-            title: 'Error',
-            description:
-              error.response?.data?.message || 'Failed to submit review',
-            color: 'error',
+            title: t('rating.title'),
+            description: t('rating.alreadyRated'),
+            color: 'warning',
           });
         }
       }

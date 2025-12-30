@@ -68,7 +68,7 @@ function ShowAllProducts() {
   const handleAddCartItem = (variant) => {
     if (!user) {
       addToast({
-        title: 'Cart',
+        title: t('cart.button'),
         description: t('wishlist.loginRequired'),
         color: 'warning',
         duration: 4000,
@@ -85,9 +85,9 @@ function ShowAllProducts() {
       {
         onSuccess: () => {
           addToast({
-            title: 'Cart',
+            title: t('cart.button'),
             description: t('essential_to_prep.cart_success', {
-              product: variant.name
+              product: variant.name,
             })
             ,
             color: 'success',
@@ -97,9 +97,9 @@ function ShowAllProducts() {
         },
         onError: () => {
           addToast({
-            title: 'Cart',
+            title: t('cart.button'),
             description: t('essential_to_prep.cart_error', {
-              product: variant.name
+              product: variant.name,
             })
             ,
             color: 'error',
@@ -116,7 +116,7 @@ function ShowAllProducts() {
   const handleAddWishlist = (variant) => {
     if (!user) {
       addToast({
-        title: 'Wishlist',
+        title: t('wishlist.title'),
         description: t('wishlist.loginRequired'),
         color: 'warning',
         duration: 4000,
@@ -127,8 +127,8 @@ function ShowAllProducts() {
 
     if (isProductInWishlist(variant.variantId)) {
       addToast({
-        title: 'Wishlist',
-        description: 'This product is already in your wishlist.',
+        title: t('wishlist.title'),
+        description: t('wishlist.addedError'),
         color: 'warning',
         duration: 4000,
         isClosable: true,
@@ -141,20 +141,18 @@ function ShowAllProducts() {
       {
         onSuccess: () => {
           addToast({
-            title: 'Wishlist',
-            description: `${variant.name} added to wishlist successfully!`,
+            title: t('wishlist.title'),
+            description: t('wishlist.addedSuccess'),
             color: 'success',
             duration: 4000,
             isClosable: true,
           });
         },
-        onError: (error) => {
+        onError: () => {
           addToast({
-            title: 'Wishlist',
-            description:
-              error.response?.data?.message ||
-              `Failed to add ${variant.name} to wishlist`,
-            color: 'error',
+            title: t('wishlist.title'),
+            description: t('wishlist.addedError'),
+            color: 'warning',
             duration: 4000,
             isClosable: true,
           });
@@ -210,8 +208,6 @@ function ShowAllProducts() {
     });
   };
 
-
-
   const filteredProducts = productsList.filter((product) => {
     // Category filter
     const matchCategory =
@@ -250,11 +246,12 @@ function ShowAllProducts() {
 
 
   const { mutate: addReview } = useAddReviews();
+  // Add review
   const handleRateProduct = (variantId, rating) => {
     if (!user) {
       addToast({
-        title: 'Rating',
-        description: 'You have to login first!',
+        title: t('rating.title'),
+        description: t('rating.loginRequired'),
         color: 'warning',
         duration: 4000,
         isClosable: true,
@@ -269,17 +266,16 @@ function ShowAllProducts() {
       {
         onSuccess: () => {
           addToast({
-            title: 'Thank you!',
-            description: 'Your review has been submitted',
+            title: t('rating.successTitle'),
+            description: t('rating.successMessage'),
             color: 'success',
           });
         },
-        onError: (error) => {
+        onError: () => {
           addToast({
-            title: 'Error',
-            description:
-              error.response?.data?.message || 'Failed to submit review',
-            color: 'error',
+            title: t('rating.title'),
+            description: t('rating.alreadyRated'),
+            color: 'warning',
           });
         }
       }

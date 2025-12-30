@@ -176,6 +176,15 @@
     "placing_order": "Placing Order...",
     "order_placed_success": "Your order has been placed successfully!"
   },
+
+  "rating": {
+    "title": "Rating",
+    "loginRequired": "You have to login first!",
+    "successTitle": "Thank you!",
+    "successMessage": "Your review has been submitted successfully.",
+    "alreadyRated": "You have already rated this product.",
+    "error": "Failed to submit review"
+  },
   "wishlist": {
     "title": "My Wishlist",
     "productName": "Product name",
@@ -185,7 +194,7 @@
     "addedOn": "Added on",
     "loginRequired": "You have to login first!",
     "addedSuccess": "added to cart successfully!",
-    "addedError": "Failed to add to cart",
+    "addedError": "This product is already in your wishlist",
     "removedSuccess": "removed from wishlist successfully!",
     "removedError": "Failed to remove product from wishlist.",
     "previous": "Previous",

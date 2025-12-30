@@ -21,7 +21,7 @@ function ProductSlider1({ products = [] }) {
     if (!user) {
       addToast({
         title: 'Cart',
-        description: 'You have to login first!',
+        description: t('essential_to_prep.cart_login_warning'),
         color: 'warning',
         duration: 4000,
       });
@@ -34,11 +34,24 @@ function ProductSlider1({ products = [] }) {
         onSuccess: () => {
           addToast({
             title: 'Cart',
-            description: `${variant.product.name} added successfully!`,
+            description: t('essential_to_prep.cart_success', {
+              product: variant.product.name,
+            }),
             color: 'success',
             duration: 4000,
           });
         },
+        onError: () => {
+          addToast({
+            title: 'Cart',
+            description: t('essential_to_prep.cart_error', {
+              product: variant.product.name,
+            }),
+            color: 'danger',
+            duration: 4000,
+          });
+        },
+
       }
     );
   };
@@ -48,7 +61,6 @@ function ProductSlider1({ products = [] }) {
       (direction === 'prev' && currentSlide === 0) ||
       (direction === 'next' && currentSlide === slideCount - 1);
 
-    // عكس المنطق في RTL: اليمين يصبح يسار واليسار يصبح يمين
     const isNext = direction === 'next';
 
     return (
@@ -78,7 +90,7 @@ function ProductSlider1({ products = [] }) {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    rtl: isRTL, // تفعيل خاصية RTL البرمجية في السلايدر
+    rtl: isRTL,
     nextArrow: <CustomArrow direction="next" />,
     prevArrow: <CustomArrow direction="prev" />,
     afterChange: (current) => setCurrentSlide(current),
@@ -107,7 +119,7 @@ function ProductSlider1({ products = [] }) {
       </div>
 
       {/* Slider Container */}
-      <div className="relative">
+      <div className="relative" dir={isRTL ? 'rtl' : 'ltr'}>
         <Slider {...settings}>
           {products.map((variant) => {
             const product = variant.product;
@@ -120,13 +132,13 @@ function ProductSlider1({ products = [] }) {
                     className="w-full h-48 sm:h-56 md:h-64 object-cover"
                   />
                   <div className="p-4 flex flex-col gap-3 flex-1">
-                    <h3 className="text-[#025043] text-[16px] font-bold h-12 overflow-hidden">
+                    <h3 className={`text-[#025043] text-[16px] font-bold h-12 overflow-hidden ${isRTL ? 'text-right' : 'text-left'}`}>
                       {product.name}
                     </h3>
 
                     <div className="border-b border-[#025043]/20"></div>
 
-                    <p className="text-[#025043] text-[18px] font-bold">
+                    <p className={`text-[#025043] text-[18px] font-bold ${isRTL ? 'text-right' : 'text-left'}`}>
                       {product.final_price} $
                     </p>
 
@@ -135,9 +147,10 @@ function ProductSlider1({ products = [] }) {
                       <span className="text-xs text-gray-400">
                         ({variant.reviews_count || 0})
                       </span>
+
                       <Link
                         to={`/product/${variant.id}`}
-                        className={`text-sm hover:underline font-medium ${isRTL ? 'mr-auto' : 'ml-auto'}`}
+                        className="text-sm hover:underline font-medium ms-auto"
                       >
                         {t('essential_to_prep.view_more')}
                       </Link>
@@ -146,7 +159,7 @@ function ProductSlider1({ products = [] }) {
                     <button
                       onClick={() => handleAddCartItem(variant)}
                       disabled={isLoading}
-                      className="w-full bg-[#025043] text-white  cursor-pointer text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
+                      className="w-full bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
                     >
                       {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
                     </button>
@@ -161,7 +174,7 @@ function ProductSlider1({ products = [] }) {
         <div className="mt-8 px-2 md:px-0">
           <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className={`h-full bg-[#025043] rounded-full transition-all duration-500 ease-out`}
+              className="h-full bg-[#025043] rounded-full transition-all duration-500 ease-out"
               style={{
                 width: `${progress}%`,
                 float: isRTL ? 'right' : 'left'
