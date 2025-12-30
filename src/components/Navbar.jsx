@@ -97,7 +97,7 @@ const Navbar = () => {
             {categories.map((category) => (
               <NavLink
                 key={category.id}
-                to={`/products/${category.name.toLowerCase()}`}
+                to={`/products/${category.name}`}
                 className={({ isActive }) => clsx('flex items-center gap-2 px-4 py-3 rounded-xl transition hover:underline underline-offset-4', isActive ? 'text-[#E2995E]' : 'text-white', 'justify-between')}
                 onClick={() => setIsProductMenuOpen(false)}
               >
