@@ -2,15 +2,22 @@ import { Accordion, AccordionItem } from '@heroui/accordion';
 import { Checkbox } from '@heroui/react';
 import { useLocation } from 'react-router-dom';
 import { useGetCategories } from '../../api/categories';
+import { useTranslation } from 'react-i18next';
 
 const ProductFilters = ({ filters, onChange, onPriceChange }) => {
   const location = useLocation();
+  const { t } = useTranslation();
 
   const { data: categories = [] } = useGetCategories();
+
   return (
     <Accordion>
       {location.pathname === "/products" && (
-        <AccordionItem key="1" aria-label="Categories" title="Categories">
+        <AccordionItem
+          key="1"
+          aria-label={t('filter.categories')}
+          title={t('filter.categories')}
+        >
           <ul className="space-y-1">
             {categories.map((category) => (
               <li key={category.id} className="flex items-center gap-2">
@@ -21,46 +28,53 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
                 {category.name}
               </li>
             ))}
-
           </ul>
         </AccordionItem>
       )}
-      <AccordionItem key="2" aria-label="Size" title="Size">
+
+      <AccordionItem
+        key="2"
+        aria-label={t('filter.size')}
+        title={t('filter.size')}
+      >
         <ul className="space-y-1">
           <li>
             <Checkbox
               isSelected={filters.sizes.includes('Small')}
               onChange={() => onChange('sizes', 'Small')}
             />
-            Small
-
+            {t('filter.sizes.small')}
           </li>
           <li>
             <Checkbox
               isSelected={filters.sizes.includes('Medium')}
               onChange={() => onChange('sizes', 'Medium')}
             />
-            Medium
+            {t('filter.sizes.medium')}
           </li>
           <li>
             <Checkbox
               isSelected={filters.sizes.includes('Large')}
               onChange={() => onChange('sizes', 'Large')}
             />
-            Large
+            {t('filter.sizes.large')}
           </li>
         </ul>
       </AccordionItem>
 
-      <AccordionItem key="3" aria-label="Color" title="Color">
+      <AccordionItem
+        key="3"
+        aria-label={t('filter.color')}
+        title={t('filter.color')}
+      >
         <div className="flex flex-wrap gap-2">
           {[
-            { color: "bg-gray-800", label: "Black" },
-            { color: "bg-red-600", label: "Red" },
-            { color: "bg-green-600", label: "Green" },
-            { color: "bg-yellow-400", label: "Yellow" },
-            { color: "bg-purple-600", label: "Purple" },
-            { color: "bg-pink-500", label: "Pink" },
+            { color: "bg-gray-800", label: "Black", key: "black" },
+            { color: "bg-red-600", label: "Red", key: "red" },
+            { color: "bg-green-600", label: "Green", key: "green" },
+            { color: "bg-yellow-400", label: "Yellow", key: "yellow" },
+            { color: "bg-purple-600", label: "Purple", key: "purple" },
+            { color: "bg-pink-500", label: "Pink", key: "pink" },
           ].map((c, i) => (
             <label
               key={i}
@@ -76,20 +90,25 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
                 className={`w-3 h-3 rounded-full ${c.color} border border-white shadow-sm`}
               ></span>
 
-              <span className="text-xs text-gray-800">{c.label}</span>
+              <span className="text-xs text-gray-800">
+                {t(`filter.colors.${c.key}`)}
+              </span>
             </label>
           ))}
         </div>
       </AccordionItem>
 
-      <AccordionItem key="4" aria-label="Price" title="Price">
+      <AccordionItem
+        key="4"
+        aria-label={t('filter.price')}
+        title={t('filter.price')}
+      >
         <div className="space-y-4">
           <div className="flex justify-between text-sm text-gray-700">
             <span>{filters.price.min} $</span>
             <span>{filters.price.max} $</span>
           </div>
 
-          {/* Min price */}
           <input
             type="range"
             min="100"
@@ -100,7 +119,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
             className="w-full accent-[#025043]"
           />
 
-          {/* Max price */}
           <input
             type="range"
             min="100"
@@ -113,58 +131,56 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
         </div>
       </AccordionItem>
 
-
-
-      <AccordionItem key="5" aria-label="Material" title="Material">
+      <AccordionItem
+        key="5"
+        aria-label={t('filter.material')}
+        title={t('filter.material')}
+      >
         <ul className="space-y-1">
           <li>
-            {/* <Checkbox label="Ceramic" /> Ceramic */}
             <Checkbox
               isSelected={filters.materials.includes('Ceramic')}
               onChange={() => onChange('materials', 'Ceramic')}
             />
-            Ceramic
-
+            {t('filter.materials.ceramic')}
           </li>
           <li>
             <Checkbox
               isSelected={filters.materials.includes('Glass')}
               onChange={() => onChange('materials', 'Glass')}
             />
-            Glass
-
+            {t('filter.materials.glass')}
           </li>
           <li>
             <Checkbox
               isSelected={filters.materials.includes('Stainless Steel')}
               onChange={() => onChange('materials', 'Stainless Steel')}
             />
-            Stainless Steel
+            {t('filter.materials.stainless_steel')}
           </li>
           <li>
             <Checkbox
               isSelected={filters.materials.includes('Cast Iron')}
               onChange={() => onChange('materials', 'Cast Iron')}
             />
-            Cast Iron
+            {t('filter.materials.cast_iron')}
           </li>
           <li>
             <Checkbox
               isSelected={filters.materials.includes('Plastic')}
               onChange={() => onChange('materials', 'Plastic')}
             />
-            Plastic
+            {t('filter.materials.plastic')}
           </li>
           <li>
             <Checkbox
               isSelected={filters.materials.includes('Wood')}
               onChange={() => onChange('materials', 'Wood')}
             />
-            Wood
+            {t('filter.materials.wood')}
           </li>
         </ul>
       </AccordionItem>
-
     </Accordion>
   );
 };

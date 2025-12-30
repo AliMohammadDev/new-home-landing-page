@@ -192,7 +192,7 @@
     "next": "Next",
     "page": "Page",
     "of": "of",
-    "empty":"Your wishlist is empty."
+    "empty": "Your wishlist is empty."
   },
   "order": {
     "loading": "Loading order...",
@@ -271,5 +271,41 @@
     "description_line2": "Timeless pieces crafted to celebrate love, warmth, and meaningful occasions.",
     "show_products": "Click to show products",
     "footer_description": "Specialized in many different home tools and kitchenware in addition to other restaurant and hotel equipment."
+  },
+
+  "filters": {
+    "show": "Show filters"
+  },
+
+  "filter": {
+    "categories": "Categories",
+    "size": "Size",
+    "color": "Color",
+    "price": "Price",
+    "material": "Material",
+
+    "sizes": {
+      "small": "Small",
+      "medium": "Medium",
+      "large": "Large"
+    },
+
+    "colors": {
+      "black": "Black",
+      "red": "Red",
+      "green": "Green",
+      "yellow": "Yellow",
+      "purple": "Purple",
+      "pink": "Pink"
+    },
+
+    "materials": {
+      "ceramic": "Ceramic",
+      "glass": "Glass",
+      "stainless_steel": "Stainless Steel",
+      "cast_iron": "Cast Iron",
+      "plastic": "Plastic",
+      "wood": "Wood"
+    }
   }
 }

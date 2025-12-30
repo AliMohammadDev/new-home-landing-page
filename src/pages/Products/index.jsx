@@ -17,8 +17,11 @@ import { useGetProfile } from '../../api/auth.jsx';
 import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist.jsx';
 import { useAddReviews } from '../../api/reviews.jsx';
 import RatingStars from '../../components/RatingStars.jsx';
+import { useTranslation } from 'react-i18next';
 
 const Product = () => {
+  const { t } = useTranslation();
+
   const { categoryId } = useParams();
   const [filters, setFilters] = useState({
     colors: [],
@@ -69,7 +72,7 @@ const Product = () => {
     if (!user) {
       addToast({
         title: 'Cart',
-        description: 'You have to login first!',
+        description: t('wishlist.loginRequired'),
         color: 'warning',
         duration: 4000,
         isClosable: true,
@@ -86,7 +89,10 @@ const Product = () => {
         onSuccess: () => {
           addToast({
             title: 'Cart',
-            description: `${variant.name} added to cart successfully!`,
+            description: t('essential_to_prep.cart_success', {
+              product: variant.name
+            })
+            ,
             color: 'success',
             duration: 4000,
             isClosable: true,
@@ -95,7 +101,10 @@ const Product = () => {
         onError: () => {
           addToast({
             title: 'Cart',
-            description: `Failed to add ${variant.name} to cart`,
+            description: t('essential_to_prep.cart_error', {
+              product: variant.name
+            })
+            ,
             color: 'error',
             duration: 4000,
             isClosable: true,
@@ -112,7 +121,8 @@ const Product = () => {
     if (!user) {
       addToast({
         title: 'Wishlist',
-        description: 'You have to login first!',
+        description: t('wishlist.loginRequired')
+        ,
         color: 'warning',
         duration: 4000,
         isClosable: true,
@@ -120,7 +130,6 @@ const Product = () => {
       return;
     }
 
-    // ✅ إذا المنتج موجود بالمفضلة
     if (isProductInWishlist(variant.variantId)) {
       addToast({
         title: 'Wishlist',
@@ -297,7 +306,9 @@ const Product = () => {
             }}
           >
             <FilterIcon />
-            <span className="font-[Expo-arabic] text-black"> Show filters</span>
+            <span className="font-[Expo-arabic] text-black">
+              {t('filters.show')}
+            </span>
           </button>
         </div>
 
@@ -367,7 +378,8 @@ const Product = () => {
                         disabled={isLoading}
                         className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
                       >
-                        {isLoading ? 'Adding...' : 'Add to cart'}
+                        {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
+
                       </button>
                     </div>
                   </div>

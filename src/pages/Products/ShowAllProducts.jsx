@@ -20,8 +20,11 @@ import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist';
 import RatingStars from '../../components/RatingStars';
 import { useAddReviews } from '../../api/reviews';
 import allProducts from "../../assets/images//all_products.png"
+import { useTranslation } from 'react-i18next';
 
 function ShowAllProducts() {
+  const { t } = useTranslation();
+
   const [filters, setFilters] = useState({
     colors: [],
     categories: [],
@@ -66,7 +69,7 @@ function ShowAllProducts() {
     if (!user) {
       addToast({
         title: 'Cart',
-        description: 'You have to login first!',
+        description: t('wishlist.loginRequired'),
         color: 'warning',
         duration: 4000,
         isClosable: true,
@@ -83,7 +86,10 @@ function ShowAllProducts() {
         onSuccess: () => {
           addToast({
             title: 'Cart',
-            description: `${variant.name} added to cart successfully!`,
+            description: t('essential_to_prep.cart_success', {
+              product: variant.name
+            })
+            ,
             color: 'success',
             duration: 4000,
             isClosable: true,
@@ -92,7 +98,10 @@ function ShowAllProducts() {
         onError: () => {
           addToast({
             title: 'Cart',
-            description: `Failed to add ${variant.name} to cart`,
+            description: t('essential_to_prep.cart_error', {
+              product: variant.name
+            })
+            ,
             color: 'error',
             duration: 4000,
             isClosable: true,
@@ -108,7 +117,7 @@ function ShowAllProducts() {
     if (!user) {
       addToast({
         title: 'Wishlist',
-        description: 'You have to login first!',
+        description: t('wishlist.loginRequired'),
         color: 'warning',
         duration: 4000,
         isClosable: true,
@@ -116,7 +125,6 @@ function ShowAllProducts() {
       return;
     }
 
-    // ✅ المنتج موجود مسبقاً
     if (isProductInWishlist(variant.variantId)) {
       addToast({
         title: 'Wishlist',
@@ -128,7 +136,6 @@ function ShowAllProducts() {
       return;
     }
 
-    // ⬇️ إضافة للمفضلة
     addWishlist(
       variant.variantId,
       {
@@ -290,7 +297,10 @@ function ShowAllProducts() {
 
       <div className=" mx-auto px-6 py-10">
         <div className="flex justify-start mb-10">
-          <h1 className="text-5xl font-[Qanduchia] text-black">All Products</h1>
+          <h1 className="text-5xl font-[Qanduchia] text-black">
+
+            {t('navbar.all_products')}
+          </h1>
         </div>
 
         {/* Filter */}
@@ -303,7 +313,10 @@ function ShowAllProducts() {
             }}
           >
             <FilterIcon />
-            <span className="font-[Expo-arabic] text-black"> Show filters</span>
+            <span className="font-[Expo-arabic] text-black">
+              {t('filters.show')}
+            </span>
+
           </button>
         </div>
 
@@ -370,7 +383,8 @@ function ShowAllProducts() {
                         disabled={isLoading}
                         className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
                       >
-                        {isLoading ? 'Adding...' : 'Add to cart'}
+                        {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
+
                       </button>
                     </div>
                   </div>
@@ -386,7 +400,8 @@ function ShowAllProducts() {
                   className="px-6 py-2 bg-[#025043] text-white rounded-md hover:bg-[#01382f] transition"
                 >
                   <div className="flex items-center gap-2 cursor-pointer">
-                    <span className="text-white">Show More</span>
+                    <span className="text-white">{t('orders.next')}</span>
+
                     <Spinner
                       variant="dots"
                       size="sm"
