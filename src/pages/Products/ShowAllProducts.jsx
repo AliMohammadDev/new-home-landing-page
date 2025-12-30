@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom';
 import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist';
 import RatingStars from '../../components/RatingStars';
 import { useAddReviews } from '../../api/reviews';
+import allProducts from "../../assets/images//all_products.png"
 
 function ShowAllProducts() {
   const [filters, setFilters] = useState({
@@ -282,7 +283,7 @@ function ShowAllProducts() {
   return (
     <div className="bg-[#EDEAE2] min-h-screen">
       <img
-        src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765364809/category1_w0uzis.png"
+        src={allProducts}
         alt="Category"
         className="w-full"
       />
@@ -377,7 +378,7 @@ function ShowAllProducts() {
               </div>
             ))}
 
-            {/* زر Show More */}
+            {/*  Show More */}
             {visibleCount < filteredProducts.length && filteredProducts.length > 0 && (
               <div className="col-span-full flex justify-center mt-5">
                 <button

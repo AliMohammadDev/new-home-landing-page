@@ -71,7 +71,7 @@ const Navbar = () => {
 
       {/* 2. Desktop Navigation (Hidden on Mobile) */}
       <nav
-        className="hidden lg:flex gap-8 font-[Expo-arabic] items-center"
+        className="hidden lg:flex gap-8 mr-10 font-[Expo-arabic] items-center"
       >
         <NavLink to="/" className={({ isActive }) => clsx(isActive ? 'text-[#E2995E]' : 'text-gray-300 hover:text-white')}>{t('navbar.home')}</NavLink>
         <NavLink to="/contact" className={({ isActive }) => clsx(isActive ? 'text-[#E2995E]' : 'text-gray-300 hover:text-white')}>{t('navbar.contact')}</NavLink>

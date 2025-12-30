@@ -127,7 +127,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
 
           </li>
           <li>
-            {/* <Checkbox label="Glass" /> Glass */}
             <Checkbox
               isSelected={filters.materials.includes('Glass')}
               onChange={() => onChange('materials', 'Glass')}
@@ -136,7 +135,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
 
           </li>
           <li>
-            {/* <Checkbox label="Stainless Steel" /> Stainless Steel */}
             <Checkbox
               isSelected={filters.materials.includes('Stainless Steel')}
               onChange={() => onChange('materials', 'Stainless Steel')}
@@ -144,7 +142,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
             Stainless Steel
           </li>
           <li>
-            {/* <Checkbox label="Cast Iron" /> Cast Iron */}
             <Checkbox
               isSelected={filters.materials.includes('Cast Iron')}
               onChange={() => onChange('materials', 'Cast Iron')}
@@ -152,7 +149,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
             Cast Iron
           </li>
           <li>
-            {/* <Checkbox label="Plastic" /> Plastic */}
             <Checkbox
               isSelected={filters.materials.includes('Plastic')}
               onChange={() => onChange('materials', 'Plastic')}
@@ -160,7 +156,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
             Plastic
           </li>
           <li>
-            {/* <Checkbox label="Wood" /> Wood */}
             <Checkbox
               isSelected={filters.materials.includes('Wood')}
               onChange={() => onChange('materials', 'Wood')}

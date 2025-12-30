@@ -47,7 +47,6 @@ const Footer = () => {
       <div className="w-full h-0.5 bg-white"></div>
 
       {/* Section 2 */}
-      {/* Section 2 */}
       <div className={`${isLightFooter ? 'bg-white text-black' : 'bg-black text-white'} py-12 px-6 md:px-20`}>
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 ${isRTL ? 'md:text-right' : 'md:text-left'}`}>
 
@@ -55,7 +54,6 @@ const Footer = () => {
           <div>
             <h3 className="text-sm font-semibold mb-4 tracking-wide">{t('footer.follow_us')}</h3>
             <ul className="space-y-2 text-sm">
-              {/* ضع أي أيقونات وسائل التواصل هنا */}
               {/* <li>{t('footer.email')}</li>
               <li>{t('footer.phone')}</li>
               <li>{t('footer.location')}</li> */}

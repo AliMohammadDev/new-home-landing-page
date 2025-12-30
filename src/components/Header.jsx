@@ -23,14 +23,13 @@ const Header = () => {
       style={{
         backgroundImage: `url(https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358692/HomePage_xvczts.png)`,
       }}
-      dir={isRTL ? 'rtl' : 'ltr'} // يضمن توزيع العناصر حسب اتجاه اللغة
+      dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* TEXT CONTAINER */}
       <div
         className={`
           absolute z-10
           top-20 sm:top-16 md:top-8 lg:top-24 xl:top-[400px] 
-          /* التموضع الديناميكي: يبدأ من اليمين في العربي واليسار في الإنجليزي */
           ${isRTL ? 'right-6 sm:right-10 md:right-16 lg:right-1 xl:right-5 2xl:right-30' : 'left-6 sm:left-10 md:left-16 lg:left-1 xl:left-5 2xl:left-30'}
           p-4 sm:p-6 md:p-10 
           text-white font-[Expo-arabic]

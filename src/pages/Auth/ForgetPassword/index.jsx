@@ -4,6 +4,9 @@ import LeftIcon from '../../../assets/icons/LeftIcon';
 import { useForm } from 'react-hook-form';
 import { useForgotPassword } from '../../../api/auth';
 import { useTranslation } from 'react-i18next';
+import loginBG from "../../../assets/images/login.jpg";
+import homeLogoWhite from "../../../assets/images/home-logo-white.svg";
+
 
 function ForgetPassword() {
   const { register, handleSubmit } = useForm();
@@ -15,9 +18,8 @@ function ForgetPassword() {
   return (
     <div
       className="w-full min-h-screen bg-cover bg-no-repeat relative bg-center md:bg-right"
-      style={{
-        backgroundImage: `url(https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358011/LoginImage_q4fdk3.jpg)`,
-      }}
+      style={{ backgroundImage: `url(${loginBG})` }}
+
     >
       {/* Back */}
       <div className="absolute top-1 md:top-6 left-6 z-20">
@@ -34,7 +36,7 @@ function ForgetPassword() {
           >
             <div className="flex mb-6 justify-center">
               <img
-                src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
+                src={homeLogoWhite}
                 className="w-20 h-15"
                 alt="Home Logo"
               />

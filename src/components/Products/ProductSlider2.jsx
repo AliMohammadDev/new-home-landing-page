@@ -98,7 +98,7 @@ function ProductSlider2({ products = [] }) {
       {/* Grid Container */}
       <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 md:gap-16 mt-8 justify-items-center">
 
-        <div className="w-full flex justify-center lg:justify-start">
+        <div className="w-full flex justify-center ml-50 lg:justify-start">
           <img
             src={Group}
             alt="Promotion"

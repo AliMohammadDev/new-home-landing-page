@@ -11,6 +11,8 @@ import AboutSection from '../../components/AboutSection';
 import { useGetProductsVariantsByLimit, useGetSlidersProductsVariants } from '../../api/products';
 import AnimateOnScroll from '../../components/AnimateOnScroll';
 import { useTranslation } from 'react-i18next';
+import homeLogoWhite from "../../assets/images/home-logo-white.svg";
+
 
 const Home = () => {
   const { t, i18n } = useTranslation();
@@ -53,7 +55,7 @@ const Home = () => {
           {/* Logo */}
           <div className="flex justify-center mt-20">
             <img
-              src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
+              src={homeLogoWhite}
               alt={t('hero.logo_alt')}
               className="w-full max-w-[880px] md:w-[570px] h-auto object-contain"
             />
@@ -64,10 +66,10 @@ const Home = () => {
 
         {/* All Categories */}
         <AnimateOnScroll direction="up" delay={0.2}>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-20 p-2 sm:p-2 md:p-4">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-20 p-2 sm:p-2 md:p-4">
             <div className="text-center text-white transition-shadow duration-300">
               {i18n.language === 'ar' ? (
-                <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[140px] font-[Qanduchia] block">
+                <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[100px] font-[Qanduchia] block">
                   {t('navbar.our_products')}
                 </span>
               ) : (
