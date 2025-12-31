@@ -143,7 +143,7 @@ const Navbar = () => {
 
                 <div className={clsx(
                   'absolute top-full font-[Expo-arabic] z-50 shadow-lg w-90 py-6 rounded-2xl transition-all duration-300 ease-in-out origin-top',
-                  i18n.language === 'ar' ? 'left-0 -mt-10' : 'right-0 -mt-10',
+                  i18n.language === 'ar' ? 'left-0 -mt-10' : 'right-1 -mr-3 -mt-10',
                   isCartOpen ? 'opacity-100 scale-100 visible' : 'opacity-0 scale-90 invisible'
                 )}>
                   <div className={clsx("absolute inset-0 z-[-1] rounded-2xl", i18n.language === 'ar' && "scale-x-[-1]")}
