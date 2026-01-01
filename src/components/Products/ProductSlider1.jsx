@@ -149,7 +149,7 @@ function ProductSlider1({ products = [] }) {
                       </span>
 
                       <Link
-                        to={`/product/${variant.id}`}
+                        to={`/products`}
                         className="text-sm hover:underline font-medium ms-auto"
                       >
                         {t('essential_to_prep.view_more')}
