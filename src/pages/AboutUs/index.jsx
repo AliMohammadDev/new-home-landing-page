@@ -89,7 +89,7 @@ const AboutUs = () => {
             {t('about.click_gallery')}
           </Link>
 
-          <div className="w-9 h-9 flex items-center bg-black justify-center border border-black rounded-full hover:opacity-80 transition">
+          <div className="w-9 h-9 flex items-center bg-black justify-center border border-black rounded-full">
             {
               i18n.language === 'ar' ? (
                 <ChevronLeftIcon

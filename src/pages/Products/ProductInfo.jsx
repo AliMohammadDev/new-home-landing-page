@@ -278,7 +278,7 @@ const ProductInfo = () => {
                 <button
                   onClick={() => handleAddCartItem(variant)}
                   disabled={isLoading}
-                  className="px-8 py-2 bg-black text-white rounded-md hover:opacity-80 transition whitespace-nowrap font-bold"
+                  className="px-8 py-2 bg-black text-white cursor-pointer rounded-md hover:opacity-80 transition whitespace-nowrap font-bold"
                 >
                   {isLoading ? t('productInfo.adding') : t('productInfo.add_to_cart')}
                 </button>
@@ -288,7 +288,7 @@ const ProductInfo = () => {
               </div>
               <button
                 onClick={() => handleAddWishlist(product)}
-                className="text-sm text-gray-600 hover:underline text-start pe-10"
+                className="text-sm text-gray-600 hover:underline cursor-pointer text-start pe-10"
               >
                 {t('productInfo.add_to_favorites')}
               </button>
