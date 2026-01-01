@@ -316,5 +316,35 @@
       "plastic": "Plastic",
       "wood": "Wood"
     }
+  },
+
+  "productInfo": {
+    "description_title": "Description of Products",
+    "loading_product": "Loading product...",
+    "cart_title": "Cart",
+    "cart_login_first": "You have to login first!",
+    "cart_added": "{{name}} added to cart successfully!",
+    "cart_failed": "Failed to add {{name}} to cart",
+    "wishlist_title": "Wishlist",
+    "wishlist_login_first": "You have to login first!",
+    "wishlist_added": "{{name}} added to wishlist successfully!",
+    "wishlist_failed": "Failed to add {{name}} to wishlist",
+    "rate": "Rate",
+    "rate_login_first": "You have to login first!",
+    "rate_success_title": "Thank you!",
+    "rate_success_desc": "Your review has been submitted",
+    "rate_error_title": "Error",
+    "rate_error_desc": "Failed to submit review",
+    "add_to_cart": "Add to cart",
+    "adding": "Adding...",
+    "color": "Color",
+    "size": "Size",
+    "add_to_favorites": "Add to favorites+",
+    "glassware_desc": "Elegant glassware, cups, mugs, jars, and all tabletop essentials.",
+    "homeware_desc": "Decorative homeware, gifts, crystal items, and ornaments.",
+    "product_description": "Product Description",
+    "cooking_pot_desc": "Stainless steel cooking pot with transparent cover for easy monitoring during cooking.",
+    "material": "Material",
+    "off": "% OFF"
   }
 }

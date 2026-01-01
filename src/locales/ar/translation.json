@@ -319,5 +319,35 @@
       "plastic": "بلاستيك",
       "wood": "خشب"
     }
+  },
+
+  "productInfo": {
+    "description_title": "وصف المنتجات",
+    "loading_product": "جاري تحميل المنتج...",
+    "cart_title": "السلة",
+    "cart_login_first": "يجب تسجيل الدخول أولاً!",
+    "cart_added": "{{name}} تمت إضافته للسلة بنجاح!",
+    "cart_failed": "فشل إضافة {{name}} إلى السلة",
+    "wishlist_title": "المفضلة",
+    "wishlist_login_first": "يجب تسجيل الدخول أولاً!",
+    "wishlist_added": "{{name}} تمت إضافته إلى المفضلة بنجاح!",
+    "wishlist_failed": "فشل إضافة {{name}} إلى المفضلة",
+    "rate": "تقييم",
+    "rate_login_first": "يجب تسجيل الدخول أولاً!",
+    "rate_success_title": "شكراً لك!",
+    "rate_success_desc": "تم إرسال تقييمك",
+    "rate_error_title": "خطأ",
+    "rate_error_desc": "فشل إرسال التقييم",
+    "add_to_cart": "أضف إلى السلة",
+    "adding": "جاري الإضافة...",
+    "color": "اللون",
+    "size": "الحجم",
+    "add_to_favorites": "أضف إلى المفضلة+",
+    "glassware_desc": "أدوات زجاجية أنيقة، أكواب، جرار، وكل أساسيات المائدة.",
+    "homeware_desc": "أدوات منزلية زخرفية، هدايا، كريستال وزينة.",
+    "product_description": "وصف المنتج",
+    "cooking_pot_desc": "وعاء طهي من الستانلس ستيل مع غطاء شفاف لمتابعة الطهي بسهولة.",
+    "material": "المادة",
+    "off": "خصم %"
   }
 }
