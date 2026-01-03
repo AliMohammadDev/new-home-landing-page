@@ -3,9 +3,11 @@ import LeftIcon from '../../assets/icons/LeftIcon';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 const AboutUs = () => {
   const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
 
 
   return (
@@ -28,7 +30,11 @@ const AboutUs = () => {
   `}
       >
 
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-[Asteroid]">
+        <h1 className={
+          clsx("text-4xl sm:text-5xl md:text-7xl font-[Asteroid]",
+            isRTL ? "font-[Expo-arabic]" : "font-[Asteroid]"
+          )
+        }>
           {t('about.about_us')}
         </h1>
 
@@ -41,7 +47,11 @@ const AboutUs = () => {
         <div className="w-full h-0.5 bg-black"></div>
 
         <section className="text-[#025043]">
-          <span className="font-[Expo-book] text-black text-3xl sm:text-4xl md:text-5xl block mb-6 ps-2 sm:ps-4 md:ps-0">
+          <span className={
+            clsx(" text-black text-3xl sm:text-4xl md:text-5xl block mb-6 ps-2 sm:ps-4 md:ps-0",
+              isRTL ? "font-[Expo-arabic]" : "font-[Expo-book]"
+            )
+          }>
             {t('about.intro_company')}
           </span>
 
