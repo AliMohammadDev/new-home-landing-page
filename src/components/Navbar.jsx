@@ -16,9 +16,13 @@ import LanguageSwitcher from './LanguageSwitcher.jsx';
 import ProfileSwitcher from './ProfileSwitcher.jsx';
 import { useTranslation } from 'react-i18next';
 import ChevronLeftIcon from '../assets/icons/ChevronLeftIcon.jsx';
+import homeLogoWhite from "../assets/images/home-logo-white.svg";
+import homeLogoGreen from "../assets/images/home-logo-green.png";
 
 const Navbar = () => {
   const { i18n, t } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+
   const [isLangOpen, setIsLangOpen] = useState(false);
 
   const changeLanguage = (lng) => {
@@ -61,11 +65,21 @@ const Navbar = () => {
       {/* 1. Logo Section */}
       <div className="shrink-0">
         <Link to={'/'}>
-          <img
-            src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
-            alt="Logo"
-            className="h-14 w-auto"
-          />
+          {
+            isRTL ? (
+              <img
+                src={homeLogoGreen}
+                alt="Logo"
+                className="h-14 w-auto"
+              />
+            ) : (
+              <img
+                src={homeLogoWhite}
+                alt="Logo"
+                className="h-14 w-auto"
+              />
+            )
+          }
         </Link>
       </div>
 

@@ -22,7 +22,6 @@ function Wishlists() {
 
   // Add to cart
   const handleAddCartItem = (item) => {
-
     if (!user) {
       addToast({
         title: t('cart.title') || 'Cart',
@@ -127,7 +126,7 @@ function Wishlists() {
                     className="border-b border-white/10 last:border-none group hover:bg-white/5 transition-all duration-300"
                   >
                     {/* Product Info */}
-                    <td className="py-6 px-4">
+                    <td className="py-6 px-4 font-[Expo-arabic]">
                       <div className="flex items-center gap-6">
                         <button
                           onClick={() => handleRemoveWishlist(item.id, item.product_variant?.name)}

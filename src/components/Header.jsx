@@ -4,6 +4,7 @@ import FacebookIcon from '../assets/icons/FacebookIcon';
 import InstagramIcon from '../assets/icons/InstagramIcon';
 import WhatsappIcon from '../assets/icons/WhatsappIcon';
 import TelegramIcon from '../assets/icons/TelegramIcon';
+import clsx from 'clsx';
 
 const Header = () => {
   const { t, i18n } = useTranslation();
@@ -37,7 +38,11 @@ const Header = () => {
         `}
       >
         {/* Header small text */}
-        <div className="flex items-center gap-2 md:gap-3 mb-6 sm:mb-10 md:mb-4">
+        <div className={
+          clsx("flex items-center gap-2 md:gap-3 mb-6 sm:mb-10 md:mb-4",
+            isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
+          )
+        }>
           <div className="w-6 h-px bg-[#E2995E]" />
           <span className="text-[#E2995E] text-sm sm:text-lg md:text-2xl lg:text-3xl">
             {t('header.small_text')}
@@ -45,11 +50,15 @@ const Header = () => {
         </div>
 
         {/* Main title */}
-        <div className="ms-6 sm:ms-8 md:ms-14">
-          <p className="text-sm sm:text-xl md:text-2xl lg:text-4xl font-[Qanduchia] mb-2">
+        <div className={
+          clsx("ms-6 sm:ms-8 md:ms-14",
+            isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
+          )
+        }>
+          <p className="text-sm sm:text-xl md:text-2xl lg:text-5xl mb-2">
             {t('header.main_title_line1')}
           </p>
-          <p className="ms-6 sm:ms-2 text-sm sm:text-xl md:text-2xl lg:text-4xl font-[Qanduchia]">
+          <p className="ms-6 sm:ms-2 text-sm sm:text-xl md:text-2xl lg:text-5xl">
             {t('header.main_title_line2')}
           </p>
         </div>
@@ -67,12 +76,24 @@ const Header = () => {
         {/* Bottom Main Text */}
         <div className="mt-25 sm:mt-16 md:mt-20 lg:mt-10 xl:mt-30 2xl:mt-60 ms-6 sm:ms-16 md:ms-24 lg:ms-40 xl:ms-60">
           <p>
-            <span className="font-[Asteroid] text-4xl sm:text-5xl md:text-7xl">
+            <span className={
+              clsx("font-[Asteroid] text-4xl sm:text-5xl md:text-7xl",
+                isRTL ? "font-[Expo-arabic]" : "font-[Asteroid]"
+              )
+            }>
               {t('header.bottom_text_bold')}
             </span>
-            <span className="font-[Expo-light] space-x-2 rtl:space-x-reverse">{t('header.bottom_text_light')}</span>
+            <span className={
+              clsx("font-[Expo-light] space-x-2 rtl:space-x-reverse text-4xl",
+                isRTL ? "font-[Expo-arabic]" : "font-[Expo-light]"
+              )
+            }>{t('header.bottom_text_light')}</span>
           </p>
-          <p className="font-[Expo-light] ms-10 md:ms-20 text-sm sm:text-base md:text-lg">
+          <p className={
+            clsx("font-[Expo-light] ms-10 md:ms-20 text-sm sm:text-base md:text-4xl",
+              isRTL ? "font-[Expo-arabic]" : "font-[Expo-light]"
+            )
+          }>
             {t('header.bottom_subtext')}
           </p>
         </div>

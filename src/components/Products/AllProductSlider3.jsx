@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next';
 import Slider from 'react-slick';
 
 
-
 function AllProductSlider3({ products = [] }) {
   const { t } = useTranslation();
   const CustomNextArrow = (props) => {
@@ -10,7 +9,7 @@ function AllProductSlider3({ products = [] }) {
     return (
       <div
         onClick={onClick}
-        className="font-[Qanduchia] cursor-pointer text-[40px] sm:text-[50px] md:text-[60px] 
+        className="font-[Expo-arabic] cursor-pointer text-[40px] sm:text-[50px] md:text-[60px] 
                  absolute top-1/2 left-[75%] transform -translate-x-1/2 -translate-y-1/2 
                  bg-black text-white text-sm font-bold w-24 sm:w-32 md:w-42 
                  h-24 sm:h-32 md:h-42 flex items-center justify-center rounded-full shadow-lg"
@@ -55,7 +54,6 @@ function AllProductSlider3({ products = [] }) {
               </div>
             ))}
           </Slider>
-
         </div>
       </section>
     </>

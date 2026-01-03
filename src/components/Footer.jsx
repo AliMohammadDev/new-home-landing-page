@@ -19,7 +19,7 @@ const Footer = () => {
 
       {/* Section 1 */}
       <div className="bg-[#024538] py-1 px-6 md:px-20 border-b border-[#EDEAE2]/30">
-        <div className={`flex flex-col md:flex-row justify-center md:justify-between items-center text-center md:text-left text-sm md:text-base font-[Qanduchia] tracking-wide space-y-4 md:space-y-0 w-full ${isRTL ? 'md:flex-row-reverse' : ''}`}>
+        <div className={`flex flex-col md:flex-row justify-center md:justify-between items-center text-center md:text-left text-sm md:text-base  tracking-wide space-y-4 md:space-y-0 w-full ${isRTL ? 'md:flex-row-reverse font-[Expo-arabic]' : 'font-[Qanduchia]'}`}>
 
           <div className="flex items-center justify-center md:justify-between w-full md:w-auto gap-2 md:gap-4">
             <span className="text-white md:text-[15px] lg:text-[25px]">{t('footer.website_url')}</span>

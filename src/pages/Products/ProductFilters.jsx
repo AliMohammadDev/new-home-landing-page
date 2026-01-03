@@ -18,7 +18,7 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
           aria-label={t('filter.categories')}
           title={t('filter.categories')}
         >
-          <ul className="space-y-1">
+          <ul className="space-y-1 font-[Expo-arabic]">
             {categories.map((category) => (
               <li key={category.id} className="flex items-center gap-2">
                 <Checkbox
@@ -37,7 +37,7 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
         aria-label={t('filter.size')}
         title={t('filter.size')}
       >
-        <ul className="space-y-1">
+        <ul className="space-y-1 font-[Expo-arabic]">
           <li>
             <Checkbox
               isSelected={filters.sizes.includes('Small')}
@@ -67,7 +67,7 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
         aria-label={t('filter.color')}
         title={t('filter.color')}
       >
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 font-[Expo-arabic]">
           {[
             { color: "bg-gray-800", label: "Black", key: "black" },
             { color: "bg-red-600", label: "Red", key: "red" },
@@ -136,7 +136,7 @@ const ProductFilters = ({ filters, onChange, onPriceChange }) => {
         aria-label={t('filter.material')}
         title={t('filter.material')}
       >
-        <ul className="space-y-1">
+        <ul className="space-y-1 font-[Expo-arabic]">
           <li>
             <Checkbox
               isSelected={filters.materials.includes('Ceramic')}

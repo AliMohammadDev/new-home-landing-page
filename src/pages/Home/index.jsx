@@ -12,6 +12,7 @@ import { useGetProductsVariantsByLimit, useGetSlidersProductsVariants } from '..
 import AnimateOnScroll from '../../components/AnimateOnScroll';
 import { useTranslation } from 'react-i18next';
 import homeLogoWhite from "../../assets/images/home-logo-white.svg";
+import clsx from 'clsx';
 
 
 const Home = () => {
@@ -19,6 +20,7 @@ const Home = () => {
   const { data: categories = [] } = useGetCategories();
   const { data: sliderProducts = [] } = useGetSlidersProductsVariants();
   const { data: variantsByLimit = [] } = useGetProductsVariantsByLimit();
+  const isRTL = i18n.language === 'ar';
 
 
   const productsByLimit = (variantsByLimit || []).map(v => ({
@@ -40,7 +42,11 @@ const Home = () => {
         {/* Hero / Welcome Section */}
         <AnimateOnScroll direction="up" delay={0.1}>
           {/* Title */}
-          <h1 className="text-center text-white font-[Qanduchia] text-4xl sm:text-2xl md:text-3xl lg:text-8xl">
+          <h1 className={clsx(
+            "text-center text-white text-4xl sm:text-2xl md:text-3xl lg:text-8xl",
+            isRTL ? "font-[Expo-arabic] text-8xl" : "font-[Qanduchia]"
+          )}>
+
             {t('hero.welcome')}
           </h1>
 
@@ -69,7 +75,7 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-20 p-2 sm:p-2 md:p-4">
             <div className="text-center text-white transition-shadow duration-300">
               {i18n.language === 'ar' ? (
-                <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[100px] font-[Qanduchia] block">
+                <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[100px] font-[Expo-arabic] block">
                   {t('navbar.our_products')}
                 </span>
               ) : (

@@ -28,7 +28,7 @@ function Register() {
         </Link>
       </div>
 
-      <div className="flex h-screen items-center justify-center bg-cover bg-center relative">
+      <div className="flex h-screen items-center justify-center bg-cover bg-center relative font-[Expo-arabic]">
         <div className="relative w-full max-w-md px-4">
           <div
             className="rounded-2xl bg-white/10 backdrop-blur-md p-8 shadow-2xl border border-white/20 text-white"

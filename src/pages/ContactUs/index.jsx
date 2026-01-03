@@ -41,20 +41,20 @@ const Contact = () => {
     >
       {/* Left Text Overlay */}
       <div
-        className={`w-full rounded-t-4xl md:w-1/2 space-y-6 p-8 font-[Qanduchia] translate-y-6 
-          ${isRtl ? 'text-right md:order-2' : 'text-left md:order-1'}`}
+        className={`w-full rounded-t-4xl md:w-1/2 space-y-6 p-8  translate-y-6 
+          ${isRtl ? 'text-right md:order-2 font-[Expo-arabic]' : 'text-left md:order-1 font-[Qanduchia]'}`}
         style={{
           background: 'linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 100%)',
           backdropFilter: 'blur(8px)',
         }}
       >
-        <h1 className="text-3xl sm:text-4xl md:text-4xl text-white font-bold leading-snug">
+        <h1 className="text-3xl sm:text-4xl md:text-4xl text-white  leading-snug">
           {t('contact.heading')}
         </h1>
-        <h2 className="text-2xl sm:text-3xl md:text-3xl text-white leading-snug">
+        <h2 className="text-2xl sm:text-3xl md:text-3xl text-white leading-snug ">
           {t('contact.subheading')}
         </h2>
-        <p className="text-sm sm:text-base md:text-base leading-relaxed text-gray-200 font-[Expo-arabic]">
+        <p className="text-sm sm:text-base md:text-base leading-relaxed text-gray-200 ">
           {t('contact.description')}
         </p>
       </div>
@@ -62,9 +62,9 @@ const Contact = () => {
       {/* Right Form */}
       <div
         className={`w-full md:w-1/2 bg-white/10 backdrop-blur-md p-6 sm:p-8 rounded-2xl shadow-lg mt-10 md:mt-4
-          ${isRtl ? 'md:mr-10 md:order-1' : 'md:ml-10 md:order-2'}`}
+          ${isRtl ? 'md:mr-10 md:order-1 font-[Expo-arabic]' : 'md:ml-10 md:order-2 font-[Qanduchia]'}`}
       >
-        <h2 className={`text-3xl sm:text-4xl md:text-3xl font-[Qanduchia] font-bold mb-4 ${isRtl ? 'text-right' : 'text-left'} text-white`}>
+        <h2 className={`text-3xl sm:text-4xl md:text-3xl  font-bold mb-4 ${isRtl ? 'text-right' : 'text-left'} text-white`}>
           {t('contact.form_heading')}
         </h2>
         <p className={`text-gray-200 text-sm sm:text-base md:text-sm mb-6 ${isRtl ? 'text-right' : 'text-left'}`}>

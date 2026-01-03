@@ -21,9 +21,11 @@ import RatingStars from '../../components/RatingStars';
 import { useAddReviews } from '../../api/reviews';
 import allProducts from "../../assets/images//all_products.png"
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 function ShowAllProducts() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
 
   const [filters, setFilters] = useState({
     colors: [],
@@ -293,8 +295,11 @@ function ShowAllProducts() {
 
       <div className=" mx-auto px-6 py-10">
         <div className="flex justify-start mb-10">
-          <h1 className="text-5xl font-[Qanduchia] text-black">
-
+          <h1 className={
+            clsx("text-5xl  text-black",
+              isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
+            )
+          }>
             {t('navbar.all_products')}
           </h1>
         </div>
@@ -350,7 +355,7 @@ function ShowAllProducts() {
                     <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
                   </button>
 
-                  <div className="p-4">
+                  <div className="p-4 font-[Expo-arabic]">
                     <h3 className="text-[#025043] text-[16px] font-medium mb-2">
                       {product.name}
                     </h3>

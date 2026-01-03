@@ -100,7 +100,7 @@ function ProductSlider2({ products = [] }) {
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Title & Description */}
-      <span className={`font-[Qanduchia] text-black text-[40px] md:text-[64px] block mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+      <span className={` text-black text-[40px] md:text-[64px] block mb-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'}`}>
         {t('essential_to_prep.title')}
         <p className="text-black text-[14px] font-[Expo-book] md:text-[15px] mt-2">
           {t('essential_to_prep.description')}
@@ -133,13 +133,13 @@ function ProductSlider2({ products = [] }) {
                     />
 
                     <div className="p-4 flex-1 flex flex-col">
-                      <h3 className={`text-[#025043] text-[16px] font-bold mb-2 h-12 overflow-hidden ${isRTL ? 'text-right' : 'text-left'}`}>
+                      <h3 className={`text-[#025043] text-[16px] font-bold mb-2 h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
                         {product.name}
                       </h3>
 
                       <div className="border-b border-[#025043]/20 mb-3"></div>
 
-                      <p className={`text-[#025043] text-[18px] font-bold mb-4 ${isRTL ? 'text-right' : 'text-left'}`}>
+                      <p className={`text-[#025043] text-[18px] font-bold mb-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
                         {product.final_price} $
                       </p>
 
@@ -159,7 +159,7 @@ function ProductSlider2({ products = [] }) {
                         <button
                           onClick={() => handleAddCartItem(variant)}
                           disabled={isLoading}
-                          className="bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 w-full active:scale-95"
+                          className="bg-[#025043] text-white cursor-pointer font-[Expo-arabic] text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 w-full active:scale-95"
                         >
                           {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
                         </button>

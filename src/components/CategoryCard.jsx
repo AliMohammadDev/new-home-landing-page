@@ -17,8 +17,8 @@ const CategoryCard = ({ title, description, image }) => {
         color: hover ? 'white' : '#025043',
       }}
     >
-      <span className="text-3xl font-semibold">{title}</span>
-      <p className="text-xs mt-5 md:mt-1 md:p-2">{description}</p>
+      <span className="text-3xl font-semibold font-[Expo-arabic]">{title}</span>
+      <p className="text-xs mt-5 md:mt-1 md:p-2 font-[Expo-arabic]">{description}</p>
     </div>
   );
 };

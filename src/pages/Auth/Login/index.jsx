@@ -26,7 +26,7 @@ function Login() {
         </Link>
       </div>
 
-      <div className="flex h-screen items-center justify-center bg-cover bg-center relative">
+      <div className="flex h-screen items-center justify-center bg-cover bg-center relative font-[Expo-arabic]">
         <div className="relative w-full max-w-md px-4">
           <div className="rounded-2xl bg-white/10 backdrop-blur-md p-8 shadow-2xl border border-white/20 text-white" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}>
             <div className="flex mb-6 justify-center">
@@ -37,7 +37,7 @@ function Login() {
               />
             </div>
 
-            <h2 className="text-2xl mb-1">{t('auth.welcome_back')}</h2>
+            <h2 className="text-2xl mb-1 ">{t('auth.welcome_back')}</h2>
             <p className="text-gray-200 mb-6">{t('auth.login_desc')}</p>
 
             {error && (

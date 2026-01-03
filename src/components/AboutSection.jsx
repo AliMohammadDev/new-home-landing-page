@@ -11,12 +11,12 @@ function AboutSection() {
             dir={isRTL ? 'rtl' : 'ltr'}
         >
             {/* Title */}
-            <h2 className="font-[Expo-book] text-black text-[40px] md:text-[64px] block mb-8 leading-tight">
+            <h2 className="font-[Expo-arabic] text-black text-[40px] md:text-[64px] block mb-8 leading-tight">
                 {t('about_section.title')}
             </h2>
 
             {/* Description */}
-            <div className="text-black text-[16px] md:text-[24px] mb-8 max-w-5xl leading-relaxed">
+            <div className="text-black text-[16px] md:text-[24px] font-[Expo-arabic] mb-8 max-w-5xl leading-relaxed">
                 <p className="mb-4">
                     {t('about_section.description')}
                 </p>
@@ -26,12 +26,12 @@ function AboutSection() {
             </div>
 
             {/* Product list */}
-            <ul className="list-none font-[Expo-light] text-black space-y-4 ps-6 md:ps-16 mb-16">
+            <ul className="list-none  text-black space-y-4 ps-6 md:ps-16 mb-16">
                 {t('about_section.product_list', { returnObjects: true }).map((item, index) => (
                     <li
                         key={index}
                         className={clsx(
-                            "relative flex items-center gap-3 before:content-[''] before:inline-block before:w-1.5 before:h-1.5 before:bg-black before:rounded-full"
+                            "relative flex font-[Expo-book] items-center gap-3 before:content-[''] before:inline-block before:w-1.5 before:h-1.5 before:bg-black before:rounded-full"
                         )}
                     >
                         {item}
@@ -42,8 +42,8 @@ function AboutSection() {
             {/* "We" section */}
             <div className="flex flex-col md:flex-row items-center gap-6 md:gap-0 mt-20 relative">
                 <span className={clsx(
-                    "font-[Asteroid] text-6xl md:text-8xl text-black leading-none z-10",
-                    isRTL ? "md:translate-x-8" : "md:-translate-x-8"
+                    " text-6xl md:text-8xl text-black leading-none z-10",
+                    isRTL ? "font-[Expo-arabic] md:translate-x-8" : "font-[Asteroid] md:-translate-x-8"
                 )}>
                     {t('about_section.we')}
                 </span>

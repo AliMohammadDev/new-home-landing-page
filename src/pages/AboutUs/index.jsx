@@ -52,7 +52,7 @@ const AboutUs = () => {
             </span>
           </p>
 
-          <ul className="list-none font-[Expo-light] text-black space-y-2 ps-6 sm:ps-10 md:ps-20 text-sm sm:text-base md:text-lg">
+          <ul className="list-none font-[Expo-arabic] text-black space-y-2 ps-6 sm:ps-10 md:ps-20 text-sm sm:text-base md:text-lg">
             <li className="relative before:content-[''] before:inline-block before:w-1 before:h-1 before:bg-black before:me-3 before:align-middle">
               {t('about.product_1')}
             </li>
@@ -84,7 +84,7 @@ const AboutUs = () => {
         <div className="flex items-center gap-1 justify-end">
           <Link
             to={'/products'}
-            className="px-6 py-1 bg-black text-white rounded-md hover:opacity-80 transition whitespace-nowrap"
+            className="px-6 py-1 bg-black text-white font-[Expo-arabic] rounded-md hover:opacity-80 transition whitespace-nowrap"
           >
             {t('about.click_gallery')}
           </Link>

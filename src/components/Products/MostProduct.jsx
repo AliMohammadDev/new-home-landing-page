@@ -86,17 +86,16 @@ function MostProduct({ products = [] }) {
                     className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
                   />
 
-                  {/* تم استبدال ml-3 بـ px-4 لضمان توازن المسافات من الطرفين */}
-                  <div className={`mt-5 px-4 ${isRTL ? 'text-right' : 'text-left'}`}>
-                    <h3 className="text-black text-[18px] font-[Qanduchia] mb-2">
+                  <div className={`mt-5 px-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'}`}>
+                    <h3 className="text-black text-[18px]  mb-2">
                       {product.name}
                     </h3>
-
+                    <Link to={'/products'} className='font-[Expo-book]'>{t("slider.Think_about_a_gift?_see_our_colllection")}</Link>
                     <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3 leading-relaxed">
                       {product.body}
                     </p>
 
-                    <span className="text-[#025043] font-bold text-lg">
+                    <span className="text-[#025043] font-[Expo-arabic] text-lg">
                       {product.final_price} $
                     </span>
                   </div>

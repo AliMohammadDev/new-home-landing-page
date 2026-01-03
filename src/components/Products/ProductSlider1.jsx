@@ -8,6 +8,7 @@ import { useGetProfile } from '../../api/auth.jsx';
 import RatingStars from '../RatingStars.jsx';
 import { useAddToCartItem } from '../../api/cart.jsx';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 function ProductSlider1({ products = [] }) {
   const { t, i18n } = useTranslation();
@@ -110,7 +111,11 @@ function ProductSlider1({ products = [] }) {
     >
       {/* Title + Description */}
       <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
-        <h2 className="font-[Qanduchia] text-black text-[40px] md:text-[64px] mb-4">
+        <h2 className={
+          clsx(" text-black text-[40px] md:text-[64px] mb-4",
+            isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
+          )
+        }>
           {t('essential_to_prep.title')}
         </h2>
         <p className="text-black text-[14px] md:text-[15px] font-[Expo-book] max-w-3xl">
@@ -132,13 +137,13 @@ function ProductSlider1({ products = [] }) {
                     className="w-full h-48 sm:h-56 md:h-64 object-cover"
                   />
                   <div className="p-4 flex flex-col gap-3 flex-1">
-                    <h3 className={`text-[#025043] text-[16px] font-bold h-12 overflow-hidden ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <h3 className={`text-[#025043] text-[16px] font-bold h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
                       {product.name}
                     </h3>
 
                     <div className="border-b border-[#025043]/20"></div>
 
-                    <p className={`text-[#025043] text-[18px] font-bold ${isRTL ? 'text-right' : 'text-left'}`}>
+                    <p className={`text-[#025043] text-[18px] font-bold ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
                       {product.final_price} $
                     </p>
 
@@ -150,7 +155,7 @@ function ProductSlider1({ products = [] }) {
 
                       <Link
                         to={`/products`}
-                        className="text-sm hover:underline font-medium ms-auto"
+                        className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto"
                       >
                         {t('essential_to_prep.view_more')}
                       </Link>
@@ -159,7 +164,7 @@ function ProductSlider1({ products = [] }) {
                     <button
                       onClick={() => handleAddCartItem(variant)}
                       disabled={isLoading}
-                      className="w-full bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
+                      className="w-full bg-[#025043] text-white cursor-pointer text-sm font-[Expo-arabic] font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
                     >
                       {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
                     </button>

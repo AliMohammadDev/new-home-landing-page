@@ -40,7 +40,7 @@ function ResetPassword() {
         </Link>
       </div>
 
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-screen items-center justify-center font-[Expo-arabic]">
         <div className="w-full max-w-md px-4">
           <div
             className="rounded-2xl bg-white/10 backdrop-blur-md p-8 shadow-2xl border border-white/20 text-white"
