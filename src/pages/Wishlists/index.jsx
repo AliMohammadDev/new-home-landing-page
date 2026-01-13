@@ -6,6 +6,7 @@ import { useAddToCartItem } from '../../api/cart';
 import { useGetProfile } from '../../api/auth';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 
 function Wishlists() {
   const { t, i18n } = useTranslation();
@@ -106,8 +107,19 @@ function Wishlists() {
       <div className="max-w-6xl mx-auto">
         {wishlistItems.length === 0 ? (
           <div className="text-center py-20 bg-white/5 rounded-3xl border border-white/10">
-            <p className="text-xl text-gray-300">{t('wishlist.empty') || 'Your wishlist is empty'}</p>
+            <p className="text-xl text-gray-300 mb-6">
+              {t('wishlist.empty')}
+            </p>
+
+            <Link
+              to="/products"
+              className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold
+               bg-white text-[#025043] hover:bg-gray-200 transition rounded-full"
+            >
+              {t('wishlist.explore')}
+            </Link>
           </div>
+
         ) : (
           <div className="w-full overflow-x-auto custom-scrollbar">
             <table className="w-full border-collapse min-w-[700px]">

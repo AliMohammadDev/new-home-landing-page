@@ -33,6 +33,8 @@ const Navbar = () => {
   const { data: categories = [] } = useGetCategories();
   const { data: profile } = useGetProfile();
   const { data: cartData = { data: [], cart_total: 0 } } = useGetAllCartItems();
+
+
   const [isProductMenuOpen, setIsProductMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -126,7 +128,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* 3. Mobile Hamburger & Desktop Actions (Always at the end) */}
+      {/* 3. Mobile Hamburger & Desktop Actions */}
       <div className="flex items-center gap-2">
         {/* Mobile Hamburger - Hidden on LG */}
         <div className="lg:hidden relative z-50">
@@ -188,8 +190,8 @@ const Navbar = () => {
                           <>
                             {cartData.data.map((item) => (
                               <div key={item.id} className="grid grid-cols-3 gap-4 mb-3 items-center">
-                                <img src={item.product_variant.image} alt={item.product_variant.name} className="object-cover rounded w-16 h-16" />
-                                <span className="font-medium text-center">{item.total_price} $</span>
+                                <img src={item.image} alt={item.product_variant.name} className="object-cover rounded w-16 h-16" />
+                                <span className="font-medium text-center">  {item.product_variant.final_price} $</span>
                                 <div className="relative flex items-center border rounded-2xl bg-white text-[#025043] px-1 py-1">
                                   <button
                                     onClick={() => removeItem(item.id)}

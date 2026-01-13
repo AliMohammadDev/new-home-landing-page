@@ -10,6 +10,7 @@ import MinusIcon from '../../assets/icons/MinusIcon';
 import PlusIcon from '../../assets/icons/PlusIcon';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
 
 function Carts() {
   const { t, i18n } = useTranslation();
@@ -60,9 +61,20 @@ function Carts() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
         {/* Cart Items */}
-        <div className="lg:col-span-2">
+        <div className={clsx(items.length === 0 ? 'lg:col-span-4' : "lg:col-span-2")}>
           {items.length === 0 ? (
-            <div className="text-center py-20 text-lg">{t('cart.empty')}</div>
+            <div className="text-center py-20 bg-white/5 rounded-3xl border border-white/10">
+              <p className="text-xl text-gray-300 mb-6">
+                {t('cart.empty')}
+              </p>
+              <Link
+                to="/products"
+                className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold
+               bg-white text-[#025043] hover:bg-gray-200 transition rounded-full"
+              >
+                {t('cart.explore')}
+              </Link>
+            </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
@@ -87,7 +99,7 @@ function Carts() {
                             ✕
                           </button>
                           <img
-                            src={item.product_variant?.image}
+                            src={item.image}
                             alt={item.product_variant?.name}
                             className="w-16 h-20 object-cover rounded"
                           />
@@ -131,9 +143,8 @@ function Carts() {
         </div>
 
         {/* Cart Summary */}
-        <div className="bg-white text-[#025043] rounded-3xl p-8 h-fit shadow-lg">
+        {items.length > 0 && (<div className="bg-white text-[#025043] rounded-3xl p-8 h-fit shadow-lg">
           <h2 className="text-xl font-bold mb-6 text-center">{t('cart.my_cart')}</h2>
-
           <div className="flex justify-between mb-4">
             <span>{t('cart.subtotal')}</span>
             <span className="font-semibold">{total} $</span>
@@ -151,9 +162,12 @@ function Carts() {
               {t('cart.proceed_checkout')}
             </button>
           </Link>
-        </div>
+        </div>)}
+
+
+
       </div>
-    </div>
+    </div >
   );
 }
 

@@ -10,10 +10,15 @@ import { useGetProfile } from '../../api/auth';
 import RatingStars from '../../components/RatingStars';
 import { useAddReviews } from '../../api/reviews';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import FavoriteIcon from '../../assets/icons/FavoriteIcon';
+import WishListIcon from '../../assets/icons/WishListIcon';
 
 
 const ProductInfo = () => {
   const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
   const { variantId } = useParams();
   const { data } = useGetProductVariant(variantId);
   const { data: categories = [] } = useGetCategories();
@@ -22,6 +27,39 @@ const ProductInfo = () => {
   const { mutate: addWishlist } = useAddWishlist();
   const product = data?.product;
   const variant = data;
+
+  const [activeImage, setActiveImage] = useState(null);
+
+
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [selectedMaterial, setSelectedMaterial] = useState(null);
+  const [selectedVariantId, setSelectedVariantId] = useState(null);
+
+  console.log(selectedVariantId);
+
+
+  useEffect(() => {
+    if (product?.available_options?.length > 0) {
+      const firstColor = product.available_options[0];
+      const firstSize = firstColor.available_sizes[0];
+      const firstMaterial = firstSize.available_materials[0];
+
+      setSelectedColor(firstColor);
+      setSelectedSize(firstSize);
+      setSelectedMaterial(firstMaterial);
+      setSelectedVariantId(firstMaterial.variant_id);
+    }
+  }, [product]);
+
+
+  useEffect(() => {
+    if (data?.all_images?.length) {
+      setActiveImage(data.all_images[0].url);
+    } else if (data?.image) {
+      setActiveImage(data.image);
+    }
+  }, [data]);
 
 
   const activeCategoryId = product?.category?.id;
@@ -129,7 +167,6 @@ const ProductInfo = () => {
     );
   };
 
-
   const { mutate: addReview } = useAddReviews();
   //Add review
   const handleRateProduct = (variantId, rating) => {
@@ -166,12 +203,9 @@ const ProductInfo = () => {
 
   };
 
-
-
   if (!data || !product || !variant) {
     return <p className="text-center mt-20">Loading product...</p>;
   }
-  const isRTL = i18n.language === 'ar';
 
 
   return (
@@ -196,7 +230,7 @@ const ProductInfo = () => {
           return (
             <span
               key={category.id}
-              className={`px-3 py-1 rounded-full transition ${isActive ? 'bg-[#025043] text-white font-bold' : 'text-gray-600'
+              className={`px-5 py-1.5 rounded-full text-sm md:text-base transition-all duration-300 shadow-sm ${isActive ? 'bg-[#025043] text-white font-bold scale-105' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
             >
               {category.name}
@@ -208,25 +242,44 @@ const ProductInfo = () => {
       <hr className="mt-4 border-[#025043]" />
 
       {/* Main Section */}
-      <div className="flex flex-col lg:flex-row justify-between items-start gap-8 mt-1">
+      <div className="w-full flex flex-col md:flex-row gap-4 items-start relative">
 
         {/* Left Image Section */}
-        <div className="w-full lg:w-1/2">
-          <img
-            src={product?.image}
-            alt={product?.name}
-            className="w-full h-auto object-cover shadow-md rounded-2xl"
-          />
-          <p className="mt-10 text-center text-black leading-relaxed font-[Expo-arabic]">
-            {product.category?.description || product.category?.name || ""}
-          </p>
+        <div className="w-full md:w-5/12">
+
+          {/* Image */}
+          <div className="w-full flex justify-start">
+            <img
+              src={activeImage}
+              alt={product?.name}
+              className="w-full max-h-[420px] object-contain"
+            />
+          </div>
+
+          {/* Thumbnails */}
+          <div className="flex gap-3 justify-center overflow-x-auto py-2">
+            {data.product.product_all_images?.map((img) => (
+              <button
+                key={img.id}
+                onClick={() => setActiveImage(img.url)}
+                className={`shrink-0 w-16 h-16 rounded-xl border-2 transition-all ${activeImage === img.url ? 'border-[#025043] scale-110 shadow-md' : 'border-gray-200 opacity-70 hover:opacity-100'
+                  }`}
+              >
+                <img src={img.url} className="w-full h-full object-cover rounded-lg" />
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Right Section */}
-        <div className="w-full lg:w-1/2 flex flex-col md:flex-row justify-between gap-8 items-stretch relative">
+
+
+
+        {/* Right Section */}
+        <div className="w-full flex flex-col md:flex-row gap-4 relative">
 
           {/* Left Subsection (Details) */}
-          <div className={`md:w-1/2 flex-1 space-y-4 ${isRTL ? 'pe-4 text-right' : 'ps-4 text-left'}`}>
+          <div className={`md:w-1/2 space-y-4 ${isRTL ? 'pe-4 text-right' : 'ps-4 text-left'}`}>
             <h2 className="text-2xl md:text-3xl font-semibold font-[Expo-arabic]">
               {product?.name}
             </h2>
@@ -241,58 +294,108 @@ const ProductInfo = () => {
             </div>
 
             {/* Colors */}
-            <div className="space-y-1">
-              <span className="font-bold font-[Expo-arabic]">{t('productInfo.color')}</span>
-              <div
-                className="w-6 h-6 rounded-full border border-gray-300"
-                style={{ backgroundColor: variant.color?.hex_code }}
-              ></div>
+            <div>
+              <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{t('productInfo.color')}</span>
+              <div className="flex gap-3 mt-3">
+                {product.available_options.map((color) => (
+                  <button
+                    key={color.id}
+                    onClick={() => {
+                      setSelectedColor(color);
+                      const firstSize = color.available_sizes[0];
+                      const firstMaterial = firstSize.available_materials[0];
+                      setSelectedSize(firstSize);
+                      setSelectedMaterial(firstMaterial);
+                      setSelectedVariantId(firstMaterial.variant_id);
+                    }}
+                    className={`w-8 h-8 rounded-full border-2 transition-all shadow-sm ${selectedColor?.id === color.id ? 'border-black scale-125 ring-2 ring-gray-100' : 'border-transparent'
+                      }`}
+                    style={{ backgroundColor: color.hex }}
+                    title={color.name}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Size */}
-            <div className="text-sm">
-              <span className="font-bold font-[Expo-arabic]">{t('productInfo.size')}</span>
-              <p>{variant?.size}</p>
+            <div>
+              <span className="text-sm font-semibold text-gray-500 uppercase tracking-wider">{t('productInfo.size')}</span>
+              <div className="flex gap-2 mt-3 flex-wrap">
+                {selectedColor?.available_sizes.map((size) => {
+                  const isActive = selectedSize?.id === size.id;
+                  return (
+                    <button
+                      key={size.id}
+                      onClick={() => {
+                        setSelectedSize(size);
+                        const firstMaterial = size.available_materials[0];
+                        setSelectedMaterial(firstMaterial);
+                        setSelectedVariantId(firstMaterial.variant_id);
+                      }}
+                      className={`px-4 py-2 border rounded-lg text-xs font-bold transition-all ${isActive ? 'bg-[#025043] text-white border-[#025043]' : 'bg-white border-gray-200 text-gray-600 hover:border-[#025043]'
+                        }`}
+                    >
+                      {size.name}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Rating */}
             <div className="font-bold font-[Expo-arabic]">
               {t('productInfo.rate')}
-
               <div className="flex items-center gap-2 text-sm mt-1">
                 <RatingStars
-                  rating={Number(variant?.reviews_avg) || 0}
-                  onRate={(star) => handleRateProduct(variant.id, star)}
+                  rating={Number(data.reviews_avg) || 0}
+                  onRate={(star) => handleRateProduct(selectedVariantId, star)}
                 />
-
                 <span className="text-xs text-gray-500">
                   ({variant?.reviews_count ?? 0})
                 </span>
               </div>
             </div>
 
+            {/* Add to Cart + Add to Favorites in same line */}
 
-            {/* Add to cart */}
-            <div className="flex flex-col mt-6 w-full gap-2">
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => handleAddCartItem(variant)}
-                  disabled={isLoading}
-                  className="px-8 py-2 bg-black text-white cursor-pointer rounded-md hover:opacity-80 transition whitespace-nowrap font-bold"
-                >
+
+
+            {/* Container for Buttons */}
+            <div className="flex items-center gap-3 mt-8 w-full">
+
+              {/* Add to Cart Button Group */}
+              <button
+                onClick={() => handleAddCartItem({ id: selectedVariantId })}
+                disabled={isLoading}
+                className="flex-1 h-14 bg-black text-white rounded-xl flex items-center justify-between px-6 hover:bg-gray-800 transition-all group disabled:bg-gray-400"
+              >
+                <span className="font-bold text-lg">
                   {isLoading ? t('productInfo.adding') : t('productInfo.add_to_cart')}
-                </button>
-                <div className={`w-10 h-10 bg-black flex items-center justify-center rounded-full ${isRTL ? 'rotate-180' : ''}`}>
+                </span>
+
+                {/* Arrow Icon inside the button */}
+                <div className={`w-8 h-8 bg-white/20 flex items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`}>
                   <ChevronRightIcon color="white" />
                 </div>
-              </div>
+              </button>
+
+              {/* Add to Favorites (Icon Button) */}
+              {/* Add to Favorites (Icon Button) */}
               <button
-                onClick={() => handleAddWishlist(product)}
-                className="text-sm text-gray-600 hover:underline cursor-pointer text-start pe-10"
+                onClick={() => handleAddWishlist({ id: selectedVariantId })}
+                className={`w-14 h-14 border-2 rounded-xl flex items-center justify-center transition-all group ${isProductInWishlist(selectedVariantId)
+                  ? 'bg-red-50 border-red-200 text-red-500'
+                  : 'bg-gray-50 border-gray-100 text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-red-500'
+                  }`}
+                title={t('productInfo.add_to_favorites')}
               >
-                {t('productInfo.add_to_favorites')}
+                {/* تمرير الحالة للأيقونة لتغيير لون الـ fill داخلياً */}
+                <WishListIcon isFavorite={isProductInWishlist(selectedVariantId)} />
               </button>
             </div>
+
+
+
 
             <hr className="mt-6 border-[#025043]" />
           </div>
@@ -306,17 +409,40 @@ const ProductInfo = () => {
               {product?.description || product?.body || t('productInfo.no_description_available')}
             </p>
 
-            <div className="mt-4">
-              <h4 className="font-semibold text-lg font-[Expo-arabic]">{t('productInfo.material')}</h4>
-              <p className="text-black mt-1 leading-relaxed font-[Expo-arabic]">{variant?.material}</p>
+            {/* Material Selection */}
+            <div className="pt-4">
+              <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                {t('productInfo.material')}
+              </h4>
+              <div className="flex gap-2 flex-wrap">
+                {selectedSize?.available_materials.map((material) => {
+                  const isActive = selectedMaterial?.id === material.id;
+                  return (
+                    <button
+                      key={material.id}
+                      onClick={() => {
+                        setSelectedMaterial(material);
+                        setSelectedVariantId(material.variant_id);
+                      }}
+                      className={`px-4 py-2 border rounded-lg text-xs font-bold transition-all ${isActive ? 'bg-[#025043] text-white border-[#025043]' : 'bg-white border-gray-200 text-gray-600 hover:border-[#025043]'
+                        }`}
+                    >
+                      {material.name}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
             <hr className="mt-6 border-[#025043]" />
           </div>
         </div>
+
+
       </div>
     </div >
   );
 };
+
 
 export default ProductInfo;

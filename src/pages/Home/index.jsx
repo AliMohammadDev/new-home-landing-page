@@ -26,6 +26,7 @@ const Home = () => {
   const productsByLimit = (variantsByLimit || []).map(v => ({
     ...v.product,
     variantId: v.id,
+    image: v.image,
     color: v.color,
     size: v.size,
     material: v.material,
@@ -124,7 +125,7 @@ const Home = () => {
         </AnimateOnScroll>
 
         <AnimateOnScroll direction="up" delay={0.8}>
-          <MostProduct products={sliderProducts.featured?.map(v => v.product) || []} />
+          <MostProduct products={sliderProducts.featured || []} />
         </AnimateOnScroll>
 
 

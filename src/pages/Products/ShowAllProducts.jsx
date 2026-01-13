@@ -45,15 +45,25 @@ function ShowAllProducts() {
 
   const variants = products || [];
   const productsList = variants.map(v => ({
-    ...v.product,
     variantId: v.id,
-    color: v.color,
-    size: v.size,
-    material: v.material,
+    image: v.image,
+
+    name: v.product.name,
+    category: v.product.category,
+
+    price: Number(v.price),
+    discount: Number(v.discount),
+    final_price: Number(v.final_price),
+
+    color: v.current_color,
+    size: v.current_size,
+    material: v.current_material,
+
     stock_quantity: v.stock_quantity,
-    rating: Number(v.reviews_avg),
+    rating: Number(v.reviews_avg) || 0,
     reviews_count: v.reviews_count,
   }));
+
 
 
   const { data: user } = useGetProfile();
@@ -401,8 +411,7 @@ function ShowAllProducts() {
                   className="px-6 py-2 bg-[#025043] text-white rounded-md hover:bg-[#01382f] transition"
                 >
                   <div className="flex items-center gap-2 cursor-pointer">
-                    <span className="text-white">{t('orders.next')}</span>
-
+                    <span className="text-white">{t('essential_to_prep.view_more')}</span>
                     <Spinner
                       variant="dots"
                       size="sm"

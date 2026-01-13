@@ -46,19 +46,27 @@ const Product = () => {
   const { mutate: addToCart, isLoading } = useAddToCartItem();
   const { mutate: addWishlist } = useAddWishlist();
   const { data: products = [] } = useGetProductsVariantsByCategory(categoryId);
-  const productsList = (products || []).map(v => ({
+
+
+  const rawProducts = products?.data || products || [];
+
+  const productsList = rawProducts.map(v => ({
     ...v.product,
     variantId: v.id,
+    image: v.image,
+    final_price: v.final_price,
     category: v.product.category,
-    color: v.color,
-    size: v.size,
-    material: v.material,
+    color: v.current_color,
+    size: v.current_size,
+    material: v.current_material,
     stock_quantity: v.stock_quantity,
-    rating: Number(v.reviews_avg),
+    rating: Number(v.reviews_avg || 0),
     reviews_count: v.reviews_count,
   }));
-  const category = products[0]?.product?.category;
 
+
+
+  const category = products[0]?.product?.category;
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);

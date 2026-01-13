@@ -92,6 +92,7 @@
   "cart": {
     "button": "Cart",
     "empty": "Your cart is empty.",
+    "explore": "Explore our products and start adding them to your cart",
     "product": "Product",
     "price": "Price",
     "qty": "QTY",
@@ -201,7 +202,8 @@
     "next": "Next",
     "page": "Page",
     "of": "of",
-    "empty": "Your wishlist is empty."
+    "empty": "Your wishlist is empty.",
+    "explore": "Explore our products and start adding them to your wishlist"
   },
   "order": {
     "loading": "Loading order...",

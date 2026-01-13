@@ -6,10 +6,14 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ArrowLeftIcon from '../../assets/icons/ArrowLeftIcon.jsx';
 import ArrowRightIcon from '../../assets/icons/ArrowRightIcon.jsx';
+import clsx from 'clsx';
 
 function MostProduct({ products = [] }) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === 'ar';
+
+
 
   const CustomArrow = ({ onClick, direction }) => (
     <button
@@ -26,7 +30,6 @@ function MostProduct({ products = [] }) {
       {direction === 'next' ? <ChevronRightIcon color="white" /> : <ChevronLeftIcon color="black" />}
     </button>
   );
-  const isRTL = i18n.language === 'ar';
 
   const settings = {
     infinite: true,
@@ -50,18 +53,22 @@ function MostProduct({ products = [] }) {
 
   return (
     <section className="bg-[#EDEAE2] md:px-20 py-10 md:py-5">
-      <div className="grid grid-cols-1 md:grid-cols-2 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-start">
         {/* Text */}
         <div className="flex flex-col">
           <div className="flex flex-col mt-40 md:mt-10 md:flex-row items-center gap-10">
             <span className="font-[Expo-arabic] text-7xl md:text-6xl xl:text-8xl text-black">
               {t('most_product.title_main')}
             </span>
-            <span className="font-[Asteroid] mb-20 md:mb-0 text-8xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-8xl">
+            <span className={
+              clsx(" mb-20 md:mb-0 text-8xl sm:text-6xl  xl:text-8xl",
+                isRTL ? "font-[Expo-arabic] lg:text-6xl md:text-6xl md:-mr-4  lg:-mr-8" : "font-[Asteroid] lg:text-8xl md:text-7xl"
+              )
+            }>
               {t('most_product.title_sub')}
             </span>
           </div>
-          <div className="md:text-xl lg:text-xl mt-4 md:mt-8 ml-5 md:ml-0">
+          <div className="md:text-xl lg:text-xl mt-4 md:mt-8 ml-5 md:ml-0 font-[Expo-arabic]">
             <p>{t('most_product.description_line1')}</p>
             <p className="mt-2">{t('most_product.description_line2')}</p>
           </div>
@@ -77,32 +84,48 @@ function MostProduct({ products = [] }) {
         {/* Slider */}
         <div className="relative w-full mt-10 md:mt-0" dir={isRTL ? 'rtl' : 'ltr'}>
           <Slider {...settings}>
-            {products.map((product, i) => (
-              <div key={i} className="px-2 md:px-1">
-                <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] h-full flex flex-col pb-4">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
-                  />
+            {products.map((variant, i) => {
+              // const product = variant.product;
 
-                  <div className={`mt-5 px-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'}`}>
-                    <h3 className="text-black text-[18px]  mb-2">
-                      {product.name}
-                    </h3>
-                    <Link to={'/products'} className='font-[Expo-book]'>{t("slider.Think_about_a_gift?_see_our_colllection")}</Link>
-                    <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3 leading-relaxed">
-                      {product.body}
-                    </p>
+              return (
+                <div key={variant.id ?? i} className="px-2 md:px-1">
+                  <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] h-full flex flex-col pb-4 shadow-sm hover:shadow-md transition-shadow">
 
-                    <span className="text-[#025043] font-[Expo-arabic] text-lg">
-                      {product.final_price} $
-                    </span>
+                    <img
+                      src={variant.image}
+                      alt={variant.name}
+                      className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
+                    />
+
+                    <div
+                      className={`mt-5 px-4 flex-1 flex flex-col ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'
+                        }`}
+                    >
+                      <h3 className="text-black text-[18px] mb-2 line-clamp-2">
+                        {variant.name}
+                      </h3>
+
+                      <Link
+                        to="/products"
+                        className="font-[Expo-book] text-sm text-[#025043] hover:underline mb-2"
+                      >
+                        {t('slider.Think_about_a_gift?_see_our_colllection')}
+                      </Link>
+
+                      <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3 leading-relaxed">
+                        {variant.body}
+                      </p>
+
+                      <span className="text-[#025043] font-[Expo-arabic] text-lg font-bold mt-auto">
+                        {variant?.final_price} $
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </Slider>
+
 
           {/* Progress Bar */}
           <div className="mt-8 px-2 md:px-0">

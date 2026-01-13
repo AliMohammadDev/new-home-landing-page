@@ -128,11 +128,12 @@ function ProductSlider1({ products = [] }) {
         <Slider {...settings}>
           {products.map((variant) => {
             const product = variant.product;
+
             return (
               <div key={variant.id} className="px-2">
                 <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
                   <img
-                    src={product.image}
+                    src={variant.image}
                     alt={product.name}
                     className="w-full h-48 sm:h-56 md:h-64 object-cover"
                   />
@@ -144,7 +145,7 @@ function ProductSlider1({ products = [] }) {
                     <div className="border-b border-[#025043]/20"></div>
 
                     <p className={`text-[#025043] text-[18px] font-bold ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
-                      {product.final_price} $
+                      {variant.final_price} $
                     </p>
 
                     <div className="flex items-center gap-2 text-sm flex-wrap">

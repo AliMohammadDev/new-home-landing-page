@@ -127,7 +127,7 @@ function ProductSlider2({ products = [] }) {
                 <div key={variant.id} className="px-2">
                   <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
                     <img
-                      src={product.image}
+                      src={variant.image}
                       alt={product.name}
                       className="w-full h-48 sm:h-56 md:h-60 object-cover"
                     />
@@ -140,7 +140,7 @@ function ProductSlider2({ products = [] }) {
                       <div className="border-b border-[#025043]/20 mb-3"></div>
 
                       <p className={`text-[#025043] text-[18px] font-bold mb-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
-                        {product.final_price} $
+                        {variant.final_price} $
                       </p>
 
                       <div className="flex flex-col mt-auto">
