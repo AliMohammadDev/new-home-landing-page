@@ -12,7 +12,6 @@ import { useAddReviews } from '../../api/reviews';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import FavoriteIcon from '../../assets/icons/FavoriteIcon';
 import WishListIcon from '../../assets/icons/WishListIcon';
 
 
@@ -285,13 +284,19 @@ const ProductInfo = () => {
             </h2>
 
             {/* Price */}
+            {/* Price */}
             <div className="text-lg">
-              {product?.discount > 0 && (
-                <span className="line-through text-gray-400">{product.price} $</span>
+              {Number(variant?.discount) > 0 && (
+                <span className="line-through text-gray-400">
+                  {variant.price} $
+                </span>
               )}
               <br />
-              <span className="font-bold text-black">{product?.final_price} $</span>
+              <span className="font-bold text-black">
+                {variant.final_price} $
+              </span>
             </div>
+
 
             {/* Colors */}
             <div>
