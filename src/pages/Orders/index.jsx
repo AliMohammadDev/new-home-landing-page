@@ -89,15 +89,17 @@ function Orders() {
                     {cartDataItems?.data?.map((item) => (
                         <div key={item.id} className="flex items-center justify-between gap-4 bg-white/10 p-4 rounded-xl">
                             <img
-                                src={item.product_variant.image}
+                                src={item.image}
                                 className="w-20 h-20 rounded-xl object-cover"
                                 alt={item.product_variant.name}
                             />
-
                             <div className="flex-1">
                                 <h3 className="text-lg font-[Expo-arabic]">{item.product_variant.name}</h3>
                                 <p className="text-sm text-white/70">{item.total_price} $</p>
                             </div>
+                            <p className="text-sm text-white ">
+                                Product Code: <span className="text-gray-800 font-[Expo-arabic]">{item?.product_variant.sku}</span>
+                            </p>
                         </div>
                     ))}
                 </div>

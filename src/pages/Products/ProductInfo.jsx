@@ -1,11 +1,11 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import LeftIcon from '../../assets/icons/LeftIcon';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
 import { useGetProductVariant } from '../../api/products';
 import { useGetCategories } from '../../api/categories';
 import { addToast } from '@heroui/react';
 import { useAddToCartItem } from '../../api/cart';
-import { useAddWishlist } from '../../api/wishlist';
+import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist';
 import { useGetProfile } from '../../api/auth';
 import RatingStars from '../../components/RatingStars';
 import { useAddReviews } from '../../api/reviews';
@@ -13,14 +13,18 @@ import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import WishListIcon from '../../assets/icons/WishListIcon';
+import RelatedProductSlider from '../../components/Products/RelatedProductSlider';
 
 
 const ProductInfo = () => {
   const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
   const isRTL = i18n.language === 'ar';
   const { variantId } = useParams();
   const { data } = useGetProductVariant(variantId);
   const { data: categories = [] } = useGetCategories();
+  const { data: wishlistData } = useGetAllWishlist();
+
   const { data: user } = useGetProfile();
   const { mutate: addToCart, isLoading } = useAddToCartItem();
   const { mutate: addWishlist } = useAddWishlist();
@@ -34,9 +38,9 @@ const ProductInfo = () => {
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
   const [selectedVariantId, setSelectedVariantId] = useState(null);
-
-  console.log(selectedVariantId);
-
+  const [currentPrice, setCurrentPrice] = useState(null);
+  const [oldPrice, setOldPrice] = useState(null);
+  const [currentSku, setCurrentSku] = useState(null);
 
   useEffect(() => {
     if (product?.available_options?.length > 0) {
@@ -48,13 +52,16 @@ const ProductInfo = () => {
       setSelectedSize(firstSize);
       setSelectedMaterial(firstMaterial);
       setSelectedVariantId(firstMaterial.variant_id);
+      setCurrentPrice(firstMaterial.final_price);
+      setOldPrice(firstMaterial.price);
+      setCurrentSku(firstMaterial.sku);
     }
   }, [product]);
 
 
   useEffect(() => {
-    if (data?.all_images?.length) {
-      setActiveImage(data.all_images[0].url);
+    if (data?.product_all_images?.length > 0) {
+      setActiveImage(data.product_all_images[0]);
     } else if (data?.image) {
       setActiveImage(data.image);
     }
@@ -110,12 +117,13 @@ const ProductInfo = () => {
   };
 
 
-  const wishlistProductIds = addWishlist?.data?.map(item =>
-    item.product_variant?.id
-  ) || [];
+  const wishlistProductIds =
+    wishlistData?.data?.map(item => item.product_variant?.id) || [];
+
   const isProductInWishlist = (variantId) => {
     return wishlistProductIds.includes(variantId);
   };
+
   // Add wishlist
   const handleAddWishlist = (variant) => {
     if (!user) {
@@ -206,14 +214,34 @@ const ProductInfo = () => {
     return <p className="text-center mt-20">Loading product...</p>;
   }
 
+  // related products
+  const relatedVariants =
+    categories
+      ?.find(cat => cat.id === activeCategoryId)
+      ?.products
+      ?.filter(p => p.id !== product.id)
+      ?.flatMap(p =>
+        p.variants.map(v => ({
+          ...v,
+          product: {
+            id: p.id,
+            name: p.name,
+          },
+        }))
+      )
+      ?.slice(0, 10) || [];
 
   return (
     <div className="w-full text-black px-4 md:px-10 lg:px-20 py-10 bg-white min-h-screen relative" dir={isRTL ? 'rtl' : 'ltr'}>
 
       <div className={`absolute top-4 ${isRTL ? 'left-4' : 'left-4'} z-20`}>
-        <Link to={-1} className="hover:opacity-80 transition">
+        <button
+          onClick={() => navigate(-1)}
+          className="hover:opacity-80 transition"
+        >
           <LeftIcon />
-        </Link>
+        </button>
+
       </div>
 
       {/* Title */}
@@ -221,6 +249,9 @@ const ProductInfo = () => {
         {t('productInfo.description_title')}
       </h1>
       <hr className="mt-5 border-[#025043]" />
+
+
+
 
       {/* Category Menu */}
       <div className="flex flex-wrap justify-center md:justify-end items-center gap-4 mt-4 text-sm md:text-base">
@@ -257,22 +288,18 @@ const ProductInfo = () => {
 
           {/* Thumbnails */}
           <div className="flex gap-3 justify-center overflow-x-auto py-2">
-            {data.product.product_all_images?.map((img) => (
+            {data?.product_all_images?.map((imgUrl, index) => (
               <button
-                key={img.id}
-                onClick={() => setActiveImage(img.url)}
-                className={`shrink-0 w-16 h-16 rounded-xl border-2 transition-all ${activeImage === img.url ? 'border-[#025043] scale-110 shadow-md' : 'border-gray-200 opacity-70 hover:opacity-100'
+                key={index}
+                onClick={() => setActiveImage(imgUrl)}
+                className={`shrink-0 w-16 h-16 rounded-xl border-2 transition-all ${activeImage === imgUrl ? 'border-[#025043] scale-110 shadow-md' : 'border-gray-200 opacity-70 hover:opacity-100'
                   }`}
               >
-                <img src={img.url} className="w-full h-full object-cover rounded-lg" />
+                <img src={imgUrl} className="w-full h-full object-cover rounded-lg" alt={`thumbnail-${index}`} />
               </button>
             ))}
           </div>
         </div>
-
-        {/* Right Section */}
-
-
 
         {/* Right Section */}
         <div className="w-full flex flex-col md:flex-row gap-4 relative">
@@ -282,21 +309,22 @@ const ProductInfo = () => {
             <h2 className="text-2xl md:text-3xl font-semibold font-[Expo-arabic]">
               {product?.name}
             </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              Product Code: <span className="text-black font-medium">{currentSku || variant?.sku}</span>
+            </p>
 
-            {/* Price */}
             {/* Price */}
             <div className="text-lg">
               {Number(variant?.discount) > 0 && (
                 <span className="line-through text-gray-400">
-                  {variant.price} $
+                  {oldPrice || variant?.price} $
                 </span>
               )}
               <br />
-              <span className="font-bold text-black">
-                {variant.final_price} $
+              <span className="font-bold text-black text-2xl">
+                {currentPrice || variant?.final_price} $
               </span>
             </div>
-
 
             {/* Colors */}
             <div>
@@ -312,6 +340,10 @@ const ProductInfo = () => {
                       setSelectedSize(firstSize);
                       setSelectedMaterial(firstMaterial);
                       setSelectedVariantId(firstMaterial.variant_id);
+
+                      setCurrentPrice(firstMaterial.final_price);
+                      setOldPrice(firstMaterial.price);
+                      setCurrentSku(firstMaterial.sku);
                     }}
                     className={`w-8 h-8 rounded-full border-2 transition-all shadow-sm ${selectedColor?.id === color.id ? 'border-black scale-125 ring-2 ring-gray-100' : 'border-transparent'
                       }`}
@@ -336,6 +368,9 @@ const ProductInfo = () => {
                         const firstMaterial = size.available_materials[0];
                         setSelectedMaterial(firstMaterial);
                         setSelectedVariantId(firstMaterial.variant_id);
+                        setCurrentPrice(firstMaterial.final_price);
+                        setOldPrice(firstMaterial.price);
+                        setCurrentSku(firstMaterial.sku);
                       }}
                       className={`px-4 py-2 border rounded-lg text-xs font-bold transition-all ${isActive ? 'bg-[#025043] text-white border-[#025043]' : 'bg-white border-gray-200 text-gray-600 hover:border-[#025043]'
                         }`}
@@ -362,9 +397,6 @@ const ProductInfo = () => {
             </div>
 
             {/* Add to Cart + Add to Favorites in same line */}
-
-
-
             {/* Container for Buttons */}
             <div className="flex items-center gap-3 mt-8 w-full">
 
@@ -385,24 +417,34 @@ const ProductInfo = () => {
               </button>
 
               {/* Add to Favorites (Icon Button) */}
-              {/* Add to Favorites (Icon Button) */}
               <button
                 onClick={() => handleAddWishlist({ id: selectedVariantId })}
                 className={`w-14 h-14 border-2 rounded-xl flex items-center justify-center transition-all group ${isProductInWishlist(selectedVariantId)
-                  ? 'bg-red-50 border-red-200 text-red-500'
-                  : 'bg-gray-50 border-gray-100 text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-red-500'
+                  ? 'bg-red-50 border-green-200 text-green-500'
+                  : 'bg-gray-50 border-gray-100 text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-green-500'
                   }`}
                 title={t('productInfo.add_to_favorites')}
               >
-                {/* تمرير الحالة للأيقونة لتغيير لون الـ fill داخلياً */}
                 <WishListIcon isFavorite={isProductInWishlist(selectedVariantId)} />
               </button>
             </div>
 
 
 
-
             <hr className="mt-6 border-[#025043]" />
+
+            {/* description category */}
+            <div className="mt-6 p-4 bg-gray-50 rounded-xl border-s-4 border-[#025043] shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <h4 className="font-bold text-[#025043] text-sm md:text-base">
+                  {product?.category?.name}
+                </h4>
+              </div>
+
+              <p className="text-gray-600 text-sm font-[Expo-arabic]">
+                {product?.category?.description || t('productInfo.no_category_description')}
+              </p>
+            </div>
           </div>
 
           {/* Divider */}
@@ -428,6 +470,9 @@ const ProductInfo = () => {
                       onClick={() => {
                         setSelectedMaterial(material);
                         setSelectedVariantId(material.variant_id);
+                        setCurrentSku(material.sku);
+                        setCurrentPrice(material.final_price);
+                        setOldPrice(material.price);
                       }}
                       className={`px-4 py-2 border rounded-lg text-xs font-bold transition-all ${isActive ? 'bg-[#025043] text-white border-[#025043]' : 'bg-white border-gray-200 text-gray-600 hover:border-[#025043]'
                         }`}
@@ -443,8 +488,10 @@ const ProductInfo = () => {
           </div>
         </div>
 
-
       </div>
+
+      {/* related Products */}
+      <RelatedProductSlider variants={relatedVariants} />
     </div >
   );
 };

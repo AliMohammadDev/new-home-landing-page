@@ -104,7 +104,8 @@
     "quantity": "الكمية",
     "subtotal": "المجموع الفرعي",
     "proceed_checkout": "المتابعة إلى الدفع",
-    "removed_success": "تم إزالة {{product}} من السلة بنجاح!"
+    "removed_success": "تم إزالة {{product}} من السلة بنجاح!",
+    "item_total": "إجمالي المنتج"
   },
 
   "checkout": {
@@ -288,7 +289,9 @@
   },
 
   "filters": {
-    "show": "إظهار الفلاتر"
+    "show": "إظهار الفلاتر",
+    "no_results_title": "لا توجد منتجات",
+    "no_results_description": "لم نجد أي منتجات مطابقة للفلاتر التي اخترتها. جرّب تعديل خيارات البحث."
   },
 
   "filter": {
@@ -297,6 +300,7 @@
     "color": "اللون",
     "price": "السعر",
     "material": "المادة",
+    "name": "الاسم",
 
     "sizes": {
       "small": "صغير",
@@ -350,6 +354,8 @@
     "product_description": "وصف المنتج",
     "cooking_pot_desc": "وعاء طهي من الستانلس ستيل مع غطاء شفاف لمتابعة الطهي بسهولة.",
     "material": "المادة",
-    "off": "خصم %"
+    "off": "خصم %",
+    "related_products": "منتجات ذات صلة",
+    "related_products_desc": "اكتشف منتجات مشابهة قد تناسب ذوقك واحتياجاتك."
   }
 }

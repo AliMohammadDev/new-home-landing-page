@@ -104,7 +104,8 @@
     "subtotal": "Subtotal",
     "total": "Total",
     "proceed_checkout": "Proceed to Checkout",
-    "removed_success": "{{product}} removed from cart successfully!"
+    "removed_success": "{{product}} removed from cart successfully!",
+    "item_total": "Item Total"
   },
 
   "checkout": {
@@ -286,7 +287,9 @@
   },
 
   "filters": {
-    "show": "Show filters"
+    "show": "Show filters",
+    "no_results_title": "No products found",
+    "no_results_description": "We couldn’t find any products matching your filters. Try adjusting your selection."
   },
 
   "filter": {
@@ -295,6 +298,7 @@
     "color": "Color",
     "price": "Price",
     "material": "Material",
+    "name": "Name",
 
     "sizes": {
       "small": "Small",
@@ -348,6 +352,8 @@
     "product_description": "Product Description",
     "cooking_pot_desc": "Stainless steel cooking pot with transparent cover for easy monitoring during cooking.",
     "material": "Material",
-    "off": "% OFF"
+    "off": "% OFF",
+    "related_products": "Related Products",
+    "related_products_desc": "Discover similar products that might suit your taste and needs."
   }
 }

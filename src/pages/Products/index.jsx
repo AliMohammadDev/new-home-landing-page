@@ -62,12 +62,11 @@ const Product = () => {
     stock_quantity: v.stock_quantity,
     rating: Number(v.reviews_avg || 0),
     reviews_count: v.reviews_count,
+    sku: v.sku,
   }));
 
 
-
   const category = products[0]?.product?.category;
-
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
@@ -364,7 +363,9 @@ const Product = () => {
                     <h3 className="text-[#025043] text-[16px] font-medium mb-2">
                       {product.name}
                     </h3>
-
+                    <p className="text-sm text-black ">
+                      Product code: <span className="text-gray-500 font-[Expo-arabic]">{product?.sku}</span>
+                    </p>
                     <div className="border-b border-[#025043]/50 mb-3"></div>
 
                     <p className="text-[#025043] text-[18px] font-semibold mb-4">

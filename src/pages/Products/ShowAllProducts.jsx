@@ -4,7 +4,6 @@ import {
   DrawerBody,
   DrawerContent,
   DrawerHeader,
-  Spinner,
   useDisclosure,
 } from '@heroui/react';
 import { useEffect } from 'react';
@@ -62,6 +61,7 @@ function ShowAllProducts() {
     stock_quantity: v.stock_quantity,
     rating: Number(v.reviews_avg) || 0,
     reviews_count: v.reviews_count,
+    sku: v.sku,
   }));
 
 
@@ -348,61 +348,73 @@ function ShowAllProducts() {
           <div
             className={`${showFilters ? 'w-3/2' : 'w-full'} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-5 transition-all duration-300`}
           >
-            {filteredProducts.slice(0, visibleCount).map((product, i) => (
-              <div key={i} className="md:px-1">
-                <div className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
-                  <Link to={`/products/${product.category.id}/product-info/${product.variantId}`}>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover hover:opacity-90 transition cursor-pointer"
-                    />
-                  </Link>
+            {filteredProducts.length === 0 ? (
+              <div className="col-span-full flex flex-col items-center justify-center py-20 text-center">
+                <h3 className="text-xl font-[Expo-arabic] text-[#025043] mb-2">
+                  {t('filters.no_results_title')}
+                </h3>
 
-                  <button
-                    onClick={() => handleAddWishlist(product)}
-                    className="absolute top-0 right-0 cursor-pointer rounded-full p-1 transition">
-                    <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
-                  </button>
+                <p className="text-gray-600 font-[Expo-arabic] max-w-md">
+                  {t('filters.no_results_description')}
+                </p>
+              </div>
+            ) : (
+              filteredProducts.slice(0, visibleCount).map((product, i) => (
+                <div key={i} className="md:px-1">
+                  <div className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD]">
+                    <Link to={`/products/${product.category.id}/product-info/${product.variantId}`}>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover hover:opacity-90 transition cursor-pointer"
+                      />
+                    </Link>
 
-                  <div className="p-4 font-[Expo-arabic]">
-                    <h3 className="text-[#025043] text-[16px] font-medium mb-2">
-                      {product.name}
-                    </h3>
+                    <button
+                      onClick={() => handleAddWishlist(product)}
+                      className="absolute top-0 right-0 cursor-pointer rounded-full p-1 transition">
+                      <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
+                    </button>
 
-                    <div className="border-b border-[#025043]/50 mb-3"></div>
+                    <div className="p-4 font-[Expo-arabic]">
+                      <h3 className="text-[#025043] text-[16px] font-medium mb-2">
+                        {product.name}
+                      </h3>
+                      <p className="text-sm text-black ">
+                        Product code: <span className="text-gray-500 font-[Expo-arabic]">{product?.sku}</span>
+                      </p>
+                      <div className="border-b border-[#025043]/50 mb-3"></div>
 
-                    <p className="text-[#025043] text-[18px] font-semibold mb-4">
-                      {product.final_price} $
-                    </p>
+                      <p className="text-[#025043] text-[18px] font-semibold mb-4">
+                        {product.final_price} $
+                      </p>
 
-                    <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">
-                      <div className="flex items-center gap-1 text-sm">
-                        <RatingStars
-                          rating={product.rating}
-                          onRate={(star) =>
-                            handleRateProduct(product.variantId, star)
-                          }
-                        />
-                        <span className="text-xs text-gray-500">
-                          ({product.reviews_count})
-                        </span>
+                      <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">
+                        <div className="flex items-center gap-1 text-sm">
+                          <RatingStars
+                            rating={product.rating}
+                            onRate={(star) =>
+                              handleRateProduct(product.variantId, star)
+                            }
+                          />
+                          <span className="text-xs text-gray-500">
+                            ({product.reviews_count})
+                          </span>
+                        </div>
+
+                        <button
+                          onClick={() => handleAddCartItem(product)}
+                          disabled={isLoading}
+                          className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
+                        >
+                          {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
+                        </button>
                       </div>
-
-                      <button
-                        onClick={() => handleAddCartItem(product)}
-                        disabled={isLoading}
-                        className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
-                      >
-                        {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
-
-                      </button>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-
+              ))
+            )}
             {/*  Show More */}
             {visibleCount < filteredProducts.length && filteredProducts.length > 0 && (
               <div className="col-span-full flex justify-center mt-5">
@@ -411,17 +423,11 @@ function ShowAllProducts() {
                   className="px-6 py-2 bg-[#025043] text-white rounded-md hover:bg-[#01382f] transition"
                 >
                   <div className="flex items-center gap-2 cursor-pointer">
-                    <span className="text-white">{t('essential_to_prep.view_more')}</span>
-                    <Spinner
-                      variant="dots"
-                      size="sm"
-                      color="default"
-                    />
+                    <span className="text-white">{t('essential_to_prep.view_more')}...</span>
                   </div>
                 </button>
               </div>
             )}
-
           </div>
 
         </div>

@@ -221,6 +221,12 @@ const Navbar = () => {
                                 {t('cart.checkout')}
                               </button>
                             </Link>
+
+                            <Link to="/carts">
+                              <button onClick={() => setIsCartOpen(false)} className="text-[#025043] border rounded-2xl cursor-pointer bg-white font-[Expo-arabic] py-2 mt-4 w-full flex justify-center hover:bg-gray-100 transition-colors">
+                                {t('navbar.my_cart')}
+                              </button>
+                            </Link>
                           </>
                         )}
                       </div>

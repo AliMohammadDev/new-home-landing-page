@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Slider from 'react-slick';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { addToast } from '@heroui/react';
 import { useGetProfile } from '../../api/auth.jsx';
 import RatingStars from '../RatingStars.jsx';
@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 
 function ProductSlider1({ products = [] }) {
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -130,48 +131,56 @@ function ProductSlider1({ products = [] }) {
             const product = variant.product;
 
             return (
-              <div key={variant.id} className="px-2">
-                <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-                  <img
-                    src={variant.image}
-                    alt={product.name}
-                    className="w-full h-48 sm:h-56 md:h-64 object-cover"
-                  />
-                  <div className="p-4 flex flex-col gap-3 flex-1">
-                    <h3 className={`text-[#025043] text-[16px] font-bold h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
-                      {product.name}
-                    </h3>
+              <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
+                <div key={variant.id} className="px-2">
+                  <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+                    <img
+                      src={variant.image}
+                      alt={product.name}
+                      className="w-full h-48 sm:h-56 md:h-64 object-cover"
+                    />
 
-                    <div className="border-b border-[#025043]/20"></div>
+                    <div className="p-4 flex flex-col gap-3 flex-1">
+                      <h3 className={`text-[#025043] text-[16px] font-bold h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
+                        {product.name}
+                      </h3>
 
-                    <p className={`text-[#025043] text-[18px] font-bold ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
-                      {variant.final_price} $
-                    </p>
+                      <p className="text-sm text-black ">
+                        Product: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
+                      </p>
+                      <div className="border-b border-[#025043]/20"></div>
 
-                    <div className="flex items-center gap-2 text-sm flex-wrap">
-                      <RatingStars rating={Number(variant.reviews_avg) || 0} />
-                      <span className="text-xs text-gray-400">
-                        ({variant.reviews_count || 0})
-                      </span>
+                      <p className={`text-[#025043] text-[18px] font-bold ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
+                        {variant.final_price} $
+                      </p>
 
-                      <Link
-                        to={`/products`}
-                        className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto"
+                      <div className="flex items-center gap-2 text-sm flex-wrap">
+                        <RatingStars rating={Number(variant.reviews_avg) || 0} />
+                        <span className="text-xs text-gray-400">
+                          ({variant.reviews_count || 0})
+                        </span>
+
+                        <span
+                          onClick={() => navigate('/products')}
+                          className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
+                        >
+                          {t('essential_to_prep.view_more')}
+                        </span>
+
+                      </div>
+
+                      <button
+                        onClick={() => handleAddCartItem(variant)}
+                        disabled={isLoading}
+                        className="w-full bg-[#025043] text-white cursor-pointer text-sm font-[Expo-arabic] font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
                       >
-                        {t('essential_to_prep.view_more')}
-                      </Link>
+                        {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
+                      </button>
                     </div>
-
-                    <button
-                      onClick={() => handleAddCartItem(variant)}
-                      disabled={isLoading}
-                      className="w-full bg-[#025043] text-white cursor-pointer text-sm font-[Expo-arabic] font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
-                    >
-                      {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
-                    </button>
                   </div>
                 </div>
-              </div>
+
+              </Link>
             );
           })}
         </Slider>
@@ -183,7 +192,7 @@ function ProductSlider1({ products = [] }) {
               className="h-full bg-[#025043] rounded-full transition-all duration-500 ease-out"
               style={{
                 width: `${progress}%`,
-                float: isRTL ? 'right' : 'left'
+                float: 'left'
               }}
             />
           </div>

@@ -126,6 +126,9 @@ function Wishlists() {
               <thead>
                 <tr className="border-b border-white/20 text-sm text-gray-300">
                   <th className="text-start py-4 px-4 font-light">{t('wishlist.productName')}</th>
+                  <th className="text-start py-4 px-4 font-light">{t('filter.color')}</th>
+                  <th className="text-start py-4 px-4 font-light">{t('filter.size')}</th>
+                  <th className="text-start py-4 px-4 font-light">{t('filter.material')}</th>
                   <th className="text-start py-4 px-4 font-light">{t('wishlist.unitPrice')}</th>
                   <th className="text-end py-4 px-4 font-light"></th>
                 </tr>
@@ -138,28 +141,49 @@ function Wishlists() {
                     className="border-b border-white/10 last:border-none group hover:bg-white/5 transition-all duration-300"
                   >
                     {/* Product Info */}
-                    <td className="py-6 px-4 font-[Expo-arabic]">
-                      <div className="flex items-center gap-6">
-                        <button
-                          onClick={() => handleRemoveWishlist(item.id, item.product_variant?.name)}
-                          className="text-white/30 hover:text-red-400 cursor-pointer transition-colors p-1"
-                          title={t('wishlist.remove')}
-                        >
-                          <span className="text-lg">✕</span>
-                        </button>
+                    <td className="py-6 px-4 font-[Expo-arabic] flex items-center gap-4">
+                      <button
+                        onClick={() => handleRemoveWishlist(item.id, item.product_variant?.name)}
+                        className="text-white/30 hover:text-red-400 cursor-pointer transition-colors p-1"
+                        title={t('wishlist.remove')}
+                      >
+                        ✕
+                      </button>
 
-                        <div className="relative group-hover:scale-105 transition-transform duration-300">
-                          <img
-                            src={item.product_variant?.image}
-                            alt={item.product_variant?.name}
-                            className="w-16 h-20 object-cover rounded-lg shadow-lg border border-white/10"
-                          />
-                        </div>
+                      <img
+                        src={item.product_variant?.image}
+                        alt={item.product_variant?.name}
+                        className="w-16 h-20 object-cover rounded-lg shadow-lg border border-white/10"
+                      />
 
-                        <span className="font-medium text-lg tracking-wide">
-                          {item.product_variant?.name}
-                        </span>
-                      </div>
+                      <span className="font-medium text-lg tracking-wide">
+                        {item.product_variant?.name}
+                      </span>
+                    </td>
+
+                    {/* Color */}
+                    <td className="py-6 px-4">
+                      <span
+                        className="px-2 py-1 font-semibold"
+                        style={{ color: item.product_variant?.color || '#ffffff' }}
+                      >
+                        {item.product_variant?.color || t('wishlist.noColor')}
+                      </span>
+                    </td>
+
+
+                    {/* Size */}
+                    <td className="py-6 px-4">
+                      <span className="px-2 py-1 rounded font-[Expo-arabic]">
+                        {item.product_variant?.size || t('wishlist.noSize')}
+                      </span>
+                    </td>
+
+                    {/* Material */}
+                    <td className="py-6 px-4">
+                      <span className="px-2 py-1 rounded font-[Expo-arabic]">
+                        {item.product_variant?.material || t('wishlist.noMaterial')}
+                      </span>
                     </td>
 
                     {/* Unit Price */}
@@ -173,7 +197,8 @@ function Wishlists() {
                     <td className="py-6 px-4">
                       <div className="flex flex-col items-end gap-3">
                         <span className="text-[11px] text-gray-400 font-light italic">
-                          {t('wishlist.addedOn')} {new Date(item.created_at).toLocaleDateString(isAr ? 'ar-EG' : 'en-US')}
+                          {t('wishlist.addedOn')}{' '}
+                          {new Date(item.created_at).toLocaleDateString(isAr ? 'ar-EG' : 'en-US')}
                         </span>
 
                         <button
@@ -192,6 +217,7 @@ function Wishlists() {
                   </tr>
                 ))}
               </tbody>
+
             </table>
           </div>
         )}

@@ -2,13 +2,14 @@ import { useState } from 'react';
 import Slider from 'react-slick';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import ArrowLeftIcon from '../../assets/icons/ArrowLeftIcon.jsx';
 import ArrowRightIcon from '../../assets/icons/ArrowRightIcon.jsx';
 import clsx from 'clsx';
 
 function MostProduct({ products = [] }) {
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
@@ -88,40 +89,41 @@ function MostProduct({ products = [] }) {
               // const product = variant.product;
 
               return (
-                <div key={variant.id ?? i} className="px-2 md:px-1">
-                  <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] h-full flex flex-col pb-4 shadow-sm hover:shadow-md transition-shadow">
-
-                    <img
-                      src={variant.image}
-                      alt={variant.name}
-                      className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
-                    />
-
-                    <div
-                      className={`mt-5 px-4 flex-1 flex flex-col ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'
-                        }`}
-                    >
-                      <h3 className="text-black text-[18px] mb-2 line-clamp-2">
-                        {variant.name}
-                      </h3>
-
-                      <Link
-                        to="/products"
-                        className="font-[Expo-book] text-sm text-[#025043] hover:underline mb-2"
+                <Link to={`/products/${variant.product.category.id}/product-info/${variant.id}`}>
+                  <div key={variant.id ?? i} className="px-2 md:px-1">
+                    <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] h-full flex flex-col pb-4 shadow-sm hover:shadow-md transition-shadow">
+                      <img
+                        src={variant.image}
+                        alt={variant.name}
+                        className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
+                      />
+                      <div
+                        className={`mt-5 px-4 flex-1 flex flex-col ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'
+                          }`}
                       >
-                        {t('slider.Think_about_a_gift?_see_our_colllection')}
-                      </Link>
+                        <h3 className="text-black text-[18px] mb-2 line-clamp-2">
+                          {variant.name}
+                        </h3>
 
-                      <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3 leading-relaxed">
-                        {variant.body}
-                      </p>
+                        <span
+                          onClick={() => navigate('/products')}
+                          className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
+                        >
+                          {t('slider.Think_about_a_gift?_see_our_colllection')}
+                        </span>
 
-                      <span className="text-[#025043] font-[Expo-arabic] text-lg font-bold mt-auto">
-                        {variant?.final_price} $
-                      </span>
+
+                        <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3 leading-relaxed">
+                          {variant.body}
+                        </p>
+                        <span className="text-[#025043] font-[Expo-arabic] text-lg font-bold mt-auto">
+                          {variant?.final_price} $
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
+
               );
             })}
           </Slider>
@@ -134,7 +136,7 @@ function MostProduct({ products = [] }) {
                 className="h-full bg-black rounded-full transition-all duration-500 ease-out"
                 style={{
                   width: `${progress}%`,
-                  float: isRTL ? 'right' : 'left'
+                  float: 'left'
                 }}
               />
             </div>
