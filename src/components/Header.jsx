@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import FacebookIcon from '../assets/icons/FacebookIcon';
 import InstagramIcon from '../assets/icons/InstagramIcon';

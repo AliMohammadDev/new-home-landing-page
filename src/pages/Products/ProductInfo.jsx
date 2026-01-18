@@ -8,7 +8,7 @@ import { useAddToCartItem } from '../../api/cart';
 import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist';
 import { useGetProfile } from '../../api/auth';
 import RatingStars from '../../components/RatingStars';
-import { useAddReviews } from '../../api/reviews';
+import { useSubmitReview } from '../../api/reviews';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -125,89 +125,126 @@ const ProductInfo = () => {
   };
 
   // Add wishlist
-  const handleAddWishlist = (variant) => {
+  // const handleAddWishlist = (variant) => {
+  //   if (!user) {
+  //     addToast({
+  //       title: t('wishlist.title'),
+  //       description: t('wishlist.loginRequired'),
+  //       color: 'warning',
+  //       duration: 4000,
+  //       isClosable: true,
+  //     });
+  //     return;
+  //   }
+
+  //   if (isProductInWishlist(variant.variantId)) {
+  //     addToast({
+  //       title: t('wishlist.title'),
+  //       description: t('wishlist.addedError'),
+  //       color: 'warning',
+  //       duration: 4000,
+  //       isClosable: true,
+  //     });
+  //     return;
+  //   }
+
+
+  //   addWishlist(
+  //     variant.id,
+  //     {
+  //       onSuccess: () => {
+  //         addToast({
+  //           title: t('wishlist.title'),
+  //           description: t('wishlist.addedSuccess'),
+  //           color: 'success',
+  //           duration: 4000,
+  //           isClosable: true,
+  //         });
+  //       },
+  //       onError: () => {
+  //         addToast({
+  //           title: t('wishlist.title'),
+  //           description: t('wishlist.addedError'),
+  //           color: 'warning',
+  //           duration: 4000,
+  //           isClosable: true,
+  //         });
+  //       },
+  //     }
+  //   );
+  // };
+
+
+  const handleAddWishlist = () => {
     if (!user) {
       addToast({
         title: t('wishlist.title'),
         description: t('wishlist.loginRequired'),
         color: 'warning',
-        duration: 4000,
-        isClosable: true,
-      });
-      return;
-    }
-
-    if (isProductInWishlist(variant.variantId)) {
-      addToast({
-        title: t('wishlist.title'),
-        description: t('wishlist.addedError'),
-        color: 'warning',
-        duration: 4000,
-        isClosable: true,
       });
       return;
     }
 
 
     addWishlist(
-      variant.id,
+      selectedVariantId,
       {
-        onSuccess: () => {
+        onSuccess: (res) => {
+          const isRemoved = res.status === 'removed';
           addToast({
             title: t('wishlist.title'),
-            description: t('wishlist.addedSuccess'),
-            color: 'success',
-            duration: 4000,
-            isClosable: true,
+            description: isRemoved
+              ? t('wishlist.removedSuccess')
+              : t('wishlist.addedSuccess'),
+            color: isRemoved ? "warning" : "success",
+            duration: 2000,
           });
         },
-        onError: () => {
+        onError: (error) => {
           addToast({
             title: t('wishlist.title'),
-            description: t('wishlist.addedError'),
-            color: 'warning',
-            duration: 4000,
-            isClosable: true,
+            description: error.message,
+            color: 'error',
           });
         },
       }
     );
   };
-
-  const { mutate: addReview } = useAddReviews();
-  //Add review
+  const { mutate: submitReview } = useSubmitReview();
   const handleRateProduct = (variantId, rating) => {
     if (!user) {
       addToast({
         title: t('rating.title'),
         description: t('rating.loginRequired'),
         color: 'warning',
+        duration: 4000,
+        isClosable: true,
       });
       return;
     }
-    addReview(
+    submitReview(
       {
         product_variant_id: variantId,
         rating,
       },
       {
-        onSuccess: () => {
+        onSuccess: (data) => {
           addToast({
             title: t('rating.successTitle'),
-            description: t('rating.successMessage'),
+            description: `${t('rating.successMessage')} : ${data.rating}`,
             color: 'success',
           });
         },
-        onError: () => {
+        onError: (error) => {
+          console.error(error);
           addToast({
             title: t('rating.title'),
-            description: t('rating.alreadyRated'),
-            color: 'warning',
+            description: error.response?.data?.message || t('rating.error'),
+            color: 'error',
           });
         }
       }
     );
-
   };
 
   if (!data || !product || !variant) {
@@ -272,7 +309,7 @@ const ProductInfo = () => {
       <hr className="mt-4 border-[#025043]" />
 
       {/* Main Section */}
-      <div className="w-full flex flex-col md:flex-row gap-4 items-start relative">
+      <div className="w-full flex flex-col md:flex-row gap-4 items-start relative mt-2">
 
         {/* Left Image Section */}
         <div className="w-full md:w-5/12">
@@ -418,7 +455,7 @@ const ProductInfo = () => {
 
               {/* Add to Favorites (Icon Button) */}
               <button
-                onClick={() => handleAddWishlist({ id: selectedVariantId })}
+                onClick={() => handleAddWishlist()}
                 className={`w-14 h-14 border-2 rounded-xl flex items-center justify-center transition-all group ${isProductInWishlist(selectedVariantId)
                   ? 'bg-red-50 border-green-200 text-green-500'
                   : 'bg-gray-50 border-gray-100 text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-green-500'
@@ -428,9 +465,6 @@ const ProductInfo = () => {
                 <WishListIcon isFavorite={isProductInWishlist(selectedVariantId)} />
               </button>
             </div>
-
-
-
             <hr className="mt-6 border-[#025043]" />
 
             {/* description category */}

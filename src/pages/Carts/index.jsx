@@ -47,16 +47,27 @@ function Carts() {
       const oldPrices = {};
 
       items.forEach((item) => {
-        const firstColor = item.available_options?.[0] || item.product_variant;
-        const firstSize = firstColor?.available_sizes?.[0] || item.product_variant;
-        const firstMaterial = firstSize?.available_materials?.[0] || item.product_variant;
+        const variant = item.product_variant;
 
-        colors[item.id] = firstColor;
-        sizes[item.id] = firstSize;
-        materials[item.id] = firstMaterial;
-        variants[item.id] = firstMaterial?.variant_id || item.product_variant?.id;
-        prices[item.id] = firstMaterial?.final_price || item.product_variant?.final_price;
-        oldPrices[item.id] = firstMaterial?.price || item.product_variant?.price;
+        const matchingColor = item.available_options?.find(
+          (c) => c.hex === variant.color_code || c.name === variant.color_name
+        ) || item.available_options?.[0];
+
+        const matchingSize = matchingColor?.available_sizes?.find(
+          (s) => s.name === variant.size
+        ) || matchingColor?.available_sizes?.[0];
+
+        const matchingMaterial = matchingSize?.available_materials?.find(
+          (m) => m.name === variant.material
+        ) || matchingSize?.available_materials?.[0];
+
+        colors[item.id] = matchingColor;
+        sizes[item.id] = matchingSize;
+        materials[item.id] = matchingMaterial;
+
+        variants[item.id] = variant.id;
+        prices[item.id] = variant.final_price;
+        oldPrices[item.id] = variant.price;
       });
 
       setSelectedColor(colors);
@@ -67,7 +78,6 @@ function Carts() {
       setOldPrice(oldPrices);
     }
   }, [items]);
-
 
 
   const isAr = i18n.language === 'ar';

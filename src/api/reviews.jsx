@@ -14,7 +14,22 @@ export const useGetAllReviews = (userId) => {
   });
 };
 
-export const useAddReviews = () => {
+// export const useAddReviews = () => {
+//   const queryClient = useQueryClient();
+
+//   return useMutation({
+//     mutationFn: async (payload) => {
+//       const res = await axios.post('/reviews', payload);
+//       return res.data.data;
+//     },
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ['variants'] });
+//     },
+//   });
+// };
+
+
+export const useSubmitReview = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -24,6 +39,7 @@ export const useAddReviews = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['variants'] });
+      queryClient.invalidateQueries({ queryKey: ['reviews'] });
     },
   });
 };

@@ -92,7 +92,7 @@ function ProductSlider1({ products = [] }) {
     slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
-    rtl: isRTL,
+    // rtl: isRTL,
     nextArrow: <CustomArrow direction="next" />,
     prevArrow: <CustomArrow direction="prev" />,
     afterChange: (current) => setCurrentSlide(current),
