@@ -116,20 +116,20 @@ const Home = () => {
 
         {/* Sliders & Products */}
         {/* Sliders & Products Section */}
-        <AnimateOnScroll direction="up" delay={0.6}>
+        <AnimateOnScroll direction="up" delay={0.3}>
           <ProductSlider1 products={sliderProducts.new || []} />
         </AnimateOnScroll>
 
-        <AnimateOnScroll direction="up" delay={0.7}>
+        <AnimateOnScroll direction="up" delay={0.3}>
           <ProductSlider2 products={sliderProducts.discounted || []} />
         </AnimateOnScroll>
 
-        <AnimateOnScroll direction="up" delay={0.8}>
+        <AnimateOnScroll direction="up" delay={0.3}>
           <MostProduct products={sliderProducts.featured || []} />
         </AnimateOnScroll>
 
 
-        <AnimateOnScroll direction="zoom" delay={0.9}>
+        <AnimateOnScroll direction="zoom" delay={0.3}>
           <AllProductSlider3 products={productsByLimit} />
         </AnimateOnScroll>
 
