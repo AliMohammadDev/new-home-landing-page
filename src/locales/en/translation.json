@@ -355,5 +355,12 @@
     "off": "% OFF",
     "related_products": "Related Products",
     "related_products_desc": "Discover similar products that might suit your taste and needs."
+  },
+
+  "ErrorFallback": {
+    "title": "Error",
+    "notFound": "Sorry, we couldn't find this page.",
+    "description": "But don't worry, you can find plenty of other things on our homepage.",
+    "backHome": "Back to homepage"
   }
 }
