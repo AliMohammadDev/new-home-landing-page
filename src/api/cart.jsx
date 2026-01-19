@@ -1,12 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Cookie from 'cookie-universal';
+import { useTranslation } from 'react-i18next';
 
 const cookies = Cookie();
 
 export const useGetAllCartItems = () => {
+
+  const { i18n } = useTranslation();
+
   return useQuery({
-    queryKey: ['cart-items'],
+    queryKey: ['cart-items', i18n.language],
     enabled: !!cookies.get('token'),
     queryFn: async () => {
       const res = await axios.get('cart-items');

@@ -335,7 +335,7 @@ const Product = () => {
             clsx("text-5xl  text-black",
               isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
             )
-          }>{categoryId}</h1>
+          }>{category?.name}</h1>
         </div>
 
         {/* Filter */}

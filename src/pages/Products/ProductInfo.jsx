@@ -24,16 +24,12 @@ const ProductInfo = () => {
   const { data } = useGetProductVariant(variantId);
   const { data: categories = [] } = useGetCategories();
   const { data: wishlistData } = useGetAllWishlist();
-
   const { data: user } = useGetProfile();
   const { mutate: addToCart, isLoading } = useAddToCartItem();
   const { mutate: addWishlist } = useAddWishlist();
   const product = data?.product;
   const variant = data;
-
   const [activeImage, setActiveImage] = useState(null);
-
-
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedSize, setSelectedSize] = useState(null);
   const [selectedMaterial, setSelectedMaterial] = useState(null);
@@ -124,55 +120,6 @@ const ProductInfo = () => {
     return wishlistProductIds.includes(variantId);
   };
 
-  // Add wishlist
-  // const handleAddWishlist = (variant) => {
-  //   if (!user) {
-  //     addToast({
-  //       title: t('wishlist.title'),
-  //       description: t('wishlist.loginRequired'),
-  //       color: 'warning',
-  //       duration: 4000,
-  //       isClosable: true,
-  //     });
-  //     return;
-  //   }
-
-  //   if (isProductInWishlist(variant.variantId)) {
-  //     addToast({
-  //       title: t('wishlist.title'),
-  //       description: t('wishlist.addedError'),
-  //       color: 'warning',
-  //       duration: 4000,
-  //       isClosable: true,
-  //     });
-  //     return;
-  //   }
-
-
-  //   addWishlist(
-  //     variant.id,
-  //     {
-  //       onSuccess: () => {
-  //         addToast({
-  //           title: t('wishlist.title'),
-  //           description: t('wishlist.addedSuccess'),
-  //           color: 'success',
-  //           duration: 4000,
-  //           isClosable: true,
-  //         });
-  //       },
-  //       onError: () => {
-  //         addToast({
-  //           title: t('wishlist.title'),
-  //           description: t('wishlist.addedError'),
-  //           color: 'warning',
-  //           duration: 4000,
-  //           isClosable: true,
-  //         });
-  //       },
-  //     }
-  //   );
-  // };
 
 
   const handleAddWishlist = () => {
@@ -278,7 +225,6 @@ const ProductInfo = () => {
         >
           <LeftIcon />
         </button>
-
       </div>
 
       {/* Title */}
@@ -286,9 +232,6 @@ const ProductInfo = () => {
         {t('productInfo.description_title')}
       </h1>
       <hr className="mt-5 border-[#025043]" />
-
-
-
 
       {/* Category Menu */}
       <div className="flex flex-wrap justify-center md:justify-end items-center gap-4 mt-4 text-sm md:text-base">
@@ -340,7 +283,6 @@ const ProductInfo = () => {
 
         {/* Right Section */}
         <div className="w-full flex flex-col md:flex-row gap-4 relative">
-
           {/* Left Subsection (Details) */}
           <div className={`md:w-1/2 space-y-4 ${isRTL ? 'pe-4 text-right' : 'ps-4 text-left'}`}>
             <h2 className="text-2xl md:text-3xl font-semibold font-[Expo-arabic]">
@@ -382,7 +324,7 @@ const ProductInfo = () => {
                       setOldPrice(firstMaterial.price);
                       setCurrentSku(firstMaterial.sku);
                     }}
-                    className={`w-8 h-8 rounded-full border-2 transition-all shadow-sm ${selectedColor?.id === color.id ? 'border-black scale-125 ring-2 ring-gray-100' : 'border-transparent'
+                    className={`w-8 h-8 rounded-full border-2 transition-all shadow-sm ${selectedColor?.id === color.id ? 'border-gray-200 scale-125 ring-2 ring-gray-100' : 'border-transparent'
                       }`}
                     style={{ backgroundColor: color.hex }}
                     title={color.name}
@@ -441,7 +383,7 @@ const ProductInfo = () => {
               <button
                 onClick={() => handleAddCartItem({ id: selectedVariantId })}
                 disabled={isLoading}
-                className="flex-1 h-14 bg-black text-white rounded-xl flex items-center justify-between px-6 hover:bg-gray-800 transition-all group disabled:bg-gray-400"
+                className="flex-1 h-14 bg-black text-white rounded-xl cursor-pointer flex items-center justify-between px-6 transition-all group disabled:bg-gray-400"
               >
                 <span className="font-bold text-lg">
                   {isLoading ? t('productInfo.adding') : t('productInfo.add_to_cart')}
@@ -457,8 +399,8 @@ const ProductInfo = () => {
               <button
                 onClick={() => handleAddWishlist()}
                 className={`w-14 h-14 border-2 rounded-xl flex items-center justify-center transition-all group ${isProductInWishlist(selectedVariantId)
-                  ? 'bg-red-50 border-green-200 text-green-500'
-                  : 'bg-gray-50 border-gray-100 text-gray-400 hover:bg-red-50 hover:border-red-200 hover:text-green-500'
+                  ? 'border-[#025043] '
+                  : 'bg-gray-50 border-gray-100 text-gray-400'
                   }`}
                 title={t('productInfo.add_to_favorites')}
               >
@@ -498,6 +440,11 @@ const ProductInfo = () => {
               <div className="flex gap-2 flex-wrap">
                 {selectedSize?.available_materials.map((material) => {
                   const isActive = selectedMaterial?.id === material.id;
+                  const materialName =
+                    material?.name?.[i18n.language] ??
+                    material?.name ??
+                    'N/A';
+
                   return (
                     <button
                       key={material.id}
@@ -511,7 +458,7 @@ const ProductInfo = () => {
                       className={`px-4 py-2 border rounded-lg text-xs font-bold transition-all ${isActive ? 'bg-[#025043] text-white border-[#025043]' : 'bg-white border-gray-200 text-gray-600 hover:border-[#025043]'
                         }`}
                     >
-                      {material.name}
+                      {materialName || 'N/A'}
                     </button>
                   );
                 })}

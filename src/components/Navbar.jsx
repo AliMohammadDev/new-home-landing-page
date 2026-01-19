@@ -19,12 +19,11 @@ import ChevronLeftIcon from '../assets/icons/ChevronLeftIcon.jsx';
 import homeLogoWhite from "../assets/images/home-logo-white.svg";
 import homeLogoGreen from "../assets/images/home-logo-green.png";
 
+
 const Navbar = () => {
   const { i18n, t } = useTranslation();
   const isRTL = i18n.language === 'ar';
-
   const [isLangOpen, setIsLangOpen] = useState(false);
-
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setIsLangOpen(false);
@@ -59,6 +58,14 @@ const Navbar = () => {
   const { mutate: decreaseItem } = useDecreaseItem();
   const { mutate: removeItem } = useRemoveFromCartItem();
 
+
+  const whitePaths = [
+    '/contact',
+    '/products',
+  ];
+  const isWhiteLogo = whitePaths.includes(location.pathname) || location.pathname.startsWith('/products/');
+
+
   return (
     <div
       className="absolute top-0 left-0 w-full flex justify-between items-center px-4 lg:px-8 py-2 lg:py-4 md:py-1 z-50"
@@ -67,23 +74,27 @@ const Navbar = () => {
       {/* 1. Logo Section */}
       <div className="shrink-0">
         <Link to={'/'}>
-          {
-            isRTL ? (
-              <img
-                src={homeLogoGreen}
-                alt="Logo"
-                className="h-14 w-auto"
-              />
-            ) : (
+          {isWhiteLogo ? (
+            <img src={homeLogoWhite} alt="Logo" className="h-14 w-auto" />
+          ) : (
+            <>
               <img
                 src={homeLogoWhite}
                 alt="Logo"
-                className="h-14 w-auto"
+                className="h-14 w-auto block md:hidden"
               />
-            )
-          }
+
+              <img
+                src={isRTL ? homeLogoGreen : homeLogoWhite}
+                alt="Logo"
+                className="h-14 w-auto hidden md:block"
+              />
+            </>
+          )}
         </Link>
       </div>
+
+
 
       {/* 2. Desktop Navigation (Hidden on Mobile) */}
       <nav
@@ -110,20 +121,48 @@ const Navbar = () => {
             )}
             style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
           >
+            <NavLink
+              to="/products"
+              end
+              onClick={() => setIsProductMenuOpen(false)}
+              className={({ isActive }) =>
+                clsx(
+                  'flex items-center gap-2 px-4 py-3 rounded-xl transition hover:underline underline-offset-4 justify-between',
+                  isActive ? 'text-[#E2995E]' : 'text-white'
+                )
+              }
+            >
+              <span className="font-medium">{t('navbar.all_products')}</span>
+
+              {i18n.language === 'ar' ? (
+                <ChevronLeftIcon color="white" className="text-primary duration-150 sm:scale-100" />
+              ) : (
+                <ChevronRightIcon color="white" className="text-primary duration-150 sm:scale-100" />
+              )}
+            </NavLink>
+
+            {/* <hr className="border-white/10 my-1" /> */}
             {categories.map((category) => (
               <NavLink
                 key={category.id}
-                to={`/products/${category.name}`}
-                className={({ isActive }) => clsx('flex items-center gap-2 px-4 py-3 rounded-xl transition hover:underline underline-offset-4', isActive ? 'text-[#E2995E]' : 'text-white', 'justify-between')}
+                to={`/products/${category.id}`}
                 onClick={() => setIsProductMenuOpen(false)}
+                className={({ isActive }) =>
+                  clsx(
+                    'flex items-center gap-2 px-4 py-3 rounded-xl transition hover:underline underline-offset-4 justify-between',
+                    isActive ? 'text-[#E2995E]' : 'text-white'
+                  )
+                }
               >
                 {category.name}
                 {i18n.language === 'ar' ? (
                   <ChevronLeftIcon color="white" className="text-primary duration-150 sm:scale-100" />
                 ) : (
                   <ChevronRightIcon color="white" className="text-primary duration-150 sm:scale-100" />
-                )}              </NavLink>
+                )}
+              </NavLink>
             ))}
+
           </div>
         </div>
       </nav>
@@ -283,7 +322,7 @@ const Navbar = () => {
                     {categories.map((cat) => (
                       <NavLink
                         key={cat.id}
-                        to={`/products/${cat.name.toLowerCase()}`}
+                        to={`/products/${cat.id}`}
                         className="py-2 text-xs text-gray-300"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >

@@ -42,6 +42,8 @@ function ShowAllProducts() {
   const { data: wishlistData } = useGetAllWishlist();
   const { mutate: addWishlist } = useAddWishlist();
 
+
+
   const variants = products || [];
   const productsList = variants.map(v => ({
     variantId: v.id,
@@ -423,7 +425,7 @@ function ShowAllProducts() {
                         {product.final_price} $
                       </p>
 
-                      <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">
+                      <div className="flex items-center justify-between md:flex-row lg:flex-col xl:flex-row text-[#025043]">
                         <div className="flex items-center gap-1 text-sm">
                           <RatingStars
                             rating={product.rating}
@@ -435,11 +437,10 @@ function ShowAllProducts() {
                             ({product.reviews_count})
                           </span>
                         </div>
-
                         <button
                           onClick={() => handleAddCartItem(product)}
                           disabled={isLoading}
-                          className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50"
+                          className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50  active:scale-95"
                         >
                           {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
                         </button>

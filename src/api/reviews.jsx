@@ -40,6 +40,7 @@ export const useSubmitReview = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['variants'] });
       queryClient.invalidateQueries({ queryKey: ['reviews'] });
+      queryClient.invalidateQueries({ queryKey: ['variant'] });
     },
   });
 };

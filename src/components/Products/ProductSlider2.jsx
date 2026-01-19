@@ -161,7 +161,11 @@ function ProductSlider2({ products = [] }) {
                           </div>
 
                           <button
-                            onClick={() => handleAddCartItem(variant)}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleAddCartItem(variant);
+                            }}
                             disabled={isLoading}
                             className="bg-[#025043] text-white cursor-pointer font-[Expo-arabic] text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 w-full active:scale-95"
                           >

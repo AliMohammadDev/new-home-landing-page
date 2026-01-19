@@ -1,9 +1,9 @@
-import Footer from '../components/Footer';
+import ChevronDoubleUp from '../assets/icons/ChevronDoubleUp';
 import { Outlet, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react';
-import ChevronDoubleUp from '../assets/icons/ChevronDoubleUp';
-import { useTranslation } from 'react-i18next';
 
 const Layout = () => {
   const [showButton, setShowButton] = useState(false);

@@ -16,7 +16,6 @@ function ProductSlider1({ products = [] }) {
   const isRTL = i18n.language === 'ar';
   const [currentSlide, setCurrentSlide] = useState(0);
   const { data: user } = useGetProfile();
-
   const { mutate: addToCart, isLoading } = useAddToCartItem();
 
   const handleAddCartItem = (variant) => {
@@ -145,7 +144,7 @@ function ProductSlider1({ products = [] }) {
                         {product.name}
                       </h3>
 
-                      <p className="text-sm text-black ">
+                      <p className="text-sm text-black">
                         Product: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
                       </p>
                       <div className="border-b border-[#025043]/20"></div>
@@ -159,18 +158,19 @@ function ProductSlider1({ products = [] }) {
                         <span className="text-xs text-gray-400">
                           ({variant.reviews_count || 0})
                         </span>
-
                         <span
                           onClick={() => navigate('/products')}
                           className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
                         >
                           {t('essential_to_prep.view_more')}
                         </span>
-
                       </div>
-
                       <button
-                        onClick={() => handleAddCartItem(variant)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleAddCartItem(variant);
+                        }}
                         disabled={isLoading}
                         className="w-full bg-[#025043] text-white cursor-pointer text-sm font-[Expo-arabic] font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
                       >
@@ -198,7 +198,7 @@ function ProductSlider1({ products = [] }) {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 }
 

@@ -362,5 +362,9 @@
     "notFound": "Sorry, we couldn't find this page.",
     "description": "But don't worry, you can find plenty of other things on our homepage.",
     "backHome": "Back to homepage"
+  },
+
+  "loading": {
+    "text": "Loading..."
   }
 }

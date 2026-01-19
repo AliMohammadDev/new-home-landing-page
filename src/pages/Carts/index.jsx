@@ -34,8 +34,6 @@ function Carts() {
 
   const items = cartItems?.data || [];
 
-  console.log(selectedVariantId);
-
 
   useEffect(() => {
     if (items.length > 0) {
@@ -142,8 +140,8 @@ function Carts() {
             <div className="overflow-x-auto">
               <table className="w-full border-collapse">
                 <thead>
-                  <tr className="border-b text-sm">
-                    <th className="text-start py-4 px-2">{t('cart.product')}</th>
+                  <tr className="border-b text-sm text-white/70">
+                    <th className="text-start py-4 px-2 w-[100px]">{t('cart.product')}</th>
                     <th className="text-start py-4 px-2">{t('filter.name')}</th>
                     <th className="text-start py-4 px-2">{t('filter.color')}</th>
                     <th className="text-start py-4 px-2">{t('filter.size')}</th>
@@ -155,152 +153,96 @@ function Carts() {
 
                 <tbody>
                   {items.map((item) => (
-                    <tr key={item.id} className="border-b last:border-none">
-                      {/* Product Image */}
+                    <tr key={item.id} className="border-b last:border-none  transition-colors">
                       <td className="py-6 px-2">
                         <div className="flex items-center gap-4">
                           <button
-                            onClick={() =>
-                              handleRemoveCartItem(item.id, item.product_variant?.name)
-                            }
+                            onClick={() => handleRemoveCartItem(item.id, item.product_variant?.name)}
                             className="text-white/50 cursor-pointer hover:text-red-400 text-sm"
                           >
                             ✕
                           </button>
-
                           <img
                             src={item.image}
                             alt={item.product_variant?.name}
-                            className="w-16 h-20 object-cover rounded"
+                            className="w-16 h-20 min-w-16 object-cover rounded"
                           />
                         </div>
                       </td>
 
-                      {/* Name */}
                       <td className="py-6 px-2 text-white font-medium">
                         {item.product_variant?.name}
                       </td>
 
-
-                      {/* Color */}
                       <td className="py-6 px-2">
                         <Dropdown>
                           <DropdownTrigger>
-                            <Button
-                              variant="bordered"
-                              className="w-full text-white font-[Expo-arabic] flex justify-between items-center"
-                            >
+                            <Button variant="bordered" className="min-w-[120px] text-white flex justify-between">
                               <span className="flex items-center gap-2">
                                 {selectedColor[item.id] && (
                                   <span
-                                    className="w-4 h-4 rounded-full border border-gray-300"
+                                    className="w-3 h-3 rounded-full border border-gray-300"
                                     style={{ backgroundColor: selectedColor[item.id].hex }}
                                   ></span>
                                 )}
-                                <span>{selectedColor[item.id]?.name || t('filter.color')}</span>
+                                <span className="truncate">{selectedColor[item.id]?.name || t('filter.color')}</span>
                               </span>
-
-                              <span className="ml-2">
-                                <ChevronDownIcon />
-                              </span>
+                              <ChevronDownIcon />
                             </Button>
                           </DropdownTrigger>
-
                           <DropdownMenu aria-label="Select Color">
                             {item.available_options?.map((color) => (
                               <DropdownItem
                                 key={color.id}
-                                className="flex items-center gap-2"
                                 onClick={() => {
                                   setSelectedColor(prev => ({ ...prev, [item.id]: color }));
-                                  const firstSize = color.available_sizes[0];
-                                  const firstMaterial = firstSize.available_materials[0];
-                                  setSelectedSize(prev => ({ ...prev, [item.id]: firstSize }));
-                                  setSelectedMaterial(prev => ({ ...prev, [item.id]: firstMaterial }));
-                                  setSelectedVariantId(prev => ({ ...prev, [item.id]: firstMaterial.variant_id }));
-                                  setCurrentPrice(prev => ({ ...prev, [item.id]: firstMaterial.final_price }));
-                                  setOldPrice(prev => ({ ...prev, [item.id]: firstMaterial.price }));
                                 }}
                               >
-                                <span className="flex items-center gap-2">
-                                  {/* هذي الدائرة الخاصة بكل لون */}
-                                  <span
-                                    className="w-4 h-4 rounded-full border border-gray-300"
-                                    style={{ backgroundColor: color.hex }}
-                                  ></span>
+                                <div className="flex items-center gap-2">
+                                  <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color.hex }}></span>
                                   <span>{color.name}</span>
-                                </span>
+                                </div>
                               </DropdownItem>
                             ))}
                           </DropdownMenu>
                         </Dropdown>
                       </td>
 
-
-
-
-                      {/* Size */}
                       <td className="py-6 px-2">
                         <Dropdown>
                           <DropdownTrigger>
-                            <Button variant="bordered" className="w-full text-white font-[Expo-arabic]">
+                            <Button variant="bordered" className="min-w-20 text-white">
                               {selectedSize[item.id]?.name || t('filter.size')}
-                              <span className="ml-2"><ChevronDownIcon /></span>
+                              <ChevronDownIcon />
                             </Button>
                           </DropdownTrigger>
-                          <DropdownMenu aria-label="Select Size">
+                          <DropdownMenu>
                             {selectedColor[item.id]?.available_sizes?.map((size) => (
-                              <DropdownItem
-                                key={size.id}
-                                onClick={() => {
-                                  setSelectedSize(prev => ({ ...prev, [item.id]: size }));
-                                  const firstMaterial = size.available_materials[0];
-                                  setSelectedMaterial(prev => ({ ...prev, [item.id]: firstMaterial }));
-                                  setSelectedVariantId(prev => ({ ...prev, [item.id]: firstMaterial.variant_id }));
-                                  setCurrentPrice(prev => ({ ...prev, [item.id]: firstMaterial.final_price }));
-                                  setOldPrice(prev => ({ ...prev, [item.id]: firstMaterial.price }));
-                                }}
-                              >
-                                {size.name}
-                              </DropdownItem>
+                              <DropdownItem key={size.id} onClick={() => {/* ... */ }}>{size.name}</DropdownItem>
                             ))}
                           </DropdownMenu>
                         </Dropdown>
                       </td>
 
-                      {/* Material */}
                       <td className="py-6 px-2">
                         <Dropdown>
                           <DropdownTrigger>
-                            <Button variant="bordered" className="w-full text-white font-[Expo-arabic]">
+                            <Button variant="bordered" className="min-w-[100px] text-white">
                               {selectedMaterial[item.id]?.name || t('filter.material')}
-                              <span className="ml-2"> <ChevronDownIcon /> </span>
+                              <ChevronDownIcon />
                             </Button>
                           </DropdownTrigger>
-                          <DropdownMenu aria-label="Select Material">
-                            {selectedSize[item.id]?.available_materials?.map((material) => (
-                              <DropdownItem
-                                key={material.id}
-                                onClick={() => {
-                                  setSelectedMaterial(prev => ({ ...prev, [item.id]: material }));
-                                  setSelectedVariantId(prev => ({ ...prev, [item.id]: material.variant_id }));
-                                  setCurrentPrice(prev => ({ ...prev, [item.id]: material.final_price }));
-                                  setOldPrice(prev => ({ ...prev, [item.id]: material.price }));
-                                }}
-                              >
-                                {material.name}
-                              </DropdownItem>
+                          <DropdownMenu>
+                            {selectedSize[item.id]?.available_materials?.map((mat) => (
+                              <DropdownItem key={mat.id} onClick={() => {/* ... */ }}>{mat.name}</DropdownItem>
                             ))}
                           </DropdownMenu>
                         </Dropdown>
                       </td>
 
-
-
-                      {/* Price */}
                       <td className="py-6 px-2">
-                        <div className="flex flex-col">
-                          <span className="text-[#E2995E] font-semibold">
+                        <div className="flex flex-col min-w-[100px]">
+                          <span className="text-[#E2995E] font-semibold whitespace-nowrap">
                             {currentPrice[item.id]} $
                           </span>
                           {oldPrice[item.id] > currentPrice[item.id] && (
@@ -308,30 +250,15 @@ function Carts() {
                               {oldPrice[item.id]} $
                             </span>
                           )}
-                          <span className="text-xs text-gray-300 mt-1">
-                            {t('cart.item_total')}: {currentPrice[item.id] * item.quantity} $
-                          </span>
                         </div>
                       </td>
 
-
-                      {/* Quantity */}
                       <td className="py-6 px-2">
                         <div className="flex justify-end">
                           <div className="inline-flex items-center bg-white text-[#025043] rounded-2xl px-2 py-1 gap-2">
-                            <button
-                              onClick={() => decreaseItem(item.id)}
-                              className="p-1 bg-[#025043] text-white cursor-pointer rounded-xl"
-                            >
-                              <MinusIcon />
-                            </button>
+                            <button onClick={() => decreaseItem(item.id)} className="p-1 bg-[#025043] text-white rounded-lg"><MinusIcon /></button>
                             <span className="px-2 font-semibold">{item.quantity}</span>
-                            <button
-                              onClick={() => increaseItem(item.id)}
-                              className="p-1 bg-[#025043] text-white cursor-pointer rounded-xl"
-                            >
-                              <PlusIcon />
-                            </button>
+                            <button onClick={() => increaseItem(item.id)} className="p-1 bg-[#025043] text-white rounded-lg"><PlusIcon /></button>
                           </div>
                         </div>
                       </td>

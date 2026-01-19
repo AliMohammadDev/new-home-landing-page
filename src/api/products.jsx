@@ -68,7 +68,7 @@ export const useGetSlidersProductsVariants = () => {
 };
 
 // Products Variants By Limit
-export const useGetProductsVariantsByLimit = (limit = 10) => {
+export const useGetProductsVariantsByLimit = (limit = 20) => {
   const lang = localStorage.getItem('lang') || 'en';
   return useQuery({
     queryKey: ['variants', limit, lang],

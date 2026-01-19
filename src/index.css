@@ -8,10 +8,13 @@
 
 html,
 body {
+  background-color: #025043;
   overflow-x: hidden;
   position: relative;
   width: 100%;
 }
+
+
 
 
 /* CUSTOM FONTS */

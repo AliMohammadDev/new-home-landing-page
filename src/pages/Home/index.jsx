@@ -13,6 +13,7 @@ import AnimateOnScroll from '../../components/AnimateOnScroll';
 import { useTranslation } from 'react-i18next';
 import homeLogoWhite from "../../assets/images/home-logo-white.svg";
 import clsx from 'clsx';
+import Loading from '../../components/Loading';
 
 
 const Home = () => {
@@ -76,7 +77,7 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-20 p-2 sm:p-2 md:p-4">
             <div className="text-center text-white transition-shadow duration-300">
               {i18n.language === 'ar' ? (
-                <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[100px] font-[Expo-arabic] block">
+                <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[75px] font-[Expo-arabic] block">
                   {t('navbar.our_products')}
                 </span>
               ) : (

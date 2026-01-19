@@ -40,7 +40,7 @@ const AboutUs = () => {
 
         <div className="w-full h-0.5 bg-black"></div>
 
-        <div className="space-y-4 text-sm sm:text-base md:text-lg">
+        <div className={clsx("space-y-4 text-sm sm:text-base md:text-lg", isRTL ? "font-[Expo-arabic]" : "font-[Expo-book]")}>
           <p>{t('about.company_desc')}</p>
         </div>
 
@@ -55,9 +55,12 @@ const AboutUs = () => {
             {t('about.intro_company')}
           </span>
 
-          <p className="text-black text-sm sm:text-base md:text-2xl mb-4 ps-2 sm:ps-4 md:ps-0">
+          <p className={
+            clsx("text-black text-sm sm:text-base md:text-2xl mb-4 ps-2 sm:ps-4 md:ps-0",
+              isRTL ? "font-[Expo-arabic]" : "font-[Expo-book]")
+          }>
             {t('about.company_desc')}
-            <span className="text-black text-sm sm:text-lg md:text-[24px] block mb-4">
+            <span className="text-black text-sm sm:text-lg md:text-[24px] block mb-4 mt-10">
               {t('about.core_products')}
             </span>
           </p>

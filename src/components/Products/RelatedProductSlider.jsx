@@ -8,6 +8,8 @@ import { useGetProfile } from '../../api/auth.jsx';
 import { useAddToCartItem } from '../../api/cart.jsx';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import clsx from 'clsx';
 
 function RelatedProductSlider({ variants = [] }) {

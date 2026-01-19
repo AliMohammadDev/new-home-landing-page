@@ -1,12 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import Cookie from 'cookie-universal';
+import { useTranslation } from 'react-i18next';
 
 export const useGetAllWishlist = (page = 1) => {
   const cookies = Cookie();
-
+  const { i18n } = useTranslation();
   return useQuery({
-    queryKey: ['wishlist', page],
+    queryKey: ['wishlist', page, i18n.language],
     enabled: !!cookies.get('token'),
     queryFn: async () => {
       const res = await axios.get('wishlists', {
