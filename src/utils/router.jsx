@@ -105,12 +105,6 @@ const router = createBrowserRouter([
     element: <Register />,
   },
 
-
-  {
-    path: 'll',
-    element: <Loading fullScreen />,
-  }
-
 ]);
 
 export default router;
