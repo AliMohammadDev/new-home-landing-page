@@ -38,6 +38,17 @@ const ProductInfo = () => {
   const [oldPrice, setOldPrice] = useState(null);
   const [currentSku, setCurrentSku] = useState(null);
 
+  const [currentRating, setCurrentRating] = useState(0);
+  const [currentReviewsCount, setCurrentReviewsCount] = useState(0);
+
+
+  useEffect(() => {
+    if (selectedMaterial) {
+      setCurrentRating(selectedMaterial.reviews_avg || 0);
+      setCurrentReviewsCount(selectedMaterial.reviews_count || 0);
+    }
+  }, [selectedMaterial]);
+
   useEffect(() => {
     if (product?.available_options?.length > 0) {
       const firstColor = product.available_options[0];
@@ -54,7 +65,6 @@ const ProductInfo = () => {
     }
   }, [product]);
 
-
   useEffect(() => {
     if (data?.product_all_images?.length > 0) {
       setActiveImage(data.product_all_images[0]);
@@ -63,9 +73,7 @@ const ProductInfo = () => {
     }
   }, [data]);
 
-
   const activeCategoryId = product?.category?.id;
-
 
   // Add to cart 
   const handleAddCartItem = (variant) => {
@@ -119,8 +127,6 @@ const ProductInfo = () => {
   const isProductInWishlist = (variantId) => {
     return wishlistProductIds.includes(variantId);
   };
-
-
 
   const handleAddWishlist = () => {
     if (!user) {
@@ -366,12 +372,10 @@ const ProductInfo = () => {
               {t('productInfo.rate')}
               <div className="flex items-center gap-2 text-sm mt-1">
                 <RatingStars
-                  rating={Number(data.reviews_avg) || 0}
+                  rating={Number(currentRating)}
                   onRate={(star) => handleRateProduct(selectedVariantId, star)}
                 />
-                <span className="text-xs text-gray-500">
-                  ({variant?.reviews_count ?? 0})
-                </span>
+                <span>({currentReviewsCount})</span>
               </div>
             </div>
 
