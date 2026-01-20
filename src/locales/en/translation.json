@@ -39,8 +39,13 @@
     "copyright": "2025 Almanzel-Alhadith company. All Rights Reserved.",
     "company_name": "AL-MANZEL AL-HADITH",
     "category": "Kitchenware",
-    "website_url": "/https://almanzel-alhadith.com",
-    "brand_name": "Almanzil-Alhadith"
+    "website_url": "https://almanzel-alhadith.com",
+    "brand_name": "Almanzil-Alhadith",
+    "email_label": "EMAIL",
+    "phone_label": "PHONE",
+    "location_label": "LOCATION",
+    "address_line1": "Al-Aziziyah, Consulate Street",
+    "address_line2": "Aleppo, Syria"
   },
 
   "auth": {

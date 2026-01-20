@@ -4,6 +4,7 @@ import InstagramIcon from '../assets/icons/InstagramIcon';
 import WhatsappIcon from '../assets/icons/WhatsappIcon';
 import TelegramIcon from '../assets/icons/TelegramIcon';
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const { t, i18n } = useTranslation();
@@ -49,10 +50,10 @@ const Header = () => {
         {/* Social Icons */}
         <div className="mt-12 md:mt-12">
           <div className="flex flex-col gap-6 items-start">
-            <span className="cursor-pointer hover:text-gray-300"><FacebookIcon /></span>
-            <span className="cursor-pointer hover:text-gray-300"><InstagramIcon /></span>
-            <span className="cursor-pointer hover:text-gray-300"><WhatsappIcon /></span>
-            <span className="cursor-pointer hover:text-gray-300"><TelegramIcon /></span>
+            <Link to={'https://www.facebook.com'} className="cursor-pointer hover:text-gray-300"><FacebookIcon /></Link >
+            <Link to={'https://www.instagram.com'} className="cursor-pointer hover:text-gray-300"><InstagramIcon /></Link >
+            <Link to={'https://www.whatsapp.com'} className="cursor-pointer hover:text-gray-300"><WhatsappIcon /></Link >
+            <Link to={'https://www.telegram.com'} className="cursor-pointer hover:text-gray-300"><TelegramIcon /></Link >
           </div>
         </div>
 

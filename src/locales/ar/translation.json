@@ -40,7 +40,13 @@
     "company_name": "المنزل الحديث",
     "category": "أدوات المطبخ",
     "website_url": "/https://almanzel-alhadith.com",
-    "brand_name": "المنزل الحديث"
+    "brand_name": "المنزل الحديث",
+    "email_label": "البريد الإلكتروني",
+    "phone_label": "رقم الهاتف",
+
+    "location_label": "الموقع",
+    "address_line1": "حي العزيزية، شارع القنصليات",
+    "address_line2": "حلب، سوريا"
   },
 
   "auth": {

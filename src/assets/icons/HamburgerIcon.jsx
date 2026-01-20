@@ -1,4 +1,4 @@
-const HamburgerIcon = () => {
+const HamburgerIcon = ({ color } = '#EDEAE2') => {
   return (
     <svg
       width="22"
@@ -9,19 +9,19 @@ const HamburgerIcon = () => {
     >
       <path
         d="M1 1H20.25"
-        stroke="#EDEAE2"
+        stroke={color}
         strokeWidth="2"
         strokeLinecap="round"
       />
       <path
         d="M1 7.875H20.25"
-        stroke="#EDEAE2"
+        stroke={color}
         strokeWidth="2"
         strokeLinecap="round"
       />
       <path
         d="M1 14.75H20.25"
-        stroke="#EDEAE2"
+        stroke={color}
         strokeWidth="2"
         strokeLinecap="round"
       />

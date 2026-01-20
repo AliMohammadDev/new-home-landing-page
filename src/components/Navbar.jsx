@@ -1,3 +1,4 @@
+import { useDecreaseItem, useGetAllCartItems, useIncreaseItem, useRemoveFromCartItem } from '../api/cart.jsx';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import ChevronDownIcon from '../assets/icons/ChevronDownIcon.jsx';
 import ChevronRightIcon from '../assets/icons/ChevronRightIcon.jsx';
@@ -11,13 +12,11 @@ import clsx from 'clsx';
 import cartImage from '../assets/images/addToCart.svg';
 import { useGetProfile } from '../api/auth.jsx';
 import { useGetCategories } from '../api/categories.jsx';
-import { useDecreaseItem, useGetAllCartItems, useIncreaseItem, useRemoveFromCartItem } from '../api/cart.jsx';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
 import ProfileSwitcher from './ProfileSwitcher.jsx';
 import { useTranslation } from 'react-i18next';
 import ChevronLeftIcon from '../assets/icons/ChevronLeftIcon.jsx';
 import homeLogoWhite from "../assets/images/home-logo-white.svg";
-import homeLogoGreen from "../assets/images/home-logo-green.png";
 
 
 const Navbar = () => {
@@ -40,6 +39,17 @@ const Navbar = () => {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const location = useLocation();
   const isProductsActive = location.pathname.startsWith('/products');
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
 
   useEffect(() => {
     const closeAllMenus = () => {
@@ -65,12 +75,22 @@ const Navbar = () => {
   ];
   const isWhiteLogo = whitePaths.includes(location.pathname) || location.pathname.startsWith('/products/');
 
-
   return (
     <div
-      className="absolute top-0 left-0 w-full flex justify-between items-center px-4 lg:px-8 py-2 lg:py-4 md:py-1 z-50"
+      className={clsx(
+        "fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 lg:px-8 py-2 lg:py-4 md:py-1 transition-all duration-300 ease-in-out",
+        isScrolled
+          ? "backdrop-blur-xl shadow-md"
+          : "bg-transparent"
+      )}
+      style={{
+        background: isScrolled
+          ? "linear-gradient(0deg,rgba(2, 80, 67, 0.31) 8%, rgba(2, 80, 67, 0.52) 23%, rgba(38, 35, 35, 1) 100%)"
+          : "transparent",
+      }}
       dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
     >
+
       {/* 1. Logo Section */}
       <div className="shrink-0">
         <Link to={'/'}>
@@ -85,7 +105,7 @@ const Navbar = () => {
               />
 
               <img
-                src={isRTL ? homeLogoGreen : homeLogoWhite}
+                src={homeLogoWhite}
                 alt="Logo"
                 className="h-14 w-auto hidden md:block"
               />
@@ -98,7 +118,7 @@ const Navbar = () => {
 
       {/* 2. Desktop Navigation (Hidden on Mobile) */}
       <nav
-        className="hidden lg:flex gap-8 mr-10 font-[Expo-arabic] items-center"
+        className="hidden lg:flex gap-8 mr-10 font-[Expo-arabic] items-center text-lg"
       >
         <NavLink to="/" className={({ isActive }) => clsx(isActive ? 'text-[#E2995E]' : 'text-gray-300 hover:text-white')}>{t('navbar.home')}</NavLink>
         <NavLink to="/contact" className={({ isActive }) => clsx(isActive ? 'text-[#E2995E]' : 'text-gray-300 hover:text-white')}>{t('navbar.contact')}</NavLink>

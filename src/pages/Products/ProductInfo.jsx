@@ -1,10 +1,10 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import LeftIcon from '../../assets/icons/LeftIcon';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
 import { useGetProductVariant } from '../../api/products';
 import { useGetCategories } from '../../api/categories';
 import { addToast } from '@heroui/react';
-import { useAddToCartItem } from '../../api/cart';
+import { useAddToCartItem, useGetAllCartItems } from '../../api/cart';
 import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist';
 import { useGetProfile } from '../../api/auth';
 import RatingStars from '../../components/RatingStars';
@@ -14,6 +14,12 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import WishListIcon from '../../assets/icons/WishListIcon';
 import RelatedProductSlider from '../../components/Products/RelatedProductSlider';
+import CartIcon2 from '../../assets/icons/CartIcon2';
+import homeLogoGreen from "../../assets/images/home-logo-green.png";
+
+import clsx from 'clsx';
+import HamburgerIcon from '../../assets/icons/HamburgerIcon';
+import ChevronDownIcon from '../../assets/icons/ChevronDownIcon';
 
 
 const ProductInfo = () => {
@@ -37,9 +43,19 @@ const ProductInfo = () => {
   const [currentPrice, setCurrentPrice] = useState(null);
   const [oldPrice, setOldPrice] = useState(null);
   const [currentSku, setCurrentSku] = useState(null);
-
   const [currentRating, setCurrentRating] = useState(0);
   const [currentReviewsCount, setCurrentReviewsCount] = useState(0);
+  const { data: cartData } = useGetAllCartItems();
+  const { data: profile } = useGetProfile();
+
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    setIsLangOpen(false);
+  };
 
 
   useEffect(() => {
@@ -221,16 +237,157 @@ const ProductInfo = () => {
       )
       ?.slice(0, 10) || [];
 
+
+  const calculateDiscountPercentage = (original, final) => {
+    if (!original || !final || original <= final) return null;
+    const discount = ((original - final) / original) * 100;
+    return Math.round(discount);
+  };
+
+  const discountPercentage = calculateDiscountPercentage(oldPrice || variant?.price, currentPrice || variant?.final_price);
+
   return (
     <div className="w-full text-black px-4 md:px-10 lg:px-20 py-10 bg-white min-h-screen relative" dir={isRTL ? 'rtl' : 'ltr'}>
 
-      <div className={`absolute top-4 ${isRTL ? 'left-4' : 'left-4'} z-20`}>
-        <button
-          onClick={() => navigate(-1)}
-          className="hover:opacity-80 transition"
-        >
-          <LeftIcon />
-        </button>
+      {/* Navbar Section */}
+      <div className={`absolute top-0 left-0 right-0 px-4 md:px-10 lg:px-20 h-20 z-20 flex items-center justify-between ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+
+        <div className="flex items-center">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-2 cursor-pointer transition-all active:scale-90"
+          >
+            <LeftIcon />
+          </button>
+        </div>
+
+        <div className="hidden lg:flex items-center gap-0 md:gap-0 lg:gap-0">
+          <button
+            onClick={() => navigate('/carts')}
+            className="p-2 cursor-pointer  transition-all active:scale-90 relative"
+          >
+            <CartIcon2 />
+            {cartData?.data?.length > 0 && (
+              <span className="absolute top-2 right-2 w-3 h-3 bg-red-500 rounded-full border-2 border-white"></span>
+            )}
+          </button>
+
+          <button
+            onClick={() => {
+              navigate('/')
+            }}
+            className="p-2  cursor-pointer  transition-all active:scale-90">
+            <img src={homeLogoGreen} alt="Logo" className="h-14 w-auto" />
+          </button>
+        </div>
+
+
+        <div className="lg:hidden relative z-50">
+          <button
+            aria-expanded={isMobileMenuOpen}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="cursor-pointer p-2 relative z-50"
+          >
+            <HamburgerIcon color="black" />
+          </button>
+        </div>
+
+
+        {/* Mobile Menu Overlay */}
+        {isMobileMenuOpen && (
+          <div
+            className="fixed inset-0 z-40 lg:hidden bg-black/40 backdrop-blur-sm"
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <div
+              className={clsx(
+                'absolute top-2 w-2/3 max-w-xs h-auto max-h-[90vh] overflow-y-auto font-[Expo-arabic]',
+                'bg-white/10 backdrop-blur-xl shadow-lg border border-white/20 rounded-2xl py-8 px-6 text-white transition-all duration-300',
+                i18n.language === 'ar' ? 'left-1' : 'right-1'
+              )}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex flex-col gap-2 font-[Expo-bold] w-full text-sm items-start">
+                <NavLink to="/" className="block px-4 py-2 hover:bg-white/10 rounded">{t('navbar.home')}</NavLink>
+                <NavLink to="/contact" className="block px-4 py-2 hover:bg-white/10 rounded">{t('navbar.contact')}</NavLink>
+                <NavLink to="/about" className="block px-4 py-2 hover:bg-white/10 rounded">{t('navbar.about_us')}</NavLink>
+
+                <div className="w-full">
+                  <button
+                    onClick={() => setIsCategoryMenuOpen(!isCategoryMenuOpen)}
+                    className="w-full px-4 py-2 flex items-center justify-between hover:bg-white/10 rounded"
+                  >
+                    <span>{t('navbar.all_products')}</span>
+                    <ChevronDownIcon className={clsx('transition-transform', isCategoryMenuOpen && 'rotate-180')} />
+                  </button>
+
+                  {isCategoryMenuOpen && (
+                    <div className="flex flex-col pl-4 pr-4 mt-1 border-l border-white/10">
+                      {categories.map((cat) => (
+                        <NavLink
+                          key={cat.id}
+                          to={`/products/${cat.id}`}
+                          className="py-2 text-xs text-gray-300"
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {cat.name}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {profile ? (
+                  <>
+                    <NavLink to="/profile" className="px-4 py-2">{t('navbar.my_profile')}</NavLink>
+                    <NavLink to="/carts" className="px-4 py-2">{t('navbar.my_cart')}</NavLink>
+                    <NavLink to="/logout" className="px-4 py-2">{t('navbar.logout')}</NavLink>
+                  </>
+                ) : (
+                  <NavLink to="/login" className="px-4 py-2">{t('navbar.login')}</NavLink>
+                )}
+
+                <div className="w-full border-t border-white/10 mt-4 pt-4 flex items-center justify-around gap-2">
+                  <button
+                    onClick={() => changeLanguage('en')}
+                    className={clsx(
+                      "flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-[Expo-bold] transition-all duration-200 border",
+                      i18n.language === 'en'
+                        ? "bg-white text-[#025043] border-white shadow-lg"
+                        : "bg-white/5 text-white border-white/10 hover:bg-white/10"
+                    )}
+                  >
+                    <img
+                      src="https://flagcdn.com/w40/gb.png"
+                      alt="English"
+                      className="w-4 h-3 object-cover rounded-sm"
+                    />
+                    ENGLISH
+                  </button>
+
+                  <button
+                    onClick={() => changeLanguage('ar')}
+                    className={clsx(
+                      "flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-[Expo-bold] transition-all duration-200 border",
+                      i18n.language === 'ar'
+                        ? "bg-white text-[#025043] border-white shadow-lg"
+                        : "bg-white/5 text-white border-white/10 hover:bg-white/10"
+                    )}
+                  >
+                    <img
+                      src="https://flagcdn.com/w40/sy.png"
+                      alt="Arabic"
+                      className="w-4 h-3 object-cover rounded-sm"
+                    />
+                    العربية
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+
       </div>
 
       {/* Title */}
@@ -299,16 +456,25 @@ const ProductInfo = () => {
             </p>
 
             {/* Price */}
-            <div className="text-lg">
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-3">
+                <span className="font-bold text-black text-3xl">
+                  {currentPrice || variant?.final_price} $
+                </span>
+
+                {discountPercentage && (
+                  <span className="bg-yellow-400 text-black text-[10px] md:text-xs font-[Expo-arabic] px-2 py-1 rounded-md shadow-sm animate-pulse">
+                    {discountPercentage}% OFF PRP
+                  </span>
+                )}
+              </div>
+
+              {/* السعر القديم مشطوب */}
               {Number(variant?.discount) > 0 && (
-                <span className="line-through text-gray-400">
+                <span className="line-through text-gray-400 text-sm">
                   {oldPrice || variant?.price} $
                 </span>
               )}
-              <br />
-              <span className="font-bold text-black text-2xl">
-                {currentPrice || variant?.final_price} $
-              </span>
             </div>
 
             {/* Colors */}
@@ -367,75 +533,6 @@ const ProductInfo = () => {
               </div>
             </div>
 
-            {/* Rating */}
-            <div className="font-bold font-[Expo-arabic]">
-              {t('productInfo.rate')}
-              <div className="flex items-center gap-2 text-sm mt-1">
-                <RatingStars
-                  rating={Number(currentRating)}
-                  onRate={(star) => handleRateProduct(selectedVariantId, star)}
-                />
-                <span>({currentReviewsCount})</span>
-              </div>
-            </div>
-
-            {/* Add to Cart + Add to Favorites in same line */}
-            {/* Container for Buttons */}
-            <div className="flex items-center gap-3 mt-8 w-full">
-
-              {/* Add to Cart Button Group */}
-              <button
-                onClick={() => handleAddCartItem({ id: selectedVariantId })}
-                disabled={isLoading}
-                className="flex-1 h-14 bg-black text-white rounded-xl cursor-pointer flex items-center justify-between px-6 transition-all group disabled:bg-gray-400"
-              >
-                <span className="font-bold text-lg">
-                  {isLoading ? t('productInfo.adding') : t('productInfo.add_to_cart')}
-                </span>
-
-                {/* Arrow Icon inside the button */}
-                <div className={`w-8 h-8 bg-white/20 flex items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`}>
-                  <ChevronRightIcon color="white" />
-                </div>
-              </button>
-
-              {/* Add to Favorites (Icon Button) */}
-              <button
-                onClick={() => handleAddWishlist()}
-                className={`w-14 h-14 border-2 rounded-xl flex items-center justify-center transition-all group ${isProductInWishlist(selectedVariantId)
-                  ? 'border-[#025043] '
-                  : 'bg-gray-50 border-gray-100 text-gray-400'
-                  }`}
-                title={t('productInfo.add_to_favorites')}
-              >
-                <WishListIcon isFavorite={isProductInWishlist(selectedVariantId)} />
-              </button>
-            </div>
-            <hr className="mt-6 border-[#025043]" />
-
-            {/* description category */}
-            <div className="mt-6 p-4 bg-gray-50 rounded-xl border-s-4 border-[#025043] shadow-sm">
-              <div className="flex items-center gap-2 mb-2">
-                <h4 className="font-bold text-[#025043] text-sm md:text-base">
-                  {product?.category?.name}
-                </h4>
-              </div>
-
-              <p className="text-gray-600 text-sm font-[Expo-arabic]">
-                {product?.category?.description || t('productInfo.no_category_description')}
-              </p>
-            </div>
-          </div>
-
-          {/* Divider */}
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 border-l-2 border-[#025043] transform -translate-x-1/2"></div>
-
-          {/* Right Subsection (Description) */}
-          <div className={`md:w-1/2 flex-1 space-y-3 ${isRTL ? 'ps-4 text-right' : 'pe-4 text-left'}`}>
-            <p className="mt-2 text-black leading-relaxed font-[Expo-arabic]">
-              {product?.description || product?.body || t('productInfo.no_description_available')}
-            </p>
-
             {/* Material Selection */}
             <div className="pt-4">
               <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
@@ -469,7 +566,80 @@ const ProductInfo = () => {
               </div>
             </div>
 
+            {/* Rating */}
+            <div className="font-bold font-[Expo-arabic]">
+              {t('productInfo.rate')}
+              <div className="flex items-center gap-2 text-sm mt-1">
+                <RatingStars
+                  rating={Number(currentRating)}
+                  onRate={(star) => handleRateProduct(selectedVariantId, star)}
+                />
+                <span>({currentReviewsCount})</span>
+              </div>
+            </div>
+
+            {/* Add to Cart + Add to Favorites in same line */}
+            {/* Container for Buttons */}
+            <div className="flex items-center gap-3 mt-8 w-full">
+
+              {/* Add to Cart Button Group */}
+              <button
+                onClick={() => handleAddCartItem({ id: selectedVariantId })}
+                disabled={isLoading}
+                className="flex-1 h-14 bg-black text-white rounded-xl cursor-pointer flex items-center justify-between px-6 transition-all group disabled:bg-gray-400"
+              >
+                <span className="font-[Expo-arabic] text-lg">
+                  {isLoading ? t('productInfo.adding') : t('productInfo.add_to_cart')}
+                </span>
+
+                {/* Arrow Icon inside the button */}
+                <div
+                  onClick={() => {
+                    navigate('/carts')
+                  }}
+                  className={`w-8 h-8 bg-white/20 flex items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`}>
+                  <ChevronRightIcon color="white" />
+                </div>
+              </button>
+
+              {/* Add to Favorites (Icon Button) */}
+              <button
+                onClick={() => handleAddWishlist()}
+                className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all group ${isProductInWishlist(selectedVariantId)
+                  ? 'border-[#025043] '
+                  : 'text-gray-400'
+                  }`}
+                title={t('productInfo.add_to_favorites')}
+              >
+                <WishListIcon isFavorite={isProductInWishlist(selectedVariantId)} />
+              </button>
+            </div>
+
+
+          </div>
+
+          {/* Divider */}
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 border-l-2 border-[#025043] transform -translate-x-1/2"></div>
+
+          {/* Right Subsection (Description) */}
+          <div className={`md:w-1/2 flex-1 space-y-3 ${isRTL ? 'ps-4 text-right' : 'pe-4 text-left'}`}>
+            <p className="mt-5 text-black leading-relaxed font-[Expo-arabic]">
+              {product?.description || product?.body || t('productInfo.no_description_available')}
+            </p>
+
             <hr className="mt-6 border-[#025043]" />
+            {/* description category */}
+            <div className="mt-6 p-4 bg-gray-50 rounded-xl border-s-4 border-[#025043] shadow-sm">
+              <div className="flex items-center gap-2 mb-2">
+                <h4 className="font-[Expo-arabic] text-[#025043] text-sm ">
+                  {product?.category?.name}
+                </h4>
+              </div>
+
+              <p className="text-gray-600 text-sm font-[Expo-arabic]">
+                {product?.category?.description || t('productInfo.no_category_description')}
+              </p>
+            </div>
           </div>
         </div>
 

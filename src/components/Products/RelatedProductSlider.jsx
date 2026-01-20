@@ -118,7 +118,7 @@ function RelatedProductSlider({ variants = [] }) {
 
   return (
     <section
-      className=" text-[#025043] px-6 md:px-20 py-12 mt-20"
+      className=" text-[#025043] px-6 md:px-20 py-12"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* ===== Related Products ===== */}

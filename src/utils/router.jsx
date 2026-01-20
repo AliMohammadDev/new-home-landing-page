@@ -104,6 +104,10 @@ const router = createBrowserRouter([
     path: 'register',
     element: <Register />,
   },
+  {
+    path: 'loading',
+    element: <Loading />,
+  },
 
 ]);
 

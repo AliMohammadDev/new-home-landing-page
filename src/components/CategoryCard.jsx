@@ -1,25 +1,43 @@
-import { useState } from 'react';
+import { Link } from "react-router-dom";
 
-const CategoryCard = ({ title, description, image }) => {
-  const [hover, setHover] = useState(false);
-
+const CategoryCard = ({ id, title, description, image }) => {
   return (
-    <div
-      className="text-center py-20 transition-all duration-500 overflow-hidden"
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      style={{
-        backgroundColor: hover ? 'rgba(0,0,0,0.4)' : 'white',
-        backgroundImage: hover ? `url(${image})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundBlendMode: hover ? 'overlay' : 'normal    ',
-        color: hover ? 'white' : '#025043',
-      }}
-    >
-      <span className="text-3xl font-semibold font-[Expo-arabic]">{title}</span>
-      <p className="text-xs mt-5 md:mt-1 md:p-2 font-[Expo-arabic]">{description}</p>
-    </div>
+
+    <Link to={`/products/${id}`}>
+      <div className="group perspective w-full h-[300px]">
+        <div className="relative w-full h-full transition-transform duration-700 transform-style-preserve-3d group-hover:rotate-y-180">
+
+          {/* Front (Text initially) */}
+          <div className="absolute inset-0 backface-hidden bg-white flex flex-col justify-center items-center text-center px-6">
+            <h3 className="text-2xl font-semibold text-[#025043] font-[Expo-arabic]">
+              {title}
+            </h3>
+            <p className="text-sm mt-4 text-gray-600 font-[Expo-arabic]">
+              {description}
+            </p>
+          </div>
+
+          {/* Back (Image + Text Overlay) */}
+          <div
+            className="absolute inset-0 backface-hidden rotate-y-180"
+            style={{
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          >
+            <div className="w-full h-full bg-black/40 flex flex-col justify-center items-center text-center px-6">
+              <h3 className="text-2xl font-semibold text-white font-[Expo-arabic]">
+                {title}
+              </h3>
+              <p className="text-sm mt-4 text-white font-[Expo-arabic]">
+                {description}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Link>
   );
 };
 

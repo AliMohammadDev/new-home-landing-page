@@ -7,7 +7,7 @@ function AboutSection() {
 
     return (
         <section
-            className="bg-[#EDEAE2] text-[#025043] mt-25 py-24 px-6 md:px-20 overflow-hidden"
+            className="bg-[#EDEAE2] text-[#025043]  py-24 px-6 md:px-20 overflow-hidden"
             dir={isRTL ? 'rtl' : 'ltr'}
         >
             {/* Title */}
