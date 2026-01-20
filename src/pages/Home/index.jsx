@@ -82,7 +82,7 @@ const Home = () => {
                 <>
                   {t('navbar.our_products').split(' ').map((word, idx) => (
                     idx === 0 ? (
-                      <span key={idx} className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[120px] font-[Qanduchia] block">
+                      <span key={idx} className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[100px] font-[Qanduchia] block">
                         {word}
                       </span>
                     ) : (
