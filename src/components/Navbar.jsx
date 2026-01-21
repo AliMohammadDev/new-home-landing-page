@@ -21,7 +21,6 @@ import clsx from 'clsx';
 
 const Navbar = () => {
   const { i18n, t } = useTranslation();
-  const isRTL = i18n.language === 'ar';
   const [isLangOpen, setIsLangOpen] = useState(false);
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
@@ -79,7 +78,7 @@ const Navbar = () => {
     <div
       className={clsx(
         "fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 lg:px-8 py-2 lg:py-4 md:py-1 transition-all duration-300 ease-in-out bg-transparent",
-        isScrolled && !isMobileMenuOpen && "lg:backdrop-blur-xl lg:shadow-md"
+        isScrolled && !isProductMenuOpen && "lg:backdrop-blur-xl lg:shadow-md"
       )}
 
       style={{
@@ -112,7 +111,6 @@ const Navbar = () => {
           )}
         </Link>
       </div>
-
 
       {/* 2. Desktop Navigation (Hidden on Mobile) */}
       <nav
