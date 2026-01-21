@@ -1,7 +1,7 @@
 import FilterIcon from '../../assets/icons/FilterIcon.jsx';
 import WishListIcon from '../../assets/icons/WishListIcon.jsx';
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
   Drawer,
   DrawerContent,
@@ -23,7 +23,7 @@ import clsx from 'clsx';
 const Product = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
-
+  const navigate = useNavigate();
   const { categoryId } = useParams();
   const [filters, setFilters] = useState({
     colors: [],
@@ -86,6 +86,7 @@ const Product = () => {
         duration: 4000,
         isClosable: true,
       });
+      navigate('/login');
       return;
     }
 
@@ -125,56 +126,6 @@ const Product = () => {
 
 
 
-  // Add to wishList
-  // const handleAddWishlist = (variant) => {
-  //   if (!user) {
-  //     addToast({
-  //       title: t('wishlist.title'),
-  //       description: t('wishlist.loginRequired'),
-  //       color: 'warning',
-  //       duration: 4000,
-  //       isClosable: true,
-  //     });
-  //     return;
-  //   }
-
-  //   if (isProductInWishlist(variant.variantId)) {
-  //     addToast({
-  //       title: t('wishlist.title'),
-  //       description: t('wishlist.addedError'),
-  //       color: 'warning',
-  //       duration: 4000,
-  //       isClosable: true,
-  //     });
-  //     return;
-  //   }
-  //   addWishlist(
-  //     variant.variantId,
-  //     {
-  //       onSuccess: () => {
-  //         addToast({
-  //           title: t('wishlist.title'),
-  //           description: t('wishlist.addedSuccess'),
-  //           color: 'success',
-  //           duration: 4000,
-  //           isClosable: true,
-  //         });
-  //       },
-  //       onError: () => {
-  //         addToast({
-  //           title: t('wishlist.title'),
-  //           description: t('wishlist.addedError'),
-  //           color: 'error',
-  //           duration: 4000,
-  //           isClosable: true,
-  //         });
-  //       },
-  //     }
-  //   );
-  // };
-
-
-
   const handleAddWishlist = (variant) => {
     if (!user) {
       addToast({
@@ -182,6 +133,7 @@ const Product = () => {
         description: t('wishlist.loginRequired'),
         color: 'warning',
       });
+      navigate('/login');
       return;
     }
 
@@ -230,6 +182,7 @@ const Product = () => {
         duration: 4000,
         isClosable: true,
       });
+      navigate('/login');
       return;
     }
     submitReview(

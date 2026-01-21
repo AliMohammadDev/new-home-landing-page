@@ -26,6 +26,7 @@ function ProductSlider1({ products = [] }) {
         color: 'warning',
         duration: 4000,
       });
+      navigate('/login');
       return;
     }
 

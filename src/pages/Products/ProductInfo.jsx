@@ -101,6 +101,7 @@ const ProductInfo = () => {
         duration: 4000,
         isClosable: true,
       });
+      navigate('/login');
       return;
     }
 
@@ -151,6 +152,7 @@ const ProductInfo = () => {
         description: t('wishlist.loginRequired'),
         color: 'warning',
       });
+      navigate('/login');
       return;
     }
 
@@ -189,6 +191,7 @@ const ProductInfo = () => {
         duration: 4000,
         isClosable: true,
       });
+      navigate('/login');
       return;
     }
     submitReview(

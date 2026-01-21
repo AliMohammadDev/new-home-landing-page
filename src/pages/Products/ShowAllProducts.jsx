@@ -14,7 +14,7 @@ import WishListIcon from '../../assets/icons/WishListIcon';
 import { useGetAllProductsVariants } from '../../api/products';
 import { useAddToCartItem } from '../../api/cart';
 import { useGetProfile } from '../../api/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAddWishlist, useGetAllWishlist } from '../../api/wishlist';
 import RatingStars from '../../components/RatingStars';
 import { useSubmitReview } from '../../api/reviews';
@@ -25,7 +25,7 @@ import clsx from 'clsx';
 function ShowAllProducts() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
-
+  const navigate = useNavigate();
   const [filters, setFilters] = useState({
     colors: [],
     categories: [],
@@ -88,6 +88,7 @@ function ShowAllProducts() {
         duration: 4000,
         isClosable: true,
       });
+      navigate('/login');
       return;
     }
 
@@ -126,55 +127,6 @@ function ShowAllProducts() {
   };
 
 
-  // Add wishlist
-  // const handleAddWishlist = (variant) => {
-  //   if (!user) {
-  //     addToast({
-  //       title: t('wishlist.title'),
-  //       description: t('wishlist.loginRequired'),
-  //       color: 'warning',
-  //       duration: 4000,
-  //       isClosable: true,
-  //     });
-  //     return;
-  //   }
-
-  //   if (isProductInWishlist(variant.variantId)) {
-  //     addToast({
-  //       title: t('wishlist.title'),
-  //       description: t('wishlist.addedError'),
-  //       color: 'warning',
-  //       duration: 4000,
-  //       isClosable: true,
-  //     });
-  //     return;
-  //   }
-
-  //   addWishlist(
-  //     variant.variantId,
-  //     {
-  //       onSuccess: () => {
-  //         addToast({
-  //           title: t('wishlist.title'),
-  //           description: t('wishlist.addedSuccess'),
-  //           color: 'success',
-  //           duration: 4000,
-  //           isClosable: true,
-  //         });
-  //       },
-  //       onError: () => {
-  //         addToast({
-  //           title: t('wishlist.title'),
-  //           description: t('wishlist.addedError'),
-  //           color: 'warning',
-  //           duration: 4000,
-  //           isClosable: true,
-  //         });
-  //       },
-  //     }
-  //   );
-  // };
-
   const handleAddWishlist = (variant) => {
     if (!user) {
       addToast({
@@ -182,6 +134,7 @@ function ShowAllProducts() {
         description: t('wishlist.loginRequired'),
         color: 'warning',
       });
+      navigate('/login');
       return;
     }
 
@@ -292,8 +245,6 @@ function ShowAllProducts() {
     );
   });
 
-
-
   const { mutate: submitReview } = useSubmitReview();
   const handleRateProduct = (variantId, rating) => {
     if (!user) {
@@ -304,6 +255,7 @@ function ShowAllProducts() {
         duration: 4000,
         isClosable: true,
       });
+      navigate('/login');
       return;
     }
     submitReview(
