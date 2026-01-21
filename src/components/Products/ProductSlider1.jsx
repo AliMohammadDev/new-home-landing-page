@@ -118,7 +118,7 @@ function ProductSlider1({ products = [] }) {
         }>
           {t('essential_to_prep.title')}
         </h2>
-        <p className="text-black text-[14px] md:text-[15px] font-[Expo-book] max-w-3xl">
+        <p className="text-black text-[14px] md:text-[15px] font-[Expo-book] max-w-3xl mb-15">
           {t('essential_to_prep.description')}
         </p>
       </div>

@@ -7,16 +7,16 @@ import FavoriteIcon from '../assets/icons/FavoriteIcon.jsx';
 import HamburgerIcon from '../assets/icons/HamburgerIcon.jsx';
 import PlusIcon from '../assets/icons/PlusIcon.jsx';
 import MinusIcon from '../assets/icons/MinusIcon.jsx';
-import { useState, useEffect } from 'react';
-import clsx from 'clsx';
 import cartImage from '../assets/images/addToCart.svg';
-import { useGetProfile } from '../api/auth.jsx';
 import { useGetCategories } from '../api/categories.jsx';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
 import ProfileSwitcher from './ProfileSwitcher.jsx';
 import { useTranslation } from 'react-i18next';
 import ChevronLeftIcon from '../assets/icons/ChevronLeftIcon.jsx';
 import homeLogoWhite from "../assets/images/home-logo-white.svg";
+import { useGetProfile } from '../api/auth.jsx';
+import { useState, useEffect } from 'react';
+import clsx from 'clsx';
 
 
 const Navbar = () => {
@@ -78,11 +78,10 @@ const Navbar = () => {
   return (
     <div
       className={clsx(
-        "fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 lg:px-8 py-2 lg:py-4 md:py-1 transition-all duration-300 ease-in-out",
-        isScrolled
-          ? "backdrop-blur-xl shadow-md"
-          : "bg-transparent"
+        "fixed top-0 left-0 w-full z-50 flex justify-between items-center px-4 lg:px-8 py-2 lg:py-4 md:py-1 transition-all duration-300 ease-in-out bg-transparent",
+        isScrolled && !isMobileMenuOpen && "lg:backdrop-blur-xl lg:shadow-md"
       )}
+
       style={{
         background: isScrolled
           ? "linear-gradient(0deg,rgba(2, 80, 67, 0.31) 8%, rgba(2, 80, 67, 0.52) 23%, rgba(38, 35, 35, 1) 100%)"
@@ -113,7 +112,6 @@ const Navbar = () => {
           )}
         </Link>
       </div>
-
 
 
       {/* 2. Desktop Navigation (Hidden on Mobile) */}
@@ -196,7 +194,7 @@ const Navbar = () => {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="cursor-pointer p-2 relative z-50"
           >
-            <HamburgerIcon />
+            <HamburgerIcon color="white" />
           </button>
         </div>
 

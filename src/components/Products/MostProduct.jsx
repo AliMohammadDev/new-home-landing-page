@@ -53,7 +53,7 @@ function MostProduct({ products = [] }) {
   const progress = products.length > 0 ? ((currentSlide + 1) / products.length) * 100 : 0;
 
   return (
-    <section className="bg-[#EDEAE2] md:px-20 py-10 md:py-5">
+    <section className="bg-[#EDEAE2] md:px-20 py-10 md:py-5 -mt-35 md:mt-0">
       <div className="grid grid-cols-1 lg:grid-cols-2 items-start">
         {/* Text */}
         <div className="flex flex-col">

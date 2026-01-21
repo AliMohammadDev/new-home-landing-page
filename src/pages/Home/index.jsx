@@ -43,8 +43,8 @@ const Home = () => {
         <AnimateOnScroll direction="up" delay={0.1}>
           {/* Title */}
           <h1 className={clsx(
-            "text-center text-white text-4xl sm:text-2xl md:text-3xl lg:text-8xl",
-            isRTL ? "font-[Expo-arabic] text-8xl" : "font-[Qanduchia]"
+            "text-center text-white text-5xl sm:text-2xl md:text-8xl lg:text-8xl",
+            isRTL ? "font-[Expo-arabic] text-7xl" : "font-[Qanduchia]"
           )}>
 
             {t('hero.welcome')}
@@ -63,7 +63,7 @@ const Home = () => {
             <img
               src={homeLogoWhite}
               alt={t('hero.logo_alt')}
-              className="w-full max-w-[880px] md:w-[570px] h-auto object-contain"
+              className="w-full max-w-[400px]  md:w-[570px] h-auto object-contain"
             />
           </div>
         </AnimateOnScroll>
@@ -75,18 +75,18 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-10 p-2 sm:p-2 md:p-4">
             <div className="text-center text-white transition-shadow duration-300">
               {i18n.language === 'ar' ? (
-                <span className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[100px] font-[Expo-arabic] block">
+                <span className="text-[75px] sm:text-[100px] md:text-[100px] lg:text-[75px] font-[Expo-arabic] block">
                   {t('navbar.our_products')}
                 </span>
               ) : (
                 <>
                   {t('navbar.our_products').split(' ').map((word, idx) => (
                     idx === 0 ? (
-                      <span key={idx} className="text-[100px] sm:text-[100px] md:text-[100px] lg:text-[100px] font-[Qanduchia] block">
+                      <span key={idx} className="text-[100px] sm:text-[100px] md:text-[150px] lg:text-[100px] font-[Qanduchia] block">
                         {word}
                       </span>
                     ) : (
-                      <p key={idx} className="transform -translate-y-12 translate-x-5 md:-translate-y-14 md:translate-x-9 font-[Asteroid] text-[50px] md:text-[60px] lg:text-[100px] block">
+                      <p key={idx} className="transform -translate-y-12 translate-x-5 md:-translate-y-14 md:translate-x-9 font-[Asteroid] text-[75px] md:text-[100px] lg:text-[100px] block">
                         {word}
                       </p>
                     )

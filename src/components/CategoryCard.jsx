@@ -12,7 +12,7 @@ const CategoryCard = ({ id, title, description, image }) => {
             <h3 className="text-2xl font-semibold text-[#025043] font-[Expo-arabic]">
               {title}
             </h3>
-            <p className="text-sm mt-4 text-gray-600 font-[Expo-arabic]">
+            <p className="text-sm lg:text-[10px] xl:text-[15px] mt-4 text-gray-600 font-[Expo-arabic]">
               {description}
             </p>
           </div>
@@ -30,7 +30,7 @@ const CategoryCard = ({ id, title, description, image }) => {
               <h3 className="text-2xl font-semibold text-white font-[Expo-arabic]">
                 {title}
               </h3>
-              <p className="text-sm mt-4 text-white font-[Expo-arabic]">
+              <p className="text-sm lg:text-[10px] xl:text-[15px] mt-4 text-white font-[Expo-arabic]">
                 {description}
               </p>
             </div>

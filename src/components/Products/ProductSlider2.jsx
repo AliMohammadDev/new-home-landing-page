@@ -62,7 +62,7 @@ function ProductSlider2({ products = [] }) {
     return (
       <button
         onClick={onClick}
-        className="absolute -top-14 bg-[#D9D9D9] cursor-pointer text-black hover:bg-gray-300 rounded-full w-8 h-8 md:w-12 md:h-12 transition flex items-center justify-center z-10"
+        className="absolute -top-14 bg-[#D9D9D9] cursor-pointer  text-black hover:bg-gray-300 rounded-full w-9 h-9 md:w-12 md:h-12 transition flex items-center justify-center z-10"
         style={{
           [isRTL ? 'left' : 'right']: isNext ? 0 : 56,
         }}
@@ -115,12 +115,12 @@ function ProductSlider2({ products = [] }) {
           <img
             src={Group}
             alt="Promotion"
-            className=" object-contain w-full md:w-[90%] lg:w-full h-auto transform lg:scale-110 origin-center"
+            className=" object-contain  mr-30 -mt-20 md:mr-20 lg:-ml-20 xl:-ml-30 md:w-[90%] lg:w-full h-auto transform md:scale-110 lg:scale-140 xl:scale-100 origin-center"
           />
         </div>
 
         {/* Slider  */}
-        <div className="relative w-full max-w-full lg:max-w-[650px] xl:max-w-[800px]" dir={isRTL ? 'rtl' : 'ltr'}>
+        <div className="relative w-full max-w-full lg:max-w-[650px] xl:max-w-[800px]   md:-mt-30 lg:-mt-1" dir={isRTL ? 'rtl' : 'ltr'}>
           <Slider {...settings}>
             {products.map((variant) => {
               const product = variant.product;
@@ -160,7 +160,7 @@ function ProductSlider2({ products = [] }) {
                             </span>
                           </div>
 
-                          <button
+                          <buttons
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
@@ -170,7 +170,7 @@ function ProductSlider2({ products = [] }) {
                             className="bg-[#025043] text-white cursor-pointer font-[Expo-arabic] text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 w-full active:scale-95"
                           >
                             {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
-                          </button>
+                          </buttons>
                         </div>
                       </div>
                     </div>
