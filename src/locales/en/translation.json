@@ -44,8 +44,8 @@
     "email_label": "EMAIL",
     "phone_label": "PHONE",
     "location_label": "LOCATION",
-    "address_line1": "Al-Aziziyah, Consulate Street",
-    "address_line2": "Aleppo, Syria"
+    "address_line2": "Near Al-Khair Mosque",
+    "address_line1": "Al-Swaiqa, Aleppo, Syria"
   },
 
   "auth": {

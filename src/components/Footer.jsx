@@ -118,7 +118,9 @@ const Footer = () => {
               </div>
               <div className="flex flex-col space-y-1">
                 <span className="text-sm uppercase tracking-widest opacity-50">{t('footer.phone_label') || 'Phone'}</span>
-                <span dir="ltr" className="font-medium">+963 951 548 855</span>
+                <span dir="ltr" className="font-medium">+963 930 681 449</span>
+                <span dir="ltr" className="font-medium">+963 981 096 823</span>
+                <span dir="ltr" className="font-medium">+963 930 623 299</span>
               </div>
               <div className="flex flex-col space-y-1">
                 <span className="text-sm uppercase tracking-widest opacity-50">{t('footer.location_label') || 'Location'}</span>

@@ -45,8 +45,8 @@
     "phone_label": "رقم الهاتف",
 
     "location_label": "الموقع",
-    "address_line1": "حي العزيزية، شارع القنصليات",
-    "address_line2": "حلب، سوريا"
+    "address_line2": "مقابل جامع الخير",
+    "address_line1": "حلب، السويقة"
   },
 
   "auth": {
