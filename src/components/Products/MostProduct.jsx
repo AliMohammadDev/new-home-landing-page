@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import Slider from 'react-slick';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
+import ArrowRightIcon from '../../assets/icons/ArrowRightIcon.jsx';
+import ArrowLeftIcon from '../../assets/icons/ArrowLeftIcon.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import ArrowLeftIcon from '../../assets/icons/ArrowLeftIcon.jsx';
-import ArrowRightIcon from '../../assets/icons/ArrowRightIcon.jsx';
+import { useState } from 'react';
+import Slider from 'react-slick';
 import clsx from 'clsx';
 
 function MostProduct({ products = [] }) {
@@ -62,20 +62,20 @@ function MostProduct({ products = [] }) {
               {t('most_product.title_main')}
             </span>
             <span className={
-              clsx(" mb-20 md:mb-0 text-8xl sm:text-6xl  xl:text-8xl",
-                isRTL ? "font-[Expo-arabic] lg:text-6xl md:text-6xl md:-mr-4  lg:-mr-8" : "font-[Asteroid] lg:text-8xl md:text-7xl"
+              clsx(" mb-20 md:mb-0 text-[#E2995E] text-8xl sm:text-6xl xl:text-8xl",
+                isRTL ? "font-[Expo-arabic] text-[#E2995E] lg:text-6xl md:text-6xl md:-mr-4  lg:-mr-8" : "font-[Asteroid] lg:text-8xl md:text-7xl"
               )
             }>
               {t('most_product.title_sub')}
             </span>
           </div>
-          <div className="md:text-xl lg:text-xl mt-4 md:mt-8 ml-5 md:ml-0 font-[Expo-arabic]">
+          <div className="md:text-xl lg:text-xl mt-4 md:mt-8 ml-5 md:ml-0 font-[Expo-arabic] mr-2 md:mr-0">
             <p>{t('most_product.description_line1')}</p>
             <p className="mt-2">{t('most_product.description_line2')}</p>
           </div>
 
           <Link to={'/products'}>
-            <div className="ml-4 md:ml-0 text-sm font-[Expo-arabic] cursor-pointer flex items-center gap-1">
+            <div className="ml-4 md:ml-0 text-sm font-[Expo-arabic] cursor-pointer flex items-center gap-1 mr-2 md:mr-0">
               {t('most_product.show_products')}
               {i18n.language === 'ar' ? <ArrowLeftIcon /> : <ArrowRightIcon />}
             </div>

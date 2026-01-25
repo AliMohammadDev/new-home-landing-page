@@ -1,21 +1,21 @@
-import { Link } from 'react-router-dom';
-import LeftIcon from '../../assets/icons/LeftIcon';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon';
+import LeftIcon from '../../assets/icons/LeftIcon';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import HomeLogoBlack1 from "../../assets/images/home-logo-black1.svg";
+import HomeLogoBlack2 from "../../assets/images/home-log-black2.svg";
 import clsx from 'clsx';
 
 const AboutUs = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
-
   return (
     <div
       className={`flex flex-col lg:flex-row ${i18n.language === 'ar' ? 'lg:flex-row-reverse' : ''
         } justify-around items-start text-black px-4 sm:px-6 lg:px-20 py-10 gap-6 bg-white min-h-screen relative`}
     >
-
 
       {/* Back Button */}
       <Link to={-1} className="hover:opacity-80 transition">
@@ -149,7 +149,7 @@ const AboutUs = () => {
       >
         <div className="w-[80%]">
           <img
-            src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-black_dicco2.svg"
+            src={HomeLogoBlack1}
             alt="Home Logo 1"
             className="w-full h-auto object-contain"
           />
@@ -160,7 +160,7 @@ const AboutUs = () => {
 
         <div className="w-[80%]">
           <img
-            src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765367108/Home-Log2_s17e8a.svg"
+            src={HomeLogoBlack2}
             alt="Home Logo 2"
             className="w-full h-auto object-contain"
           />

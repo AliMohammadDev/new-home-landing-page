@@ -11,6 +11,8 @@ import { useGetSlidersProductsVariants } from '../../api/products';
 import AnimateOnScroll from '../../components/AnimateOnScroll';
 import { useTranslation } from 'react-i18next';
 import homeLogoWhite from "../../assets/images/home-logo-white.svg";
+import footer1 from "../../assets/images/footer1.png";
+import footer2 from "../../assets/images/footer2.png";
 import clsx from 'clsx';
 
 
@@ -138,14 +140,14 @@ const Home = () => {
           <div className="flex flex-col md:flex-row items-center justify-around py-5 px-1 md:px-0">
             <div className="w-full md:w-1/2 flex justify-center">
               <img
-                src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358482/footer2_b3gzji.png"
+                src={footer2}
                 alt="final"
                 className="w-full h-auto object-contain"
               />
             </div>
             <div className="w-full md:w-1/2 flex justify-center-safe">
               <img
-                src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765358486/footer1_baaibi.png"
+                src={footer1}
                 alt="final"
                 className="w-full max-w-[700px]"
               />

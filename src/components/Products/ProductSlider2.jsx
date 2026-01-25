@@ -116,7 +116,7 @@ function ProductSlider2({ products = [] }) {
           <img
             src={Group}
             alt="Promotion"
-            className=" object-contain  mr-30 -mt-20 md:mr-20 lg:-ml-20 xl:-ml-30 md:w-[90%] lg:w-full h-auto transform md:scale-110 lg:scale-140 xl:scale-100 origin-center"
+            className=" object-contain  mr-30 -mt-20 md:mr-1 lg:-ml-20 xl:-ml-30 md:w-[90%] lg:w-full h-auto transform md:scale-110 lg:scale-140 xl:scale-100 origin-center"
           />
         </div>
 
@@ -161,7 +161,7 @@ function ProductSlider2({ products = [] }) {
                             </span>
                           </div>
 
-                          <buttons
+                          <button
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
@@ -171,7 +171,7 @@ function ProductSlider2({ products = [] }) {
                             className="bg-[#025043] text-white cursor-pointer font-[Expo-arabic] text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 w-full active:scale-95"
                           >
                             {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
-                          </buttons>
+                          </button>
                         </div>
                       </div>
                     </div>

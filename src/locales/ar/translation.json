@@ -39,7 +39,7 @@
     "copyright": "2025 شركة المنزل الحديث. جميع الحقوق محفوظة.",
     "company_name": "المنزل الحديث",
     "category": "أدوات المطبخ",
-    "website_url": "/https://almanzel-alhadith.com",
+    "website_url": "https://almanzel-alhadith.com",
     "brand_name": "المنزل الحديث",
     "email_label": "البريد الإلكتروني",
     "phone_label": "رقم الهاتف",
@@ -111,7 +111,14 @@
     "subtotal": "المجموع الفرعي",
     "proceed_checkout": "المتابعة إلى الدفع",
     "removed_success": "تم إزالة {{product}} من السلة بنجاح!",
-    "item_total": "إجمالي المنتج"
+    "item_total": "إجمالي المنتج",
+    "notice": "تنبيه",
+    "quantity_error": "خطأ في الكمية",
+    "stock_limit_msg": "نعتذر، يتوفر فقط {{count}} قطع في المخزون.",
+    "packages": "العروض",
+    "individual": "شراء فردي",
+    "pcs": "قطع",
+    "package_price": "سعر الباقة"
   },
 
   "checkout": {
@@ -362,7 +369,17 @@
     "material": "المادة",
     "off": "خصم %",
     "related_products": "منتجات ذات صلة",
-    "related_products_desc": "اكتشف منتجات مشابهة قد تناسب ذوقك واحتياجاتك."
+    "related_products_desc": "اكتشف منتجات مشابهة قد تناسب ذوقك واحتياجاتك.",
+    "product_code": "كود المنتج",
+    "available_packages": "باقات التوفير المتاحة",
+    "packages_description": "اشترِ أكثر.. وفّر أكثر! استمتع بخصومات حصرية عند اختيارك إحدى الباقات المجمعة أدناه.",
+    "pack_of": "باقة من {{count}} قطع",
+    "piece": "قطعة",
+    "save": "وفر",
+    "no_description_available": "لا يوجد وصف متاح لهذا المنتج حالياً.",
+    "no_category_description": "لا يوجد وصف متاح لهذا القسم.",
+    "unit_price": "سعر القطعة",
+    "package_saving": "باقة توفير"
   },
 
   "ErrorFallback": {

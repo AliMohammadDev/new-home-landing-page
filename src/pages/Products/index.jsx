@@ -358,7 +358,7 @@ const Product = () => {
                       {product.final_price} $
                     </p>
 
-                    <div className="flex items-center justify-between md:flex-col lg:flex-row text-[#025043]">
+                    <div className="flex items-center justify-between md:flex-row lg:flex-col xl:flex-row text-[#025043]">
                       <div className="flex items-center gap-1 text-sm">
                         <RatingStars
                           rating={product.rating}

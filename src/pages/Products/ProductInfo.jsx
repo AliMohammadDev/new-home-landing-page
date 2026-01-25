@@ -16,10 +16,9 @@ import WishListIcon from '../../assets/icons/WishListIcon';
 import RelatedProductSlider from '../../components/Products/RelatedProductSlider';
 import CartIcon2 from '../../assets/icons/CartIcon2';
 import homeLogoGreen from "../../assets/images/home-logo-green.png";
-
-import clsx from 'clsx';
 import HamburgerIcon from '../../assets/icons/HamburgerIcon';
 import ChevronDownIcon from '../../assets/icons/ChevronDownIcon';
+import clsx from 'clsx';
 
 
 const ProductInfo = () => {
@@ -52,18 +51,34 @@ const ProductInfo = () => {
   const [isCategoryMenuOpen, setIsCategoryMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
 
+  const [displayImages, setDisplayImages] = useState([]);
+  // change language
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
     setIsLangOpen(false);
   };
 
-
   useEffect(() => {
     if (selectedMaterial) {
       setCurrentRating(selectedMaterial.reviews_avg || 0);
       setCurrentReviewsCount(selectedMaterial.reviews_count || 0);
+      setCurrentPrice(selectedMaterial.final_price);
+      setOldPrice(selectedMaterial.price);
+      setCurrentSku(selectedMaterial.sku);
+      setSelectedVariantId(selectedMaterial.variant_id);
+
+      const variantImages = selectedMaterial.images || [];
+
+      if (variantImages.length > 0) {
+        setDisplayImages(variantImages);
+        setActiveImage(variantImages[0]);
+      } else {
+        const productImages = data?.product_all_images || [];
+        setDisplayImages(productImages);
+        if (productImages.length > 0) setActiveImage(productImages[0]);
+      }
     }
-  }, [selectedMaterial]);
+  }, [selectedMaterial, data]);
 
   useEffect(() => {
     if (product?.available_options?.length > 0) {
@@ -92,7 +107,7 @@ const ProductInfo = () => {
   const activeCategoryId = product?.category?.id;
 
   // Add to cart 
-  const handleAddCartItem = (variant) => {
+  const handleAddCartItem = (variant, packageId = null) => {
     if (!user) {
       addToast({
         title: t('cart.button'),
@@ -108,6 +123,7 @@ const ProductInfo = () => {
     addToCart(
       {
         product_variant_id: variant.id,
+        product_variant_package_id: packageId,
         quantity: 1,
       },
       {
@@ -136,7 +152,6 @@ const ProductInfo = () => {
       }
     );
   };
-
 
   const wishlistProductIds =
     wishlistData?.data?.map(item => item.product_variant?.id) || [];
@@ -433,17 +448,29 @@ const ProductInfo = () => {
           </div>
 
           {/* Thumbnails */}
-          <div className="flex gap-3 justify-center overflow-x-auto py-2">
-            {data?.product_all_images?.map((imgUrl, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveImage(imgUrl)}
-                className={`shrink-0 w-16 h-16 rounded-xl border-2 transition-all ${activeImage === imgUrl ? 'border-[#025043] scale-110 shadow-md' : 'border-gray-200 opacity-70 hover:opacity-100'
-                  }`}
-              >
-                <img src={imgUrl} className="w-full h-full object-cover rounded-lg" alt={`thumbnail-${index}`} />
-              </button>
-            ))}
+          <div className="w-full mt-4 flex justify-center">
+            <div className="flex gap-2 overflow-x-auto py-2 scroll-smooth hide-scrollbar max-w-xs md:max-w-md">
+              {displayImages.map((imgUrl, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveImage(imgUrl)}
+                  className={`
+          shrink-0 
+          w-12 h-12 md:w-14 md:h-14 
+          rounded-lg border-[1.5px] transition-all cursor-pointer duration-300
+          ${activeImage === imgUrl
+                      ? 'border-[#025043] scale-110 shadow-sm ring-1 ring-[#025043]/30'
+                      : 'border-gray-100 opacity-60 hover:opacity-100'}
+        `}
+                >
+                  <img
+                    src={imgUrl}
+                    className="w-full h-full object-cover rounded-md"
+                    alt={`thumbnail-${index}`}
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -455,7 +482,7 @@ const ProductInfo = () => {
               {product?.name}
             </h2>
             <p className="text-sm text-gray-500 mt-1">
-              Product Code: <span className="text-black font-medium">{currentSku || variant?.sku}</span>
+              {t('productInfo.product_code')} : <span className="text-black font-medium">{currentSku || variant?.sku}</span>
             </p>
 
             {/* Price */}
@@ -472,7 +499,6 @@ const ProductInfo = () => {
                 )}
               </div>
 
-              {/* السعر القديم مشطوب */}
               {Number(variant?.discount) > 0 && (
                 <span className="line-through text-gray-400 text-sm">
                   {oldPrice || variant?.price} $
@@ -499,7 +525,7 @@ const ProductInfo = () => {
                       setOldPrice(firstMaterial.price);
                       setCurrentSku(firstMaterial.sku);
                     }}
-                    className={`w-8 h-8 rounded-full border-2 transition-all shadow-sm ${selectedColor?.id === color.id ? 'border-gray-200 scale-125 ring-2 ring-gray-100' : 'border-transparent'
+                    className={`w-8 h-8 rounded-full border-2 cursor-pointer transition-all shadow-sm ${selectedColor?.id === color.id ? 'border-gray-200 scale-125 ring-2 ring-gray-100' : 'border-transparent'
                       }`}
                     style={{ backgroundColor: color.hex }}
                     title={color.name}
@@ -526,7 +552,7 @@ const ProductInfo = () => {
                         setOldPrice(firstMaterial.price);
                         setCurrentSku(firstMaterial.sku);
                       }}
-                      className={`px-4 py-2 border rounded-lg text-xs font-bold transition-all ${isActive ? 'bg-[#025043] text-white border-[#025043]' : 'bg-white border-gray-200 text-gray-600 hover:border-[#025043]'
+                      className={`px-4 py-2 border rounded-lg cursor-pointer text-xs font-bold transition-all ${isActive ? 'bg-[#025043] text-white border-[#025043]' : 'bg-white border-gray-200 text-gray-600 hover:border-[#025043]'
                         }`}
                     >
                       {size.name}
@@ -559,7 +585,7 @@ const ProductInfo = () => {
                         setCurrentPrice(material.final_price);
                         setOldPrice(material.price);
                       }}
-                      className={`px-4 py-2 border rounded-lg text-xs font-bold transition-all ${isActive ? 'bg-[#025043] text-white border-[#025043]' : 'bg-white border-gray-200 text-gray-600 hover:border-[#025043]'
+                      className={`px-4 py-2 border rounded-lg text-xs cursor-pointer font-bold transition-all ${isActive ? 'bg-[#025043] text-white border-[#025043]' : 'bg-white border-gray-200 text-gray-600 hover:border-[#025043]'
                         }`}
                     >
                       {materialName || 'N/A'}
@@ -589,26 +615,42 @@ const ProductInfo = () => {
               <button
                 onClick={() => handleAddCartItem({ id: selectedVariantId })}
                 disabled={isLoading}
-                className="flex-1 h-14 bg-black text-white rounded-xl cursor-pointer flex items-center justify-between px-6 transition-all group disabled:bg-gray-400"
+                className="relative flex-1 h-14 bg-black text-white rounded-xl cursor-pointer 
+             flex items-center justify-between px-6 transition-all 
+             group disabled:bg-gray-400 overflow-hidden active:scale-95"
               >
-                <span className="font-[Expo-arabic] text-lg">
+                <span className="font-[Expo-arabic] text-lg z-10">
                   {isLoading ? t('productInfo.adding') : t('productInfo.add_to_cart')}
                 </span>
 
-                {/* Arrow Icon inside the button */}
+                {/* Arrow */}
                 <div
-                  onClick={() => {
-                    navigate('/carts')
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    navigate('/carts');
                   }}
-                  className={`w-8 h-8 bg-white/20 flex items-center justify-center rounded-full transition-transform group-hover:translate-x-1 ${isRTL ? 'rotate-180 group-hover:-translate-x-1' : ''}`}>
+                  className={`
+      w-9 h-9 
+      bg-white/20 
+      flex items-center justify-center 
+      rounded-full 
+      transition-all duration-300
+      group-hover:bg-white/30
+      group-hover:scale-110
+      ${isRTL
+                      ? 'group-hover:-translate-x-1 rotate-180'
+                      : 'group-hover:translate-x-1'}
+    `}
+                >
                   <ChevronRightIcon color="white" />
                 </div>
               </button>
 
+
               {/* Add to Favorites (Icon Button) */}
               <button
                 onClick={() => handleAddWishlist()}
-                className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all group ${isProductInWishlist(selectedVariantId)
+                className={`w-14 h-14 rounded-xl flex items-center cursor-pointer justify-center transition-all group ${isProductInWishlist(selectedVariantId)
                   ? 'border-[#025043] '
                   : 'text-gray-400'
                   }`}
@@ -617,8 +659,6 @@ const ProductInfo = () => {
                 <WishListIcon isFavorite={isProductInWishlist(selectedVariantId)} />
               </button>
             </div>
-
-
           </div>
 
           {/* Divider */}
@@ -626,20 +666,63 @@ const ProductInfo = () => {
 
           {/* Right Subsection (Description) */}
           <div className={`md:w-1/2 flex-1 space-y-3 ${isRTL ? 'ps-4 text-right' : 'pe-4 text-left'}`}>
+
             <p className="mt-5 text-black leading-relaxed font-[Expo-arabic]">
               {product?.description || product?.body || t('productInfo.no_description_available')}
             </p>
 
             <hr className="mt-6 border-[#025043]" />
-            {/* description category */}
+
+            <p className="text-black text-sm mt-1 mb-5 font-[Expo-arabic] leading-relaxed">
+              {t('productInfo.packages_description')}
+            </p>
+
+            {selectedMaterial?.available_packages?.map((pkg) => {
+              const unitPrice = (pkg.price / pkg.quantity).toFixed(2);
+              const saving = Math.round(((currentPrice - unitPrice) / currentPrice) * 100);
+
+              return (
+                <div
+                  key={pkg.id}
+                  onClick={() => handleAddCartItem({ id: selectedVariantId }, pkg.id)}
+                  className="relative group border-2 border-gray-100 hover:border-[#025043] rounded-2xl p-4 transition-all duration-300 bg-white hover:shadow-md cursor-pointer overflow-hidden active:scale-95"
+                >
+                  {saving > 0 && (
+                    <div className="absolute top-0 right-0 bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-bl-lg font-bold z-10">
+                      {t('productInfo.save')} {saving}%
+                    </div>
+                  )}
+
+                  <div className="flex flex-col items-center text-center space-y-1">
+                    <span className="text-xs text-gray-500 font-[Expo-arabic] uppercase tracking-tighter">
+                      {t('productInfo.pack_of', { count: pkg.quantity })}
+                    </span>
+                    <div className="text-xl font-bold text-[#025043]">
+                      {pkg.price} $
+                    </div>
+                    <div className="text-[10px] text-gray-400">
+                      ({unitPrice} $ / {t('productInfo.piece')})
+                    </div>
+                  </div>
+
+                  <div className="mt-3 w-full h-1 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="w-0 group-hover:w-full h-full bg-[#025043] transition-all duration-500"></div>
+                  </div>
+
+                  <div className="absolute inset-x-0 bottom-0 bg-[#025043] text-white text-[10px] py-1 text-center translate-y-full group-hover:translate-y-0 transition-transform font-[Expo-arabic]">
+                    {t('productInfo.add_to_cart')}
+                  </div>
+                </div>
+              );
+            })}
+
             <div className="mt-6 p-4 bg-gray-50 rounded-xl border-s-4 border-[#025043] shadow-sm">
               <div className="flex items-center gap-2 mb-2">
-                <h4 className="font-[Expo-arabic] text-[#025043] text-sm ">
+                <h4 className="font-[Expo-arabic] text-[#025043] text-sm font-bold">
                   {product?.category?.name}
                 </h4>
               </div>
-
-              <p className="text-gray-600 text-sm font-[Expo-arabic]">
+              <p className="text-gray-600 text-xs font-[Expo-arabic] leading-relaxed">
                 {product?.category?.description || t('productInfo.no_category_description')}
               </p>
             </div>

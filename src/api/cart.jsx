@@ -79,6 +79,26 @@ export const useDecreaseItem = () => {
   });
 };
 
+export const useUpdateCartItem = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, data }) => {
+      try {
+        const res = await axios.patch(`cart-items/${id}`, data);
+        return res.data;
+      } catch (error) {
+        throw new Error(
+          error.response?.data?.message || 'Failed to update item'
+        );
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['cart-items']);
+    },
+  });
+};
+
 export const useRemoveFromCartItem = () => {
   const queryClient = useQueryClient();
 

@@ -4,6 +4,7 @@ import {
   useGetAllCartItems,
   useIncreaseItem,
   useRemoveFromCartItem,
+  useUpdateCartItem,
 } from '../../api/cart';
 import CartIcon from '../../assets/icons/CartIcon';
 import MinusIcon from '../../assets/icons/MinusIcon';
@@ -22,6 +23,7 @@ function Carts() {
   const { data: cartItems, isLoading } = useGetAllCartItems();
   const { mutate: increaseItem } = useIncreaseItem();
   const { mutate: decreaseItem } = useDecreaseItem();
+  const { mutate: updateItem } = useUpdateCartItem();
   const { mutate: removeItem } = useRemoveFromCartItem();
 
 
@@ -31,6 +33,9 @@ function Carts() {
   const [selectedVariantId, setSelectedVariantId] = useState({});
   const [currentPrice, setCurrentPrice] = useState({});
   const [oldPrice, setOldPrice] = useState({});
+  const [selectedPackage, setSelectedPackage] = useState({});
+
+  const isAr = i18n.language === 'ar';
 
   const items = cartItems?.data || [];
 
@@ -43,6 +48,8 @@ function Carts() {
       const variants = {};
       const prices = {};
       const oldPrices = {};
+      const pkgInfos = {};
+      const packages = {};
 
       items.forEach((item) => {
         const variant = item.product_variant;
@@ -59,13 +66,25 @@ function Carts() {
           (m) => m.name === variant.material
         ) || matchingSize?.available_materials?.[0];
 
+        const matchingPackage =
+          matchingMaterial?.available_packages?.find(
+            (p) => p.id === item.package_info?.package_id
+          ) || null;
+        packages[item.id] = matchingPackage;
+
         colors[item.id] = matchingColor;
         sizes[item.id] = matchingSize;
         materials[item.id] = matchingMaterial;
-
         variants[item.id] = variant.id;
-        prices[item.id] = variant.final_price;
-        oldPrices[item.id] = variant.price;
+
+        if (item.type === 'Package') {
+          pkgInfos[item.id] = item.package_info;
+          prices[item.id] = item.package_info?.package_price;
+          oldPrices[item.id] = null;
+        } else {
+          prices[item.id] = variant.final_price;
+          oldPrices[item.id] = variant.price;
+        }
       });
 
       setSelectedColor(colors);
@@ -78,7 +97,6 @@ function Carts() {
   }, [items]);
 
 
-  const isAr = i18n.language === 'ar';
 
   if (isLoading) {
     return (
@@ -89,11 +107,12 @@ function Carts() {
   }
 
 
-  const computedTotal = items.reduce((acc, item) => {
-    const price = currentPrice[item.id] || item.product_variant.final_price;
-    return acc + price * item.quantity;
-  }, 0);
+  // const computedTotal = items.reduce((acc, item) => {
+  //   const price = currentPrice[item.id] || item.product_variant.final_price;
+  //   return acc + price * item.quantity;
+  // }, 0);
 
+  const computedTotal = cartItems?.cart_total || 0;
 
   const handleRemoveCartItem = (cartItemId, productName) => {
     removeItem(cartItemId, {
@@ -108,6 +127,59 @@ function Carts() {
     });
   };
 
+
+  const handleColorChange = (itemId, color) => {
+    setSelectedColor(prev => ({ ...prev, [itemId]: color }));
+
+    const firstSize = color.available_sizes?.[0];
+    if (firstSize) {
+      handleSizeChange(itemId, firstSize);
+    }
+  };
+
+  const handleSizeChange = (itemId, size) => {
+    setSelectedSize(prev => ({ ...prev, [itemId]: size }));
+
+    const firstMaterial = size.available_materials?.[0];
+    if (firstMaterial) {
+      handleMaterialChange(itemId, firstMaterial);
+    }
+  };
+
+
+  const handleMaterialChange = (itemId, material) => {
+    setSelectedMaterial(prev => ({ ...prev, [itemId]: material }));
+    setCurrentPrice(prev => ({ ...prev, [itemId]: material.final_price }));
+    updateItem({
+      id: itemId,
+      data: { product_variant_id: material.variant_id }
+    }, {
+      onError: (err) => {
+        addToast({
+          title: t('cart.notice'),
+          description: err.message,
+          color: 'danger'
+        });
+      }
+    });
+  };
+
+
+  const handlePackageChange = (itemId, pkg, type = 'Package') => {
+    setSelectedPackage(prev => ({ ...prev, [itemId]: pkg }));
+
+    updateItem({
+      id: itemId,
+      data: {
+        type: type, // 'Package' أو 'Individual'
+        product_variant_package_id: type === 'Package' ? pkg.id : null
+      }
+    }, {
+      onError: (err) => {
+        addToast({ title: t('cart.notice'), description: err.message, color: 'danger' });
+      }
+    });
+  };
   return (
     <div
       className="w-full bg-[#025043] min-h-screen px-6 lg:px-24 py-24 font-[Expo-arabic] text-white"
@@ -147,6 +219,7 @@ function Carts() {
                     <th className="text-start py-4 px-2">{t('filter.size')}</th>
                     <th className="text-start py-4 px-2">{t('filter.material')}</th>
                     <th className="text-start py-4 px-2">{t('cart.price')}</th>
+                    <th className="text-start py-4 px-2">{t('cart.packages')}</th>
                     <th className="text-end py-4 px-2">{t('cart.quantity')}</th>
                   </tr>
                 </thead>
@@ -162,16 +235,34 @@ function Carts() {
                           >
                             ✕
                           </button>
-                          <img
-                            src={item.image}
-                            alt={item.product_variant?.name}
-                            className="w-16 h-20 min-w-16 object-cover rounded"
-                          />
+                          <Link
+                            to={`/products/${item.product_variant?.product_id}/product-info/${item.product_variant?.id}`}
+                            className="hover:opacity-80 transition-opacity"
+                          >
+                            <img
+                              src={item.image}
+                              alt={item.product_variant?.name}
+                              className="w-16 h-20 min-w-16 object-cover rounded cursor-pointer"
+                            />
+                          </Link>
                         </div>
                       </td>
 
                       <td className="py-6 px-2 text-white font-medium">
-                        {item.product_variant?.name}
+                        <div className="flex flex-col items-start gap-1">
+                          <Link
+                            to={`/products/${item.product_variant?.product_id}/product-info/${item.product_variant?.id}`}
+                            className="hover:text-[#E2995E] transition-colors cursor-pointer"
+                          >
+                            <span>{item.product_variant?.name}</span>
+                          </Link>
+                          {item.type === 'Package' && (
+                            <span className="bg-[#E2995E] text-white text-[10px] px-2 py-0.5 rounded-full font-bold shadow-sm">
+
+                              {t('productInfo.package_saving')}
+                            </span>
+                          )}
+                        </div>
                       </td>
 
                       <td className="py-6 px-2">
@@ -194,9 +285,7 @@ function Carts() {
                             {item.available_options?.map((color) => (
                               <DropdownItem
                                 key={color.id}
-                                onClick={() => {
-                                  setSelectedColor(prev => ({ ...prev, [item.id]: color }));
-                                }}
+                                onClick={() => handleColorChange(item.id, color)}
                               >
                                 <div className="flex items-center gap-2">
                                   <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color.hex }}></span>
@@ -218,7 +307,10 @@ function Carts() {
                           </DropdownTrigger>
                           <DropdownMenu>
                             {selectedColor[item.id]?.available_sizes?.map((size) => (
-                              <DropdownItem key={size.id} onClick={() => {/* ... */ }}>{size.name}</DropdownItem>
+                              <DropdownItem key={size.id}
+
+                                onClick={() => handleSizeChange(item.id, size)}
+                              >{size.name}</DropdownItem>
                             ))}
                           </DropdownMenu>
                         </Dropdown>
@@ -234,18 +326,31 @@ function Carts() {
                           </DropdownTrigger>
                           <DropdownMenu>
                             {selectedSize[item.id]?.available_materials?.map((mat) => (
-                              <DropdownItem key={mat.id} onClick={() => {/* ... */ }}>{mat.name}</DropdownItem>
+                              <DropdownItem key={mat.id}
+                                onClick={() => handleMaterialChange(item.id, mat)}
+                              >{mat.name}</DropdownItem>
                             ))}
                           </DropdownMenu>
                         </Dropdown>
                       </td>
+
+
 
                       <td className="py-6 px-2">
                         <div className="flex flex-col min-w-[100px]">
                           <span className="text-[#E2995E] font-semibold whitespace-nowrap">
                             {currentPrice[item.id]} $
                           </span>
-                          {oldPrice[item.id] > currentPrice[item.id] && (
+
+                          {item.type === 'Package' && (
+                            <span className="text-[11px] text-gray-400 mt-0.5 italic">
+                              {item.package_info?.quantity_in_package
+                                ? `(${item.package_info.quantity_in_package} ${t('cart.pcs')})`
+                                : t('cart.package_price')}
+                            </span>
+                          )}
+
+                          {item.type === 'Individual' && oldPrice[item.id] > currentPrice[item.id] && (
                             <span className="text-xs text-gray-400 line-through">
                               {oldPrice[item.id]} $
                             </span>
@@ -253,12 +358,81 @@ function Carts() {
                         </div>
                       </td>
 
+
+                      {/* packages */}
+                      <td className="py-6 px-2">
+                        <Dropdown>
+                          <DropdownTrigger>
+                            <Button
+                              variant="bordered"
+                              className={clsx(
+                                "min-w-[120px] text-white font-[Expo-arabic] flex justify-between items-center",
+                                item.type === 'Package' ? "border-[#E2995E] text-[#E2995E]" : "border-white/20"
+                              )}
+                            >
+                              <span className="truncate">
+                                {item.type === 'Package' && item.package_info
+                                  ? `${item.package_info.quantity_in_package} ${t('cart.pcs')}`
+                                  : t('cart.individual')}
+                              </span>
+                              <ChevronDownIcon />
+                            </Button>
+                          </DropdownTrigger>
+
+                          <DropdownMenu
+                            aria-label="Select Package"
+                            onAction={(key) => {
+                              if (key === 'individual') {
+                                handlePackageChange(item.id, null, 'Individual');
+                              } else {
+                                const pkg = selectedMaterial[item.id]?.available_packages?.find(p => p.id === Number(key));
+                                if (pkg) handlePackageChange(item.id, pkg, 'Package');
+                              }
+                            }}
+                          >
+                            <DropdownItem key="individual" className="text-black">
+                              {t('cart.individual')}
+                            </DropdownItem>
+
+                            {(selectedMaterial[item.id]?.available_packages || []).map((pkg) => (
+                              <DropdownItem
+                                key={pkg.id}
+                                description={`${pkg.price} $`}
+                                className="text-[#E2995E] font-bold"
+                              >
+                                {pkg.quantity} {t('cart.pcs')}
+                              </DropdownItem>
+                            ))}
+                          </DropdownMenu>
+                        </Dropdown>
+                      </td>
+
+
                       <td className="py-6 px-2">
                         <div className="flex justify-end">
                           <div className="inline-flex items-center bg-white text-[#025043] rounded-2xl px-2 py-1 gap-2">
-                            <button onClick={() => decreaseItem(item.id)} className="p-1 bg-[#025043] text-white rounded-lg"><MinusIcon /></button>
+                            <button onClick={() => decreaseItem(item.id)} className="p-1 bg-[#025043] text-white rounded-lg cursor-pointer"><MinusIcon /></button>
                             <span className="px-2 font-semibold">{item.quantity}</span>
-                            <button onClick={() => increaseItem(item.id)} className="p-1 bg-[#025043] text-white rounded-lg"><PlusIcon /></button>
+
+                            <button
+                              onClick={() => {
+                                increaseItem(item.id, {
+                                  onError: (err) => {
+                                    const countMatch = err.message.match(/\d+/);
+                                    const count = countMatch ? countMatch[0] : '';
+                                    addToast({
+                                      title: t('cart.notice'),
+                                      description: t('cart.stock_limit_msg', { count }) || err.message,
+                                      color: 'danger',
+                                      duration: 3000,
+                                    });
+                                  }
+                                });
+                              }}
+                              className="p-1 bg-[#025043] text-white rounded-lg cursor-pointer"
+                            >
+                              <PlusIcon />
+                            </button>
                           </div>
                         </div>
                       </td>

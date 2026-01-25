@@ -110,7 +110,14 @@
     "total": "Total",
     "proceed_checkout": "Proceed to Checkout",
     "removed_success": "{{product}} removed from cart successfully!",
-    "item_total": "Item Total"
+    "item_total": "Item Total",
+    "notice": "Notice",
+    "quantity_error": "Quantity Error",
+    "stock_limit_msg": "Sorry, only {{count}} items are available in stock.",
+    "packages": "Offers",
+    "individual": "Individual",
+    "pcs": "pcs",
+    "package_price": "Package Price"
   },
 
   "checkout": {
@@ -359,7 +366,17 @@
     "material": "Material",
     "off": "% OFF",
     "related_products": "Related Products",
-    "related_products_desc": "Discover similar products that might suit your taste and needs."
+    "related_products_desc": "Discover similar products that might suit your taste and needs.",
+    "available_packages": "Available Saving Packages",
+    "packages_description": "Buy more, save more! Enjoy exclusive discounts when you choose one of our bulk packages below.",
+    "pack_of": "Pack of {{count}} pcs",
+    "piece": "piece",
+    "save": "Save",
+    "no_description_available": "No description available for this product.",
+    "no_category_description": "No category description available.",
+    "unit_price": "Unit Price",
+    "product_code": "Product Code",
+    "package_saving": "Savings Package"
   },
 
   "ErrorFallback": {
