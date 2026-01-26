@@ -307,15 +307,21 @@ function ShowAllProducts() {
           <button
             className="flex items-center cursor-pointer gap-2 bg-[#D9D9D9] text-[#025043] text-[16px] font-medium px-4 py-2 rounded-lg shadow-sm hover:bg-[#cfcfcf] transition"
             onClick={() => {
-              if (isMobile) onOpen();
-              else setShowFilters(!showFilters);
+              if (isMobile) {
+                onOpen();
+              } else {
+                setShowFilters(!showFilters);
+              }
             }}
           >
             <FilterIcon />
+            <div className="w-[1.5px] h-6 bg-[#025043]/20 mx-1"></div>
             <span className="font-[Expo-arabic] text-black">
-              {t('filters.show')}
+              {(isMobile ? isOpen : showFilters)
+                ? t('filters.hide')
+                : t('filters.show')
+              }
             </span>
-
           </button>
         </div>
 
@@ -377,7 +383,7 @@ function ShowAllProducts() {
                         {product.final_price} $
                       </p>
 
-                      <div className="flex items-center justify-between md:flex-row lg:flex-col xl:flex-col text-[#025043]">
+                      <div className="flex items-center justify-between md:flex-row lg:flex-col xl:flex-row text-[#025043]">
                         <div className="flex items-center gap-1 text-sm">
                           <RatingStars
                             rating={product.rating}
@@ -392,7 +398,7 @@ function ShowAllProducts() {
                         <button
                           onClick={() => handleAddCartItem(product)}
                           disabled={isLoading}
-                          className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50  active:scale-95"
+                          className="bg-[#025043] text-white cursor-pointer text-sm px-4 py-1.5 rounded-full hover:bg-[#01382f] transition disabled:opacity-50 active:scale-95"
                         >
                           {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
                         </button>
@@ -423,7 +429,7 @@ function ShowAllProducts() {
           <DrawerContent>
             <>
               <DrawerHeader className="flex flex-col gap-1 text-black font-semibold">
-                Filters
+                {isOpen ? t('filters.hide') : t('filters.show')}
               </DrawerHeader>
               <DrawerBody>
                 <ProductFilters

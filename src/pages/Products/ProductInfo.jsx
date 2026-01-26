@@ -486,20 +486,22 @@ const ProductInfo = () => {
             </p>
 
             {/* Price */}
+
+            {/* Price Section */}
             <div className="flex flex-col gap-1">
               <div className="flex items-center gap-3">
                 <span className="font-bold text-black text-3xl">
                   {currentPrice || variant?.final_price} $
                 </span>
 
-                {discountPercentage && (
+                {discountPercentage > 0 && (
                   <span className="bg-yellow-400 text-black text-[10px] md:text-xs font-[Expo-arabic] px-2 py-1 rounded-md shadow-sm animate-pulse">
                     {discountPercentage}% OFF PRP
                   </span>
                 )}
               </div>
 
-              {Number(variant?.discount) > 0 && (
+              {Number(selectedMaterial?.discount || variant?.discount) > 0 && (
                 <span className="line-through text-gray-400 text-sm">
                   {oldPrice || variant?.price} $
                 </span>
@@ -672,10 +674,11 @@ const ProductInfo = () => {
             </p>
 
             <hr className="mt-6 border-[#025043]" />
-
-            <p className="text-black text-sm mt-1 mb-5 font-[Expo-arabic] leading-relaxed">
-              {t('productInfo.packages_description')}
-            </p>
+            {selectedMaterial?.available_packages?.length > 0 && (
+              <p className="text-black text-sm mt-1 mb-5 font-[Expo-arabic] leading-relaxed">
+                {t('productInfo.packages_description')}
+              </p>
+            )}
 
             {selectedMaterial?.available_packages?.map((pkg) => {
               const unitPrice = (pkg.price / pkg.quantity).toFixed(2);

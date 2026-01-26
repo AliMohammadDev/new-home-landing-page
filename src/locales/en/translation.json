@@ -300,6 +300,7 @@
 
   "filters": {
     "show": "Show filters",
+    "hide": "Hide filters",
     "no_results_title": "No products found",
     "no_results_description": "We couldn’t find any products matching your filters. Try adjusting your selection."
   },

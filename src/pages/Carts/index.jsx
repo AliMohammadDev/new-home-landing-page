@@ -198,11 +198,11 @@ function Carts() {
         {/* Cart Items */}
         <div className={clsx(items.length === 0 ? 'lg:col-span-4' : 'lg:col-span-2')}>
           {items.length === 0 ? (
-            <div className="text-center py-20 bg-white/5 rounded-3xl border border-white/10">
+            <div className="text-center py-20 bg-white/5 rounded-3xl border border-white/10 ">
               <p className="text-xl text-gray-300 mb-6">{t('cart.empty')}</p>
               <Link
                 to="/products"
-                className="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold
+                className="inline-flex items-center justify-center px-6 py-3  active:scale-95 text-sm font-semibold
         bg-white text-[#025043] hover:bg-gray-200 transition rounded-full"
               >
                 {t('cart.explore')}
@@ -457,7 +457,7 @@ function Carts() {
 
 
           <Link to="/checkouts">
-            <button className="w-full bg-[#025043] text-white py-3 cursor-pointer rounded-full hover:bg-opacity-90 transition">
+            <button className="w-full bg-[#025043] text-white py-3 cursor-pointer rounded-full hover:bg-opacity-90 active:scale-95 transition">
               {t('cart.proceed_checkout')}
             </button>
           </Link>

@@ -99,7 +99,7 @@ const Contact = () => {
           <button
             disabled={loading}
             type="submit"
-            className={`w-full py-2 rounded-xl transition cursor-pointer
+            className={`w-full py-4 rounded-xl transition cursor-pointer active:scale-95
               ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black text-white hover:opacity-90'}`}
           >
             {loading ? t('contact.sending') : t('contact.send_button')}

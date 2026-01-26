@@ -35,7 +35,7 @@ function ResetPassword() {
     >
       {/* Back */}
       <div className="absolute top-1 md:top-6 left-6 z-20">
-        <Link to={-1} className="hover:opacity-80 transition">
+        <Link to={-1} className="hover:opacity-80 transition active:scale-95">
           <LeftIcon />
         </Link>
       </div>
@@ -110,7 +110,7 @@ function ResetPassword() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full cursor-pointer rounded-xl py-2 font-semibold transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90'
+                className={`w-full cursor-pointer rounded-xl py-2 active:scale-95 font-semibold transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90'
                   }`}
               >
                 {loading ? t('auth.resetting') : t('auth.reset_password')}

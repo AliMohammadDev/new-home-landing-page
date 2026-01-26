@@ -161,7 +161,10 @@ function ProductSlider1({ products = [] }) {
                           ({variant.reviews_count || 0})
                         </span>
                         <span
-                          onClick={() => navigate('/products')}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate('/products')
+                          }}
                           className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
                         >
                           {t('essential_to_prep.view_more')}

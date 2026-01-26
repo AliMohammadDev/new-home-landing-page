@@ -18,7 +18,7 @@ const AboutUs = () => {
     >
 
       {/* Back Button */}
-      <Link to={-1} className="hover:opacity-80 transition">
+      <Link to={-1} className="hover:opacity-80 transition active:scale-95">
         <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
       </Link>
 
@@ -97,7 +97,7 @@ const AboutUs = () => {
         <div className="flex items-center gap-1 justify-end">
           <Link
             to={'/products'}
-            className="px-6 py-1 bg-black text-white font-[Expo-arabic] rounded-md hover:opacity-80 transition whitespace-nowrap"
+            className="px-6 py-1 bg-black text-white active:scale-95 font-[Expo-arabic] rounded-md hover:opacity-80 transition whitespace-nowrap"
           >
             {t('about.click_gallery')}
           </Link>
