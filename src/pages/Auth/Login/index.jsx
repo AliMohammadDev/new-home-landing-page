@@ -7,6 +7,7 @@ import { useLogin } from '../../../api/auth';
 import { useTranslation } from 'react-i18next';
 import loginBG from "../../../assets/images/login.jpg";
 import homeLogoWhite from "../../../assets/images/home-logo-white.svg";
+import GoogleIcon from '../../../assets/icons/GoogleIcon';
 
 function Login() {
   const { register, handleSubmit } = useForm();
@@ -79,26 +80,46 @@ function Login() {
 
               {/* Remember + Forgot */}
               <div className="flex justify-between items-center gap-3 text-sm text-gray-200">
-                <label className="flex items-center gap-2 select-none">
-                  <input type="checkbox" className="accent-white w-4 h-4" />
+                <label className="flex items-center gap-2  select-none">
+                  <input type="checkbox" className="accent-white w-4 h-4 cursor-pointer" />
                   <span>{t('auth.remember_me')}</span>
                 </label>
                 <Link
                   to="/forgot-password"
-                  className="text-white underline underline-offset-2 decoration-white hover:opacity-80 transition"
+                  className="text-white underline underline-offset-2 cursor-pointer decoration-white hover:opacity-80 transition"
                 >
                   {t('auth.forgot_password')}
                 </Link>
               </div>
-
-              {/* Submit */}
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full rounded-xl cursor-pointer py-2  active:scale-95 font-semibold transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90'
+                className={`w-full rounded-xl cursor-pointer py-3 active:scale-95 font-semibold transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90'
                   }`}
               >
                 {loading ? t('auth.logging_in') : t('auth.login_button')}
+              </button>
+
+              {/* Divider (OR) */}
+              <div className="relative my-6 flex items-center">
+                <div className="grow border-t border-white/20"></div>
+                <span className="mx-4 shrink text-xs uppercase text-gray-300">
+                  {t('auth.or')}
+                </span>
+                <div className="grow border-t border-white/20"></div>
+              </div>
+
+              {/* Google Login Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.href = 'http://127.0.0.1:8000/api/login-google';
+                }}
+                className="w-full flex items-center justify-center gap-3 rounded-xl bg-white py-3 text-black font-medium transition hover:bg-gray-100  cursor-pointer shadow-lg active:scale-95"
+              >
+                <GoogleIcon />
+                <span>{t('auth.continue_with_google')}</span>
               </button>
 
               {/* Create Account */}

@@ -75,7 +75,9 @@
     "confirm_password": "Confirm Password",
     "resetting": "Resetting...",
     "remembered": "Remembered your password?",
-    "login_here": "Login"
+    "login_here": "Login",
+    "or": "OR",
+    "continue_with_google": "Continue with Google"
   },
 
   "navbar": {

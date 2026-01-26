@@ -8,6 +8,7 @@ import { useRegister } from '../../../api/auth';
 import { useTranslation } from 'react-i18next';
 import loginBG from "../../../assets/images/login.jpg";
 import homeLogoWhite from "../../../assets/images/home-logo-white.svg";
+import GoogleIcon from '../../../assets/icons/GoogleIcon';
 
 
 function Register() {
@@ -115,20 +116,39 @@ function Register() {
               {/* Terms */}
               <div className="flex justify-center sm:justify-between items-center gap-3 text-sm text-gray-200 mt-4">
                 <label className="flex items-center gap-2 select-none">
-                  <input type="checkbox" className="accent-white w-4 h-4" required />
+                  <input type="checkbox" className="accent-white w-4 h-4 cursor-pointer" required />
                   <span>{t('auth.terms')}</span>
                 </label>
               </div>
 
               {/* Submit */}
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full rounded-xl cursor-pointer py-2 active:scale-95 font-semibold transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90'
+                className={`w-full rounded-xl cursor-pointer py-3 active:scale-95 font-semibold transition ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-black hover:opacity-90'
                   }`}
               >
-                {loading ? t('auth.logging_in') : t('auth.sign_up')}
+                {loading ? t('auth.signing_up') : t('auth.sign_up')}
               </button>
+
+              {/* Divider (OR) */}
+              <div className="relative my-6 flex items-center">
+                <div className="grow border-t border-white/20"></div>
+                <span className="mx-4 shrink text-xs uppercase text-gray-300">
+                  {t('auth.or')}
+                </span>
+                <div className="grow border-t border-white/20"></div>
+              </div>
+
+              {/* Google Register Button */}
+              <Link
+                to={'http://127.0.0.1:8000/api/login-google'}
+                className="w-full flex items-center justify-center gap-3 rounded-xl bg-white py-3 text-black font-medium transition hover:bg-gray-100 active:scale-95 cursor-pointer shadow-lg"
+              >
+                <GoogleIcon />
+                <span>{t('auth.continue_with_google')}</span>
+              </Link>
 
               {/* Login Link */}
               <div className="text-center text-sm text-white mt-4">

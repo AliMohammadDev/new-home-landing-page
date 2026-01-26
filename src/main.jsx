@@ -13,8 +13,8 @@ import { Suspense } from 'react';
 import Loading from './components/Loading.jsx';
 
 const cookies = Cookie();
-axios.defaults.baseURL =
-  import.meta.env.VITE_API;
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = import.meta.env.VITE_API;
 // axios.defaults.headers.common.Authorization = "Bearer " + Cookie().get("token");
 
 axios.interceptors.request.use((config) => {

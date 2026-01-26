@@ -3,6 +3,7 @@ import Layout from '../pages/Layout';
 import ErrorFallback from '../pages/ErrorFallback';
 import { lazy } from 'react';
 import Loading from '../components/Loading';
+import GoogleCallback from '../pages/Auth/GoogleCallback';
 
 // Lazy load all pages
 const Home = lazy(() => import('../pages/Home'));
@@ -107,6 +108,10 @@ const router = createBrowserRouter([
   {
     path: 'loading',
     element: <Loading />,
+  },
+  {
+    path: 'google-callback',
+    element: <GoogleCallback />,
   },
 
 ]);

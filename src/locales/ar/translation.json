@@ -76,7 +76,9 @@
     "confirm_password": "تأكيد كلمة المرور",
     "resetting": "جاري إعادة التعيين...",
     "remembered": "تذكرت كلمة المرور؟",
-    "login_here": "تسجيل الدخول"
+    "login_here": "تسجيل الدخول",
+    "or": "أو",
+    "continue_with_google": "المتابعة باستخدام جوجل"
   },
 
   "navbar": {
