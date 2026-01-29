@@ -272,7 +272,8 @@
     "view_more": "view more",
     "cart_login_warning": "You have to login first!",
     "cart_success": "{{product}} added to cart successfully!",
-    "cart_error": "Failed to add {{product}} to cart"
+    "cart_error": "Failed to add {{product}} to cart",
+    "off": "OFF"
   },
 
   "about_section": {

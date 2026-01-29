@@ -89,40 +89,42 @@ function MostProduct({ products = [] }) {
               // const product = variant.product;
 
               return (
-                <Link to={`/products/${variant.product.category.id}/product-info/${variant.id}`}>
-                  <div key={variant.id ?? i} className="px-2 md:px-1">
-                    <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] h-full flex flex-col pb-4 shadow-sm hover:shadow-md transition-shadow">
+                <div key={variant.id ?? i} className="px-2 md:px-1">
+                  <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] h-full flex flex-col pb-4 shadow-sm hover:shadow-md transition-shadow">
+                    <Link to={`/products/${variant.product.category.id}/product-info/${variant.id}`}>
                       <img
                         src={variant.image}
                         alt={variant.name}
-                        className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover"
+                        className="w-full h-48 sm:h-56 md:h-60 lg:h-64 object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
                       />
-                      <div
-                        className={`mt-5 px-4 flex-1 flex flex-col ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'
-                          }`}
+
+                    </Link>
+                    <div
+                      className={`mt-5 px-4 flex-1 flex flex-col ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'
+                        }`}
+                    >
+                      <h3 className="text-black text-[18px] mb-2 line-clamp-2">
+                        {variant.name}
+                      </h3>
+
+                      <span
+                        onClick={() => navigate('/products')}
+                        className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
                       >
-                        <h3 className="text-black text-[18px] mb-2 line-clamp-2">
-                          {variant.name}
-                        </h3>
-
-                        <span
-                          onClick={() => navigate('/products')}
-                          className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
-                        >
-                          {t('slider.Think_about_a_gift?_see_our_colllection')}
-                        </span>
+                        {t('slider.Think_about_a_gift?_see_our_colllection')}
+                      </span>
 
 
-                        <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3 leading-relaxed">
-                          {variant.body}
-                        </p>
-                        <span className="text-[#025043] font-[Expo-arabic] text-lg font-bold mt-auto">
-                          {variant?.final_price} $
-                        </span>
-                      </div>
+                      <p className="text-black text-sm mb-4 font-[Expo-arabic] line-clamp-3 leading-relaxed">
+                        {variant.body}
+                      </p>
+                      <span className="text-[#025043] font-[Expo-arabic] text-lg font-bold mt-auto">
+                        {variant?.final_price} $
+                      </span>
                     </div>
                   </div>
-                </Link>
+                </div>
+
 
               );
             })}

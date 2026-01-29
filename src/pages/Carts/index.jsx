@@ -187,7 +187,7 @@ function Carts() {
     >
       {/* Header */}
       <div className="text-center mb-16">
-        <div className="flex justify-center mb-4">
+        <div className="flex justify-center mb-4 mt-10">
           <CartIcon size={48} color="white" />
         </div>
         <h1 className="text-4xl font-bold tracking-wide">{t('cart.my_cart')}</h1>

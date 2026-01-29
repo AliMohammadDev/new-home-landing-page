@@ -9,6 +9,7 @@ import RatingStars from '../RatingStars.jsx';
 import { useAddToCartItem } from '../../api/cart.jsx';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { useSubmitReview } from '../../api/reviews.jsx';
 
 function ProductSlider1({ products = [] }) {
   const navigate = useNavigate();
@@ -54,6 +55,45 @@ function ProductSlider1({ products = [] }) {
           });
         },
 
+      }
+    );
+  };
+
+  // Add review
+  const { mutate: submitReview } = useSubmitReview();
+  const handleRateProduct = (variantId, rating) => {
+    if (!user) {
+      addToast({
+        title: t('rating.title'),
+        description: t('rating.loginRequired'),
+        color: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
+      navigate('/login');
+      return;
+    }
+    submitReview(
+      {
+        product_variant_id: variantId,
+        rating,
+      },
+      {
+        onSuccess: (data) => {
+          addToast({
+            title: t('rating.successTitle'),
+            description: `${t('rating.successMessage')} : ${data.rating}`,
+            color: 'success',
+          });
+        },
+        onError: (error) => {
+          console.error(error);
+          addToast({
+            title: t('rating.title'),
+            description: error.response?.data?.message || t('rating.error'),
+            color: 'error',
+          });
+        }
       }
     );
   };
@@ -132,60 +172,123 @@ function ProductSlider1({ products = [] }) {
             const product = variant.product;
 
             return (
-              <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
-                <div key={variant.id} className="px-2">
-                  <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-                    <img
-                      src={variant.image}
-                      alt={product.name}
-                      className="w-full h-48 sm:h-56 md:h-64 object-cover"
-                    />
+              <div key={variant.id} className="px-2">
+                <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+                  <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
+                    <div className="relative group overflow-hidden">
 
-                    <div className="p-4 flex flex-col gap-3 flex-1">
-                      <h3 className={`text-[#025043] text-[16px] font-bold h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
-                        {product.name}
-                      </h3>
+                      {variant.discount > 0 && (
+                        <div className={clsx(
+                          "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
+                          isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
+                        )}>
+                          {isRTL ? (
+                            <>{t('essential_to_prep.off')} {Number(variant.discount)}%</>
+                          ) : (
+                            <>{Number(variant.discount)}% {t('essential_to_prep.off')}</>
+                          )}
+                        </div>
+                      )}
 
-                      <p className="text-sm text-black">
-                        Product: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
-                      </p>
-                      <div className="border-b border-[#025043]/20"></div>
+                      <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
+                        <img
+                          src={variant.image}
+                          alt={product.name}
+                          className="w-full h-48 sm:h-56 md:h-64 object-cover hover:scale-110 transition-transform duration-500 ease-in-out"
+                        />
+                      </Link>
+                    </div>
 
-                      <p className={`text-[#025043] text-[18px] font-bold ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
+                  </Link>
+                  <div className="p-4 flex flex-col gap-3 flex-1">
+                    <h3 className={`text-[#025043] text-[16px] font-bold h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
+                      {product.name}
+                    </h3>
+
+                    <p className="text-sm text-black">
+                      Product: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
+                    </p>
+                    <div className="border-b border-[#025043]/20"></div>
+
+                    <div className={clsx(
+                      "flex items-baseline gap-2",
+                      isRTL ? "flex-row-reverse justify-end" : "flex-row justify-start"
+                    )}>
+                      <p className="text-[#025043] text-[20px] font-bold font-[Expo-arabic]">
                         {variant.final_price} $
                       </p>
 
-                      <div className="flex items-center gap-2 text-sm flex-wrap">
-                        <RatingStars rating={Number(variant.reviews_avg) || 0} />
-                        <span className="text-xs text-gray-400">
-                          ({variant.reviews_count || 0})
-                        </span>
-                        <span
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            navigate('/products')
-                          }}
-                          className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
-                        >
-                          {t('essential_to_prep.view_more')}
+                      {variant.discount > 0 && (
+                        <p className="text-gray-400 text-sm line-through decoration-red-500/50">
+                          {variant.price} $
+                        </p>
+                      )}
+                    </div>
+
+                    {/* colors available */}
+                    <div className={clsx(
+                      "flex flex-col gap-2 mt-1",
+                      isRTL ? "items-start text-right" : "items-start text-left"
+                    )}>
+                      <div className="flex items-center justify-between w-full">
+                        <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold font-[Expo-arabic]">
                         </span>
                       </div>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleAddCartItem(variant);
-                        }}
-                        disabled={isLoading}
-                        className="w-full bg-[#025043] text-white cursor-pointer text-sm font-[Expo-arabic] font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
-                      >
-                        {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
-                      </button>
+
+                      <div className={clsx(
+                        "flex gap-1.5 flex-wrap w-full",
+                        isRTL ? "justify-start" : "justify-start"
+                      )}>
+                        {product.available_options?.map((option) => (
+                          <div
+                            key={option.id}
+                            title={option.name}
+                            className="w-5 h-5 rounded-full border border-gray-200 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
+                            style={{ backgroundColor: option.hex }}
+                          />
+                        ))}
+                      </div>
                     </div>
+
+                    <div className="flex items-center gap-2 text-sm flex-wrap"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                    >
+                      <RatingStars
+                        onRate={(star) =>
+                          handleRateProduct(variant.id, star)
+                        }
+                        rating={Number(variant.reviews_avg) || 0} />
+                      <span className="text-xs text-gray-400">
+                        ({variant.reviews_count || 0})
+                      </span>
+                      <span
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate('/products')
+                        }}
+                        className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
+                      >
+                        {t('essential_to_prep.view_more')}
+                      </span>
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleAddCartItem(variant);
+                      }}
+                      disabled={isLoading}
+                      className="w-full bg-[#025043] text-white cursor-pointer text-sm font-[Expo-arabic] font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
+                    >
+                      {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
+                    </button>
                   </div>
                 </div>
+              </div>
 
-              </Link>
             );
           })}
         </Slider>
@@ -202,7 +305,7 @@ function ProductSlider1({ products = [] }) {
             />
           </div>
         </div>
-      </div>
+      </div >
     </section >
   );
 }

@@ -48,14 +48,14 @@ const Header = () => {
         </div>
 
         {/* Social Icons */}
-        <div className="mt-12 md:mt-12">
+        {/* <div className="mt-12 md:mt-12">
           <div className="flex flex-col gap-6 items-start">
             <Link to={'https://www.facebook.com'} className="cursor-pointer hover:text-gray-300"><FacebookIcon /></Link >
             <Link to={'https://www.instagram.com'} className="cursor-pointer hover:text-gray-300"><InstagramIcon /></Link >
             <Link to={'https://www.whatsapp.com'} className="cursor-pointer hover:text-gray-300"><WhatsappIcon /></Link >
             <Link to={'https://www.telegram.com'} className="cursor-pointer hover:text-gray-300"><TelegramIcon /></Link >
           </div>
-        </div>
+        </div> */}
 
         {/* Bottom Main Text */}
         <div className="mt-25 sm:mt-16 md:mt-20 lg:mt-10 xl:mt-30 2xl:mt-60 ml-6 sm:ml-16 md:ml-24 lg:ml-40 xl:ml-60">

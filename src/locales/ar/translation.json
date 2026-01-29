@@ -275,7 +275,8 @@
     "view_more": "عرض المزيد",
     "cart_login_warning": "يجب تسجيل الدخول أولاً!",
     "cart_success": "تمت إضافة {{product}} إلى السلة بنجاح!",
-    "cart_error": "فشل في إضافة {{product}} إلى السلة"
+    "cart_error": "فشل في إضافة {{product}} إلى السلة",
+    "off": "خصم"
   },
 
   "about_section": {
