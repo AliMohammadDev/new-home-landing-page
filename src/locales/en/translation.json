@@ -315,6 +315,9 @@
     "price": "Price",
     "material": "Material",
     "name": "Name",
+    "price_range": "Price Range",
+    "min_price": "Min Price",
+    "max_price": "Max Price",
 
     "sizes": {
       "small": "Small",
@@ -323,14 +326,19 @@
     },
 
     "colors": {
+      "stainless_steel": "Stainless Steel",
       "black": "Black",
-      "red": "Red",
-      "green": "Green",
-      "yellow": "Yellow",
-      "purple": "Purple",
-      "pink": "Pink"
+      "white": "White",
+      "off_white": "Off White",
+      "cream": "Cream",
+      "gray": "Gray",
+      "charcoal": "Charcoal",
+      "navy": "Navy Blue",
+      "olive": "Olive",
+      "beige": "Beige",
+      "brown": "Brown",
+      "copper": "Copper"
     },
-
     "materials": {
       "ceramic": "Ceramic",
       "glass": "Glass",

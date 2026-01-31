@@ -316,8 +316,12 @@
     "size": "الحجم",
     "color": "اللون",
     "price": "السعر",
-    "material": "المادة",
     "name": "الاسم",
+
+    "price_range": "نطاق السعر",
+    "material": "المواد",
+    "min_price": "أقل سعر",
+    "max_price": "أعلى سعر",
 
     "sizes": {
       "small": "صغير",
@@ -326,12 +330,18 @@
     },
 
     "colors": {
+      "stainless_steel": "ستانلس ستيل",
       "black": "أسود",
-      "red": "أحمر",
-      "green": "أخضر",
-      "yellow": "أصفر",
-      "purple": "بنفسجي",
-      "pink": "زهري"
+      "white": "أبيض",
+      "off_white": "أوف وايت",
+      "cream": "كريمي",
+      "gray": "رمادي",
+      "charcoal": "فحمي",
+      "navy": "كحلي",
+      "olive": "زيتي",
+      "beige": "بيج",
+      "brown": "بني",
+      "copper": "نحاسي"
     },
 
     "materials": {

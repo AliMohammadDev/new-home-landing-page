@@ -96,7 +96,7 @@ const Home = () => {
                 </>
               )}
             </div>
-            {categories.map((category) => (
+            {categories.slice(0, 7).map((category) => (
               <CategoryCard
                 key={category.id}
                 id={category.id}

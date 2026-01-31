@@ -104,9 +104,7 @@ const Navbar = () => {
               <span className="font-medium unicode-bidi-bidi-override" dir="ltr">
                 021 2310 379
               </span>
-
             </a>
-
             <a
               href="mailto:almanzel.alhadith@gmail.com"
               className="flex items-center gap-2 hover:text-[#E2995E] transition"
@@ -240,7 +238,7 @@ const Navbar = () => {
               </NavLink>
 
               {/* <hr className="border-white/10 my-1" /> */}
-              {categories.map((category) => (
+              {categories.slice(0, 7).map((category) => (
                 <NavLink
                   key={category.id}
                   to={`/products/${category.id}`}
@@ -417,7 +415,7 @@ const Navbar = () => {
 
                   {isCategoryMenuOpen && (
                     <div className="flex flex-col pl-4 pr-4 mt-1 border-l border-white/10">
-                      {categories.map((cat) => (
+                      {categories.slice(0, 7).map((cat) => (
                         <NavLink
                           key={cat.id}
                           to={`/products/${cat.id}`}
