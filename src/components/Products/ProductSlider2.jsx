@@ -287,22 +287,30 @@ function ProductSlider2({ products = [] }) {
                       </div>
 
                       <div className="mt-auto flex flex-col">
-                        <div
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                          className={clsx("flex items-center gap-2 mb-4 flex-wrap", isRTL ? "flex-row-reverse" : "flex-row")}
-                        >
-                          <RatingStars rating={Number(variant.reviews_avg) || 0} />
-                          <span className="text-xs text-gray-500">({variant.reviews_count || 0})</span>
+                        {/* Rating and View More */}
+                        <div className={clsx(
+                          "flex items-center justify-between w-full mt-2",
+                        )}>
+                          {/* Stars + Review Count */}
+                          <div className="flex items-center gap-1 min-w-0">
+                            <RatingStars
+                              onRate={(star) => handleRateProduct(variant.id, star)}
+                              rating={Number(variant.reviews_avg) || 0}
+                            />
+                            <span className="text-xs text-gray-400 truncate">
+                              ({variant.reviews_count || 0})
+                            </span>
+                          </div>
+
+                          {/* View More */}
                           <span
-                            onClick={() => navigate('/products')}
-                            className={clsx(
-                              "text-sm hover:underline font-medium font-[Expo-arabic] cursor-pointer",
-                              isRTL ? "mr-auto" : "ms-auto"
-                            )}
+                            onClick={(e) => { e.stopPropagation(); navigate('/products'); }}
+                            className="text-xs font-medium hover:underline cursor-pointer whitespace-nowrap"
                           >
                             {t('essential_to_prep.view_more')}
                           </span>
                         </div>
+
 
                         <button
                           onClick={(e) => {

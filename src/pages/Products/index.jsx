@@ -220,7 +220,7 @@ const Product = () => {
                       </div>
                       {/* Colors */}
                       <div className="flex gap-1.5 flex-wrap">
-                        <span className="text-[9px] text-gray-400 min-w-10">{t('filter.color')}</span>
+                        <span className="text-[13px] text-gray-400 min-w-10">{t('filter.color')}</span>
                         {product.available_options?.slice(0, 8).map((option) => (
                           <div
                             key={option.id}
@@ -233,12 +233,12 @@ const Product = () => {
 
                       {/* Sizes  */}
                       <div className="flex items-center gap-1 mt-1">
-                        <span className="text-[9px] text-gray-400 min-w-10">{t('filter.size')}</span>
+                        <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
                         <div className="flex gap-1 flex-wrap">
                           {sizes.map((size, i) => (
                             <span
                               key={i}
-                              className="px-1.5 py-[1px] text-[9px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
+                              className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
                             >
                               {size}
                             </span>
@@ -248,12 +248,12 @@ const Product = () => {
 
                       {/* Materials  */}
                       <div className="flex items-center gap-1">
-                        <span className="text-[9px] text-gray-400 min-w-10">{t('filter.material')}</span>
+                        <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
                         <div className="flex gap-1 flex-wrap">
                           {materials.map((mat, i) => (
                             <span
                               key={i}
-                              className="px-1.5 py-[1px] text-[9px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
+                              className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
                             >
                               {mat}
                             </span>
