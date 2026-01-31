@@ -179,39 +179,25 @@ function ProductSlider1({ products = [] }) {
 
       {/* Slider Container */}
       <div className="relative" dir={isRTL ? 'rtl' : 'ltr'}>
-        <Slider {...settings}>
-          {products.map((variant) => {
-            const product = variant.product;
+        {/* Slider Container */}
+        <div className="relative" dir={isRTL ? 'rtl' : 'ltr'}>
+          <Slider {...settings}>
+            {products.map((variant) => {
+              const product = variant.product;
 
-            const sizes = [
-              ...new Set(
-                product.available_options?.flatMap(color =>
-                  color.available_sizes?.map(size => size.name)
-                )
-              )
-            ].slice(0, 4);
+              const sizes = [...new Set(product.available_options?.flatMap(color => color.available_sizes?.map(size => size.name)))].slice(0, 4);
+              const materials = [...new Set(product.available_options?.flatMap(color => color.available_sizes?.flatMap(size => size.available_materials?.map(mat => mat.name))))].slice(0, 4);
 
-            const materials = [
-              ...new Set(
-                product.available_options?.flatMap(color =>
-                  color.available_sizes?.flatMap(size =>
-                    size.available_materials?.map(mat => mat.name)
-                  )
-                )
-              )
-            ].slice(0, 4);
+              return (
+                <div key={variant.id} className="px-2">
+                  <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
 
-
-            return (
-              <div key={variant.id} className="px-2">
-                <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-                  <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
+                    {/* Image Section */}
                     <div className="relative group overflow-hidden">
-
                       {variant.discount > 0 && (
                         <div className={clsx(
                           "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
-                          isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
+                          isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full font-bold"
                         )}>
                           {isRTL ? (
                             <>{t('essential_to_prep.off')} {Number(variant.discount)}%</>
@@ -230,138 +216,132 @@ function ProductSlider1({ products = [] }) {
                       </Link>
                     </div>
 
-                  </Link>
-                  <div className="p-4 flex flex-col gap-3 flex-1">
-                    <h3 className={`text-[#025043] text-[16px] -mb-6 font-bold h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
-                      {product.name}
-                    </h3>
+                    {/* Content Section */}
+                    <div className="p-4 flex flex-col gap-3 flex-1">
+                      <h3 className={clsx(
+                        "text-[#025043] text-[16px] -mb-6 font-bold h-12 overflow-hidden",
+                        isRTL ? "font-[Expo-arabic] text-right" : "font-bold text-left"
+                      )}>
+                        {product.name}
+                      </h3>
 
-                    <p className="text-sm text-black">
-                      SKU: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
-                    </p>
-                    <div className="border-b border-[#025043]/20"></div>
-
-                    <div className={clsx(
-                      "flex items-baseline gap-2",
-                      isRTL ? "flex-row-reverse justify-end" : "flex-row justify-start"
-                    )}>
-                      <p className="text-[#025043] text-[20px] font-bold font-[Expo-arabic]">
-                        {variant.final_price} $
+                      <p className={clsx("text-sm text-black", isRTL ? "text-right" : "text-left")}>
+                        SKU: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
                       </p>
 
-                      {variant.discount > 0 && (
-                        <p className="text-gray-400 text-sm line-through decoration-red-500/50">
-                          {variant.price} $
+                      <div className="border-b border-[#025043]/20"></div>
+
+                      {/* Price Section */}
+                      <div className={clsx(
+                        "flex items-baseline gap-2",
+                        isRTL ? "flex-row-reverse justify-start" : "flex-row justify-start"
+                      )}>
+                        <p className="text-[#025043] text-[20px] font-bold font-[Expo-arabic]">
+                          {variant.final_price} $
                         </p>
-                      )}
-                    </div>
+                        {variant.discount > 0 && (
+                          <p className="text-gray-400 text-sm line-through decoration-red-500/50">
+                            {variant.price} $
+                          </p>
+                        )}
+                      </div>
 
-                    {/* Options (Colors, Sizes, Materials) */}
-                    <div className="flex flex-col gap-1 mt-2">
-                      {/* Colors */}
-                      <div className="flex items-center gap-1">
-                        <span className="text-[9px] text-gray-400 min-w-10">Color</span>
-                        <div className="flex gap-1 flex-wrap">
-                          {product.available_options?.slice(0, 8).map((option) => (
-                            <div
-                              key={option.id}
-                              title={option.name}
-                              className="w-5 h-5 rounded-full border border-gray-300 hover:scale-110 transition"
-                              style={{ backgroundColor: option.hex }}
-                            />
-                          ))}
+                      {/* Options Container */}
+                      <div className="flex flex-col gap-2 mb-4">
+                        <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
+                          <span className={clsx(
+                            "text-[10px] text-gray-400 min-w-10 shrink-0",
+                            isRTL ? "ml-1 text-right" : "mr-4 text-left"
+                          )}>
+                            {t('filter.color')}
+                          </span>
+                          <div className="flex gap-1.5 flex-wrap">
+                            {product.available_options?.slice(0, 8).map((option) => (
+                              <div
+                                key={option.id}
+                                title={option.name}
+                                className="w-4 h-4 md:w-5 md:h-5 rounded-full border border-gray-300 hover:scale-110 transition shadow-sm"
+                                style={{ backgroundColor: option.hex }}
+                              />
+                            ))}
+                          </div>
+                        </div>
 
+                        <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
+                          <span className={clsx(
+                            "text-[10px] text-gray-400 min-w-10 shrink-0",
+                            isRTL ? "ml-1 text-right" : "mr-4 text-left"
+                          )}>
+                            {t('filter.size')}
+                          </span>
+                          <div className="flex gap-1.5 flex-wrap">
+                            {sizes.map((size, i) => (
+                              <span key={i} className="px-1.5 py-px text-[12px] rounded-full bg-white border border-[#025043]/20 text-[#025043]">
+                                {size}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
+                          <span className={clsx(
+                            "text-[10px] text-gray-400 min-w-10 shrink-0",
+                            isRTL ? "ml-1 text-right" : "mr-4 text-left"
+                          )}>
+                            {t('filter.material')}
+                          </span>
+                          <div className="flex gap-1.5 flex-wrap">
+                            {materials.map((mat, i) => (
+                              <span key={i} className="px-1.5 py-px text-[12px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]">
+                                {mat}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
 
-                      {/* Sizes */}
-                      <div className="flex items-center gap-1">
-                        <span className="text-[9px] text-gray-400 min-w-10">Size</span>
-                        <div className="flex gap-1 flex-wrap">
-                          {sizes.map((size, i) => (
-                            <span
-                              key={i}
-                              className="px-1.5 py-[1px] text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
-                            >
-                              {size}
-                            </span>
-                          ))}
-                        </div>
+                      {/* Rating and View More */}
+                      <div className={clsx("flex items-center gap-2 text-sm flex-wrap", isRTL && "flex-row-reverse")}>
+                        <RatingStars onRate={(star) => handleRateProduct(variant.id, star)} rating={Number(variant.reviews_avg) || 0} />
+                        <span className="text-xs text-gray-400">({variant.reviews_count || 0})</span>
+                        <span
+                          onClick={(e) => { e.stopPropagation(); navigate('/products') }}
+                          className={clsx("text-sm hover:underline font-medium cursor-pointer", isRTL ? "mr-auto font-[Expo-arabic]" : "ml-auto")}
+                        >
+                          {t('essential_to_prep.view_more')}
+                        </span>
                       </div>
 
-                      {/* Materials */}
-                      <div className="flex items-center gap-1">
-                        <span className="text-[9px] text-gray-400 min-w-10">Material</span>
-                        <div className="flex gap-1 flex-wrap">
-                          {materials.map((mat, i) => (
-                            <span
-                              key={i}
-                              className="px-1.5 py-[1px] text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
-                            >
-                              {mat}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-
-
-                    <div className="flex items-center gap-2 text-sm flex-wrap"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
-                    >
-                      <RatingStars
-                        onRate={(star) =>
-                          handleRateProduct(variant.id, star)
-                        }
-                        rating={Number(variant.reviews_avg) || 0} />
-                      <span className="text-xs text-gray-400">
-                        ({variant.reviews_count || 0})
-                      </span>
-                      <span
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate('/products')
-                        }}
-                        className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
+                      {/* Add to Cart Button */}
+                      <button
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleAddCartItem(variant); }}
+                        disabled={isLoading}
+                        className="w-full bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
                       >
-                        {t('essential_to_prep.view_more')}
-                      </span>
+                        {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
+                      </button>
                     </div>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleAddCartItem(variant);
-                      }}
-                      disabled={isLoading}
-                      className="w-full bg-[#025043] text-white cursor-pointer text-sm font-[Expo-arabic] font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
-                    >
-                      {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
-                    </button>
                   </div>
                 </div>
-              </div>
+              );
+            })}
+          </Slider>
 
-            );
-          })}
-        </Slider>
-
-        {/* Progress Bar Container */}
-        <div className="mt-8 px-2 md:px-0">
-          <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-[#025043] rounded-full transition-all duration-500 ease-out"
-              style={{
-                width: `${progress}%`,
-                float: 'left'
-              }}
-            />
+          {/* Progress Bar Container */}
+          <div className="mt-8 px-2 md:px-0">
+            <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden relative">
+              <div
+                className="h-full bg-[#025043] rounded-full transition-all duration-500 ease-out absolute"
+                style={{
+                  width: `${progress}%`,
+                  [isRTL ? 'right' : 'left']: 0
+                }}
+              />
+            </div>
           </div>
         </div>
+
+
       </div >
     </section >
   );

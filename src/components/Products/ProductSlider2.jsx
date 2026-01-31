@@ -184,11 +184,12 @@ function ProductSlider2({ products = [] }) {
                     )
                   )
                 )
-              ].slice(0, 4);
+              ].slice(0, 3);
 
               return (
-                <div key={variant.id} className="px-2">
+                <div key={variant.id} className="px-2 h-full">
                   <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+
                     <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
                       <div className="relative group overflow-hidden">
                         {variant.discount > 0 && (
@@ -203,69 +204,81 @@ function ProductSlider2({ products = [] }) {
                             )}
                           </div>
                         )}
-
-                        <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
-                          <img
-                            src={variant.image}
-                            alt={product.name}
-                            className="w-full h-48 sm:h-56 md:h-60 object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
-                          />
-                        </Link>
+                        <img
+                          src={variant.image}
+                          alt={product.name}
+                          className="w-full h-48 sm:h-56 md:h-60 object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
+                        />
                       </div>
                     </Link>
+
                     <div className="p-4 flex-1 flex flex-col">
-                      <h3 className={`text-[#025043] text-[16px] font-bold -mb-4 h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
+                      <h3 className={clsx(
+                        "text-[#025043] text-[16px] font-bold -mb-4 h-12 overflow-hidden",
+                        isRTL ? "font-[Expo-arabic] text-right" : "font-[Expo-book] text-left"
+                      )}>
                         {product.name}
                       </h3>
-                      <p className="text-sm text-black ">
+
+                      <p className={clsx("text-sm text-black mb-1", isRTL ? "text-right" : "text-left")}>
                         SKU: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
                       </p>
+
                       <div className="border-b border-[#025043]/20 mb-3"></div>
 
-                      <p className={`text-[#025043] text-[18px] font-bold mb-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
+                      <p className={clsx(
+                        "text-[#025043] text-[18px] font-bold mb-4",
+                        isRTL ? "font-[Expo-arabic] text-right" : "font-[Expo-book] text-left"
+                      )}>
                         {variant.final_price} $
                       </p>
-                      {/* Options (Colors, Sizes, Materials) */}
-                      <div className="flex flex-col gap-1 mt-2">
-                        {/* Colors */}
-                        <div className="flex items-center gap-1">
-                          <span className="text-[9px] text-gray-400 min-w-10">Color</span>
-                          <div className="flex gap-1 flex-wrap">
+
+                      <div className="flex flex-col gap-2 mb-4">
+                        <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
+                          <span className={clsx(
+                            "text-[10px] text-gray-400 min-w-10 shrink-0",
+                            isRTL ? "ml-1 text-right" : "mr-4 text-left"
+                          )}>
+                            {t('filter.color')}
+                          </span>
+                          <div className="flex gap-1.5 flex-wrap">
                             {product.available_options?.slice(0, 8).map((option) => (
                               <div
                                 key={option.id}
                                 title={option.name}
-                                className="w-5 h-5 rounded-full border border-gray-300 hover:scale-110 transition"
+                                className="w-4 h-4 md:w-5 md:h-5 rounded-full border border-gray-300 hover:scale-110 transition shadow-sm"
                                 style={{ backgroundColor: option.hex }}
                               />
                             ))}
                           </div>
                         </div>
 
-                        {/* Sizes */}
-                        <div className="flex items-center gap-1">
-                          <span className="text-[9px] text-gray-400 min-w-10">Size</span>
-                          <div className="flex gap-1 flex-wrap">
+                        <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
+                          <span className={clsx(
+                            "text-[10px] text-gray-400 min-w-10 shrink-0",
+                            isRTL ? "ml-1 text-right" : "mr-4 text-left"
+                          )}>
+                            {t('filter.size')}
+                          </span>
+                          <div className="flex gap-1.5 flex-wrap">
                             {sizes.map((size, i) => (
-                              <span
-                                key={i}
-                                className="px-1.5 py-[1px] text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
-                              >
+                              <span key={i} className="px-1.5 py-px text-[12px] rounded-full bg-white border border-[#025043]/20 text-[#025043]">
                                 {size}
                               </span>
                             ))}
                           </div>
                         </div>
 
-                        {/* Materials */}
-                        <div className="flex items-center gap-1">
-                          <span className="text-[9px] text-gray-400 min-w-10">Material</span>
-                          <div className="flex gap-1 flex-wrap">
+                        <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
+                          <span className={clsx(
+                            "text-[10px] text-gray-400 min-w-10 shrink-0",
+                            isRTL ? "ml-1 text-right" : "mr-4 text-left"
+                          )}>
+                            {t('filter.material')}
+                          </span>
+                          <div className="flex gap-1.5 flex-wrap">
                             {materials.map((mat, i) => (
-                              <span
-                                key={i}
-                                className="px-1.5 py-[1px] text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
-                              >
+                              <span key={i} className="px-1.5 py-px text-[12px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]">
                                 {mat}
                               </span>
                             ))}
@@ -273,22 +286,24 @@ function ProductSlider2({ products = [] }) {
                         </div>
                       </div>
 
-                      <div className="flex flex-col mt-auto">
+                      <div className="mt-auto flex flex-col">
                         <div
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                          }}
-                          className="flex items-center gap-2 mb-4 flex-wrap">
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                          className={clsx("flex items-center gap-2 mb-4 flex-wrap", isRTL ? "flex-row-reverse" : "flex-row")}
+                        >
                           <RatingStars rating={Number(variant.reviews_avg) || 0} />
                           <span className="text-xs text-gray-500">({variant.reviews_count || 0})</span>
                           <span
                             onClick={() => navigate('/products')}
-                            className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
+                            className={clsx(
+                              "text-sm hover:underline font-medium font-[Expo-arabic] cursor-pointer",
+                              isRTL ? "mr-auto" : "ms-auto"
+                            )}
                           >
                             {t('essential_to_prep.view_more')}
                           </span>
                         </div>
+
                         <button
                           onClick={(e) => {
                             e.preventDefault();
@@ -304,8 +319,7 @@ function ProductSlider2({ products = [] }) {
                     </div>
                   </div>
                 </div>
-
-              )
+              );
             })}
           </Slider>
 
