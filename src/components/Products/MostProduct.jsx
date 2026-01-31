@@ -109,7 +109,10 @@ function MostProduct({ products = [] }) {
 
                       <span
                         onClick={() => navigate('/products')}
-                        className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
+                        className={clsx(
+                          "text-sm hover:underline font-medium cursor-pointer mb-2",
+                          isRTL ? "font-[Expo-arabic] text-right" : "font-[Expo-arabic] text-left"
+                        )}
                       >
                         {t('slider.Think_about_a_gift?_see_our_colllection')}
                       </span>

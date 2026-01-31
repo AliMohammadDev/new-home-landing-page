@@ -1,4 +1,4 @@
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
 import LeftIcon from '../../assets/icons/LeftIcon';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon';
 import { useGetProductVariant } from '../../api/products';
@@ -170,8 +170,6 @@ const ProductInfo = () => {
       navigate('/login');
       return;
     }
-
-
     addWishlist(
       selectedVariantId,
       {
@@ -238,19 +236,21 @@ const ProductInfo = () => {
     return <p className="text-center mt-20">Loading product...</p>;
   }
 
+
   // related products
   const relatedVariants =
     categories
       ?.find(cat => cat.id === activeCategoryId)
       ?.products
       ?.filter(p => p.id !== product.id)
-      ?.flatMap(p =>
+      .flatMap(p =>
         p.variants.map(v => ({
           ...v,
           product: {
-            id: p.id,
+            ...v.product,
             name: p.name,
-          },
+            id: p.id
+          }
         }))
       )
       ?.slice(0, 10) || [];
@@ -419,13 +419,13 @@ const ProductInfo = () => {
         {categories.map((category) => {
           const isActive = category.id === activeCategoryId;
           return (
-            <span
+            <Link to={`/products/${category.id}`}
               key={category.id}
               className={`px-5 py-1.5 rounded-full text-sm md:text-base transition-all duration-300 shadow-sm ${isActive ? 'bg-[#025043] text-white font-bold scale-105' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                 }`}
             >
               {category.name}
-            </span>
+            </Link>
           );
         })}
       </div>
@@ -621,7 +621,7 @@ const ProductInfo = () => {
              flex items-center justify-between px-6 transition-all 
              group disabled:bg-gray-400 overflow-hidden active:scale-95"
               >
-                <span className="font-[Expo-arabic] text-lg z-10">
+                <span className="font-[Expo-arabic]  text-sm lg:text-lg z-10">
                   {isLoading ? t('productInfo.adding') : t('productInfo.add_to_cart')}
                 </span>
 
@@ -712,7 +712,7 @@ const ProductInfo = () => {
                     <div className="w-0 group-hover:w-full h-full bg-[#025043] transition-all duration-500"></div>
                   </div>
 
-                  <div className="absolute inset-x-0 bottom-0 bg-[#025043] text-white text-[10px] py-1 text-center translate-y-full group-hover:translate-y-0 transition-transform font-[Expo-arabic]">
+                  <div className="absolute inset-x-0 bottom-0  bg-[#025043] text-white text-[10px] py-1 text-center translate-y-full group-hover:translate-y-0 transition-transform font-[Expo-arabic]">
                     {t('productInfo.add_to_cart')}
                   </div>
                 </div>

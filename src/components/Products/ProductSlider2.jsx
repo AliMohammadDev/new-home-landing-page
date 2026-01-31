@@ -167,14 +167,30 @@ function ProductSlider2({ products = [] }) {
           <Slider {...settings}>
             {products.map((variant) => {
               const product = variant.product;
+
+              const sizes = [
+                ...new Set(
+                  product.available_options?.flatMap(color =>
+                    color.available_sizes?.map(size => size.name)
+                  )
+                )
+              ].slice(0, 4);
+
+              const materials = [
+                ...new Set(
+                  product.available_options?.flatMap(color =>
+                    color.available_sizes?.flatMap(size =>
+                      size.available_materials?.map(mat => mat.name)
+                    )
+                  )
+                )
+              ].slice(0, 4);
+
               return (
                 <div key={variant.id} className="px-2">
                   <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
                     <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
-
-
                       <div className="relative group overflow-hidden">
-
                         {variant.discount > 0 && (
                           <div className={clsx(
                             "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
@@ -198,40 +214,62 @@ function ProductSlider2({ products = [] }) {
                       </div>
                     </Link>
                     <div className="p-4 flex-1 flex flex-col">
-                      <h3 className={`text-[#025043] text-[16px] font-bold mb-2 h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
+                      <h3 className={`text-[#025043] text-[16px] font-bold -mb-4 h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
                         {product.name}
                       </h3>
                       <p className="text-sm text-black ">
-                        Product code: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
+                        SKU: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
                       </p>
                       <div className="border-b border-[#025043]/20 mb-3"></div>
 
                       <p className={`text-[#025043] text-[18px] font-bold mb-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
                         {variant.final_price} $
                       </p>
-
-                      {/* colors available */}
-                      <div className={clsx(
-                        "flex flex-col gap-2 mt-1",
-                        isRTL ? "items-start text-right" : "items-start text-left"
-                      )}>
-                        <div className="flex items-center justify-between w-full">
-                          <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold font-[Expo-arabic]">
-                          </span>
+                      {/* Options (Colors, Sizes, Materials) */}
+                      <div className="flex flex-col gap-1 mt-2">
+                        {/* Colors */}
+                        <div className="flex items-center gap-1">
+                          <span className="text-[9px] text-gray-400 min-w-10">Color</span>
+                          <div className="flex gap-1 flex-wrap">
+                            {product.available_options?.slice(0, 8).map((option) => (
+                              <div
+                                key={option.id}
+                                title={option.name}
+                                className="w-5 h-5 rounded-full border border-gray-300 hover:scale-110 transition"
+                                style={{ backgroundColor: option.hex }}
+                              />
+                            ))}
+                          </div>
                         </div>
 
-                        <div className={clsx(
-                          "flex gap-1.5 flex-wrap w-full",
-                          isRTL ? "justify-start" : "justify-start"
-                        )}>
-                          {product.available_options?.map((option) => (
-                            <div
-                              key={option.id}
-                              title={option.name}
-                              className="w-5 h-5 rounded-full border border-gray-200 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
-                              style={{ backgroundColor: option.hex }}
-                            />
-                          ))}
+                        {/* Sizes */}
+                        <div className="flex items-center gap-1">
+                          <span className="text-[9px] text-gray-400 min-w-10">Size</span>
+                          <div className="flex gap-1 flex-wrap">
+                            {sizes.map((size, i) => (
+                              <span
+                                key={i}
+                                className="px-1.5 py-[1px] text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
+                              >
+                                {size}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Materials */}
+                        <div className="flex items-center gap-1">
+                          <span className="text-[9px] text-gray-400 min-w-10">Material</span>
+                          <div className="flex gap-1 flex-wrap">
+                            {materials.map((mat, i) => (
+                              <span
+                                key={i}
+                                className="px-1.5 py-[1px] text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
+                              >
+                                {mat}
+                              </span>
+                            ))}
+                          </div>
                         </div>
                       </div>
 
@@ -244,7 +282,6 @@ function ProductSlider2({ products = [] }) {
                           className="flex items-center gap-2 mb-4 flex-wrap">
                           <RatingStars rating={Number(variant.reviews_avg) || 0} />
                           <span className="text-xs text-gray-500">({variant.reviews_count || 0})</span>
-
                           <span
                             onClick={() => navigate('/products')}
                             className="text-sm hover:underline font-medium font-[Expo-arabic] ms-auto cursor-pointer"
@@ -252,7 +289,6 @@ function ProductSlider2({ products = [] }) {
                             {t('essential_to_prep.view_more')}
                           </span>
                         </div>
-
                         <button
                           onClick={(e) => {
                             e.preventDefault();

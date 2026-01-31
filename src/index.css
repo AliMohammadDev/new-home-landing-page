@@ -71,3 +71,10 @@ body {
 .rotate-y-180 {
   transform: rotateY(180deg);
 }
+
+
+/* هذا يضمن وجود مسافة عمودية بين السطرين */
+.slick-slide>div {
+  margin-bottom: 20px;
+  /* المسافة بين السطر العلوي والسفلي */
+}
