@@ -236,7 +236,7 @@ function ProductSlider2({ products = [] }) {
                       <div className="flex flex-col gap-2 mb-4">
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
-                            "text-[10px] text-gray-400 min-w-10 shrink-0",
+                            "text-[13px] text-gray-400 min-w-10 shrink-0",
                             isRTL ? "ml-1 text-right" : "mr-4 text-left"
                           )}>
                             {t('filter.color')}
@@ -255,7 +255,7 @@ function ProductSlider2({ products = [] }) {
 
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
-                            "text-[10px] text-gray-400 min-w-10 shrink-0",
+                            "text-[13px] text-gray-400 min-w-10 shrink-0",
                             isRTL ? "ml-1 text-right" : "mr-4 text-left"
                           )}>
                             {t('filter.size')}
@@ -271,7 +271,7 @@ function ProductSlider2({ products = [] }) {
 
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
-                            "text-[10px] text-gray-400 min-w-10 shrink-0",
+                            "text-[13px] text-gray-400 min-w-10 shrink-0",
                             isRTL ? "ml-1 text-right" : "mr-4 text-left"
                           )}>
                             {t('filter.material')}
