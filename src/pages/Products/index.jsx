@@ -19,6 +19,13 @@ import { useSubmitReview } from '../../api/reviews.jsx';
 import RatingStars from '../../components/RatingStars.jsx';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/pagination';
+
+
 
 const Product = () => {
   const { t, i18n } = useTranslation();
@@ -122,13 +129,78 @@ const Product = () => {
     return matchCategory && matchColor && matchPrice;
   });
 
+  console.log("Category Images:", category?.all_images);
   return (
     <div className="bg-[#EDEAE2] min-h-screen" dir={isRTL ? 'rtl' : 'ltr'}>
       {category && (
-        <div className="w-full h-[300px] md:h-[900px] overflow-hidden">
-          <img src={category.image} alt={category.name} className="w-full h-full object-cover" />
+        <div className="w-full h-screen relative overflow-hidden bg-black">
+          <Swiper
+            key={i18n.language}
+            dir={isRTL ? 'rtl' : 'ltr'}
+            modules={[Autoplay, EffectFade, Pagination]}
+            effect="fade"
+            speed={1500}
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            pagination={{ clickable: true }}
+            className="h-full w-full"
+          >
+            {category.all_images && category.all_images.length > 0 ? (
+              category.all_images.map((imgUrl, index) => (
+                <SwiperSlide key={index}>
+                  {({ isActive }) => (
+                    <div
+                      className="w-full h-full bg-cover bg-no-repeat bg-center relative"
+                      style={{ backgroundImage: `url(${imgUrl})` }}
+                    >
+                      <div className="absolute inset-0 bg-black/30" />
+
+                      <div
+                        className={clsx(
+                          "absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000",
+                          isRTL ? "text-right" : "text-left",
+                          isActive ? "opacity-100" : "opacity-0"
+                        )}
+                      >
+
+                        <h1
+                          className={clsx(
+                            "text-4xl md:text-6xl font-bold",
+                            isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
+                          )}
+                        >
+                          {index === 0 ? category.name : t('essential_to_prep.exclusive_collection')}
+                        </h1>
+
+                        <p
+                          className={clsx(
+                            "text-xl md:text-2xl opacity-80 max-w-2xl mt-3",
+                            isRTL ? "font-[Expo-arabic]" : "italic font-light"
+                          )}
+                        >
+                          {category.description}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </SwiperSlide>
+              ))
+            ) : (
+              <SwiperSlide>
+                <div
+                  className="w-full h-full bg-cover bg-no-repeat bg-center"
+                  style={{ backgroundImage: `url(${category.image})` }}
+                />
+              </SwiperSlide>
+            )}
+          </Swiper>
+
+          <style>{`
+      .swiper-pagination-bullet { background: white !important; opacity: 0.5; }
+      .swiper-pagination-bullet-active { background: #E2995E !important; opacity: 1; width: 30px; border-radius: 4px; }
+    `}</style>
         </div>
       )}
+
 
       <div className="mx-auto px-6 py-10">
         <h1 className={clsx("text-5xl text-black mb-10", isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]")}>

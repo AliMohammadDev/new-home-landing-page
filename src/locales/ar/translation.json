@@ -278,7 +278,8 @@
     "cart_login_warning": "يجب تسجيل الدخول أولاً!",
     "cart_success": "تمت إضافة {{product}} إلى السلة بنجاح!",
     "cart_error": "فشل في إضافة {{product}} إلى السلة",
-    "off": "خصم"
+    "off": "خصم",
+    "exclusive_collection": "تشكيلة حصرية"
   },
 
   "about_section": {

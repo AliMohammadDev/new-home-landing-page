@@ -335,12 +335,6 @@ function ShowAllProducts() {
                     isRTL ? "text-right" : "text-left",
                     isActive ? "opacity-100" : "opacity-0"
                   )}>
-                    <div className={clsx("flex items-center gap-3 mb-2", isRTL && "flex-row-reverse")}>
-                      <div className="w-8 h-px bg-[#E2995E]" />
-                      <span className="text-[#E2995E] text-lg uppercase tracking-widest font-[Expo-arabic]">
-                        {slide.tag}
-                      </span>
-                    </div>
                     <h1 className={clsx(
                       "text-4xl md:text-6xl font-bold",
                       isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
