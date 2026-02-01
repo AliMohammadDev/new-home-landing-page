@@ -225,7 +225,7 @@ const Product = () => {
                           <div
                             key={option.id}
                             title={option.name}
-                            className="w-5 h-5 rounded-full border border-gray-200 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
+                            className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
                             style={{ backgroundColor: option.hex }}
                           />
                         ))}

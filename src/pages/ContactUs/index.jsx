@@ -67,7 +67,7 @@ const Contact = () => {
         <h2 className={`text-3xl sm:text-4xl md:text-3xl  font-bold mb-4 ${isRtl ? 'text-right' : 'text-left'} text-white`}>
           {t('contact.form_heading')}
         </h2>
-        <p className={`text-gray-200 text-sm sm:text-base md:text-sm mb-6 ${isRtl ? 'text-right' : 'text-left'}`}>
+        <p className={`text-gray-200 text-sm sm:text-base md:text-lg mb-6 ${isRtl ? 'text-right' : 'text-left'}`}>
           {t('contact.form_description')}
         </p>
 

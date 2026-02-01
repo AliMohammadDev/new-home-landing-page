@@ -1,17 +1,13 @@
 const ChevronRightIcon = ({ color = 'black' }) => {
   return (
     <svg
-      width="9"
-      height="14"
-      viewBox="0 0 9 14"
-      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      height="24px"
+      viewBox="0 -960 960 960"
+      width="24px"
+      fill={color}
     >
-      <path
-        d="M0.707031 0.707031L6.70703 6.70703L0.707031 12.707"
-        stroke={color}
-        strokeWidth="2"
-      />
+      <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
     </svg>
   );
 };

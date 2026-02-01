@@ -432,7 +432,7 @@ function ShowAllProducts() {
                           <div
                             key={option.id}
                             title={option.name}
-                            className="w-5 h-5 rounded-full border border-gray-200 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
+                            className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
                             style={{ backgroundColor: option.hex }}
                           />
                         ))}
@@ -445,7 +445,7 @@ function ShowAllProducts() {
                           {sizes.map((size, i) => (
                             <span
                               key={i}
-                              className="px-1.5 py-px text-[9px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
+                              className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
                             >
                               {size}
                             </span>
@@ -460,7 +460,7 @@ function ShowAllProducts() {
                           {materials.map((mat, i) => (
                             <span
                               key={i}
-                              className="px-1.5 py-px text-[9px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
+                              className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
                             >
                               {mat}
                             </span>

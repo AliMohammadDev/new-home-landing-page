@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Slider from 'react-slick';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { addToast } from '@heroui/react';
 import RatingStars from '../RatingStars.jsx';
 import { useTranslation } from 'react-i18next';
@@ -11,11 +11,13 @@ import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import clsx from 'clsx';
+import { useSubmitReview } from '../../api/reviews.jsx';
 
 function RelatedProductSlider({ variants = [] }) {
   const { categoryId } = useParams();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const { data: user } = useGetProfile();
   const { mutate: addToCart, isLoading } = useAddToCartItem();
@@ -41,6 +43,47 @@ function RelatedProductSlider({ variants = [] }) {
       },
     });
   };
+
+
+  // Add review
+  const { mutate: submitReview } = useSubmitReview();
+  const handleRateProduct = (variantId, rating) => {
+    if (!user) {
+      addToast({
+        title: t('rating.title'),
+        description: t('rating.loginRequired'),
+        color: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
+      navigate('/login');
+      return;
+    }
+    submitReview(
+      {
+        product_variant_id: variantId,
+        rating,
+      },
+      {
+        onSuccess: (data) => {
+          addToast({
+            title: t('rating.successTitle'),
+            description: `${t('rating.successMessage')} : ${data.rating}`,
+            color: 'success',
+          });
+        },
+        onError: (error) => {
+          console.error(error);
+          addToast({
+            title: t('rating.title'),
+            description: error.response?.data?.message || t('rating.error'),
+            color: 'error',
+          });
+        }
+      }
+    );
+  };
+
 
   const CustomArrow = ({ onClick, direction, currentSlide, slideCount }) => {
     const isDisabled = (direction === 'prev' && currentSlide === 0) ||
@@ -149,12 +192,12 @@ function RelatedProductSlider({ variants = [] }) {
 
                     {/* Colors */}
                     <div className="flex gap-1.5 flex-wrap min-h-5">
-                      <span className="text-[9px] text-gray-400 min-w-10">{t('filter.color')}</span>
+                      <span className="text-[13px] text-gray-400 min-w-10">{t('filter.color')}</span>
                       {colors.map((color) => (
                         <div
                           key={color.id}
                           title={color.name}
-                          className="w-5 h-5 rounded-full border border-white shadow-sm hover:scale-125 transition-transform"
+                          className="w-6 h-6 rounded-full border border-gray-400 shadow-sm hover:scale-125 transition-transform"
                           style={{ backgroundColor: color.hex }}
                         />
                       ))}
@@ -162,7 +205,7 @@ function RelatedProductSlider({ variants = [] }) {
 
                     {/* Sizes */}
                     <div className="flex items-center gap-1 mt-1">
-                      <span className="text-[9px] text-gray-400 min-w-10">{t('filter.size')}</span>
+                      <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
                       <div className="flex gap-1 flex-wrap">
                         {sizes.map((size, i) => (
                           <span key={i} className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]">{size}</span>
@@ -172,7 +215,7 @@ function RelatedProductSlider({ variants = [] }) {
 
                     {/* Materials */}
                     <div className="flex items-center gap-1">
-                      <span className="text-[9px] text-gray-400 min-w-10">{t('filter.material')}</span>
+                      <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
                       <div className="flex gap-1 flex-wrap">
                         {materials.map((mat, i) => (
                           <span key={i} className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]">{mat}</span>
@@ -183,7 +226,10 @@ function RelatedProductSlider({ variants = [] }) {
                     {/* Ratings & Add to Cart */}
                     <div className="mt-auto flex flex-col gap-3">
                       <div className="flex items-center gap-2">
-                        <RatingStars rating={Number(variant.reviews_avg) || 0} />
+                        <RatingStars
+                          rating={Number(variant.reviews_avg) || 0}
+                          onRate={(star) => handleRateProduct(variant.id, star)}
+                        />
                         <span className="text-[10px] text-gray-400">({variant.reviews_count || 0})</span>
                       </div>
 

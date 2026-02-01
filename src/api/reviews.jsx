@@ -39,6 +39,7 @@ export const useSubmitReview = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sliders-products-variants'] });
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
       queryClient.invalidateQueries({ queryKey: ['variants'] });
       queryClient.invalidateQueries({ queryKey: ['reviews'] });
       queryClient.invalidateQueries({ queryKey: ['variant'] });

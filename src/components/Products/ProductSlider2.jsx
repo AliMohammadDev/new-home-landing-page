@@ -246,7 +246,7 @@ function ProductSlider2({ products = [] }) {
                               <div
                                 key={option.id}
                                 title={option.name}
-                                className="w-4 h-4 md:w-5 md:h-5 rounded-full border border-gray-300 hover:scale-110 transition shadow-sm"
+                                className="w-6 h-6 rounded-full border border-gray-400 hover:scale-110 transition shadow-sm"
                                 style={{ backgroundColor: option.hex }}
                               />
                             ))}
