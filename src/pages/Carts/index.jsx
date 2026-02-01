@@ -106,12 +106,6 @@ function Carts() {
     );
   }
 
-
-  // const computedTotal = items.reduce((acc, item) => {
-  //   const price = currentPrice[item.id] || item.product_variant.final_price;
-  //   return acc + price * item.quantity;
-  // }, 0);
-
   const computedTotal = cartItems?.cart_total || 0;
 
   const handleRemoveCartItem = (cartItemId, productName) => {
@@ -276,7 +270,13 @@ function Carts() {
                                     style={{ backgroundColor: selectedColor[item.id].hex }}
                                   ></span>
                                 )}
-                                <span className="truncate">{selectedColor[item.id]?.name || t('filter.color')}</span>
+
+                                <span className="truncate">
+                                  {selectedColor[item.id]
+                                    ? t(`filter.colors.${selectedColor[item.id].name}`) || selectedColor[item.id].name
+                                    : t('filter.color')}
+                                </span>
+
                               </span>
                               <ChevronDownIcon />
                             </Button>
@@ -289,7 +289,7 @@ function Carts() {
                               >
                                 <div className="flex items-center gap-2">
                                   <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color.hex }}></span>
-                                  <span>{color.name}</span>
+                                  {t(`filter.colors.${color.name}`) || color.name}
                                 </div>
                               </DropdownItem>
                             ))}
