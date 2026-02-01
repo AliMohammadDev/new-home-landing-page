@@ -309,18 +309,15 @@ function ShowAllProducts() {
           {[
             {
               image: "https://kitchenwarehouseltd.com/wp-content/uploads/2025/04/heritagegreen-5-1024x724.jpg",
-              tag: t('navbar.all_products'),
-              title: "Modern Kitchenware"
+              title: t('slider.modern_kitchenware')
             },
             {
               image: "https://www.spotlightstores.com/medias/kitchenware-buying-guide-1.jpg?context=bWFzdGVyfHJvb3R8MjM0MzkzfGltYWdlL2pwZWd8cm9vdC9oM2IvaGYyLzE2ODY1NjY0ODkyOTU4L2tpdGNoZW53YXJlLWJ1eWluZy1ndWlkZS0xLmpwZ3wyOWVjZDg4N2QxY2M3MGE5ZmFmODViYzkxNzNlZGYxODU4MGM5MGI1ZmY5ZjQ5YmJiMDc5ZWI4NjQ1M2IyMmQy",
-              tag: "Elegant Dining",
-              title: "Premium Collection"
+              title: t('slider.premium_collection')
             },
             {
               image: allProducts,
-              tag: "Complete Set",
-              title: "Everything You Need",
+              title: t('slider.everything_you_need'),
             }
           ].map((slide, index) => (
             <SwiperSlide key={index}>

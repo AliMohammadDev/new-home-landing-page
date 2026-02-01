@@ -263,7 +263,12 @@
 
   "slider": {
     "drag": "Drag",
-    "Think_about_a_gift?_see_our_colllection": "Think about a gift? see our colllection"
+    "Think_about_a_gift?_see_our_colllection": "Think about a gift? see our colllection",
+    "modern_kitchenware": "Modern kitchenware",
+    "elegant_dining": "Elegant dining",
+    "premium_collection": "Premium collection",
+    "complete_set": "Complete Set",
+    "everything_you_need": "everything You need"
   },
 
   "essential_to_prep": {

@@ -266,7 +266,12 @@
 
   "slider": {
     "drag": "اسحب",
-    "Think_about_a_gift?_see_our_colllection": "هل تفكر بهدية؟ اضغط للمزيد "
+    "Think_about_a_gift?_see_our_colllection": "هل تفكر بهدية؟ اضغط للمزيد ",
+    "modern_kitchenware": "أواني طهي عصرية",
+    "elegant_dining": "مائدة طعام أنيقة",
+    "premium_collection": "المجموعة المميزة",
+    "complete_set": "تشكيلة متكاملة",
+    "everything_you_need": "كل ما تحتاجه لمطبخك"
   },
 
   "essential_to_prep": {
