@@ -8,7 +8,7 @@ import clsx from 'clsx';
 
 const Layout = () => {
   const [showButton, setShowButton] = useState(false);
-  const { i18n,t } = useTranslation();
+  const { i18n, t } = useTranslation();
   const location = useLocation();
 
   useEffect(() => {

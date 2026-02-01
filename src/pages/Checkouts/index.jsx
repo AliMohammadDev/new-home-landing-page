@@ -4,6 +4,9 @@ import { addToast } from "@heroui/react";
 import { useGetProfile } from '../../api/auth';
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import Lottie from 'lottie-react';
+
+import shoppingCart from '../../assets/animations/shoppingCart.json';
 
 function Checkouts() {
   const { t } = useTranslation();
@@ -55,9 +58,9 @@ function Checkouts() {
   };
 
   return (
-    <div className="w-full flex flex-col md:flex-row justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]">
+    <div className="w-full flex flex-col lg:flex-row justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]">
       {/* Left Side - Contact Information */}
-      <div className="w-full md:w-1/2 p-8 bg-white/10 backdrop-blur-lg rounded-2xl space-y-8">
+      <div className="w-full lg:w-1/2 p-8 bg-white/10 backdrop-blur-lg rounded-2xl space-y-8">
         <h2 className="text-2xl md:text-3xl font-bold tracking-wide">{t('checkout.contact_information')}</h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -154,6 +157,18 @@ function Checkouts() {
             {loading ? t('checkout.sending') : t('checkout.save_continue')}
           </button>
         </form>
+      </div>
+
+      {/* Right Side - Lottie */}
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center space-y-10">
+        <div className="w-full max-w-[550px] lg:max-w-[750px] transition-all duration-500">
+          <Lottie
+            animationData={shoppingCart}
+            loop={true}
+            autoplay={true}
+            speed={1.5}
+          />
+        </div>
       </div>
     </div>
   );

@@ -136,7 +136,9 @@
     "postal_code": "Postal Code",
     "additional_information": "Additional Info",
     "save_continue": "Save & Continue",
-    "sending": "Sending..."
+    "sending": "Sending...",
+    "secure_payment": "Secure Checkout",
+    "payment_desc": "Your transaction is encrypted and safe with us."
   },
   "toast": {
     "no_active_cart": "No active cart found!",

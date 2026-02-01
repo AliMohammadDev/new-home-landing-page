@@ -226,14 +226,22 @@ function ProductSlider2({ products = [] }) {
 
                       <div className="border-b border-[#025043]/20 mb-3"></div>
 
-                      <p className={clsx(
-                        "text-[#025043] text-[18px] font-bold mb-4",
-                        isRTL ? "font-[Expo-arabic] text-right" : "font-[Expo-book] text-left"
+                      <div className={clsx(
+                        "flex items-baseline gap-2",
+                        isRTL ? "flex-row-reverse justify-start" : "flex-row justify-start"
                       )}>
-                        {variant.final_price} $
-                      </p>
+                        <p className="text-[#025043] text-[20px] font-bold font-[Expo-arabic]">
+                          {variant.final_price} $
+                        </p>
+                        {variant.discount > 0 && (
+                          <p className="text-gray-400 text-sm line-through decoration-red-500/50">
+                            {variant.price} $
+                          </p>
+                        )}
+                      </div>
 
                       <div className="flex flex-col gap-2 mb-4">
+                        {/* colors */}
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
                             "text-[13px] text-gray-400 min-w-10 shrink-0",
@@ -252,7 +260,7 @@ function ProductSlider2({ products = [] }) {
                             ))}
                           </div>
                         </div>
-
+                        {/* sizes */}
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
                             "text-[13px] text-gray-400 min-w-10 shrink-0",
@@ -268,7 +276,7 @@ function ProductSlider2({ products = [] }) {
                             ))}
                           </div>
                         </div>
-
+                        {/* materials */}
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
                             "text-[13px] text-gray-400 min-w-10 shrink-0",
@@ -319,7 +327,7 @@ function ProductSlider2({ products = [] }) {
                             handleAddCartItem(variant);
                           }}
                           disabled={isLoading}
-                          className="bg-[#025043] text-white cursor-pointer font-[Expo-arabic] text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 w-full active:scale-95"
+                          className="w-full bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-2 mt-1 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
                         >
                           {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
                         </button>

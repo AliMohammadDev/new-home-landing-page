@@ -137,7 +137,9 @@
     "postal_code": "الرمز البريدي",
     "additional_information": "معلومات إضافية",
     "save_continue": "حفظ والمتابعة",
-    "sending": "جارٍ الإرسال..."
+    "sending": "جارٍ الإرسال...",
+    "secure_payment": "دفع آمن 100%",
+    "payment_desc": "جميع معاملاتك المالية مشفرة ومحمية بأعلى معايير الأمان."
   },
   "toast": {
     "no_active_cart": "لا يوجد سلة نشطة!",
