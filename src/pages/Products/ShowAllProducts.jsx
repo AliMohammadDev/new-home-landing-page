@@ -175,7 +175,7 @@ function ShowAllProducts() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -279,6 +279,16 @@ function ShowAllProducts() {
     );
   };
 
+  const clearFilters = () => {
+    setFilters({
+      categories: [],
+      sizes: [],
+      colors: [],
+      materials: [],
+      price: { min: 1, max: 1000 }
+    });
+  };
+
   return (
     <div className="bg-[#EDEAE2] min-h-screen">
       <img
@@ -330,6 +340,7 @@ function ShowAllProducts() {
                 filters={filters}
                 onChange={toggleFilter}
                 onPriceChange={updatePrice}
+                onClearAll={clearFilters}
               />
             )}
           </div>
