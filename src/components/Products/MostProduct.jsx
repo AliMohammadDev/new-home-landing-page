@@ -28,7 +28,7 @@ function MostProduct({ products = [] }) {
         zIndex: 10,
       }}
     >
-      {direction === 'next' ? <ChevronRightIcon color="white" /> : <ChevronLeftIcon color="black" />}
+      {direction === 'next' ? <ChevronRightIcon color="white" /> : <ChevronLeftIcon color="white" />}
     </button>
   );
 

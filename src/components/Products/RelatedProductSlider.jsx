@@ -93,8 +93,9 @@ function RelatedProductSlider({ variants = [] }) {
       <button
         onClick={onClick}
         disabled={isDisabled}
-        className={`absolute -top-10 md:-top-14 rounded-full w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition z-10
-          ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300'}`}
+        className={`absolute -top-10 md:-top-14 cursor-pointer rounded-full w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition z-10
+        ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300'}
+      `}
         style={{ [isRTL ? 'left' : 'right']: isNext ? 0 : 56 }}
       >
         {isNext ? (isRTL ? <ChevronLeftIcon /> : <ChevronRightIcon />)
