@@ -237,7 +237,7 @@ function RelatedProductSlider({ variants = [] }) {
                       <button
                         onClick={() => handleAddCartItem(variant)}
                         disabled={isLoading}
-                        className="w-full bg-[#025043] text-white text-[11px] cursor-pointer font-[Expo-arabic] font-bold py-3 rounded-full hover:bg-black transition-all active:scale-95 disabled:opacity-50"
+                        className="w-full bg-[#025043] text-white py-2 cursor-pointer rounded-full text-sm font-bold hover:bg-[#01382f] transition active:scale-95 disabled:opacity-50"
                       >
                         {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
                       </button>
