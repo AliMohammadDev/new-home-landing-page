@@ -28,11 +28,14 @@ import MailIcon from '../assets/icons/MailIcon.jsx';
 
 const Navbar = () => {
   const { i18n, t } = useTranslation();
-  const [isLangOpen, setIsLangOpen] = useState(false);
+
   const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    setIsLangOpen(false);
+    localStorage.setItem('lang', lng);
+    document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lng;
   };
+
 
   const { data: categories = [] } = useGetCategories();
   const { data: profile } = useGetProfile();
