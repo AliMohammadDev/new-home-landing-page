@@ -21,7 +21,11 @@ import { useSubmitReview } from '../../api/reviews';
 import allProducts from "../../assets/images//all_products.png"
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/pagination';
 function ShowAllProducts() {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
@@ -291,11 +295,70 @@ function ShowAllProducts() {
 
   return (
     <div className="bg-[#EDEAE2] min-h-screen">
-      <img
-        src={allProducts}
-        alt="Category"
-        className="w-full"
-      />
+      <div className="w-full h-screen relative overflow-hidden bg-black">
+        <Swiper
+          key={i18n.language}
+          dir={isRTL ? 'rtl' : 'ltr'}
+          modules={[Autoplay, EffectFade, Pagination]}
+          effect="fade"
+          speed={1500}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
+          pagination={{ clickable: true }}
+          className="h-full w-full"
+        >
+          {[
+            {
+              image: "https://kitchenwarehouseltd.com/wp-content/uploads/2025/04/heritagegreen-5-1024x724.jpg",
+              tag: t('navbar.all_products'),
+              title: "Modern Kitchenware"
+            },
+            {
+              image: "https://www.spotlightstores.com/medias/kitchenware-buying-guide-1.jpg?context=bWFzdGVyfHJvb3R8MjM0MzkzfGltYWdlL2pwZWd8cm9vdC9oM2IvaGYyLzE2ODY1NjY0ODkyOTU4L2tpdGNoZW53YXJlLWJ1eWluZy1ndWlkZS0xLmpwZ3wyOWVjZDg4N2QxY2M3MGE5ZmFmODViYzkxNzNlZGYxODU4MGM5MGI1ZmY5ZjQ5YmJiMDc5ZWI4NjQ1M2IyMmQy",
+              tag: "Elegant Dining",
+              title: "Premium Collection"
+            },
+            {
+              image: allProducts,
+              tag: "Complete Set",
+              title: "Everything You Need",
+            }
+          ].map((slide, index) => (
+            <SwiperSlide key={index}>
+              {({ isActive }) => (
+                <div
+                  className="w-full h-full bg-cover bg-no-repeat bg-center relative"
+                  style={{ backgroundImage: `url(${slide.image})` }}
+                >
+                  <div className="absolute inset-0 bg-black/30" />
+                  <div className={clsx(
+                    "absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000",
+                    isRTL ? "text-right" : "text-left",
+                    isActive ? "opacity-100" : "opacity-0"
+                  )}>
+                    <div className={clsx("flex items-center gap-3 mb-2", isRTL && "flex-row-reverse")}>
+                      <div className="w-8 h-px bg-[#E2995E]" />
+                      <span className="text-[#E2995E] text-lg uppercase tracking-widest font-[Expo-arabic]">
+                        {slide.tag}
+                      </span>
+                    </div>
+                    <h1 className={clsx(
+                      "text-4xl md:text-6xl font-bold",
+                      isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
+                    )}>
+                      {slide.title}
+                    </h1>
+                  </div>
+                </div>
+              )}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+
+        <style>{`
+    .swiper-pagination-bullet { background: white !important; opacity: 0.5; }
+    .swiper-pagination-bullet-active { background: #E2995E !important; opacity: 1; width: 30px; border-radius: 4px; }
+  `}</style>
+      </div>
 
       <div className=" mx-auto px-6 py-10">
         <div className="flex justify-start mb-10">
