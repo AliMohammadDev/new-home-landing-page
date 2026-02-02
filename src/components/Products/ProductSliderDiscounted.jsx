@@ -41,8 +41,7 @@ function ProductSliderDiscounted({ products = [] }) {
             title: 'Cart',
             description: t('essential_to_prep.cart_success', {
               product: variant.product.name,
-            }),
-            color: 'success',
+            }), color: 'success',
             duration: 4000,
           });
         },
@@ -56,10 +55,12 @@ function ProductSliderDiscounted({ products = [] }) {
             duration: 4000,
           });
         },
+
       }
     );
   };
 
+  // Add review
   const { mutate: submitReview } = useSubmitReview();
   const handleRateProduct = (variantId, rating) => {
     if (!user) {
@@ -68,12 +69,16 @@ function ProductSliderDiscounted({ products = [] }) {
         description: t('rating.loginRequired'),
         color: 'warning',
         duration: 4000,
+        isClosable: true,
       });
       navigate('/login');
       return;
     }
     submitReview(
-      { product_variant_id: variantId, rating },
+      {
+        product_variant_id: variantId,
+        rating,
+      },
       {
         onSuccess: (data) => {
           addToast({
@@ -83,34 +88,32 @@ function ProductSliderDiscounted({ products = [] }) {
           });
         },
         onError: (error) => {
+          console.error(error);
           addToast({
             title: t('rating.title'),
             description: error.response?.data?.message || t('rating.error'),
             color: 'error',
           });
-        },
+        }
       }
     );
   };
+
 
   const CustomArrow = ({ onClick, direction }) => {
     const isNext = direction === 'next';
     return (
       <button
         onClick={onClick}
-        className="absolute -top-14 bg-[#D9D9D9] cursor-pointer text-black hover:bg-gray-300 rounded-full w-9 h-9 md:w-12 md:h-12 transition flex items-center justify-center z-10"
-        style={{ [isRTL ? 'left' : 'right']: isNext ? 0 : 56 }}
+        className="absolute -top-14 bg-[#D9D9D9] cursor-pointer  text-black hover:bg-gray-300 rounded-full w-9 h-9 md:w-12 md:h-12 transition flex items-center justify-center z-10"
+        style={{
+          [isRTL ? 'left' : 'right']: isNext ? 0 : 56,
+        }}
       >
         {isNext ? (
-          isRTL ? (
-            <ChevronLeftIcon color="black" />
-          ) : (
-            <ChevronRightIcon color="black" />
-          )
-        ) : isRTL ? (
-          <ChevronRightIcon color="black" />
+          isRTL ? <ChevronLeftIcon color="black" /> : <ChevronRightIcon color="black" />
         ) : (
-          <ChevronLeftIcon color="black" />
+          isRTL ? <ChevronRightIcon color="black" /> : <ChevronLeftIcon color="black" />
         )}
       </button>
     );
@@ -119,181 +122,152 @@ function ProductSliderDiscounted({ products = [] }) {
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 2.5,
     slidesToScroll: 1,
     autoplay: true,
+    // rtl: isRTL,
     nextArrow: <CustomArrow direction="next" />,
     prevArrow: <CustomArrow direction="prev" />,
     afterChange: (current) => setCurrentSlide(current),
     responsive: [
-      { breakpoint: 1440, settings: { slidesToShow: 3 } },
+      { breakpoint: 1280, settings: { slidesToShow: 2 } },
       { breakpoint: 1024, settings: { slidesToShow: 2 } },
       { breakpoint: 640, settings: { slidesToShow: 1 } },
     ],
   };
 
-  const progress =
-    products.length > 0 ? ((currentSlide + 1) / products.length) * 100 : 0;
+  const progress = products.length > 0 ? ((currentSlide + 1) / products.length) * 100 : 0;
 
   return (
     <section
-      className="bg-[#EDEAE2] text-[#025043] px-6 md:px-10 py-10 md:py-5 overflow-hidden"
+      className="bg-[#EDEAE2] text-[#025043] px-6 md:px-20 py-10 md:py-5"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Title & Description */}
-      <span
-        className={`text-black text-[40px] md:text-[64px] block mb-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'}`}
-      >
+      <span className={` text-black text-[40px] md:text-[64px] block mb-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'}`}>
         {t('essential_to_prep.offers.title')}
         <p className="text-black text-[14px] font-[Expo-book] md:text-[18px] max-w-8xl mt-2">
           {t('essential_to_prep.offers.description')}
         </p>
       </span>
 
-      {/* Grid Container - Modified to 12 columns for better control */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 items-center gap-6 mt-8">
+      {/* Grid Container */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 md:gap-16 mt-8 justify-items-center">
 
-
-        {/* Promotion Image Column */}
-        <div
-          className={clsx(
-            'lg:col-span-4 w-full flex justify-center z-0',
-            isRTL ? 'lg:-mr-16 xl:-mr-24' : 'lg:-ml-16 xl:-ml-24'
-          )}
-        >
+        <div className="w-full flex justify-center ml-50 lg:justify-start">
           <img
             src={Group}
             alt="Promotion"
-            className="object-contain w-[80%] md:w-[90%] lg:w-full h-auto transform lg:scale-125 origin-center"
+            className=" object-contain  mr-30 -mt-20 md:mr-1 lg:-ml-20 xl:-ml-30 md:w-[90%] lg:w-full h-auto transform md:scale-110 lg:scale-140 xl:scale-100 origin-center"
           />
         </div>
 
-        {/* Slider Column - Taking 8/12 of the width */}
+        {/* Slider  */}
         <div
-          className="lg:col-span-8 relative w-full"
-          dir={isRTL ? 'rtl' : 'ltr'}
-        >
+          className="relative w-full  max-w-full lg:max-w-[650px] xl:max-w-[800px]  lg:-mr-20 md:-mt-30 lg:-mt-1"
+          dir={isRTL ? 'rtl' : 'ltr'}>
           <Slider {...settings}>
             {products.map((variant) => {
               const product = variant.product;
+
               const sizes = [
                 ...new Set(
-                  product.available_options?.flatMap((c) =>
-                    c.available_sizes?.map((s) => s.name)
+                  product.available_options?.flatMap(color =>
+                    color.available_sizes?.map(size => size.name)
                   )
-                ),
-              ].slice(0, 3);
+                )
+              ].slice(0, 4);
+
               const materials = [
                 ...new Set(
-                  product.available_options?.flatMap((c) =>
-                    c.available_sizes?.flatMap((s) =>
-                      s.available_materials?.map((m) => m.name)
+                  product.available_options?.flatMap(color =>
+                    color.available_sizes?.flatMap(size =>
+                      size.available_materials?.map(mat => mat.name)
                     )
                   )
-                ),
-              ].slice(0, 2);
+                )
+              ].slice(0, 3);
 
               return (
-                <div key={variant.id} className="px-1.5 h-full">
+                <div key={variant.id} className="px-2 h-full">
                   <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-                    <Link
-                      to={`/products/${product.category.id}/product-info/${variant.id}`}
-                    >
+
+                    <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
                       <div className="relative group overflow-hidden">
                         {variant.discount > 0 && (
-                          <div
-                            className={clsx(
-                              'absolute top-3 z-20 px-2 py-1 text-[10px] font-bold text-white bg-red-600 shadow-lg',
-                              isRTL
-                                ? 'right-0 rounded-l-full font-[Expo-arabic]'
-                                : 'left-0 rounded-r-full'
-                            )}
-                          >
+                          <div className={clsx(
+                            "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
+                            isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
+                          )}>
                             {isRTL ? (
-                              <>
-                                {t('essential_to_prep.off')}{' '}
-                                {Number(variant.discount)}%
-                              </>
+                              <>{t('essential_to_prep.off')} {Number(variant.discount)}%</>
                             ) : (
-                              <>
-                                {Number(variant.discount)}%{' '}
-                                {t('essential_to_prep.off')}
-                              </>
+                              <>{Number(variant.discount)}% {t('essential_to_prep.off')}</>
                             )}
                           </div>
                         )}
                         <img
                           src={variant.image}
                           alt={product.name}
-                          className="w-full h-44 object-cover hover:scale-105 transition-transform"
+                          className="w-full h-48 sm:h-56 md:h-60 object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
                         />
                       </div>
                     </Link>
 
-                    <div className="p-3 flex-1 flex flex-col">
-                      <h3
-                        className={clsx(
-                          'text-[#025043] text-[14px] font-bold h-10 overflow-hidden line-clamp-2',
-                          isRTL
-                            ? 'font-[Expo-arabic] text-right'
-                            : 'font-[Expo-book] text-left'
-                        )}
-                      >
+                    <div className="p-4 flex-1 flex flex-col">
+                      <h3 className={clsx(
+                        "text-[#025043] text-[16px] font-bold -mb-4 h-12 overflow-hidden",
+                        isRTL ? "font-[Expo-arabic] text-right" : "font-[Expo-book] text-left"
+                      )}>
                         {product.name}
                       </h3>
-                      <p
-                        className={clsx(
-                          'text-[11px] text-gray-500 mb-1',
-                          isRTL ? 'text-right' : 'text-left'
-                        )}
-                      >
-                        SKU: {variant?.sku}
-                      </p>
-                      <div className="border-b border-[#025043]/10 mb-2"></div>
 
-                      <div
-                        className={clsx(
-                          'flex items-baseline gap-2 mb-2',
-                          isRTL ? 'flex-row-reverse' : 'flex-row'
-                        )}
-                      >
-                        <p className="text-[#025043] text-[18px] font-bold">
+                      <p className={clsx("text-sm text-black mb-1", isRTL ? "text-right" : "text-left")}>
+                        SKU: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
+                      </p>
+
+                      <div className="border-b border-[#025043]/20 mb-3"></div>
+
+                      <div className={clsx(
+                        "flex items-baseline gap-2",
+                        isRTL ? "flex-row-reverse justify-start" : "flex-row justify-start"
+                      )}>
+                        <p className="text-[#025043] text-[20px] font-bold font-[Expo-arabic]">
                           {variant.final_price} $
                         </p>
                         {variant.discount > 0 && (
-                          <p className="text-gray-400 text-xs line-through">
+                          <p className="text-gray-400 text-sm line-through decoration-red-500/50">
                             {variant.price} $
                           </p>
                         )}
                       </div>
 
-                      <div className="flex flex-col gap-1.5 mb-3 text-[11px]">
-                        <div
-                          className={clsx(
-                            'flex items-center gap-2',
-                            isRTL && 'flex-row-reverse'
-                          )}
-                        >
-                          <span className="text-gray-400 min-w-10">
+                      <div className="flex flex-col gap-2 mb-4">
+                        {/* colors */}
+                        <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
+                          <span className={clsx(
+                            "text-[13px] text-gray-400 min-w-10 shrink-0",
+                            isRTL ? "ml-1 text-right" : "mr-4 text-left"
+                          )}>
                             {t('filter.color')}
                           </span>
-                          <div className="flex gap-1">
-                            {product.available_options?.slice(0, 5).map((o) => (
+                          <div className="flex gap-1.5 flex-wrap">
+                            {product.available_options?.slice(0, 8).map((option) => (
                               <div
-                                key={o.id}
-                                className="w-6 h-6  rounded-full border border-gray-400 hover:scale-110 transition shadow-sm"
-                                style={{ backgroundColor: o.hex }}
+                                key={option.id}
+                                title={option.name}
+                                className="w-6 h-6 rounded-full border border-gray-400 hover:scale-110 transition shadow-sm"
+                                style={{ backgroundColor: option.hex }}
                               />
                             ))}
                           </div>
                         </div>
-                        <div
-                          className={clsx(
-                            'flex items-center gap-2',
-                            isRTL && 'flex-row-reverse'
-                          )}
-                        >
-                          <span className="text-gray-400 min-w-10">
+                        {/* sizes */}
+                        <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
+                          <span className={clsx(
+                            "text-[13px] text-gray-400 min-w-10 shrink-0",
+                            isRTL ? "ml-1 text-right" : "mr-4 text-left"
+                          )}>
                             {t('filter.size')}
                           </span>
                           <div className="flex gap-1.5 flex-wrap">
@@ -304,7 +278,7 @@ function ProductSliderDiscounted({ products = [] }) {
                             ))}
                           </div>
                         </div>
-
+                        {/* materials */}
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
                             "text-[13px] text-gray-400 min-w-10 shrink-0",
@@ -320,17 +294,25 @@ function ProductSliderDiscounted({ products = [] }) {
                             ))}
                           </div>
                         </div>
-
-
                       </div>
 
-                      <div className="mt-auto">
-                        <div className="flex items-center justify-between mb-2">
-                          <RatingStars
-                            rating={Number(variant.reviews_avg) || 0}
-                            onRate={(s) => handleRateProduct(variant.id, s)}
-                            size="small"
-                          />
+                      <div className="mt-auto flex flex-col">
+                        {/* Rating and View More */}
+                        <div className={clsx(
+                          "flex items-center justify-between w-full mt-2",
+                        )}>
+                          {/* Stars + Review Count */}
+                          <div className="flex items-center gap-1 min-w-0">
+                            <RatingStars
+                              onRate={(star) => handleRateProduct(variant.id, star)}
+                              rating={Number(variant.reviews_avg) || 0}
+                            />
+                            <span className="text-xs text-gray-400 truncate">
+                              ({variant.reviews_count || 0})
+                            </span>
+                          </div>
+
+                          {/* View More */}
                           <span
                             onClick={(e) => { e.stopPropagation(); navigate('/products'); }}
                             className="text-xs font-medium hover:underline cursor-pointer whitespace-nowrap"
@@ -338,14 +320,18 @@ function ProductSliderDiscounted({ products = [] }) {
                             {t('essential_to_prep.view_more')}
                           </span>
                         </div>
+
+
                         <button
-                          onClick={() => handleAddCartItem(variant)}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleAddCartItem(variant);
+                          }}
                           disabled={isLoading}
-                          className="w-full bg-[#025043] text-white py-2 rounded-full text-xs font-bold hover:bg-[#01382f] active:scale-95 transition-all"
+                          className="w-full bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-2 mt-1 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
                         >
-                          {isLoading
-                            ? t('essential_to_prep.adding')
-                            : t('essential_to_prep.add_to_cart')}
+                          {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
                         </button>
                       </div>
                     </div>
@@ -356,21 +342,18 @@ function ProductSliderDiscounted({ products = [] }) {
           </Slider>
 
           {/* Progress Bar */}
-          <div className="mt-6">
+          <div className="mt-8 px-2 md:px-0">
             <div className="w-full h-1 bg-gray-300 rounded-full overflow-hidden">
               <div
-                className={clsx(
-                  'h-full bg-[#025043] transition-all duration-500',
-                  isRTL ? 'float-right' : 'float-left'
-                )}
-                style={{ width: `${progress}%` }}
+                className="h-full bg-[#025043] rounded-full transition-all duration-500"
+                style={{
+                  width: `${progress}%`,
+                  float: 'left'
+                }}
               />
             </div>
           </div>
-
         </div>
-
-
       </div>
     </section>
   );
