@@ -68,7 +68,6 @@ const Product = () => {
     reviews_count: v.reviews_count,
     sku: v.sku,
   }));
-
   const category = productsList[0]?.category;
 
   useEffect(() => {
@@ -134,40 +133,29 @@ const Product = () => {
 
 
   const filteredProducts = productsList.filter((product) => {
-    // Category filter
-    const matchCategory =
-      filters.categories.length === 0 ||
-      filters.categories.includes(product.category.name);
+    const hasColorFilter = filters.colors.length > 0;
+    const hasSizeFilter = filters.sizes.length > 0;
+    const hasMaterialFilter = filters.materials.length > 0;
+    const hasCategoryFilter = filters.categories.length > 0;
 
-    // Color filter
-    const matchColor =
-      filters.colors.length === 0 ||
-      filters.colors.includes(product.color);
-
-    // Size filter
-    const matchSize =
-      filters.sizes.length === 0 ||
-      filters.sizes.includes(product.size);
-
-    // Material filter
-    const matchMaterial =
-      filters.materials.length === 0 ||
-      filters.materials.includes(product.material);
-
-    // Price filter
-    const matchPrice =
-      Number(product.final_price) >= filters.price.min &&
-      Number(product.final_price) <= filters.price.max;
-
-    return (
-      matchCategory &&
-      matchColor &&
-      matchSize &&
-      matchMaterial &&
-      matchPrice
+    const matchSize = !hasSizeFilter || product.available_options?.some(colorOpt =>
+      colorOpt.available_sizes?.some(sizeOpt => filters.sizes.includes(sizeOpt.name))
     );
-  });
 
+    const matchColor = !hasColorFilter || product.available_options?.some(colorOpt =>
+      filters.colors.includes(colorOpt.name)
+    );
+
+    const matchMaterial = !hasMaterialFilter || product.available_options?.some(colorOpt =>
+      colorOpt.available_sizes?.some(sizeOpt =>
+        sizeOpt.available_materials?.some(matOpt => filters.materials.includes(matOpt.name))
+      )
+    );
+    const matchPrice = Number(product.final_price) >= filters.price.min && Number(product.final_price) <= filters.price.max;
+    const matchCategory = !hasCategoryFilter || filters.categories.includes(product.category?.name);
+
+    return matchSize && matchColor && matchMaterial && matchPrice && matchCategory;
+  });
 
 
 

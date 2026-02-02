@@ -15,7 +15,10 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
   const { data: colors = [] } = useGetColors();
   const { data: materials = [] } = useGetMaterials();
   const { data: sizes = [] } = useGetSizes();
-
+  const handleCheckboxChange = (type, value) => {
+    console.log(`Filter Changed: [${type}] -> Value: ${value}`);
+    onChange(type, value);
+  };
 
   return (
     <>
@@ -53,7 +56,8 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
               <li key={s.id}>
                 <Checkbox
                   isSelected={filters.sizes.includes(s.size)}
-                  onChange={() => onChange('sizes', s.size)}
+                  // onChange={() => onChange('sizes', s.size)}
+                  onChange={() => handleCheckboxChange('sizes', s.size)}
                 />
                 {s.size}
               </li>
@@ -77,7 +81,8 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
                 <Checkbox
                   size="sm"
                   isSelected={filters.colors.includes(c.color)}
-                  onChange={() => onChange('colors', c.color)}
+                  // onChange={() => onChange('colors', c.color)}
+                  onChange={() => handleCheckboxChange('colors', c.color)}
                 />
 
                 <span
