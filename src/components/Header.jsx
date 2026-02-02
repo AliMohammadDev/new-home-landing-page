@@ -141,7 +141,7 @@ const Header = () => {
                   )}>
                     <a
                       href="products"
-                      className="inline-block bg-[#E2995E] text-white px-8 py-3 md:px-10 md:py-4 text-sm md:text-lg font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 rounded-sm shadow-lg"
+                      className="inline-block bg-[#E2995E] text-white px-8 py-3 md:px-10 md:py-4 text-sm md:text-lg font-[Expo-arabic] uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 rounded-sm shadow-lg"
                     >
                       {t('shop_now')}
                     </a>
