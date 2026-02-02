@@ -29,14 +29,17 @@
 
   "footer": {
     "follow_us": "FOLLOW US",
-    "pages": "PAGES",
+    "quick_links": "QUICK LINKS",
     "home": "HOME",
+    "products": "ALL PRODUCTS",
     "featured": "FEATURED",
     "about_us": "ABOUT US",
     "contacts": "CONTACTS",
+    "my_profile": "MY ACCOUNT",
+    "wishlist": "WISHLIST",
     "new_collection": "NEW COLLECTION",
     "contact_us": "CONTACT US",
-    "copyright": "2025 Almanzel-Alhadith company. All Rights Reserved.",
+    "copyright": "Almanzel-Alhadith company. All Rights Reserved.",
     "company_name": "AL-MANZEL AL-HADITH",
     "category": "Kitchenware",
     "website_url": "https://almanzel-alhadith.com",
@@ -44,8 +47,9 @@
     "email_label": "EMAIL",
     "phone_label": "PHONE",
     "location_label": "LOCATION",
+    "address_line1": "Al-Swaiqa, Aleppo, Syria",
     "address_line2": "Near Al-Khair Mosque",
-    "address_line1": "Al-Swaiqa, Aleppo, Syria"
+    "contact": "Get in touch"
   },
 
   "auth": {

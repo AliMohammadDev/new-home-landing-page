@@ -6,6 +6,7 @@ import InstagramIcon from '../assets/icons/InstagramIcon';
 import WhatsappIcon from '../assets/icons/WhatsappIcon';
 import TelegramIcon from '../assets/icons/TelegramIcon';
 import { Link } from 'react-router-dom';
+import clsx from 'clsx';
 
 const Footer = () => {
   const location = useLocation();
@@ -65,7 +66,7 @@ const Footer = () => {
 
           {/* Follow Us - Social Media Links */}
           <div>
-            <h3 className="text-sm font-bold mb-8 uppercase tracking-[0.2em]">{t('footer.follow_us')}</h3>
+            <h3 className="text-lg mr-0 md:mr-2 font-bold mb-8 uppercase tracking-[0.2em]">{t('footer.follow_us')}</h3>
             <ul className="space-y-5 text-sm">
               <li className="group">
                 <Link to={'https://www.facebook.com'} className={`flex items-center gap-3 transition-all duration-300 ${isLightFooter ? 'hover:text-blue-600' : 'hover:text-blue-400'}`}>
@@ -96,13 +97,28 @@ const Footer = () => {
 
           {/* Pages */}
           <div>
-            <h3 className="text-sm font-bold mb-8 uppercase tracking-[0.2em]">{t('footer.pages')}</h3>
+            <h3 className="text-lg font-bold mb-8 uppercase tracking-[0.2em]">
+              {t('footer.quick_links')}
+            </h3>
             <ul className="space-y-4 text-sm">
-              {['home', 'featured', 'about_us', 'contacts', 'new_collection'].map((item) => (
-                <li key={item}>
-                  <a href="#" className={`opacity-80 transition-all duration-300 relative after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1px] after:bg-current hover:after:w-full hover:opacity-100 ${isLightFooter ? 'hover:text-black' : 'hover:text-[#EDEAE2]'}`}>
-                    {t(`footer.${item}`)}
-                  </a>
+              {[
+                { key: 'home', path: '/' },
+                { key: 'products', path: '/products' },
+                { key: 'about_us', path: '/about' },
+                { key: 'contact', path: '/contact' },
+                { key: 'my_profile', path: '/profile' },
+                { key: 'wishlist', path: '/wishlists' },
+              ].map((item) => (
+                <li key={item.key}>
+                  <Link
+                    to={item.path}
+                    className={clsx(
+                      "text-[16px] opacity-80 transition-all duration-300 hover:opacity-100 relative inline-block after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1px] after:bg-current hover:after:w-full",
+                      isLightFooter ? 'hover:text-black' : 'hover:text-[#E2995E]'
+                    )}
+                  >
+                    {t(`footer.${item.key}`)}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -110,39 +126,83 @@ const Footer = () => {
 
           {/* Contact Us */}
           <div>
-            <h3 className="text-sm font-bold mb-8 uppercase tracking-[0.2em]">{t('footer.contact_us')}</h3>
+            <h3 className="text-lg font-bold mb-8 uppercase tracking-[0.2em]">
+              {t('footer.contact_us')}
+            </h3>
             <div className="space-y-6 text-sm">
-              <div className="flex flex-col space-y-1">
-                <span className="text-sm uppercase tracking-widest opacity-50">{t('footer.email_label') || 'Email'}</span>
-                <a href="mailto:almanzel.alhadith@gmail.com" className="hover:underline decoration-1 underline-offset-4">almanzel.alhadith@gmail.com</a>
-              </div>
-              <div className="flex flex-col space-y-1">
-                <span className="text-sm uppercase tracking-widest opacity-50">{t('footer.phone_label') || 'Phone'}</span>
-                <span dir="ltr" className="font-medium">+963 930 681 449</span>
-                <span dir="ltr" className="font-medium">+963 981 096 823</span>
-                <span dir="ltr" className="font-medium">+963 930 623 299</span>
-              </div>
-              <div className="flex flex-col space-y-1">
-                <span className="text-sm uppercase tracking-widest opacity-50">{t('footer.location_label') || 'Location'}</span>
-                <div className="flex flex-col space-y-1">
 
-                  <p className="opacity-80 leading-relaxed">
-                    {t('footer.address_line1')}<br />
-                    {t('footer.address_line2')}
-                  </p>
+              {/* Email Section */}
+              <div className="flex flex-col space-y-1">
+                <span className="text-sm uppercase tracking-widest opacity-50">
+                  {t('footer.email_label') || 'Email'}
+                </span>
+                <a
+                  href="mailto:almanzel.alhadith@gmail.com"
+                  className="hover:text-[#E2995E] transition underline text-sm decoration-1 underline-offset-4"
+                >
+                  almanzel.alhadith@gmail.com
+                </a>
+              </div>
+
+              {/* Phone Section */}
+              <div className="flex flex-col space-y-1">
+                <span className="text-sm uppercase tracking-widest opacity-50 mb-1">
+                  {t('footer.phone_label') || 'Phone'}
+                </span>
+
+                <div className="flex flex-col space-y-3">
+                  <a
+                    href="tel:+963930681449"
+                    className="flex items-center gap-2 hover:text-[#E2995E] transition group"
+                  >
+                    <span className="font-medium tracking-wider" dir="ltr">
+                      +963 930 681 449
+                    </span>
+                  </a>
+
+                  <a
+                    href="tel:+963981096823"
+                    className="flex items-center gap-2 hover:text-[#E2995E] transition group"
+                  >
+                    <span className="font-medium tracking-wider" dir="ltr">
+                      +963 981 096 823
+                    </span>
+                  </a>
+
+                  <a
+                    href="tel:+963930623299"
+                    className="flex items-center gap-2 hover:text-[#E2995E] transition group"
+                  >
+                    <span className="font-medium tracking-wider" dir="ltr">
+                      +963 930 623 299
+                    </span>
+                  </a>
                 </div>
               </div>
+
+              {/* Location Section */}
+              <div className="flex flex-col space-y-1">
+                <span className="text-sm uppercase tracking-widest opacity-50">
+                  {t('footer.location_label') || 'Location'}
+                </span>
+                <p className="opacity-80 leading-relaxed">
+                  {t('footer.address_line1')}<br />
+                  {t('footer.address_line2')}
+                </p>
+              </div>
+
             </div>
           </div>
         </div>
 
         {/* Bottom copyright */}
         <div className={`flex flex-col md:flex-row justify-between items-center md:items-end mt-20 pt-8 border-t ${isLightFooter ? 'border-gray-200' : 'border-white/10'} ${isRTL ? 'md:flex-row-reverse' : ''}`}>
+
           <div className={`text-sm md:text-xs uppercase tracking-widest ${isLightFooter ? 'text-gray-600' : 'text-gray-400'}`}>
             © {new Date().getFullYear()} {t('footer.copyright')}
           </div>
 
-          <h2 className={`mt-6 md:mt-0 text-2xl md:text-4xl lg:text-3xl xl:text-5xl font-[Expo-arabic] sm:text-center md:text-right ${isLightFooter ? 'text-black' : 'text-white'}`}>
+          <h2 className={`mt-6 md:mt-0 text-2xl md:text-4xl lg:text-3xl xl:text-5xl font-[Expo-arabic] ${isRTL ? 'md:text-right' : 'md:text-left'} ${isLightFooter ? 'text-black' : 'text-white'}`}>
             {t('footer.company_name')}
           </h2>
         </div>

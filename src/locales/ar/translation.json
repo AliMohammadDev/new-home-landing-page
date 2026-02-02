@@ -29,24 +29,27 @@
 
   "footer": {
     "follow_us": "تابعنا",
-    "pages": "الصفحات",
+    "quick_links": "روابط سريعة",
     "home": "الرئيسية",
+    "products": "جميع المنتجات",
     "featured": "المميزة",
     "about_us": "من نحن",
     "contacts": "تواصل معنا",
+    "my_profile": "حسابي الشخصي",
+    "wishlist": "قائمة المفضلة",
     "new_collection": "مجموعة جديدة",
     "contact_us": "تواصل معنا",
-    "copyright": "2025 شركة المنزل الحديث. جميع الحقوق محفوظة.",
+    "copyright": "شركة المنزل الحديث. جميع الحقوق محفوظة.",
     "company_name": "المنزل الحديث",
     "category": "أدوات المطبخ",
     "website_url": "https://almanzel-alhadith.com",
     "brand_name": "المنزل الحديث",
     "email_label": "البريد الإلكتروني",
     "phone_label": "رقم الهاتف",
-
     "location_label": "الموقع",
+    "address_line1": "حلب، السويقة",
     "address_line2": "مقابل جامع الخير",
-    "address_line1": "حلب، السويقة"
+    "contact": "تواصل معنا"
   },
 
   "auth": {

@@ -100,7 +100,7 @@ const Navbar = () => {
             dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
           >
             <a
-              href="tel:+963930681449"
+              href="tel:021 2310 379"
               className="flex items-center gap-2 hover:text-[#E2995E] transition"
             >
               <PhoneIcon />
