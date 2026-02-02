@@ -168,6 +168,9 @@ const Product = () => {
     );
   });
 
+
+
+
   return (
     <div className="bg-[#EDEAE2] min-h-screen" dir={isRTL ? 'rtl' : 'ltr'}>
       {category && (
@@ -261,6 +264,7 @@ const Product = () => {
                 onPriceChange={updatePrice}
                 onClearAll={clearFilters}
               />
+
             </div>
           )}
 
@@ -314,15 +318,21 @@ const Product = () => {
                     </div>
                     <div className="p-4 flex flex-col flex-1">
                       <h3 className="text-[#025043] text-[16px] font-bold h-12 overflow-hidden -mb-6">{product.name}</h3>
-                      <p className="text-xs text-black">
+
+                      <p className="text-xs text-black mt-2">
                         SKU: <span className="text-gray-500">{product?.sku}</span>
                       </p>
 
-                      <div className="border-b border-[#025043]/20"></div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[#025043] text-lg font-bold">{product.final_price} $</span>
+                      <div className="border-b border-[#025043]/20 my-3"></div>
+
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[#025043] text-[18px] font-bold">
+                          {product.final_price} $
+                        </span>
                         {product.discount > 0 && (
-                          <span className="text-gray-400 text-sm line-through">{product.price} $</span>
+                          <span className="text-gray-400 text-sm line-through decoration-red-500/50">
+                            {product.price} $
+                          </span>
                         )}
                       </div>
 

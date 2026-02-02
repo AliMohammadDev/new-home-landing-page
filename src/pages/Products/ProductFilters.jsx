@@ -16,6 +16,7 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
   const { data: materials = [] } = useGetMaterials();
   const { data: sizes = [] } = useGetSizes();
 
+
   return (
     <>
       <Accordion

@@ -267,11 +267,15 @@
   "slider": {
     "drag": "اسحب",
     "Think_about_a_gift?_see_our_colllection": "هل تفكر بهدية؟ اضغط للمزيد ",
-    "modern_kitchenware": "أواني طهي عصرية",
     "elegant_dining": "مائدة طعام أنيقة",
-    "premium_collection": "المجموعة المميزة",
     "complete_set": "تشكيلة متكاملة",
-    "everything_you_need": "كل ما تحتاجه لمطبخك"
+
+    "modern_kitchenware": "أدوات مطبخ عصرية",
+    "modern_kitchenware_desc": "اكتشف تشكيلتنا الجديدة من الأدوات التي تجمع بين الأناقة والوظيفة العملية في مطبخك.",
+    "premium_collection": "المجموعة المميزة",
+    "premium_collection_desc": "جودة لا تضاهى وتصاميم فاخرة مختارة بعناية لتناسب ذوقك الرفيع.",
+    "everything_you_need": "كل ما تحتاجه",
+    "everything_you_need_desc": "من السكاكين إلى الأواني، نوفر لك كافة مستلزمات المطبخ في مكان واحد."
   },
 
   "essential_to_prep": {

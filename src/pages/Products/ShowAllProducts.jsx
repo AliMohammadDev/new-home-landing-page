@@ -304,15 +304,18 @@ function ShowAllProducts() {
           {[
             {
               image: "https://kitchenwarehouseltd.com/wp-content/uploads/2025/04/heritagegreen-5-1024x724.jpg",
-              title: t('slider.modern_kitchenware')
+              title: t('slider.modern_kitchenware'),
+              description: t('slider.modern_kitchenware_desc')
             },
             {
               image: "https://www.spotlightstores.com/medias/kitchenware-buying-guide-1.jpg?context=bWFzdGVyfHJvb3R8MjM0MzkzfGltYWdlL2pwZWd8cm9vdC9oM2IvaGYyLzE2ODY1NjY0ODkyOTU4L2tpdGNoZW53YXJlLWJ1eWluZy1ndWlkZS0xLmpwZ3wyOWVjZDg4N2QxY2M3MGE5ZmFmODViYzkxNzNlZGYxODU4MGM5MGI1ZmY5ZjQ5YmJiMDc5ZWI4NjQ1M2IyMmQy",
-              title: t('slider.premium_collection')
+              title: t('slider.premium_collection'),
+              description: t('slider.premium_collection_desc')
             },
             {
               image: allProducts,
               title: t('slider.everything_you_need'),
+              description: t('slider.everything_you_need_desc')
             }
           ].map((slide, index) => (
             <SwiperSlide key={index}>
@@ -321,18 +324,22 @@ function ShowAllProducts() {
                   className="w-full h-full bg-cover bg-no-repeat bg-center relative"
                   style={{ backgroundImage: `url(${slide.image})` }}
                 >
-                  <div className="absolute inset-0 bg-black/30" />
+                  <div className="absolute inset-0 bg-black/40" />
                   <div className={clsx(
-                    "absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000",
+                    "absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000 delay-300",
                     isRTL ? "text-right" : "text-left",
-                    isActive ? "opacity-100" : "opacity-0"
+                    isActive ? "opacity-100 translate-y-[-50%]" : "opacity-0 translate-y-[-40%]"
                   )}>
                     <h1 className={clsx(
-                      "text-4xl md:text-6xl font-bold",
+                      "text-4xl md:text-6xl font-bold mb-4",
                       isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
                     )}>
                       {slide.title}
                     </h1>
+
+                    <p className="text-lg md:text-2xl max-w-2xl opacity-90 leading-relaxed font-light">
+                      {slide.description}
+                    </p>
                   </div>
                 </div>
               )}

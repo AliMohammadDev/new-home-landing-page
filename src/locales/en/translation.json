@@ -264,11 +264,15 @@
   "slider": {
     "drag": "Drag",
     "Think_about_a_gift?_see_our_colllection": "Think about a gift? see our colllection",
-    "modern_kitchenware": "Modern kitchenware",
     "elegant_dining": "Elegant dining",
-    "premium_collection": "Premium collection",
     "complete_set": "Complete Set",
-    "everything_you_need": "everything You need"
+
+    "modern_kitchenware": "Modern Kitchenware",
+    "modern_kitchenware_desc": "Discover our new collection that blends style with practical functionality in your kitchen.",
+    "premium_collection": "Premium Collection",
+    "premium_collection_desc": "Unmatched quality and luxurious designs carefully selected to suit your refined taste.",
+    "everything_you_need": "Everything You Need",
+    "everything_you_need_desc": "From knives to cookware, we provide all your kitchen essentials in one place."
   },
 
   "essential_to_prep": {
