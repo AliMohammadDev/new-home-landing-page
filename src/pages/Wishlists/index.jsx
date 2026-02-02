@@ -7,6 +7,7 @@ import { useGetProfile } from '../../api/auth';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
+import LeftIcon from '../../assets/icons/LeftIcon';
 
 function Wishlists() {
   const { t, i18n } = useTranslation();
@@ -93,6 +94,17 @@ function Wishlists() {
       className="w-full bg-[#025043] min-h-screen px-4 md:px-12 lg:px-24 py-24 font-[Expo-arabic] text-white"
       dir={isAr ? 'rtl' : 'ltr'}
     >
+
+      {/* Back Button */}
+      <Link
+        to={-1}
+        className={clsx(
+          "absolute top-40 z-50 cursor-pointer hover:opacity-80 transition active:scale-95",
+          isAr ? "right-6 lg:right-24" : "left-6 lg:left-24"
+        )}
+      >
+        <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
+      </Link>
       {/* Header */}
       <div className="text-center mb-16 mt-10">
         <div className="flex justify-center mb-4 transition-transform hover:scale-110 duration-300">
@@ -110,7 +122,6 @@ function Wishlists() {
             <p className="text-xl text-gray-300 mb-6">
               {t('wishlist.empty')}
             </p>
-
             <Link
               to="/products"
               className="inline-flex items-center justify-center px-6 py-3 active:scale-95 text-sm font-semibold
@@ -149,12 +160,17 @@ function Wishlists() {
                       >
                         ✕
                       </button>
+                      <Link
+                        to={`/products/${item.product_variant?.product_id}/product-info/${item.product_variant?.id}`}
+                        className="hover:opacity-80 transition-opacity"
+                      >
+                        <img
+                          src={item.product_variant?.image}
+                          alt={item.product_variant?.name}
+                          className="w-16 h-20 object-cover rounded-lg shadow-lg border border-white/10"
+                        />
+                      </Link>
 
-                      <img
-                        src={item.product_variant?.image}
-                        alt={item.product_variant?.name}
-                        className="w-16 h-20 object-cover rounded-lg shadow-lg border border-white/10"
-                      />
 
                       <span className="font-medium text-lg tracking-wide">
                         {item.product_variant?.name}

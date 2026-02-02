@@ -2,10 +2,11 @@ import { usePlaceOrder } from '../../api/order';
 import { useGetAllCartItems } from '../../api/cart';
 import { addToast } from '@heroui/react';
 import { useGetCheckout } from '../../api/checkout';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import CheckoutIcon from '../../assets/icons/CheckoutIcon';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import LeftIcon from '../../assets/icons/LeftIcon';
 
 function Orders() {
     const navigate = useNavigate();
@@ -42,9 +43,21 @@ function Orders() {
             },
         });
     };
+    const isRtl = i18n.language === 'ar';
 
     return (
-        <div className={`w-full flex flex-col md:flex-row justify-between items-start px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 min-h-screen font-[Expo-arabic] ${i18n.language === 'ar' ? 'text-right' : 'text-left'} bg-[#025043] text-white`}>
+        <div className={`w-full flex flex-col mt-20 md:flex-row justify-between items-start px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 min-h-screen font-[Expo-arabic] ${i18n.language === 'ar' ? 'text-right' : 'text-left'} bg-[#025043] text-white`}>
+
+            {/* Back Button */}
+            <Link
+                to={-1}
+                className={clsx(
+                    "absolute top-35 z-50 cursor-pointer hover:opacity-80 transition active:scale-95",
+                    isRtl ? "right-6 lg:right-24" : "left-6 lg:left-24"
+                )}
+            >
+                <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
+            </Link>
 
             {/* Left Side - Checkout Info */}
             <div className="w-full md:w-1/2 p-8 bg-white/10 backdrop-blur-lg rounded-2xl">

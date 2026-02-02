@@ -1,8 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGetAllOrders } from '../../api/order';
 import OrderIcon from '../../assets/icons/OrderIcon';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import clsx from 'clsx';
+import LeftIcon from '../../assets/icons/LeftIcon';
 
 function ShowAllOrders() {
   const { t, i18n } = useTranslation();
@@ -20,19 +22,31 @@ function ShowAllOrders() {
       </div>
     );
   }
-
+  const isAr = i18n.language === 'ar';
   return (
     <div
       className={`w-full min-h-screen bg-[#025043] text-white font-[Expo-arabic] px-6 lg:px-24 py-20`}
       dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
     >
+      {/* Back Button */}
+      <Link
+        to={-1}
+        className={clsx(
+          "absolute top-35 z-50 cursor-pointer hover:opacity-80 transition active:scale-95",
+          isAr ? "right-6 lg:right-24" : "left-6 lg:left-24"
+        )}
+      >
+        <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
+      </Link>
+
       {/* Header */}
-      <div className="flex items-center gap-4 mb-10 mt-20">
+      <div className="flex items-center gap-4 mb-10 mt-30">
         <div className="p-3 rounded-2xl bg-white/10">
           <OrderIcon className="w-7 h-7" />
         </div>
         <h2 className="text-3xl font-bold tracking-wide">{t('orders.myOrders')}</h2>
       </div>
+
 
       {/* Empty State */}
       {orders.length === 0 ? (

@@ -2,14 +2,15 @@ import { useForm } from "react-hook-form";
 import { useAddCheckout } from "../../api/checkout";
 import { addToast } from "@heroui/react";
 import { useGetProfile } from '../../api/auth';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import Lottie from 'lottie-react';
 
 import shoppingCart from '../../assets/animations/shoppingCart.json';
+import LeftIcon from "../../assets/icons/LeftIcon";
 
 function Checkouts() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { register, handleSubmit, reset } = useForm();
   const { data: profile } = useGetProfile();
 
@@ -58,7 +59,13 @@ function Checkouts() {
   };
 
   return (
-    <div className="w-full flex flex-col lg:flex-row justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]">
+    <div className="w-full flex flex-col lg:flex-row mt-10 justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]">
+
+      {/* Back Button */}
+      <Link to={-1} className="hover:opacity-80 transition active:scale-95">
+        <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
+      </Link>
+
       {/* Left Side - Contact Information */}
       <div className="w-full lg:w-1/2 p-8 bg-white/10 backdrop-blur-lg rounded-2xl space-y-8">
         <h2 className="text-2xl md:text-3xl font-bold tracking-wide">{t('checkout.contact_information')}</h2>

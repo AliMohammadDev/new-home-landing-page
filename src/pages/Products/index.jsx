@@ -122,11 +122,50 @@ const Product = () => {
     }));
   };
 
-  const filteredProducts = productsList.filter((p) => {
-    const matchCategory = filters.categories.length === 0 || filters.categories.includes(p.category.name);
-    const matchColor = filters.colors.length === 0 || filters.colors.includes(p.color);
-    const matchPrice = Number(p.final_price) >= filters.price.min && Number(p.final_price) <= filters.price.max;
-    return matchCategory && matchColor && matchPrice;
+  const clearFilters = () => {
+    setFilters({
+      categories: [],
+      sizes: [],
+      colors: [],
+      materials: [],
+      price: { min: 1, max: 1000 }
+    });
+  };
+
+
+  const filteredProducts = productsList.filter((product) => {
+    // Category filter
+    const matchCategory =
+      filters.categories.length === 0 ||
+      filters.categories.includes(product.category.name);
+
+    // Color filter
+    const matchColor =
+      filters.colors.length === 0 ||
+      filters.colors.includes(product.color);
+
+    // Size filter
+    const matchSize =
+      filters.sizes.length === 0 ||
+      filters.sizes.includes(product.size);
+
+    // Material filter
+    const matchMaterial =
+      filters.materials.length === 0 ||
+      filters.materials.includes(product.material);
+
+    // Price filter
+    const matchPrice =
+      Number(product.final_price) >= filters.price.min &&
+      Number(product.final_price) <= filters.price.max;
+
+    return (
+      matchCategory &&
+      matchColor &&
+      matchSize &&
+      matchMaterial &&
+      matchPrice
+    );
   });
 
   return (
@@ -216,7 +255,12 @@ const Product = () => {
         <div className="flex flex-col md:flex-row gap-8 items-start">
           {showFilters && !isMobile && (
             <div className="w-full md:w-1/6 transition-all duration-300">
-              <ProductFilters filters={filters} onChange={toggleFilter} onPriceChange={updatePrice} />
+              <ProductFilters
+                filters={filters}
+                onChange={toggleFilter}
+                onPriceChange={updatePrice}
+                onClearAll={clearFilters}
+              />
             </div>
           )}
 

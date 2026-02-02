@@ -16,6 +16,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Button } from "@heroui/react";
 import ChevronDownIcon from '../../assets/icons/ChevronDownIcon';
+import LeftIcon from '../../assets/icons/LeftIcon';
 
 
 function Carts() {
@@ -179,6 +180,17 @@ function Carts() {
       className="w-full bg-[#025043] min-h-screen px-6 lg:px-24 py-24 font-[Expo-arabic] text-white"
       dir={isAr ? 'rtl' : 'ltr'}
     >
+      {/* Back Button */}
+      <Link
+        to={-1}
+        className={clsx(
+          "absolute top-40 z-50 cursor-pointer hover:opacity-80 transition active:scale-95",
+          isAr ? "right-6 lg:right-24" : "left-6 lg:left-24"
+        )}
+      >
+        <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
+      </Link>
+
       {/* Header */}
       <div className="text-center mb-16">
         <div className="flex justify-center mb-4 mt-10">
@@ -186,7 +198,6 @@ function Carts() {
         </div>
         <h1 className="text-4xl font-bold tracking-wide">{t('cart.my_cart')}</h1>
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
 
         {/* Cart Items */}
@@ -464,6 +475,8 @@ function Carts() {
         </div>)}
 
       </div>
+
+
     </div >
   );
 }

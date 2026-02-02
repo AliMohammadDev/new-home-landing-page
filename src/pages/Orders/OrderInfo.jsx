@@ -1,16 +1,20 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useGetOrder } from '../../api/order';
 import { addToast } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
+import LeftIcon from '../../assets/icons/LeftIcon';
 
 function OrdersInfo() {
     const { t, i18n } = useTranslation();
     const { orderId } = useParams();
     const { data: order, isLoading, isError } = useGetOrder(orderId);
 
-    if (isLoading) return <p className="text-white">{t('order.loading', 'Loading order...')}</p>;
+    if (isLoading)
+        return (
+            <p className="text-white">{t('order.loading', 'Loading order...')}</p>
+        );
     if (isError) {
         addToast({
             title: t('order.error_title', 'Error'),
@@ -19,18 +23,34 @@ function OrdersInfo() {
             duration: 4000,
             isClosable: true,
         });
-        return <p className="text-white">{t('order.error_desc', 'Error loading order.')}</p>;
+        return (
+            <p className="text-white">
+                {t('order.error_desc', 'Error loading order.')}
+            </p>
+        );
     }
-
+    const isRtl = i18n.language === 'ar';
     return (
         <div
-            className="w-full flex flex-col md:flex-row justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]"
+            className="w-full flex flex-col md:flex-row justify-between  mt-10 items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]"
             dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
         >
+            {/* Back Button */}
+            <Link
+                to={-1}
+                className={clsx(
+                    "absolute top-35 z-50 cursor-pointer hover:opacity-80 transition active:scale-95",
+                    isRtl ? "right-6 lg:right-24" : "left-6 lg:left-24"
+                )}
+            >
+                <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
+            </Link>
 
             {/* Left Side - Checkout / Customer Info */}
             <div className="w-full md:w-1/2 p-8 bg-white/10 backdrop-blur-lg rounded-2xl space-y-8 mt-10">
-                <h2 className="text-2xl md:text-3xl font-bold tracking-wide mb-4">{t('order.info_title', 'Order Information')}</h2>
+                <h2 className="text-2xl md:text-3xl font-bold tracking-wide mb-4">
+                    {t('order.info_title', 'Order Information')}
+                </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <p>
                         <strong>{t('order.status', 'Status')}:</strong>{' '}
@@ -48,22 +68,59 @@ function OrdersInfo() {
                         </span>
                     </p>
 
-                    <p><strong>{t('order.total', 'Total')}:</strong> {order.total_amount} $</p>
-                    <p><strong>{t('order.created_at', 'Created At')}:</strong> {order.created_at}</p>
+                    <p>
+                        <strong>{t('order.total', 'Total')}:</strong> {order.total_amount} $
+                    </p>
+                    <p>
+                        <strong>{t('order.created_at', 'Created At')}:</strong>{' '}
+                        {order.created_at}
+                    </p>
 
                     {/* User information */}
                     {order.checkout && (
                         <>
-                            <p><strong>{t('order.first_name', 'First Name')}:</strong> {order.checkout.first_name || '-'}</p>
-                            <p><strong>{t('order.last_name', 'Last Name')}:</strong> {order.checkout.last_name || '-'}</p>
-                            <p><strong>{t('order.email', 'Email')}:</strong> {order.checkout.email || '-'}</p>
-                            <p><strong>{t('order.phone', 'Phone')}:</strong> {order.checkout.phone || '-'}</p>
-                            <p><strong>{t('order.country', 'Country')}:</strong> {order.checkout.country || '-'}</p>
-                            <p><strong>{t('order.city', 'City')}:</strong> {order.checkout.city || '-'}</p>
-                            <p><strong>{t('order.street', 'Street')}:</strong> {order.checkout.street || '-'}</p>
-                            <p><strong>{t('order.floor', 'Floor')}:</strong> {order.checkout.floor || '-'}</p>
-                            <p><strong>{t('order.postal_code', 'Postal Code')}:</strong> {order.checkout.postal_code || '-'}</p>
-                            <p><strong>{t('order.additional_info', 'Additional Info')}:</strong> {order.checkout.additional_information || '-'}</p>
+                            <p>
+                                <strong>{t('order.first_name', 'First Name')}:</strong>{' '}
+                                {order.checkout.first_name || '-'}
+                            </p>
+                            <p>
+                                <strong>{t('order.last_name', 'Last Name')}:</strong>{' '}
+                                {order.checkout.last_name || '-'}
+                            </p>
+                            <p>
+                                <strong>{t('order.email', 'Email')}:</strong>{' '}
+                                {order.checkout.email || '-'}
+                            </p>
+                            <p>
+                                <strong>{t('order.phone', 'Phone')}:</strong>{' '}
+                                {order.checkout.phone || '-'}
+                            </p>
+                            <p>
+                                <strong>{t('order.country', 'Country')}:</strong>{' '}
+                                {order.checkout.country || '-'}
+                            </p>
+                            <p>
+                                <strong>{t('order.city', 'City')}:</strong>{' '}
+                                {order.checkout.city || '-'}
+                            </p>
+                            <p>
+                                <strong>{t('order.street', 'Street')}:</strong>{' '}
+                                {order.checkout.street || '-'}
+                            </p>
+                            <p>
+                                <strong>{t('order.floor', 'Floor')}:</strong>{' '}
+                                {order.checkout.floor || '-'}
+                            </p>
+                            <p>
+                                <strong>{t('order.postal_code', 'Postal Code')}:</strong>{' '}
+                                {order.checkout.postal_code || '-'}
+                            </p>
+                            <p>
+                                <strong>
+                                    {t('order.additional_info', 'Additional Info')}:
+                                </strong>{' '}
+                                {order.checkout.additional_information || '-'}
+                            </p>
                         </>
                     )}
                 </div>
@@ -76,7 +133,7 @@ function OrdersInfo() {
             >
                 <h2
                     className={clsx(
-                        "text-2xl md:text-3xl tracking-wide mb-4",
+                        'text-2xl md:text-3xl tracking-wide mb-4',
                         i18n.language === 'ar' ? 'text-right' : 'text-left'
                     )}
                 >
@@ -96,10 +153,20 @@ function OrdersInfo() {
                             className="w-20 h-20 rounded-xl object-cover"
                         />
                         <div className="flex-1">
-                            <h3 className={clsx("text-lg font-[Expo-arabic]", i18n.language === 'ar' ? 'text-right' : 'text-left')}>
+                            <h3
+                                className={clsx(
+                                    'text-lg font-[Expo-arabic]',
+                                    i18n.language === 'ar' ? 'text-right' : 'text-left'
+                                )}
+                            >
                                 {item.product_variant.name}
                             </h3>
-                            <p className={clsx("text-sm text-white/70", i18n.language === 'ar' ? 'text-right' : 'text-left')}>
+                            <p
+                                className={clsx(
+                                    'text-sm text-white/70',
+                                    i18n.language === 'ar' ? 'text-right' : 'text-left'
+                                )}
+                            >
                                 {item.total} $
                             </p>
                         </div>
@@ -109,11 +176,17 @@ function OrdersInfo() {
 
                 <div className="w-full h-0.5 bg-white/40"></div>
 
-                <div className={clsx("flex justify-between text-xl font-bold", i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row')}>
+                <div
+                    className={clsx(
+                        'flex justify-between text-xl font-bold',
+                        i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'
+                    )}
+                >
                     <span>{t('order.total', 'Total')}</span>
                     <span>{order.total_amount} $</span>
                 </div>
             </div>
+
 
         </div>
     );

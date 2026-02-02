@@ -36,7 +36,7 @@ const Contact = () => {
 
   return (
     <div
-      className={`w-full flex flex-col md:flex-row justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]`}
+      className={`w-full flex flex-col md:flex-row mt-10 justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]`}
       dir={isRtl ? 'rtl' : 'ltr'}
     >
       {/* Left Text Overlay */}
