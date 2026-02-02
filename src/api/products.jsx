@@ -67,20 +67,6 @@ export const useGetSlidersProductsVariants = () => {
   });
 };
 
-// Products Variants By Limit
-export const useGetProductsVariantsByLimit = (limit = 20) => {
-  const lang = localStorage.getItem('lang') || 'en';
-  return useQuery({
-    queryKey: ['variants', limit, lang],
-    queryFn: async () => {
-      const res = await axios.get(`variants-all/${limit}`, {
-        headers: getLangHeader(),
-      });
-      return res.data.data;
-    },
-  });
-};
-
 // Products Variants By Category
 export const useGetProductsVariantsByCategory = (categoryName) => {
   const lang = localStorage.getItem('lang') || 'en';

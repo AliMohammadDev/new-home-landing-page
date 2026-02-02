@@ -7,7 +7,7 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
 
 const Header = () => {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const isRTL = i18n.language === 'ar';
 
   const slides = [
@@ -132,6 +132,19 @@ const Header = () => {
                     <p className="ml-10 md:ml-20 text-sm font-[Expo-light] italic sm:text-base md:text-4xl text-left tracking-widest opacity-80">
                       {slide.bottomSmall}
                     </p>
+                  </div>
+
+                  {/* SHOP NOW BUTTON */}
+                  <div className={clsx(
+                    "mt-8 ml-6 sm:ml-16 md:ml-40 transition-all duration-1000 delay-700 transform",
+                    isActive ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                  )}>
+                    <a
+                      href="products"
+                      className="inline-block bg-[#E2995E] text-white px-8 py-3 md:px-10 md:py-4 text-sm md:text-lg font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all duration-300 rounded-sm shadow-lg"
+                    >
+                      {t('shop_now')}
+                    </a>
                   </div>
                 </div>
               </div>

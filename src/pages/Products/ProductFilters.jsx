@@ -10,18 +10,18 @@ import clsx from 'clsx';
 
 const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
   const location = useLocation();
-  const { t } = useTranslation();
-
+  const { t, i18n } = useTranslation();
   const { data: categories = [] } = useGetCategories();
   const { data: colors = [] } = useGetColors();
   const { data: materials = [] } = useGetMaterials();
   const { data: sizes = [] } = useGetSizes();
 
   return (
-
     <>
       <Accordion
+        key={i18n.language}
         selectionMode="multiple"
+        defaultExpandedKeys={["1", "2", "3", "4", "5"]}
       >
         {location.pathname === "/products" && (
           // category filter

@@ -1,8 +1,6 @@
 import CategoryCard from '../../components/CategoryCard';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ProductSlider1 from '../../components/Products/ProductSlider1';
-import ProductSlider2 from '../../components/Products/ProductSlider2';
 import MostProduct from '../../components/Products/MostProduct';
 import Header from '../../components/Header';
 import { useGetCategories } from '../../api/categories';
@@ -14,25 +12,16 @@ import homeLogoWhite from "../../assets/images/home-logo-white.svg";
 import footer1 from "../../assets/images/footer1.png";
 import footer2 from "../../assets/images/footer2.png";
 import clsx from 'clsx';
+import ProductSliderTopAvg from '../../components/Products/ProductSliderTopAvg';
+import ProductSliderNew from '../../components/Products/ProductSliderNew';
+import ProductSliderDiscounted from '../../components/Products/ProductSliderDiscounted';
 
 
 const Home = () => {
   const { t, i18n } = useTranslation();
   const { data: categories = [] } = useGetCategories();
   const { data: sliderProducts = [] } = useGetSlidersProductsVariants();
-  // const { data: variantsByLimit = [] } = useGetProductsVariantsByLimit();
   const isRTL = i18n.language === 'ar';
-
-
-  // const productsByLimit = (variantsByLimit || []).map(v => ({
-  //   ...v.product,
-  //   variantId: v.id,
-  //   image: v.image,
-  //   color: v.color,
-  //   size: v.size,
-  //   material: v.material,
-  //   stock_quantity: v.stock_quantity,
-  // }));
 
   return (
     <>
@@ -113,11 +102,15 @@ const Home = () => {
         {/* Sliders & Products */}
         {/* Sliders & Products Section */}
         <AnimateOnScroll direction="up" delay={0.3}>
-          <ProductSlider1 products={sliderProducts.new || []} />
+          <ProductSliderNew products={sliderProducts.new || []} />
         </AnimateOnScroll>
 
         <AnimateOnScroll direction="up" delay={0.3}>
-          <ProductSlider2 products={sliderProducts.discounted || []} />
+          <ProductSliderTopAvg products={sliderProducts.top_rated || []} />
+        </AnimateOnScroll>
+
+        <AnimateOnScroll direction="up" delay={0.3}>
+          <ProductSliderDiscounted products={sliderProducts.discounted || []} />
         </AnimateOnScroll>
 
         <AnimateOnScroll direction="up" delay={0.3}>

@@ -40,7 +40,7 @@ const Product = () => {
     price: { min: 0.2, max: 100 },
   });
 
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isMobile, setIsMobile] = useState(false);
   const { data: wishlistData } = useGetAllWishlist();
@@ -208,7 +208,7 @@ const Product = () => {
         </h1>
 
         <button
-          className="flex items-center gap-2 bg-[#D9D9D9] text-black px-4 py-2 rounded-lg mb-5 hover:bg-[#cfcfcf] transition"
+          className="flex items-center gap-2 bg-[#D9D9D9] text-black px-4 py-2 cursor-pointer rounded-lg mb-5 hover:bg-[#cfcfcf] transition"
           onClick={() => isMobile ? onOpen() : setShowFilters(!showFilters)}
         >
           <FilterIcon /> <span className="font-[Expo-arabic]">{t('filters.show')}</span>

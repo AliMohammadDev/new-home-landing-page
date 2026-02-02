@@ -2,24 +2,27 @@ import { useState } from 'react';
 import Slider from 'react-slick';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
-import Group from '../../assets/images/group.png';
 import { Link, useNavigate } from 'react-router-dom';
-import { useGetProfile } from '../../api/auth.jsx';
-import { useAddToCartItem } from '../../api/cart.jsx';
 import { addToast } from '@heroui/react';
+import { useGetProfile } from '../../api/auth.jsx';
 import RatingStars from '../RatingStars.jsx';
+import { useAddToCartItem } from '../../api/cart.jsx';
 import { useTranslation } from 'react-i18next';
-import { useSubmitReview } from '../../api/reviews.jsx';
 import clsx from 'clsx';
+import { useSubmitReview } from '../../api/reviews.jsx';
 
-function ProductSlider2({ products = [] }) {
+function ProductSliderTopAvg({ products = [] }) {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
   const [currentSlide, setCurrentSlide] = useState(0);
-
   const { data: user } = useGetProfile();
   const { mutate: addToCart, isLoading } = useAddToCartItem();
+
+
+  const [isExpanded, setIsExpanded] = useState(false);
+  const fullText = t('essential_to_prep.top_rated.description');
+  const shortText = fullText.slice(0, 250) + "...";
 
   const handleAddCartItem = (variant) => {
     if (!user) {
@@ -41,7 +44,8 @@ function ProductSlider2({ products = [] }) {
             title: 'Cart',
             description: t('essential_to_prep.cart_success', {
               product: variant.product.name,
-            }), color: 'success',
+            }),
+            color: 'success',
             duration: 4000,
           });
         },
@@ -59,7 +63,6 @@ function ProductSlider2({ products = [] }) {
       }
     );
   };
-
   // Add review
   const { mutate: submitReview } = useSubmitReview();
   const handleRateProduct = (variantId, rating) => {
@@ -99,40 +102,62 @@ function ProductSlider2({ products = [] }) {
     );
   };
 
+  const CustomArrow = ({ onClick, direction, currentSlide, slideCount }) => {
+    const isDisabled =
+      (direction === 'prev' && currentSlide === 0) ||
+      (direction === 'next' && currentSlide === slideCount - 1);
 
-  const CustomArrow = ({ onClick, direction }) => {
     const isNext = direction === 'next';
+
     return (
       <button
         onClick={onClick}
-        className="absolute -top-14 bg-[#D9D9D9] cursor-pointer  text-black hover:bg-gray-300 rounded-full w-9 h-9 md:w-12 md:h-12 transition flex items-center justify-center z-10"
+        disabled={isDisabled}
+        className={`absolute -top-10 md:-top-14 cursor-pointer rounded-full w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition z-10
+        ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300'}
+      `}
         style={{
           [isRTL ? 'left' : 'right']: isNext ? 0 : 56,
         }}
       >
         {isNext ? (
-          isRTL ? <ChevronLeftIcon color="black" /> : <ChevronRightIcon color="black" />
+          isRTL ? <ChevronLeftIcon /> : <ChevronRightIcon />
         ) : (
-          isRTL ? <ChevronRightIcon color="black" /> : <ChevronLeftIcon color="black" />
+          isRTL ? <ChevronRightIcon /> : <ChevronLeftIcon />
         )}
       </button>
     );
   };
 
   const settings = {
+    dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 2.5,
+    slidesToShow: 4,
+    rows: 1,
+    slidesPerRow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    // rtl: isRTL,
     nextArrow: <CustomArrow direction="next" />,
     prevArrow: <CustomArrow direction="prev" />,
     afterChange: (current) => setCurrentSlide(current),
     responsive: [
-      { breakpoint: 1280, settings: { slidesToShow: 2 } },
-      { breakpoint: 1024, settings: { slidesToShow: 2 } },
-      { breakpoint: 640, settings: { slidesToShow: 1 } },
+      {
+        breakpoint: 1280,
+        settings: { slidesToShow: 4, rows: 2 }
+      },
+      {
+        breakpoint: 1024,
+        settings: { slidesToShow: 3, rows: 2 }
+      },
+      {
+        breakpoint: 768,
+        settings: { slidesToShow: 2, rows: 2 }
+      },
+      {
+        breakpoint: 640,
+        settings: { slidesToShow: 1, rows: 2 }
+      },
     ],
   };
 
@@ -140,92 +165,85 @@ function ProductSlider2({ products = [] }) {
 
   return (
     <section
-      className="bg-[#EDEAE2] text-[#025043] px-6 md:px-20 py-10 md:py-5"
+      className="bg-[#EDEAE2] text-[#025043] px-6 md:px-20 py-10"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
-      {/* Title & Description */}
-      <span className={` text-black text-[40px] md:text-[64px] block mb-4 ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Qanduchia] text-left'}`}>
-        {t('essential_to_prep.title')}
-        <p className="text-black text-[14px] font-[Expo-book] md:text-[15px] mt-2">
-          {t('essential_to_prep.description')}
+      {/* Title + Description */}
+      <div className={`mb-8 ${isRTL ? 'text-right' : 'text-left'}`}>
+        <h2 className={
+          clsx(" text-black text-[40px] md:text-[64px] mb-4",
+            isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
+          )
+        }>
+          {t('essential_to_prep.top_rated.title')}
+        </h2>
+        <p className="text-black text-[14px] md:text-[18px] font-[Expo-book] max-w-8xl mb-15">
+          {isExpanded ? fullText : shortText}
+
+          <button
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="text-[#025043] hover:text-black-800 font-[Expo-arabic] ml-2 mr-2 cursor-pointer transition-colors"
+          >
+            {isExpanded ? t('read_less') : t('read_more')}
+          </button>
         </p>
-      </span>
+      </div>
 
-      {/* Grid Container */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 md:gap-16 mt-8 justify-items-center">
-
-        <div className="w-full flex justify-center ml-50 lg:justify-start">
-          <img
-            src={Group}
-            alt="Promotion"
-            className=" object-contain  mr-30 -mt-20 md:mr-1 lg:-ml-20 xl:-ml-30 md:w-[90%] lg:w-full h-auto transform md:scale-110 lg:scale-140 xl:scale-100 origin-center"
-          />
-        </div>
-
-        {/* Slider  */}
-        <div className="relative w-full max-w-full lg:max-w-[650px] xl:max-w-[800px]   md:-mt-30 lg:-mt-1" dir={isRTL ? 'rtl' : 'ltr'}>
+      {/* Slider Container */}
+      <div className="relative" dir={isRTL ? 'rtl' : 'ltr'}>
+        {/* Slider Container */}
+        <div className="relative" dir={isRTL ? 'rtl' : 'ltr'}>
           <Slider {...settings}>
             {products.map((variant) => {
               const product = variant.product;
 
-              const sizes = [
-                ...new Set(
-                  product.available_options?.flatMap(color =>
-                    color.available_sizes?.map(size => size.name)
-                  )
-                )
-              ].slice(0, 4);
-
-              const materials = [
-                ...new Set(
-                  product.available_options?.flatMap(color =>
-                    color.available_sizes?.flatMap(size =>
-                      size.available_materials?.map(mat => mat.name)
-                    )
-                  )
-                )
-              ].slice(0, 3);
+              const sizes = [...new Set(product.available_options?.flatMap(color => color.available_sizes?.map(size => size.name)))].slice(0, 4);
+              const materials = [...new Set(product.available_options?.flatMap(color => color.available_sizes?.flatMap(size => size.available_materials?.map(mat => mat.name))))].slice(0, 4);
 
               return (
-                <div key={variant.id} className="px-2 h-full">
+                <div key={variant.id} className="px-2">
                   <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
 
-                    <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
-                      <div className="relative group overflow-hidden">
-                        {variant.discount > 0 && (
-                          <div className={clsx(
-                            "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
-                            isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
-                          )}>
-                            {isRTL ? (
-                              <>{t('essential_to_prep.off')} {Number(variant.discount)}%</>
-                            ) : (
-                              <>{Number(variant.discount)}% {t('essential_to_prep.off')}</>
-                            )}
-                          </div>
-                        )}
+                    {/* Image Section */}
+                    <div className="relative group overflow-hidden">
+                      {variant.discount > 0 && (
+                        <div className={clsx(
+                          "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
+                          isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full font-bold"
+                        )}>
+                          {isRTL ? (
+                            <>{t('essential_to_prep.off')} {Number(variant.discount)}%</>
+                          ) : (
+                            <>{Number(variant.discount)}% {t('essential_to_prep.off')}</>
+                          )}
+                        </div>
+                      )}
+
+                      <Link to={`/products/${product.category.id}/product-info/${variant.id}`}>
                         <img
                           src={variant.image}
                           alt={product.name}
-                          className="w-full h-48 sm:h-56 md:h-60 object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
+                          className="w-full h-48 sm:h-56 md:h-64 object-cover hover:scale-110 transition-transform duration-500 ease-in-out"
                         />
-                      </div>
-                    </Link>
+                      </Link>
+                    </div>
 
-                    <div className="p-4 flex-1 flex flex-col">
+                    {/* Content Section */}
+                    <div className="p-4 flex flex-col gap-3 flex-1">
                       <h3 className={clsx(
-                        "text-[#025043] text-[16px] font-bold -mb-4 h-12 overflow-hidden",
-                        isRTL ? "font-[Expo-arabic] text-right" : "font-[Expo-book] text-left"
+                        "text-[#025043] text-[16px] -mb-6 font-bold h-12 overflow-hidden",
+                        isRTL ? "font-[Expo-arabic] text-right" : "font-bold text-left"
                       )}>
                         {product.name}
                       </h3>
 
-                      <p className={clsx("text-sm text-black mb-1", isRTL ? "text-right" : "text-left")}>
+                      <p className={clsx("text-sm text-black", isRTL ? "text-right" : "text-left")}>
                         SKU: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
                       </p>
 
-                      <div className="border-b border-[#025043]/20 mb-3"></div>
+                      <div className="border-b border-[#025043]/20"></div>
 
+                      {/* Price Section */}
                       <div className={clsx(
                         "flex items-baseline gap-2",
                         isRTL ? "flex-row-reverse justify-start" : "flex-row justify-start"
@@ -240,8 +258,8 @@ function ProductSlider2({ products = [] }) {
                         )}
                       </div>
 
+                      {/* Options Container */}
                       <div className="flex flex-col gap-2 mb-4">
-                        {/* colors */}
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
                             "text-[13px] text-gray-400 min-w-10 shrink-0",
@@ -254,13 +272,13 @@ function ProductSlider2({ products = [] }) {
                               <div
                                 key={option.id}
                                 title={option.name}
-                                className="w-6 h-6 rounded-full border border-gray-400 hover:scale-110 transition shadow-sm"
+                                className="w-6 h-6  rounded-full border border-gray-400 hover:scale-110 transition shadow-sm"
                                 style={{ backgroundColor: option.hex }}
                               />
                             ))}
                           </div>
                         </div>
-                        {/* sizes */}
+
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
                             "text-[13px] text-gray-400 min-w-10 shrink-0",
@@ -276,7 +294,7 @@ function ProductSlider2({ products = [] }) {
                             ))}
                           </div>
                         </div>
-                        {/* materials */}
+
                         <div className={clsx("flex items-center w-full", isRTL ? "flex-row-reverse" : "flex-row")}>
                           <span className={clsx(
                             "text-[13px] text-gray-400 min-w-10 shrink-0",
@@ -294,44 +312,38 @@ function ProductSlider2({ products = [] }) {
                         </div>
                       </div>
 
-                      <div className="mt-auto flex flex-col">
-                        {/* Rating and View More */}
-                        <div className={clsx(
-                          "flex items-center justify-between w-full mt-2",
-                        )}>
-                          {/* Stars + Review Count */}
-                          <div className="flex items-center gap-1 min-w-0">
-                            <RatingStars
-                              onRate={(star) => handleRateProduct(variant.id, star)}
-                              rating={Number(variant.reviews_avg) || 0}
-                            />
-                            <span className="text-xs text-gray-400 truncate">
-                              ({variant.reviews_count || 0})
-                            </span>
-                          </div>
-
-                          {/* View More */}
-                          <span
-                            onClick={(e) => { e.stopPropagation(); navigate('/products'); }}
-                            className="text-xs font-medium hover:underline cursor-pointer whitespace-nowrap"
-                          >
-                            {t('essential_to_prep.view_more')}
+                      {/* Rating and View More */}
+                      <div className={clsx(
+                        "flex items-center justify-between w-full mt-2",
+                      )}>
+                        {/* Stars + Review Count */}
+                        <div className="flex items-center gap-1 min-w-0">
+                          <RatingStars
+                            onRate={(star) => handleRateProduct(variant.id, star)}
+                            rating={Number(variant.reviews_avg) || 0}
+                          />
+                          <span className="text-xs text-gray-400 truncate">
+                            ({variant.reviews_count || 0})
                           </span>
                         </div>
 
-
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            handleAddCartItem(variant);
-                          }}
-                          disabled={isLoading}
-                          className="w-full bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-2 mt-1 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
+                        {/* View More */}
+                        <span
+                          onClick={(e) => { e.stopPropagation(); navigate('/products'); }}
+                          className="text-xs font-medium hover:underline cursor-pointer whitespace-nowrap"
                         >
-                          {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
-                        </button>
+                          {t('essential_to_prep.view_more')}
+                        </span>
                       </div>
+
+                      {/* Add to Cart Button */}
+                      <button
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleAddCartItem(variant); }}
+                        disabled={isLoading}
+                        className="w-full bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
+                      >
+                        {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -339,22 +351,24 @@ function ProductSlider2({ products = [] }) {
             })}
           </Slider>
 
-          {/* Progress Bar */}
+          {/* Progress Bar Container */}
           <div className="mt-8 px-2 md:px-0">
-            <div className="w-full h-1 bg-gray-300 rounded-full overflow-hidden">
+            <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden relative">
               <div
-                className="h-full bg-[#025043] rounded-full transition-all duration-500"
+                className="h-full bg-[#025043] rounded-full transition-all duration-500 ease-out absolute"
                 style={{
                   width: `${progress}%`,
-                  float: 'left'
+                  [isRTL ? 'right' : 'left']: 0
                 }}
               />
             </div>
           </div>
         </div>
-      </div>
-    </section>
+
+
+      </div >
+    </section >
   );
 }
 
-export default ProductSlider2;
+export default ProductSliderTopAvg;

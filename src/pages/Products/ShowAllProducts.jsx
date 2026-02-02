@@ -40,14 +40,9 @@ function ShowAllProducts() {
       max: 100,
     },
   });
-
-
   const { data: products = [] } = useGetAllProductsVariants();
   const { data: wishlistData } = useGetAllWishlist();
   const { mutate: addWishlist } = useAddWishlist();
-
-
-
   const variants = products || [];
   const productsList = variants.map(v => ({
     variantId: v.id,
@@ -174,7 +169,7 @@ function ShowAllProducts() {
     return wishlistProductIds.includes(variantId);
   };
 
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [isMobile, setIsMobile] = useState(false);
 

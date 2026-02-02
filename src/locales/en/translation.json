@@ -272,8 +272,8 @@
   },
 
   "essential_to_prep": {
-    "title": "Essential to prep",
-    "description": "Quality homeware essentials designed to make everyday living easier, more organized, and more stylish.",
+    "title": "Home & Kitchenware",
+    "description": "Discover a wide range of home and kitchen tools at Tawfeer. Our selection features a variety of items including tea sets, coffee pots (Dallah), tea cups, cookware, and baking molds from top brands like Deqqa Qadima, Al-Attar, and Ne'ma. Perfect for enhancing your home and kitchen functionality, these high-quality tools meet all your culinary and household needs. Shop now at Tawfeer to find the best home and kitchenware that combines comfort and style in your living space.",
     "add_to_cart": "Add to cart",
     "adding": "Adding...",
     "view_more": "view more",
@@ -281,7 +281,16 @@
     "cart_success": "{{product}} added to cart successfully!",
     "cart_error": "Failed to add {{product}} to cart",
     "off": "OFF",
-    "exclusive_collection": "Exclusive Collection"
+    "exclusive_collection": "Exclusive Collection",
+    "top_rated": {
+      "title": "Top Rated",
+      "description": "Explore the products that have earned our customers' trust and received the highest ratings. Our carefully curated selection of home and kitchenware has been tested and approved by thousands of users, ensuring quality and innovation in every detail. We believe our community's feedback is the true standard of excellence, so we’ve handpicked the best based on real experiences that combine functional performance with elegant design."
+    },
+
+    "offers": {
+      "title": "Grand Savings Offers",
+      "description": "Don't miss the chance to get the best home and kitchenware at exceptional prices. At Tawfeer, we combine high quality with true value through our ongoing offers on a wide range of tea sets, coffee pots, and bakeware."
+    }
   },
 
   "about_section": {
@@ -412,5 +421,8 @@
   },
   "common": {
     "top": "TOP"
-  }
+  },
+  "read_more": "Read more",
+  "read_less": "Read less",
+  "shop_now": "Shop Now"
 }
