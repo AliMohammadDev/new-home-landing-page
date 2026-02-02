@@ -94,7 +94,7 @@ function Wishlists() {
       dir={isAr ? 'rtl' : 'ltr'}
     >
       {/* Header */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-16 mt-10">
         <div className="flex justify-center mb-4 transition-transform hover:scale-110 duration-300">
           <FavoriteIcon size={54} color="white" />
         </div>

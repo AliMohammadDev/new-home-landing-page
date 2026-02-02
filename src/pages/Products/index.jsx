@@ -129,7 +129,6 @@ const Product = () => {
     return matchCategory && matchColor && matchPrice;
   });
 
-  console.log("Category Images:", category?.all_images);
   return (
     <div className="bg-[#EDEAE2] min-h-screen" dir={isRTL ? 'rtl' : 'ltr'}>
       {category && (
@@ -214,149 +213,160 @@ const Product = () => {
           <FilterIcon /> <span className="font-[Expo-arabic]">{t('filters.show')}</span>
         </button>
 
-        <div className="flex flex-col md:flex-row gap-8">
+        <div className="flex flex-col md:flex-row gap-8 items-start">
           {showFilters && !isMobile && (
-            <div className="w-full md:w-1/4 transition-all duration-300">
+            <div className="w-full md:w-1/6 transition-all duration-300">
               <ProductFilters filters={filters} onChange={toggleFilter} onPriceChange={updatePrice} />
             </div>
           )}
 
-          <div className={clsx("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full transition-all duration-300")}>
-            {filteredProducts.map((product) => {
-              const sizes = [
-                ...new Set(
-                  product.available_options?.flatMap(color =>
-                    color.available_sizes?.map(size => size.name)
-                  )
-                )
-              ].slice(0, 4);
-
-              const materials = [
-                ...new Set(
-                  product.available_options?.flatMap(color =>
-                    color.available_sizes?.flatMap(size =>
-                      size.available_materials?.map(mat => mat.name)
+          <div className="flex-1 w-full">
+            <div className={clsx("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6")}>
+              {filteredProducts.map((product) => {
+                const sizes = [
+                  ...new Set(
+                    product.available_options?.flatMap(color =>
+                      color.available_sizes?.map(size => size.name)
                     )
                   )
-                )
-              ].slice(0, 4);
-              return (
-                <div key={product.variantId} className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col group">
-                  {product.discount > 0 && (
-                    <div className={clsx(
-                      "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
-                      isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
-                    )}>
-                      {isRTL ? <>{t('essential_to_prep.off')} {Number(product.discount)}%</> : <>{Number(product.discount)}% {t('essential_to_prep.off')}</>}
-                    </div>
-                  )}
-                  <div className="relative overflow-hidden">
-                    <Link to={`/products/${categoryId}/product-info/${product.variantId}`}>
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </Link>
-                    <button
-                      onClick={() => handleAddWishlist(product)}
-                      className={clsx(
-                        "absolute top-2 z-30 p-2 rounded-full transition cursor-pointer",
-                        isRTL ? "left-2" : "right-2"
-                      )}
-                    >
-                      <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
-                    </button>
-                  </div>
-                  <div className="p-4 flex flex-col flex-1 gap-2">
-                    <h3 className="text-[#025043] text-[16px] font-bold h-12 overflow-hidden -mb-6">{product.name}</h3>
-                    <p className="text-xs text-black">
-                      SKU: <span className="text-gray-500">{product?.sku}</span>
-                    </p>
+                ].slice(0, 4);
 
-                    <div className="border-b border-[#025043]/20"></div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[#025043] text-lg font-bold">{product.final_price} $</span>
-                      {product.discount > 0 && (
-                        <span className="text-gray-400 text-sm line-through">{product.price} $</span>
-                      )}
-                    </div>
-
-                    <div className={clsx(
-                      "flex flex-col gap-2 mt-1",
-                      isRTL ? "items-start text-right" : "items-start text-left"
-                    )}>
-                      <div className="flex items-center justify-between w-full">
-                        <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold font-[Expo-arabic]">
-                        </span>
+                const materials = [
+                  ...new Set(
+                    product.available_options?.flatMap(color =>
+                      color.available_sizes?.flatMap(size =>
+                        size.available_materials?.map(mat => mat.name)
+                      )
+                    )
+                  )
+                ].slice(0, 4);
+                return (
+                  <div key={product.variantId} className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col group">
+                    {product.discount > 0 && (
+                      <div className={clsx(
+                        "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
+                        isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
+                      )}>
+                        {isRTL ? <>{t('essential_to_prep.off')} {Number(product.discount)}%</> : <>{Number(product.discount)}% {t('essential_to_prep.off')}</>}
                       </div>
-                      {/* Colors */}
-                      <div className="flex gap-1.5 flex-wrap">
-                        <span className="text-[13px] text-gray-400 min-w-10">{t('filter.color')}</span>
-                        {product.available_options?.slice(0, 8).map((option) => (
-                          <div
-                            key={option.id}
-                            title={option.name}
-                            className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
-                            style={{ backgroundColor: option.hex }}
-                          />
-                        ))}
-                      </div>
-
-                      {/* Sizes  */}
-                      <div className="flex items-center gap-1 mt-1">
-                        <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
-                        <div className="flex gap-1 flex-wrap">
-                          {sizes.map((size, i) => (
-                            <span
-                              key={i}
-                              className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
-                            >
-                              {size}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Materials  */}
-                      <div className="flex items-center gap-1">
-                        <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
-                        <div className="flex gap-1 flex-wrap">
-                          {materials.map((mat, i) => (
-                            <span
-                              key={i}
-                              className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
-                            >
-                              {mat}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-auto pt-3 border-t border-gray-200 flex flex-col gap-3">
-                      <div className="flex items-center justify-between">
-                        <RatingStars rating={product.rating} onRate={(star) => handleRateProduct(product.variantId, star)} />
-                        <span className="text-xs text-gray-400">({product.reviews_count})</span>
-                      </div>
-
+                    )}
+                    <div className="relative overflow-hidden">
+                      <Link to={`/products/${categoryId}/product-info/${product.variantId}`}>
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </Link>
                       <button
-                        onClick={() => handleAddCartItem(product)}
-                        disabled={isLoading}
-                        className="w-full bg-[#025043] text-white py-2 cursor-pointer rounded-full text-sm font-bold hover:bg-[#01382f] transition active:scale-95 disabled:opacity-50"
+                        onClick={() => handleAddWishlist(product)}
+                        className={clsx(
+                          "absolute top-2 z-30 p-2 rounded-full transition cursor-pointer",
+                          isRTL ? "left-2" : "right-2"
+                        )}
                       >
-                        {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
+                        <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
                       </button>
                     </div>
+                    <div className="p-4 flex flex-col flex-1">
+                      <h3 className="text-[#025043] text-[16px] font-bold h-12 overflow-hidden -mb-6">{product.name}</h3>
+                      <p className="text-xs text-black">
+                        SKU: <span className="text-gray-500">{product?.sku}</span>
+                      </p>
+
+                      <div className="border-b border-[#025043]/20"></div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[#025043] text-lg font-bold">{product.final_price} $</span>
+                        {product.discount > 0 && (
+                          <span className="text-gray-400 text-sm line-through">{product.price} $</span>
+                        )}
+                      </div>
+
+                      <div className={clsx(
+                        "flex flex-col gap-2 mt-1",
+                        isRTL ? "items-start text-right" : "items-start text-left"
+                      )}>
+                        <div className="flex items-center justify-between w-full">
+                          <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold font-[Expo-arabic]">
+                          </span>
+                        </div>
+                        {/* Colors */}
+                        <div className="flex gap-1.5 flex-wrap">
+                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.color')}</span>
+                          {product.available_options?.slice(0, 8).map((option) => (
+                            <div
+                              key={option.id}
+                              title={option.name}
+                              className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
+                              style={{ backgroundColor: option.hex }}
+                            />
+                          ))}
+                        </div>
+
+                        {/* Sizes  */}
+                        <div className="flex items-center gap-1 mt-1">
+                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
+                          <div className="flex gap-1 flex-wrap">
+                            {sizes.map((size, i) => (
+                              <span
+                                key={i}
+                                className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
+                              >
+                                {size}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Materials  */}
+                        <div className="flex items-center gap-1">
+                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
+                          <div className="flex gap-1 flex-wrap">
+                            {materials.map((mat, i) => (
+                              <span
+                                key={i}
+                                className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
+                              >
+                                {mat}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-auto pt-3 border-t border-gray-200 flex flex-col gap-3">
+                        <div className="flex items-center justify-between">
+                          <RatingStars rating={product.rating} onRate={(star) => handleRateProduct(product.variantId, star)} />
+                          <span className="text-xs text-gray-400">({product.reviews_count})</span>
+                        </div>
+
+                        <button
+                          onClick={() => handleAddCartItem(product)}
+                          disabled={isLoading}
+                          className="w-full bg-[#025043] text-white py-2 cursor-pointer rounded-full text-sm font-bold hover:bg-[#01382f] transition active:scale-95 disabled:opacity-50"
+                        >
+                          {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              )
+                )
 
 
-            })}
+              })}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-8">
+
+
+          <div className={clsx("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full transition-all duration-300")}>
 
           </div>
         </div>
+
+
       </div>
 
       <Drawer isOpen={isOpen} placement="bottom" onOpenChange={onOpenChange}>

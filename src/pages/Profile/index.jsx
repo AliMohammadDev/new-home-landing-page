@@ -61,7 +61,7 @@ function Profile() {
   if (isLoading) return null;
 
   return (
-    <div className="w-full min-h-screen bg-[#025043] py-20 md:py-32 px-6 lg:px-20 text-white font-[Expo-arabic]">
+    <div className="w-full min-h-screen bg-[#025043] py-20 md:py-32 px-6 lg:px-20 mt-10 text-white font-[Expo-arabic]">
       <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
 
         {/* ================= LEFT: EDIT FORM ================= */}

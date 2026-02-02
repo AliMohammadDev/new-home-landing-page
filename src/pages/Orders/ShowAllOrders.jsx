@@ -27,7 +27,7 @@ function ShowAllOrders() {
       dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
     >
       {/* Header */}
-      <div className="flex items-center gap-4 mb-10 mt-10">
+      <div className="flex items-center gap-4 mb-10 mt-20">
         <div className="p-3 rounded-2xl bg-white/10">
           <OrderIcon className="w-7 h-7" />
         </div>

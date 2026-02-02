@@ -107,7 +107,7 @@ const Header = () => {
 
                   {/* Main Title Animation */}
                   <div className={clsx(
-                    "pl-6 sm:pl-8 md:pl-14 transition-all duration-1000 delay-300 transform",
+                    "pl-6 sm:pl-8 md:pl-11 transition-all duration-1000 delay-300 transform",
                     isActive ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0",
                     isRTL ? "font-[Expo-Qanduchia]" : "font-[Qanduchia]"
                   )}>

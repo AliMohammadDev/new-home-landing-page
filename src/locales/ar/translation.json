@@ -171,7 +171,7 @@
     "status": {
       "pending": "قيد الانتظار",
       "completed": "مكتمل",
-      "canceled": "ملغى"
+      "cancelled": "ملغى"
     },
     "viewDetails": "عرض التفاصيل",
     "latest": "الأحدث",

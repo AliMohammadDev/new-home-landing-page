@@ -169,7 +169,7 @@
     "status": {
       "pending": "Pending",
       "completed": "Completed",
-      "canceled": "Canceled"
+      "cancelled": "Canceled"
     },
     "viewDetails": "View details",
     "latest": "Latest",

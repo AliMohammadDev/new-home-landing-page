@@ -380,7 +380,9 @@ function ShowAllProducts() {
           </button>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row gap-6 items-start">
+
+
           <div
             className={`${showFilters ? 'w-2.8 md:w-1/4' : 'w-0 hidden'} transition-all duration-300`}
           >
@@ -559,6 +561,8 @@ function ShowAllProducts() {
               </div>
             )}
           </div>
+
+
         </div>
 
         <Drawer isOpen={isOpen} placement="bottom" onOpenChange={onOpenChange}>
