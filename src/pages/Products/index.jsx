@@ -131,6 +131,11 @@ const Product = () => {
     });
   };
 
+  useEffect(() => {
+    clearFilters();
+  }, [i18n.language]);
+
+
 
   const filteredProducts = productsList.filter((product) => {
     const hasColorFilter = filters.colors.length > 0;
