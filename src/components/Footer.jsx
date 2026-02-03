@@ -20,45 +20,7 @@ const Footer = () => {
 
   return (
     <footer className={`font-[Expo-book] ${isRTL ? 'direction-rtl' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
-      {/* Top line */}
-      <div className="w-full h-0.5 bg-white"></div>
-
-      {/* Section 1 */}
-      <div className="bg-[#024538] border-b border-[#EDEAE2]/30">
-        <div className={`flex flex-col md:flex-row items-center w-full ${isRTL ? 'md:flex-row-reverse' : ''}`}>
-
-          <div className="flex-1 flex items-center justify-center gap-3 py-2 md:py-0">
-            <img src={website} alt="website" className="w-5 h-5 lg:w-6 lg:h-6 opacity-90" />
-            <span className="text-white text-sm md:text-[16px] lg:text-[22px] font-light">
-              {t('footer.website_url')}
-            </span>
-          </div>
-
-          <div className="hidden md:block w-px bg-[#EDEAE2]/30 h-10 mx-2"></div>
-
-          <div className={`flex-1 flex items-center justify-center gap-4 py-2 md:py-0 ${isRTL ? 'font-[Expo-arabic]' : 'font-[Expo-arabic]'}`}>
-            <img
-              src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
-              alt="logo"
-              className="w-10 h-10 lg:w-14 lg:h-14 object-contain"
-            />
-            <span className="text-white text-sm md:text-[18px] lg:text-[25px] tracking-widest uppercase">
-              {t('footer.brand_name')}
-            </span>
-          </div>
-
-          <div className="hidden md:block w-px bg-[#EDEAE2]/30 h-10 mx-2"></div>
-
-          <div className="flex-1 flex items-center justify-center py-2 md:py-0">
-            <span className="text-white text-sm md:text-[16px] lg:text-[22px] font-light">
-              {t('footer.category')}
-            </span>
-          </div>
-
-        </div>
-      </div>
-
-      <div className="w-full h-0.5 bg-white"></div>
+      <div className="w-full h-0.5 bg-[#025043]"></div>
 
       {/* Section 2 */}
       <div className={`${isLightFooter ? 'bg-white text-black' : 'bg-black text-white'} py-12 px-6 md:px-20`}>

@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
+import ShopeIcon from '../assets/icons/ShopeIcon';
 
 const Layout = () => {
   const [showButton, setShowButton] = useState(false);
@@ -47,6 +48,7 @@ const Layout = () => {
 
   const isAboutPage = location.pathname.includes('/about');
   const isProductInfoPage = location.pathname.includes('/product-info');
+  const isAr = i18n.language === 'ar';
 
   return (
     <div className="flex flex-col min-h-screen relative">
@@ -57,13 +59,15 @@ const Layout = () => {
       </div>
 
       <Footer />
-
-      {showButton && (
+      <div className={clsx(
+        "fixed bottom-6 z-50 flex items-end gap-3 transition-all duration-500",
+        i18n.language === 'ar' ? 'left-6 flex-row-reverse' : 'right-6 flex-row',
+        showButton ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
+      )}>
         <button
           onClick={scrollToTop}
           className={clsx(
-            "fixed bottom-6 z-50 rounded-full shadow-lg transition-all duration-300 bg-white cursor-pointer group flex flex-col items-center justify-center overflow-hidden border border-[#025043]/10",
-            i18n.language === 'ar' ? 'left-6' : 'right-6',
+            "rounded-full shadow-lg transition-all duration-300 bg-white cursor-pointer group flex flex-col items-center justify-center overflow-hidden border border-[#025043]/10",
             "w-12 h-12 hover:h-20"
           )}
         >
@@ -80,7 +84,28 @@ const Layout = () => {
             {t('common.top')}
           </span>
         </button>
-      )}
+        <a
+          href="/products"
+          className={clsx(
+            "rounded-full shadow-lg transition-all duration-300 bg-[#E2995E] cursor-pointer group flex flex-col items-center justify-center overflow-hidden border border-white/10",
+            "w-12 h-12 hover:h-24 hover:bg-white transition-all"
+          )}
+        >
+          <div className="shrink-0 transition-transform duration-300 group-hover:-translate-y-1">
+            <ShopeIcon />
+          </div>
+          <span
+            className={clsx(
+              "opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-12 transition-all duration-500 ease-in-out text-[#E2995E] font-bold text-[9px] text-center leading-tight uppercase px-1",
+              isAr ? 'font-[Expo-arabic] mb-2' : 'font-sans mb-1'
+            )}
+          >
+            {t('shop_now')}
+          </span>
+        </a>
+
+
+      </div>
     </div>
   );
 };

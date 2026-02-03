@@ -190,7 +190,6 @@ function ProductSliderNew({ products = [] }) {
       </div>
 
       {/* Slider Container */}
-      {/* Slider Container */}
       <div className="relative" dir={isRTL ? 'rtl' : 'ltr'}>
         <Slider {...settings}>
           {products.map((variant) => {

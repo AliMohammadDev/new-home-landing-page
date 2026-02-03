@@ -36,6 +36,7 @@ const Navbar = () => {
     document.documentElement.lang = lng;
   };
 
+  const isRTL = i18n.language === 'ar';
 
   const { data: categories = [] } = useGetCategories();
   const { data: profile } = useGetProfile();
@@ -305,16 +306,28 @@ const Navbar = () => {
 
                     <div className="text-white text-sm w-full px-4 pt-15 pb-4">
 
+                      <div className="absolute top-4 w-40 flex flex-col gap-2 mb-4">
+                        <Link to="/carts" className="w-full">
+                          <button
+                            onClick={() => setIsCartOpen(false)}
+                            className="text-[#025043] border rounded-2xl cursor-pointer bg-white font-[Expo-arabic] py-2 w-full flex justify-center items-center gap-2 hover:bg-gray-100 transition-colors shadow-sm group"
+                          >
+                            <span>{t('navbar.my_cart')}</span>
+
+                            {isRTL ? <ChevronLeftIcon color='#025043' /> : <ChevronRightIcon color='#025043' />}
+                          </button>
+                        </Link>
+                      </div>
                       <div
                         className="w-full max-w-xs h-[300px] overflow-y-auto px-2"
                         style={{ direction: 'ltr' }}
                       >
-
                         <div
                           className="w-full"
                           dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
                           style={{ direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}
                         >
+
                           {/* Header */}
                           <div className="grid grid-cols-3 gap-2 font-semibold border-b border-white/30 pb-2 mb-3">
                             <span>{t('cart.product')}</span>
@@ -355,14 +368,8 @@ const Navbar = () => {
                               </div>
 
                               <Link to="/checkouts">
-                                <button onClick={() => setIsCartOpen(false)} className="text-[#025043] border rounded-2xl cursor-pointer bg-white font-[Expo-arabic] py-2 mt-4 w-full flex justify-center hover:bg-gray-100 transition-colors">
+                                <button onClick={() => setIsCartOpen(false)} className="text-[#025043] border rounded-2xl cursor-pointer bg-white font-[Expo-arabic] py-2 w-full flex justify-center hover:bg-gray-100 transition-colors">
                                   {t('cart.checkout')}
-                                </button>
-                              </Link>
-
-                              <Link to="/carts">
-                                <button onClick={() => setIsCartOpen(false)} className="text-[#025043] border rounded-2xl cursor-pointer bg-white font-[Expo-arabic] py-2 mt-4 w-full flex justify-center hover:bg-gray-100 transition-colors">
-                                  {t('navbar.my_cart')}
                                 </button>
                               </Link>
                             </>

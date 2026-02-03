@@ -218,20 +218,21 @@ function Carts() {
               <table className="w-full border-collapse">
                 <thead>
                   <tr className="border-b text-sm text-white/70">
-                    <th className="text-start py-4 px-2 w-[100px]">{t('cart.product')}</th>
-                    <th className="text-start py-4 px-2">{t('filter.name')}</th>
-                    <th className="text-start py-4 px-2">{t('filter.color')}</th>
-                    <th className="text-start py-4 px-2">{t('filter.size')}</th>
-                    <th className="text-start py-4 px-2">{t('filter.material')}</th>
-                    <th className="text-start py-4 px-2">{t('cart.price')}</th>
-                    <th className="text-start py-4 px-2">{t('cart.packages')}</th>
-                    <th className="text-end py-4 px-2">{t('cart.quantity')}</th>
+                    <th className="text-start py-4 px-2 w-[120px]">{t('cart.product')}</th>
+                    <th className="text-center py-4 px-2 min-w-[150px]">{t('filter.name')}</th>
+                    <th className="text-center py-4 px-2 min-w-[120px]">{t('filter.color')}</th>
+                    <th className="text-center py-4 px-2 min-w-[100px]">{t('filter.size')}</th>
+                    <th className="text-center py-4 px-2 min-w-[120px]">{t('filter.material')}</th>
+                    <th className="text-center py-4 px-2 min-w-[100px]">{t('cart.price')}</th>
+                    <th className="text-center py-4 px-2 min-w-[140px]">{t('cart.quantity')}</th>
+                    <th className="text-end py-4 px-2 w-[120px]">{t('cart.count')}</th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {items.map((item) => (
-                    <tr key={item.id} className="border-b last:border-none  transition-colors">
+                    <tr key={item.id} className="border-b last:border-none transition-colors hover:bg-white/5">
+                      {/* عمود الصورة */}
                       <td className="py-6 px-2">
                         <div className="flex items-center gap-4">
                           <button
@@ -253,17 +254,16 @@ function Carts() {
                         </div>
                       </td>
 
-                      <td className="py-6 px-2 text-white font-medium">
-                        <div className="flex flex-col items-start gap-1">
+                      <td className="py-6 px-2 text-white font-medium text-center">
+                        <div className="flex flex-col items-center gap-1 max-w-[200px] mx-auto">
                           <Link
                             to={`/products/${item.product_variant?.product_id}/product-info/${item.product_variant?.id}`}
-                            className="hover:text-[#E2995E] transition-colors cursor-pointer"
+                            className="hover:text-[#E2995E] transition-colors cursor-pointer line-clamp-2"
                           >
                             <span>{item.product_variant?.name}</span>
                           </Link>
                           {item.type === 'Package' && (
-                            <span className="bg-[#E2995E] text-white text-[10px] px-2 py-0.5 rounded-full font-bold shadow-sm">
-
+                            <span className="bg-[#E2995E] text-white text-[10px] px-2 py-0.5 rounded-full font-bold shadow-sm whitespace-nowrap">
                               {t('productInfo.package_saving')}
                             </span>
                           )}
@@ -271,88 +271,95 @@ function Carts() {
                       </td>
 
                       <td className="py-6 px-2">
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button variant="bordered" className="min-w-[120px] text-white flex justify-between">
-                              <span className="flex items-center gap-2">
-                                {selectedColor[item.id] && (
-                                  <span
-                                    className="w-3 h-3 rounded-full border border-gray-300"
-                                    style={{ backgroundColor: selectedColor[item.id].hex }}
-                                  ></span>
-                                )}
-
-                                <span className="truncate">
-                                  {selectedColor[item.id]
-                                    ? t(`filter.colors.${selectedColor[item.id].name}`) || selectedColor[item.id].name
-                                    : t('filter.color')}
+                        <div className="flex justify-center">
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button variant="bordered"
+                                className="w-50 text-white flex justify-between">
+                                <span className="flex items-center gap-2 overflow-hidden">
+                                  {selectedColor[item.id] && (
+                                    <span
+                                      className="w-3 h-3 min-w-[12px] rounded-full border border-gray-300"
+                                      style={{ backgroundColor: selectedColor[item.id].hex }}
+                                    ></span>
+                                  )}
+                                  <span className="truncate">
+                                    {selectedColor[item.id]
+                                      ? t(`filter.colors.${selectedColor[item.id].name}`) || selectedColor[item.id].name
+                                      : t('filter.color')}
+                                  </span>
                                 </span>
+                                <ChevronDownIcon className="min-w-4" />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu aria-label="Select Color">
+                              {item.available_options?.map((color) => (
+                                <DropdownItem key={color.id} onClick={() => handleColorChange(item.id, color)}>
+                                  <div className="flex items-center gap-2">
+                                    <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color.hex }}></span>
+                                    {t(`filter.colors.${color.name}`) || color.name}
+                                  </div>
+                                </DropdownItem>
+                              ))}
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
+                      </td>
 
-                              </span>
-                              <ChevronDownIcon />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu aria-label="Select Color">
-                            {item.available_options?.map((color) => (
-                              <DropdownItem
-                                key={color.id}
-                                onClick={() => handleColorChange(item.id, color)}
+                      <td className="py-6 px-2">
+                        <div className="flex justify-center">
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button variant="bordered"
+                                className="w-30 text-white flex justify-between">
+                                {selectedSize[item.id]?.name || t('filter.size')}
+                                <ChevronDownIcon />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu>
+                              {selectedColor[item.id]?.available_sizes?.map((size) => (
+                                <DropdownItem key={size.id} onClick={() => handleSizeChange(item.id, size)}>
+                                  {size.name}
+                                </DropdownItem>
+                              ))}
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
+                      </td>
+
+                      <td className="py-6 px-2">
+                        <div className="flex justify-center">
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button
+                                variant="bordered"
+                                className="w-35 text-white flex justify-between items-center px-3"
                               >
-                                <div className="flex items-center gap-2">
-                                  <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color.hex }}></span>
-                                  {t(`filter.colors.${color.name}`) || color.name}
-                                </div>
-                              </DropdownItem>
-                            ))}
-                          </DropdownMenu>
-                        </Dropdown>
+                                <span className="truncate flex-1 text-start">
+                                  {selectedMaterial[item.id]?.name || t('filter.material')}
+                                </span>
+                                <ChevronDownIcon className="shrink-0 ml-2" />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu>
+                              {selectedSize[item.id]?.available_materials?.map((mat) => (
+                                <DropdownItem
+                                  key={mat.id}
+                                  onClick={() => handleMaterialChange(item.id, mat)}
+                                >
+                                  {mat.name}
+                                </DropdownItem>
+                              ))}
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
                       </td>
 
-                      <td className="py-6 px-2">
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button variant="bordered" className="min-w-20 text-white">
-                              {selectedSize[item.id]?.name || t('filter.size')}
-                              <ChevronDownIcon />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu>
-                            {selectedColor[item.id]?.available_sizes?.map((size) => (
-                              <DropdownItem key={size.id}
-
-                                onClick={() => handleSizeChange(item.id, size)}
-                              >{size.name}</DropdownItem>
-                            ))}
-                          </DropdownMenu>
-                        </Dropdown>
-                      </td>
-
-                      <td className="py-6 px-2">
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button variant="bordered" className="min-w-[100px] text-white">
-                              {selectedMaterial[item.id]?.name || t('filter.material')}
-                              <ChevronDownIcon />
-                            </Button>
-                          </DropdownTrigger>
-                          <DropdownMenu>
-                            {selectedSize[item.id]?.available_materials?.map((mat) => (
-                              <DropdownItem key={mat.id}
-                                onClick={() => handleMaterialChange(item.id, mat)}
-                              >{mat.name}</DropdownItem>
-                            ))}
-                          </DropdownMenu>
-                        </Dropdown>
-                      </td>
-
-
-
-                      <td className="py-6 px-2">
-                        <div className="flex flex-col min-w-[100px]">
+                      <td className="py-6 px-2 text-center">
+                        <div className="flex flex-col items-center justify-center min-w-[100px]">
                           <span className="text-[#E2995E] font-semibold whitespace-nowrap">
                             {currentPrice[item.id]} $
                           </span>
-
                           {item.type === 'Package' && (
                             <span className="text-[11px] text-gray-400 mt-0.5 italic">
                               {item.package_info?.quantity_in_package
@@ -360,7 +367,6 @@ function Carts() {
                                 : t('cart.package_price')}
                             </span>
                           )}
-
                           {item.type === 'Individual' && oldPrice[item.id] > currentPrice[item.id] && (
                             <span className="text-xs text-gray-400 line-through">
                               {oldPrice[item.id]} $
@@ -369,62 +375,60 @@ function Carts() {
                         </div>
                       </td>
 
-
-                      {/* packages */}
                       <td className="py-6 px-2">
-                        <Dropdown>
-                          <DropdownTrigger>
-                            <Button
-                              variant="bordered"
-                              className={clsx(
-                                "min-w-[120px] text-white font-[Expo-arabic] flex justify-between items-center",
-                                item.type === 'Package' ? "border-[#E2995E] text-[#E2995E]" : "border-white/20"
-                              )}
-                            >
-                              <span className="truncate">
-                                {item.type === 'Package' && item.package_info
-                                  ? `${item.package_info.quantity_in_package} ${t('cart.pcs')}`
-                                  : t('cart.individual')}
-                              </span>
-                              <ChevronDownIcon />
-                            </Button>
-                          </DropdownTrigger>
-
-                          <DropdownMenu
-                            aria-label="Select Package"
-                            onAction={(key) => {
-                              if (key === 'individual') {
-                                handlePackageChange(item.id, null, 'Individual');
-                              } else {
-                                const pkg = selectedMaterial[item.id]?.available_packages?.find(p => p.id === Number(key));
-                                if (pkg) handlePackageChange(item.id, pkg, 'Package');
-                              }
-                            }}
-                          >
-                            <DropdownItem key="individual" className="text-black">
-                              {t('cart.individual')}
-                            </DropdownItem>
-
-                            {(selectedMaterial[item.id]?.available_packages || []).map((pkg) => (
-                              <DropdownItem
-                                key={pkg.id}
-                                description={`${pkg.price} $`}
-                                className="text-[#E2995E] font-bold"
+                        <div className="flex justify-center">
+                          <Dropdown>
+                            <DropdownTrigger>
+                              <Button
+                                variant="bordered"
+                                className={clsx(
+                                  "min-w-[120px] text-white font-[Expo-arabic] flex justify-between items-center",
+                                  item.type === 'Package' ? "border-[#E2995E] text-[#E2995E]" : "border-white/20"
+                                )}
                               >
-                                {pkg.quantity} {t('cart.pcs')}
+                                <span className="truncate">
+                                  {item.type === 'Package' && item.package_info
+                                    ? `${item.package_info.quantity_in_package} ${t('cart.pcs')}`
+                                    : t('cart.individual')}
+                                </span>
+                                <ChevronDownIcon />
+                              </Button>
+                            </DropdownTrigger>
+                            <DropdownMenu
+                              aria-label="Select Package"
+                              onAction={(key) => {
+                                if (key === 'individual') {
+                                  handlePackageChange(item.id, null, 'Individual');
+                                } else {
+                                  const pkg = selectedMaterial[item.id]?.available_packages?.find(p => p.id === Number(key));
+                                  if (pkg) handlePackageChange(item.id, pkg, 'Package');
+                                }
+                              }}
+                            >
+                              <DropdownItem key="individual" className="text-black">
+                                {t('cart.individual')}
                               </DropdownItem>
-                            ))}
-                          </DropdownMenu>
-                        </Dropdown>
+                              {(selectedMaterial[item.id]?.available_packages || []).map((pkg) => (
+                                <DropdownItem
+                                  key={pkg.id}
+                                  description={`${pkg.price} $`}
+                                  className="text-[#E2995E] font-bold"
+                                >
+                                  {pkg.quantity} {t('cart.pcs')}
+                                </DropdownItem>
+                              ))}
+                            </DropdownMenu>
+                          </Dropdown>
+                        </div>
                       </td>
-
 
                       <td className="py-6 px-2">
                         <div className="flex justify-end">
                           <div className="inline-flex items-center bg-white text-[#025043] rounded-2xl px-2 py-1 gap-2">
-                            <button onClick={() => decreaseItem(item.id)} className="p-1 bg-[#025043] text-white rounded-lg cursor-pointer"><MinusIcon /></button>
-                            <span className="px-2 font-semibold">{item.quantity}</span>
-
+                            <button onClick={() => decreaseItem(item.id)} className="p-1 bg-[#025043] text-white rounded-lg cursor-pointer">
+                              <MinusIcon />
+                            </button>
+                            <span className="px-2 font-semibold min-w-5 text-center">{item.quantity}</span>
                             <button
                               onClick={() => {
                                 increaseItem(item.id, {
@@ -451,6 +455,7 @@ function Carts() {
                   ))}
                 </tbody>
               </table>
+
             </div>
           )}
         </div>

@@ -1,19 +1,22 @@
 import { useState } from 'react';
 import { addToast } from '@heroui/react';
 import FavoriteIcon from '../../assets/icons/FavoriteIcon';
-import { useGetAllWishlist, useRemoveWishlist } from '../../api/wishlist';
+import { useClearAllWishlist, useGetAllWishlist, useRemoveWishlist } from '../../api/wishlist';
 import { useAddToCartItem } from '../../api/cart';
 import { useGetProfile } from '../../api/auth';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import LeftIcon from '../../assets/icons/LeftIcon';
+import ClearIcon from '../../assets/icons/ClearIcon';
+import AddAllIcon from '../../assets/icons/AddAllIcon';
 
 function Wishlists() {
   const { t, i18n } = useTranslation();
   const isAr = i18n.language === 'ar';
 
   const removeWishlist = useRemoveWishlist();
+  const clearAllWishlist = useClearAllWishlist();
   const [page, setPage] = useState(1);
   const { data: response, isLoading: isWishlistLoading } = useGetAllWishlist(page);
   const wishlistItems = response?.data || [];
@@ -89,6 +92,18 @@ function Wishlists() {
     );
   }
 
+  const handleClearAll = () => {
+    clearAllWishlist.mutate(null, {
+      onSuccess: () => {
+        addToast({
+          title: t('wishlist.title'),
+          description: t('wishlist.clearSuccess') || 'Wishlist cleared',
+          color: 'success',
+        });
+      },
+    });
+  };
+
   return (
     <div
       className="w-full bg-[#025043] min-h-screen px-4 md:px-12 lg:px-24 py-24 font-[Expo-arabic] text-white"
@@ -113,6 +128,8 @@ function Wishlists() {
         <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
           {t('wishlist.title')}
         </h1>
+
+
       </div>
 
       {/* Main Content */}
@@ -133,6 +150,41 @@ function Wishlists() {
 
         ) : (
           <div className="w-full overflow-x-auto custom-scrollbar">
+
+
+            <div className="flex justify-end items-center gap-3 mb-4">
+              <button
+                onClick={handleClearAll}
+                disabled={clearAllWishlist.isLoading}
+                className={clsx(
+                  "flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300",
+                  "bg-red-500/10 border border-red-500/20 text-red-400 hover:bg-red-500 hover:text-white",
+                  "text-xs font-bold uppercase tracking-wider disabled:opacity-50 cursor-pointer active:scale-95",
+                  isAr && "font-[Expo-arabic] flex-row-reverse"
+                )}
+              >
+                <ClearIcon />
+                <span>{t('wishlist.clearAll') || 'Clear All'}</span>
+              </button>
+
+              <button
+                onClick={() => {
+                  wishlistItems.forEach(item => handleAddCartItem(item));
+                }}
+                disabled={isAdding}
+                className={clsx(
+                  "flex bg-white text-[#025043] items-center gap-2 px-4 py-2 rounded-xl transition-all duration-300",
+                  "hover:bg-[#E2995E] hover:text-white transition-all duration-300",
+                  "text-xs font-bold uppercase tracking-wider disabled:opacity-50 cursor-pointer active:scale-95",
+                  isAr && "font-[Expo-arabic] flex-row-reverse"
+                )}
+              >
+                <AddAllIcon />
+                <span>{t('wishlist.addAllToCart') || 'Add All to Cart'}</span>
+              </button>
+            </div>
+
+
             <table className="w-full border-collapse min-w-[700px]">
               <thead>
                 <tr className="border-b border-white/20 text-sm text-gray-300">
@@ -235,6 +287,8 @@ function Wishlists() {
               </tbody>
 
             </table>
+
+
           </div>
         )}
 

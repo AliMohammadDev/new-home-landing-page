@@ -61,3 +61,24 @@ export const useRemoveWishlist = () => {
     },
   });
 };
+
+
+
+export const useClearAllWishlist = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async () => {
+      try {
+        const res = await axios.delete('wishlist/clear-all');
+        return res.data;
+      } catch (error) {
+        throw new Error(
+          error.response?.data?.message || 'Failed to clear wishlist'
+        );
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['wishlist']);
+    },
+  });
+};

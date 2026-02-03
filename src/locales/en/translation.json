@@ -123,7 +123,8 @@
     "packages": "Offers",
     "individual": "Individual",
     "pcs": "pcs",
-    "package_price": "Package Price"
+    "package_price": "Package Price",
+    "count": "Count"
   },
 
   "checkout": {
@@ -224,7 +225,9 @@
     "page": "Page",
     "of": "of",
     "empty": "Your wishlist is empty.",
-    "explore": "Explore our products and start adding them to your wishlist"
+    "explore": "Explore our products and start adding them to your wishlist",
+    "clearAll": "Clear all",
+    "addAllToCart": "Add all to cart"
   },
   "order": {
     "loading": "Loading order...",
@@ -280,7 +283,7 @@
   },
 
   "essential_to_prep": {
-    "title": "Home & Kitchenware",
+    "title": "New Products",
     "description": "Discover a wide range of home and kitchen tools at Tawfeer. Our selection features a variety of items including tea sets, coffee pots (Dallah), tea cups, cookware, and baking molds from top brands like Deqqa Qadima, Al-Attar, and Ne'ma. Perfect for enhancing your home and kitchen functionality, these high-quality tools meet all your culinary and household needs. Shop now at Tawfeer to find the best home and kitchenware that combines comfort and style in your living space.",
     "add_to_cart": "Add to cart",
     "adding": "Adding...",
@@ -291,7 +294,7 @@
     "off": "OFF",
     "exclusive_collection": "Exclusive Collection",
     "top_rated": {
-      "title": "Top Rated",
+      "title": "Top Selling Products",
       "description": "Explore the products that have earned our customers' trust and received the highest ratings. Our carefully curated selection of home and kitchenware has been tested and approved by thousands of users, ensuring quality and innovation in every detail. We believe our community's feedback is the true standard of excellence, so we’ve handpicked the best based on real experiences that combine functional performance with elegant design."
     },
 
@@ -318,7 +321,7 @@
   },
 
   "most_product": {
-    "title_main": "Most",
+    "title_main": "Most ",
     "title_sub": "Popular",
     "description_line1": "We preserve every moment with gifts that speak from the heart",
     "description_line2": "Timeless pieces crafted to celebrate love, warmth, and meaningful occasions.",
