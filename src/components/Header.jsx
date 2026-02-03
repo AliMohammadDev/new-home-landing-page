@@ -90,7 +90,7 @@ const Header = () => {
                 <div className="absolute inset-0 bg-black/40" />
 
                 {/* TEXT CONTAINER */}
-                <div className="absolute z-10 top-20 sm:top-16 md:top-8 lg:top-24 xl:top-[250px] left-6 sm:left-10 md:left-16 lg:left-1 xl:left-10 2xl:left-30 p-4 sm:p-6 md:p-10 text-white">
+                <div className="absolute z-10 top-46 sm:top-26 md:top-28 lg:top-44 xl:top-[250px] left-6 sm:left-10 md:left-16 lg:left-1 xl:left-10 2xl:left-30 p-4 sm:p-6 md:p-10 text-white">
 
                   {/* Tagline Animation */}
                   <div className={clsx(
@@ -107,7 +107,7 @@ const Header = () => {
 
                   {/* Main Title Animation */}
                   <div className={clsx(
-                    "pl-6 sm:pl-8 md:pl-11 transition-all duration-1000 delay-300 transform",
+                    "pl-11 sm:pl-8 md:pl-12 transition-all duration-1000 delay-300 transform",
                     isActive ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0",
                     isRTL ? "font-[Expo-Qanduchia]" : "font-[Qanduchia]"
                   )}>

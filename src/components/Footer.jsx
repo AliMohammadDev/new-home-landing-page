@@ -36,7 +36,7 @@ const Footer = () => {
 
           <div className="hidden md:block w-px bg-[#EDEAE2]/30 h-10 mx-2"></div>
 
-          <div className={`flex-1 flex items-center justify-center gap-4 py-2 md:py-0 ${isRTL ? 'font-[Expo-arabic]' : 'font-[Qanduchia]'}`}>
+          <div className={`flex-1 flex items-center justify-center gap-4 py-2 md:py-0 ${isRTL ? 'font-[Expo-arabic]' : 'font-[Expo-arabic]'}`}>
             <img
               src="https://res.cloudinary.com/dzvrf9xe3/image/upload/v1765366635/home-logo-white_c2et5l.svg"
               alt="logo"
@@ -114,7 +114,7 @@ const Footer = () => {
                     to={item.path}
                     className={clsx(
                       "text-[16px] opacity-80 transition-all duration-300 hover:opacity-100 relative inline-block after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-0 after:h-[1px] after:bg-current hover:after:w-full",
-                      isLightFooter ? 'hover:text-black' : 'hover:text-[#E2995E]'
+                      isLightFooter ? 'hover:text-[#E2995E]' : 'hover:text-[#E2995E]'
                     )}
                   >
                     {t(`footer.${item.key}`)}
@@ -212,3 +212,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
