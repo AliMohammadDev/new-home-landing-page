@@ -46,13 +46,12 @@ const Layout = () => {
     });
   };
 
-  const isAboutPage = location.pathname.includes('/about');
   const isProductInfoPage = location.pathname.includes('/product-info');
   const isAr = i18n.language === 'ar';
 
   return (
     <div className="flex flex-col min-h-screen relative">
-      {!isAboutPage && !isProductInfoPage && <Navbar />}
+      {!isProductInfoPage && <Navbar />}
 
       <div className="grow mx-auto w-full">
         <Outlet />

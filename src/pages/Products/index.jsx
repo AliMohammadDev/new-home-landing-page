@@ -241,6 +241,14 @@ const Product = () => {
           {category?.name}
         </h1>
 
+        <div className="overflow-hidden whitespace-nowrap mb-10">
+          <div className="animate-marquee inline-block">
+            <span className={clsx("text-red-600 text-lg font-bold mx-4", isRTL ? "font-[Expo-arabic]" : "")}>
+              {t('promotions.marquee_text')} • {t('promotions.marquee_text')} • {t('promotions.marquee_text')}
+            </span>
+          </div>
+        </div>
+
         <button
           className="flex items-center gap-2 bg-[#D9D9D9] text-black px-4 py-2 cursor-pointer rounded-lg mb-5 hover:bg-[#cfcfcf] transition"
           onClick={() => isMobile ? onOpen() : setShowFilters(!showFilters)}

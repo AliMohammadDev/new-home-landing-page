@@ -424,11 +424,53 @@ function Carts() {
 
                       <td className="py-6 px-2">
                         <div className="flex justify-end">
-                          <div className="inline-flex items-center bg-white text-[#025043] rounded-2xl px-2 py-1 gap-2">
-                            <button onClick={() => decreaseItem(item.id)} className="p-1 bg-[#025043] text-white rounded-lg cursor-pointer">
+                          <div className="inline-flex items-center bg-white text-[#025043] rounded-2xl px-2 py-1 gap-2 border border-gray-200">
+
+                            <button
+                              onClick={() => decreaseItem(item.id)}
+                              className="p-1 bg-[#025043] text-white rounded-lg cursor-pointer hover:bg-opacity-80 transition active:scale-90"
+                            >
                               <MinusIcon />
                             </button>
-                            <span className="px-2 font-semibold min-w-5 text-center">{item.quantity}</span>
+
+                            <input
+                              type="number"
+                              min="1"
+                              key={item.quantity}
+                              defaultValue={item.quantity}
+
+                              className="w-12 text-center font-bold bg-gray-50/50 rounded-md border-b-2 border-transparent focus:border-[#E2995E] focus:bg-orange-50/30 transition-all outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none text-[#025043]"
+
+                              onBlur={(e) => {
+                                const val = parseInt(e.target.value);
+                                if (!isNaN(val) && val > 0 && val !== item.quantity) {
+                                  updateItem({
+                                    id: item.id,
+                                    data: { quantity: val }
+                                  }, {
+                                    onError: (err) => {
+                                      e.target.value = item.quantity;
+                                      const countMatch = err.message.match(/\d+/);
+                                      const count = countMatch ? countMatch[0] : '';
+                                      addToast({
+                                        title: t('cart.notice'),
+                                        description: t('cart.stock_limit_msg', { count }) || err.message,
+                                        color: 'danger',
+                                      });
+                                    }
+                                  });
+                                } else {
+                                  e.target.value = item.quantity;
+                                }
+                              }}
+
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  e.target.blur();
+                                }
+                              }}
+                            />
+
                             <button
                               onClick={() => {
                                 increaseItem(item.id, {
@@ -439,18 +481,19 @@ function Carts() {
                                       title: t('cart.notice'),
                                       description: t('cart.stock_limit_msg', { count }) || err.message,
                                       color: 'danger',
-                                      duration: 3000,
                                     });
                                   }
                                 });
                               }}
-                              className="p-1 bg-[#025043] text-white rounded-lg cursor-pointer"
+                              className="p-1 bg-[#025043] text-white rounded-lg cursor-pointer hover:bg-opacity-80 transition active:scale-90"
                             >
                               <PlusIcon />
                             </button>
                           </div>
                         </div>
                       </td>
+
+
                     </tr>
                   ))}
                 </tbody>

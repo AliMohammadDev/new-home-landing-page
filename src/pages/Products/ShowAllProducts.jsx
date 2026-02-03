@@ -358,6 +358,13 @@ function ShowAllProducts() {
             {t('navbar.all_products')}
           </h1>
         </div>
+        <div className="overflow-hidden whitespace-nowrap mb-10">
+          <div className="animate-marquee inline-block">
+            <span className={clsx("text-red-600 text-lg font-bold mx-4", isRTL ? "font-[Expo-arabic]" : "")}>
+              {t('promotions.marquee_text')} • {t('promotions.marquee_text')} • {t('promotions.marquee_text')}
+            </span>
+          </div>
+        </div>
 
         {/* Filter */}
         <div className="relative inline-block mt-5">

@@ -73,8 +73,37 @@ body {
 }
 
 
-/* هذا يضمن وجود مسافة عمودية بين السطرين */
 .slick-slide>div {
   margin-bottom: 20px;
-  /* المسافة بين السطر العلوي والسفلي */
+}
+
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marqueeRTL {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-marquee {
+  display: inline-block;
+  white-space: nowrap;
+  animation: marquee 50s linear infinite;
+}
+
+[dir="rtl"] .animate-marquee {
+  animation: marqueeRTL 50s linear infinite;
 }

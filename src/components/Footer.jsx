@@ -1,4 +1,3 @@
-import website from '../assets/images/website.svg';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import FacebookIcon from '../assets/icons/FacebookIcon';
@@ -13,7 +12,7 @@ const Footer = () => {
   const { t, i18n } = useTranslation();
 
   const isLightFooter =
-    location.pathname.includes('/about') ||
+
     location.pathname.includes('/product-info');
 
   const isRTL = i18n.language === 'ar';
@@ -21,7 +20,6 @@ const Footer = () => {
   return (
     <footer className={`font-[Expo-book] ${isRTL ? 'direction-rtl' : ''}`} dir={isRTL ? 'rtl' : 'ltr'}>
       <div className="w-full h-0.5 bg-[#025043]"></div>
-
       {/* Section 2 */}
       <div className={`${isLightFooter ? 'bg-white text-black' : 'bg-black text-white'} py-12 px-6 md:px-20`}>
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-16 ${isRTL ? 'md:text-right' : 'md:text-left'}`}>
@@ -158,13 +156,23 @@ const Footer = () => {
         </div>
 
         {/* Bottom copyright */}
-        <div className={`flex flex-col md:flex-row justify-between items-center md:items-end mt-20 pt-8 border-t ${isLightFooter ? 'border-gray-200' : 'border-white/10'} ${isRTL ? 'md:flex-row-reverse' : ''}`}>
+        <div className={`flex flex-col md:flex-row justify-between items-center md:items-end mt-20 pt-8 border-t 
+  ${isLightFooter ? 'border-gray-200' : 'border-white/10'} 
+  ${isRTL ? 'md:flex-row-reverse' : ''}`}
+        >
+          {/* Copyright Text */}
+          <div className={`text-sm md:text-xs  uppercase tracking-widest 
+    ${isLightFooter ? 'text-gray-600' : 'text-gray-400'}
+    ${isRTL ? 'md:ml-20' : ''}
+    `
 
-          <div className={`text-sm md:text-xs uppercase tracking-widest ${isLightFooter ? 'text-gray-600' : 'text-gray-400'}`}>
+          }>
             © {new Date().getFullYear()} {t('footer.copyright')}
           </div>
 
-          <h2 className={`mt-6 md:mt-0 text-2xl md:text-4xl lg:text-3xl xl:text-5xl font-[Expo-arabic] ${isRTL ? 'md:text-right' : 'md:text-left'} ${isLightFooter ? 'text-black' : 'text-white'}`}>
+          {/* Company Name */}
+          <h2 className={`mt-6 md:mt-0 text-2xl md:text-4xl lg:text-3xl xl:text-5xl font-[Expo-arabic] 
+    ${isLightFooter ? 'text-black' : 'text-white'}`}>
             {t('footer.company_name')}
           </h2>
         </div>

@@ -13,57 +13,57 @@ const Header = () => {
   const slides = [
     {
       image: "https://souvy.nl/cdn/shop/collections/keukengerei.jpg?v=1710320853&width=2048",
-      tag: "Professional Cookware",
-      title1: "Master the Art",
-      title2: "of Fine Cooking",
-      bottom1: "Upgrade",
-      bottom2: "your Kitchen,",
-      bottomSmall: "elevate your cooking"
+      tag: t('slides.slide1.tag'),
+      title1: t('slides.slide1.title1'),
+      title2: t('slides.slide1.title2'),
+      bottom1: t('slides.slide1.bottom1'),
+      bottom2: t('slides.slide1.bottom2'),
+      bottomSmall: t('slides.slide1.bottomSmall')
     },
     {
       image: "https://tokyo-design-studio.com/images/categories/og/kitchenware3.jpg",
-      tag: "Elegant Glassware",
-      title1: "Pure Clarity",
-      title2: "In Every Sip",
-      bottom1: "Refresh",
-      bottom2: "your Style,",
-      bottomSmall: "with premium glasses"
+      tag: t('slides.slide2.tag'),
+      title1: t('slides.slide2.title1'),
+      title2: t('slides.slide2.title2'),
+      bottom1: t('slides.slide2.bottom1'),
+      bottom2: t('slides.slide2.bottom2'),
+      bottomSmall: t('slides.slide2.bottomSmall')
     },
     {
       image: "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?q=80&w=2070",
-      tag: "Durable Bakeware",
-      title1: "Quality Tools",
-      title2: "For Every Baker",
-      bottom1: "Perfect",
-      bottom2: "your Baking,",
-      bottomSmall: "crispy results every time"
+      tag: t('slides.slide3.tag'),
+      title1: t('slides.slide3.title1'),
+      title2: t('slides.slide3.title2'),
+      bottom1: t('slides.slide3.bottom1'),
+      bottom2: t('slides.slide3.bottom2'),
+      bottomSmall: t('slides.slide3.bottomSmall')
     },
     {
       image: "https://sunnexproducts.com/wp-content/uploads/2022/07/what-is-kitchenware-articles.jpg",
-      tag: "Luxury Dinnerware",
-      title1: "Set Your Table",
-      title2: "With Elegance",
-      bottom1: "Impress",
-      bottom2: "your Guests,",
-      bottomSmall: "with modern plates"
+      tag: t('slides.slide4.tag'),
+      title1: t('slides.slide4.title1'),
+      title2: t('slides.slide4.title2'),
+      bottom1: t('slides.slide4.bottom1'),
+      bottom2: t('slides.slide4.bottom2'),
+      bottomSmall: t('slides.slide4.bottomSmall')
     },
     {
       image: "https://officeforproductdesign.com/img/KitchenwareCollection/Kitchenware_Collection_by_OfficeforProductDesign_W01.jpg",
-      tag: "Premium Sets",
-      title1: "The Heart of",
-      title2: "Your Kitchen",
-      bottom1: "Minimal",
-      bottom2: "Design,",
-      bottomSmall: "maximum performance"
+      tag: t('slides.slide5.tag'),
+      title1: t('slides.slide5.title1'),
+      title2: t('slides.slide5.title2'),
+      bottom1: t('slides.slide5.bottom1'),
+      bottom2: t('slides.slide5.bottom2'),
+      bottomSmall: t('slides.slide5.bottomSmall')
     },
     {
       image: "https://www.buyandship.com.my/contents/uploads/2024/07/stainless-steel-kitchenware-table.jpg",
-      tag: "Modern Kitchenware",
-      title1: "Modern Style",
-      title2: "Modern Living",
-      bottom1: "Refine",
-      bottom2: "your Space,",
-      bottomSmall: "where quality meets art"
+      tag: t('slides.slide6.tag'),
+      title1: t('slides.slide6.title1'),
+      title2: t('slides.slide6.title2'),
+      bottom1: t('slides.slide6.bottom1'),
+      bottom2: t('slides.slide6.bottom2'),
+      bottomSmall: t('slides.slide6.bottomSmall')
     }
   ];
 
@@ -83,23 +83,30 @@ const Header = () => {
           <SwiperSlide key={index}>
             {({ isActive }) => (
               <div
-                dir="ltr"
                 className="w-full h-full bg-cover bg-no-repeat bg-center relative"
                 style={{ backgroundImage: `url(${slide.image})` }}
               >
                 <div className="absolute inset-0 bg-black/40" />
 
-                {/* TEXT CONTAINER */}
-                <div className="absolute z-10 top-46 sm:top-26 md:top-28 lg:top-44 xl:top-[250px] left-6 sm:left-10 md:left-16 lg:left-1 xl:left-10 2xl:left-30 p-4 sm:p-6 md:p-10 text-white">
+                {/* TEXT CONTAINER  */}
+                <div className={clsx(
+                  "absolute z-10 top-46 sm:top-26 md:top-28 lg:top-44 xl:top-[250px] p-4 sm:p-6 md:p-10 text-white w-full md:w-auto",
+                  isRTL
+                    ? "right-6 sm:right-10 md:right-16 lg:right-1 xl:right-10 2xl:right-30 text-right"
+                    : "left-6 sm:left-10 md:left-16 lg:left-1 xl:left-10 2xl:left-30 text-left"
+                )}>
 
                   {/* Tagline Animation */}
                   <div className={clsx(
                     "flex items-center gap-2 md:gap-3 mb-6 sm:mb-10 md:mb-4 transition-all duration-1000 transform",
-                    isActive ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                    isActive ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0",
+                    "flex-row"
                   )}>
-                    <div className="w-10 h-px bg-[#E2995E]" />
+                    <div className="w-10 h-px bg-[#E2995E] shrink-0" />
+
                     <span className={clsx(
-                      "text-[#E2995E] text-sm sm:text-lg md:text-2xl tracking-[4px] uppercase",
+                      "text-[#E2995E] text-sm sm:text-lg md:text-2xl tracking-[4px] uppercase whitespace-nowrap",
+                      isRTL ? "font-[Expo-arabic]" : ""
                     )}>
                       {slide.tag}
                     </span>
@@ -107,37 +114,48 @@ const Header = () => {
 
                   {/* Main Title Animation */}
                   <div className={clsx(
-                    "pl-11 sm:pl-8 md:pl-12 transition-all duration-1000 delay-300 transform",
-                    isActive ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0",
-                    isRTL ? "font-[Expo-Qanduchia]" : "font-[Qanduchia]"
+                    "transition-all duration-1000 delay-300 transform",
+                    isActive ? "translate-x-0 opacity-100" : (isRTL ? "translate-x-10 opacity-0" : "-translate-x-10 opacity-0"),
+                    isRTL ? "pr-11 sm:pr-8 md:pr-12 font-[Expo-arabic]" : "pl-11 sm:pl-8 md:pl-12 font-[Qanduchia]"
                   )}>
-                    <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-2 text-left leading-tight">
+                    <h1 className={clsx(
+                      "text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-2 leading-tight",
+                      isRTL ? "text-right" : "text-left"
+                    )}>
                       {slide.title1} <br />
                       <span className="text-[#E2995E]">{slide.title2}</span>
                     </h1>
                   </div>
 
+                  {/* Bottom Text Animation */}
                   <div className={clsx(
-                    "mt-20 sm:mt-16 md:mt-20 lg:mt-10 xl:mt-24 ml-6 sm:ml-16 md:ml-24 lg:ml-40 transition-all duration-1000 delay-500 transform",
-                    isActive ? "scale-100 opacity-100" : "scale-95 opacity-0"
+                    "mt-20 sm:mt-16 md:mt-20 lg:mt-10 xl:mt-24 transition-all duration-1000 delay-500 transform",
+                    isActive ? "scale-100 opacity-100" : "scale-95 opacity-0",
+                    "ms-6 sm:ms-16 md:ms-24 lg:ms-40"
                   )}>
-                    <p className="flex flex-wrap items-baseline gap-3 justify-start">
+                    <div className={clsx("flex flex-wrap items-baseline gap-3 justify-start")}>
                       <span className="font-[Asteroid] text-4xl sm:text-5xl md:text-7xl">
                         {slide.bottom1}
                       </span>
-                      <span className="text-3xl font-[Expo-light] italic opacity-90">
+                      <span className="text-3xl font-[Expo-light] opacity-90">
                         {slide.bottom2}
                       </span>
-                    </p>
-                    <p className="ml-10 md:ml-20 text-sm font-[Expo-light] italic sm:text-base md:text-4xl text-left tracking-widest opacity-80">
+                    </div>
+
+                    <p className={clsx(
+                      "text-sm font-[Expo-light] sm:text-base md:text-4xl tracking-widest opacity-80",
+                      "ms-10 md:ms-20",
+                      isRTL ? "text-right" : "text-left"
+                    )}>
                       {slide.bottomSmall}
                     </p>
                   </div>
 
                   {/* SHOP NOW BUTTON */}
                   <div className={clsx(
-                    "mt-8 ml-6 sm:ml-16 md:ml-40 transition-all duration-1000 delay-700 transform",
-                    isActive ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                    "mt-8 transition-all duration-1000 delay-700 transform",
+                    isActive ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0",
+                    isRTL ? "mr-6 sm:mr-16 md:mr-40" : "ml-6 sm:ml-16 md:ml-40"
                   )}>
                     <a
                       href="products"

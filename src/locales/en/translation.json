@@ -282,6 +282,57 @@
     "everything_you_need_desc": "From knives to cookware, we provide all your kitchen essentials in one place."
   },
 
+  "slides": {
+    "slide1": {
+      "tag": "Professional Cookware",
+      "title1": "Master the Art",
+      "title2": "of Fine Cooking",
+      "bottom1": "Upgrade",
+      "bottom2": "your Kitchen,",
+      "bottomSmall": "elevate your cooking"
+    },
+    "slide2": {
+      "tag": "Elegant Glassware",
+      "title1": "Pure Clarity",
+      "title2": "In Every Sip",
+      "bottom1": "Refresh",
+      "bottom2": "your Style,",
+      "bottomSmall": "with premium glasses"
+    },
+    "slide3": {
+      "tag": "Durable Bakeware",
+      "title1": "Quality Tools",
+      "title2": "For Every Baker",
+      "bottom1": "Perfect",
+      "bottom2": "your Baking,",
+      "bottomSmall": "crispy results every time"
+    },
+    "slide4": {
+      "tag": "Luxury Dinnerware",
+      "title1": "Set Your Table",
+      "title2": "With Elegance",
+      "bottom1": "Impress",
+      "bottom2": "your Guests,",
+      "bottomSmall": "with modern plates"
+    },
+    "slide5": {
+      "tag": "Premium Sets",
+      "title1": "The Heart of",
+      "title2": "Your Kitchen",
+      "bottom1": "Minimal",
+      "bottom2": "Design,",
+      "bottomSmall": "maximum performance"
+    },
+    "slide6": {
+      "tag": "Modern Kitchenware",
+      "title1": "Modern Style",
+      "title2": "Modern Living",
+      "bottom1": "Refine",
+      "bottom2": "your Space,",
+      "bottomSmall": "where quality meets art"
+    }
+  },
+
   "essential_to_prep": {
     "title": "New Products",
     "description": "Discover a wide range of home and kitchen tools at Tawfeer. Our selection features a variety of items including tea sets, coffee pots (Dallah), tea cups, cookware, and baking molds from top brands like Deqqa Qadima, Al-Attar, and Ne'ma. Perfect for enhancing your home and kitchen functionality, these high-quality tools meet all your culinary and household needs. Shop now at Tawfeer to find the best home and kitchenware that combines comfort and style in your living space.",
@@ -435,5 +486,8 @@
   },
   "read_more": "Read more",
   "read_less": "Read less",
-  "shop_now": "Shop Now"
+  "shop_now": "Shop Now",
+  "promotions": {
+    "marquee_text": "Enjoy exclusive discounts up to 50% off on our new collection - Carefully curated pieces for your refined taste - Offer ends soon, shop now before stock runs out"
+  }
 }

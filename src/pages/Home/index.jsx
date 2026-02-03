@@ -119,9 +119,9 @@ const Home = () => {
 
 
         {/* About Us Section */}
-        <AnimateOnScroll direction="left" delay={0.5}>
+        {/* <AnimateOnScroll direction="left" delay={0.5}>
           <AboutSection />
-        </AnimateOnScroll>
+        </AnimateOnScroll> */}
 
 
         {/* <AnimateOnScroll direction="zoom" delay={0.3}>
