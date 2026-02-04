@@ -97,6 +97,7 @@ export const useEditProfile = (onSuccess) => {
       if (data.user) {
         queryClient.setQueryData(['profile'], data.user);
       }
+      queryClient.invalidateQueries({ queryKey: ['profile'] });
       onSuccess?.(data);
     },
   });

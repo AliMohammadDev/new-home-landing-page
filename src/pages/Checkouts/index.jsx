@@ -8,6 +8,7 @@ import Lottie from 'lottie-react';
 
 import shoppingCart from '../../assets/animations/shoppingCart.json';
 import LeftIcon from "../../assets/icons/LeftIcon";
+import { useEffect } from "react";
 
 function Checkouts() {
   const { t, i18n } = useTranslation();
@@ -57,6 +58,23 @@ function Checkouts() {
       },
     });
   };
+
+  useEffect(() => {
+    if (profile) {
+      reset({
+        first_name: profile.checkout?.first_name || '',
+        last_name: profile.checkout?.last_name || '',
+        email: profile.checkout?.email || profile.email || '',
+        phone: profile.checkout?.phone || '',
+        country: profile.checkout?.country || '',
+        city: profile.checkout?.city || '',
+        street: profile.checkout?.street || '',
+        floor: profile.checkout?.floor || '',
+        postal_code: profile.checkout?.postal_code || '',
+        additional_information: profile.checkout?.additional_information || '',
+      });
+    }
+  }, [profile, reset]);
 
   return (
     <div className="w-full flex flex-col lg:flex-row mt-10 justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]">

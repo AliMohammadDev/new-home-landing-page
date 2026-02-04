@@ -164,7 +164,7 @@ const AboutUs = () => {
     //   </div>
 
     <div
-      className={`w-full flex flex-col md:flex-row  justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 min-h-screen font-[Expo-arabic]`}
+      className={`w-full flex flex-col md:flex-row  justify-between  bg-[#1b554c] items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 min-h-screen font-[Expo-arabic]`}
       dir={isRTL ? 'rtl' : 'ltr'}
     >
 

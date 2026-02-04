@@ -156,7 +156,6 @@
     "full_name": "Full Name",
     "email": "Email",
     "new_password": "New Password",
-    "confirm_password": "Confirm Password",
     "saving": "Saving...",
     "save_changes": "Save Changes",
     "email_status": "Email status",
@@ -164,7 +163,9 @@
     "orders": "Orders",
     "view_orders": "View orders",
     "logout": "Logout",
-    "profile_updated": "Profile updated successfully"
+    "profile_updated": "Profile updated successfully",
+    "passwords_not_match": "Passwords do not match",
+    "confirm_password": "Confirm Password"
   },
   "orders": {
     "loading": "Loading your orders...",
@@ -489,5 +490,8 @@
   "shop_now": "Shop Now",
   "promotions": {
     "marquee_text": "Enjoy exclusive discounts up to 50% off on our new collection - Carefully curated pieces for your refined taste - Offer ends soon, shop now before stock runs out"
+  },
+  "errors": {
+    "password_too_short": "Password must be at least 6 characters"
   }
 }

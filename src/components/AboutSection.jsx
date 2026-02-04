@@ -9,7 +9,7 @@ function AboutSection() {
 
   return (
     <section
-      className="bg-[#025043] pt-24 overflow-hidden"
+      className=" pt-24 overflow-hidden"
       dir={isRTL ? 'rtl' : 'ltr'}
     >
       <div className="flex flex-col lg:flex-row items-center gap-16 px-6 md:px-20 mb-20">
