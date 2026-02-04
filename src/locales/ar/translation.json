@@ -129,6 +129,8 @@
 
   "checkout": {
     "contact_information": "معلومات الاتصال",
+    "delivery_information": "معلومات التوصيل",
+    "edit_delivery_information": "تعديل معلومات التوصيل",
     "address": "العنوان",
     "first_name": "الاسم الأول",
     "last_name": "اسم العائلة",
@@ -143,7 +145,13 @@
     "save_continue": "حفظ والمتابعة",
     "sending": "جارٍ الإرسال...",
     "secure_payment": "دفع آمن 100%",
-    "payment_desc": "جميع معاملاتك المالية مشفرة ومحمية بأعلى معايير الأمان."
+    "payment_desc": "جميع معاملاتك المالية مشفرة ومحمية بأعلى معايير الأمان.",
+    "select_city": "اختر المدينة",
+    "enter_city": "أدخل اسم المدينة",
+    "specify_country": "يرجى تحديد البلد",
+    "type_country_name": "اكتب اسم بلدك هنا",
+    "country_and_city": "البلد والمدينة",
+    "enter_country_and_city": "أدخل البلد والمدينة (مثال: الإمارات، دبي)"
   },
   "toast": {
     "no_active_cart": "لا يوجد سلة نشطة!",
@@ -498,5 +506,9 @@
 
   "errors": {
     "password_too_short": "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+  },
+  "countries": {
+    "syria": "سوريا",
+    "outside_syria": "خارج سوريا"
   }
 }

@@ -129,6 +129,8 @@
 
   "checkout": {
     "contact_information": "Contact Information",
+    "delivery_information": "Delivery Information",
+    "edit_delivery_information": "Edit Delivery Info",
     "address": "Address",
     "first_name": "First Name",
     "last_name": "Last Name",
@@ -143,7 +145,14 @@
     "save_continue": "Save & Continue",
     "sending": "Sending...",
     "secure_payment": "Secure Checkout",
-    "payment_desc": "Your transaction is encrypted and safe with us."
+    "payment_desc": "Your transaction is encrypted and safe with us.",
+    "country_and_city": "Country and City",
+    "enter_country_and_city": "Enter country and city (e.g. UAE, Dubai)",
+
+    "select_city": "Select City",
+    "enter_city": "Enter city name",
+    "specify_country": "Please specify your country",
+    "type_country_name": "Type your country name here"
   },
   "toast": {
     "no_active_cart": "No active cart found!",
@@ -493,5 +502,9 @@
   },
   "errors": {
     "password_too_short": "Password must be at least 6 characters"
+  },
+  "countries": {
+    "syria": "Syria",
+    "outside_syria": "Outside Syria"
   }
 }

@@ -86,17 +86,18 @@ const Layout = () => {
         <a
           href="/products"
           className={clsx(
-            "rounded-full shadow-lg transition-all duration-300 bg-[#E2995E] cursor-pointer group flex flex-col items-center justify-center overflow-hidden border border-white/10",
-            "w-12 h-12 hover:h-24 hover:bg-white transition-all"
+            "rounded-xl shadow-lg bg-[#E2995E] cursor-pointer group flex items-center justify-center gap-3 border border-white/10 transition-all active:scale-95",
+            "h-12 px-6 w-fit min-w-[140px]"
           )}
         >
-          <div className="shrink-0 transition-transform duration-300 group-hover:-translate-y-1">
+          <div className="shrink-0">
             <ShopeIcon />
           </div>
+
           <span
             className={clsx(
-              "opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-12 transition-all duration-500 ease-in-out text-[#E2995E] font-bold text-[9px] text-center leading-tight uppercase px-1",
-              isAr ? 'font-[Expo-arabic] mb-2' : 'font-sans mb-1'
+              "text-white font-bold text-sm whitespace-nowrap",
+              isAr ? 'font-[Expo-arabic]' : 'font-sans'
             )}
           >
             {t('shop_now')}
