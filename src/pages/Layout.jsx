@@ -58,9 +58,11 @@ const Layout = () => {
       </div>
 
       <Footer />
+
+
       <div className={clsx(
         "fixed bottom-6 z-50 flex items-end gap-3 transition-all duration-500",
-        i18n.language === 'ar' ? 'left-6 flex-row-reverse' : 'right-6 flex-row',
+        i18n.language === 'ar' ? 'left-6 flex-row-reverse' : 'right-6 flex-row-reverse',
         showButton ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"
       )}>
         <button
@@ -83,6 +85,7 @@ const Layout = () => {
             {t('common.top')}
           </span>
         </button>
+
         <a
           href="/products"
           className={clsx(
@@ -97,15 +100,14 @@ const Layout = () => {
           <span
             className={clsx(
               "text-white font-bold text-sm whitespace-nowrap",
-              isAr ? 'font-[Expo-arabic]' : 'font-sans'
+              i18n.language === 'ar' ? 'font-[Expo-arabic]' : 'font-sans'
             )}
           >
             {t('shop_now')}
           </span>
         </a>
-
-
       </div>
+            
     </div>
   );
 };

@@ -39,6 +39,29 @@ export const useAddCheckout = () => {
 };
 
 
+export const useAddNewCheckout = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (checkoutData) => {
+      try {
+        const res = await axios.post('create-new-checkout', checkoutData);
+        return res.data;
+      } catch (error) {
+        throw new Error(
+          error.response?.data?.message || 'Failed to create checkout'
+        );
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(['checkouts']);
+    },
+  });
+};
+
+
+
+
 export const useUpdateCheckout = () => {
   const queryClient = useQueryClient();
 

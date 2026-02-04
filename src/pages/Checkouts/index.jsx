@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useAddCheckout } from "../../api/checkout";
+import { useAddCheckout, useAddNewCheckout } from "../../api/checkout";
 import { addToast, Card, CardBody, Tab, Tabs } from "@heroui/react";
 import { useGetProfile } from '../../api/auth';
 import { Link, useNavigate } from "react-router-dom";
@@ -8,18 +8,21 @@ import Lottie from 'lottie-react';
 import { useGetShipping } from "../../api/shipping";
 import shoppingCart from '../../assets/animations/shoppingCart.json';
 import LeftIcon from "../../assets/icons/LeftIcon";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Select, SelectItem } from "@heroui/react";
 
 function Checkouts() {
   const { t, i18n } = useTranslation();
+  const [activeTab, setActiveTab] = useState("info");
+
   const { register, handleSubmit, reset, watch, setValue } = useForm();
   const { data: profile } = useGetProfile();
   const { data: shippingCities } = useGetShipping();
 
-  const { mutate, isPending: loading } = useAddCheckout();
-  const navigate = useNavigate();
+  const { mutate: updateMutate, isPending: updateLoading } = useAddCheckout();
+  const { mutate: createNewMutate, isPending: createLoading } = useAddNewCheckout();
 
+  const navigate = useNavigate();
   const selectedCountry = watch('country');
 
   const onSubmit = (data) => {
@@ -47,7 +50,9 @@ function Checkouts() {
       payload.shipping_city_id = null;
     }
 
-    mutate(payload, {
+    const currentMutate = activeTab === "edit" ? createNewMutate : updateMutate;
+
+    currentMutate(payload, {
       onSuccess: (checkout) => {
         addToast({
           title: t('checkout.contact_information'),
@@ -70,7 +75,21 @@ function Checkouts() {
   };
 
   useEffect(() => {
-    if (profile) {
+    if (activeTab === "edit") {
+      reset({
+        first_name: '',
+        last_name: '',
+        email: '',
+        phone: '',
+        country: 'Syria',
+        city: '',
+        shipping_city_id: '',
+        street: '',
+        floor: '',
+        postal_code: '',
+        additional_information: '',
+      });
+    } else if (activeTab === "info" && profile) {
       const isInternational = profile.checkout?.country && profile.checkout?.country !== 'Syria';
       reset({
         first_name: profile.checkout?.first_name || '',
@@ -86,7 +105,9 @@ function Checkouts() {
         additional_information: profile.checkout?.additional_information || '',
       });
     }
-  }, [profile, reset]);
+  }, [activeTab, profile, reset]);
+
+  const isLoading = updateLoading || createLoading;
 
   return (
     <div className="w-full flex flex-col lg:flex-row mt-10 justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]">
@@ -97,6 +118,8 @@ function Checkouts() {
 
       <div className="w-full lg:w-1/2 flex flex-col gap-6">
         <Tabs
+          selectedKey={activeTab}
+          onSelectionChange={setActiveTab}
           aria-label="Checkout Options"
           color="primary"
           variant="underlined"
@@ -108,7 +131,6 @@ function Checkouts() {
           }}
         >
           <Tab key="info" title={t('checkout.delivery_information')}>
-
             <Card className="bg-white/10 backdrop-blur-lg border-none mt-4">
               <CardBody className="p-8">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -116,14 +138,11 @@ function Checkouts() {
                     <input {...register('first_name', { required: true })} placeholder={t('checkout.first_name')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none focus:border-white text-white" />
                     <input {...register('last_name', { required: true })} placeholder={t('checkout.last_name')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none focus:border-white text-white" />
                   </div>
-
                   <div className="flex flex-col sm:flex-row gap-4">
                     <input {...register('email', { required: true })} type="email" placeholder={t('checkout.email')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                     <input {...register('phone', { required: true })} type="tel" placeholder={t('checkout.phone')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                   </div>
-
                   <hr className="border-white/10" />
-
                   <div className="flex flex-col sm:flex-row gap-4">
                     <div className="w-full">
                       <Select
@@ -131,11 +150,7 @@ function Checkouts() {
                         placeholder={t('checkout.select_country')}
                         selectedKeys={[watch('country') || "Syria"]}
                         className="w-full"
-                        classNames={{
-                          trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]",
-                          value: "text-white",
-                          popoverContent: "bg-[#025043] text-white border border-white/10"
-                        }}
+                        classNames={{ trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]", value: "text-white", popoverContent: "bg-[#025043] text-white" }}
                         onChange={(e) => {
                           setValue('country', e.target.value);
                           if (e.target.value !== 'Syria') setValue('shipping_city_id', '');
@@ -144,56 +159,36 @@ function Checkouts() {
                         <SelectItem key="Syria" textValue={t('countries.syria')}>{t('countries.syria')}</SelectItem>
                         <SelectItem key="International" textValue={t('countries.outside_syria')}>{t('countries.outside_syria')}</SelectItem>
                       </Select>
-                      <input type="hidden" {...register('country', { required: true })} />
                     </div>
-
                     <div className="w-full">
                       {selectedCountry === 'Syria' ? (
-                        <>
-                          <Select
-                            aria-label={t('checkout.select_city')}
-                            placeholder={t('checkout.select_city')}
-                            selectedKeys={watch('shipping_city_id') ? [String(watch('shipping_city_id'))] : []}
-                            className="w-full"
-                            classNames={{
-                              trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]",
-                              value: "text-white",
-                              popoverContent: "bg-[#025043] text-white border border-white/10"
-                            }}
-                            onChange={(e) => setValue('shipping_city_id', e.target.value)}
-                          >
-                            {(shippingCities || []).map((city) => (
-                              <SelectItem key={city.id} textValue={city.city_name}>{city.city_name}</SelectItem>
-                            ))}
-                          </Select>
-                          <input type="hidden" {...register('shipping_city_id', { required: selectedCountry === 'Syria' })} />
-                        </>
+                        <Select
+                          aria-label={t('checkout.select_city')}
+                          placeholder={t('checkout.select_city')}
+                          selectedKeys={watch('shipping_city_id') ? [String(watch('shipping_city_id'))] : []}
+                          className="w-full"
+                          classNames={{ trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]", value: "text-white" }}
+                          onChange={(e) => setValue('shipping_city_id', e.target.value)}
+                        >
+                          {(shippingCities || []).map((city) => (
+                            <SelectItem key={city.id} textValue={city.city_name}>{city.city_name}</SelectItem>
+                          ))}
+                        </Select>
                       ) : (
-                        <input
-                          {...register('city', { required: selectedCountry !== 'Syria' })}
-                          placeholder={t('checkout.enter_country_and_city')}
-                          className="w-full p-4 h-[58px] rounded-xl bg-white/20 border border-white/40 outline-none text-white"
-                        />
+                        <input {...register('city', { required: selectedCountry !== 'Syria' })} placeholder={t('checkout.enter_country_and_city')} className="w-full p-4 h-[58px] rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                       )}
                     </div>
                   </div>
-
                   <div className="flex flex-col sm:flex-row gap-4">
                     <input {...register('street')} placeholder={t('checkout.street')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                     <input {...register('floor')} placeholder={t('checkout.floor')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                   </div>
-
                   <div className="flex flex-col sm:flex-row gap-4">
                     <input {...register('postal_code')} type="number" placeholder={t('checkout.postal_code')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                     <input {...register('additional_information')} placeholder={t('checkout.additional_information')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                   </div>
-
-                  <button
-                    disabled={loading}
-                    type="submit"
-                    className={`w-full py-4 cursor-pointer rounded-xl font-bold active:scale-95 transition ${loading ? 'bg-gray-400' : 'bg-black text-white hover:opacity-90'}`}
-                  >
-                    {loading ? t('checkout.sending') : t('checkout.save_continue')}
+                  <button disabled={isLoading} type="submit" className={`w-full py-4 cursor-pointer rounded-xl font-bold active:scale-95 transition ${isLoading ? 'bg-gray-400' : 'bg-black text-white hover:opacity-90'}`}>
+                    {isLoading ? t('checkout.sending') : t('checkout.save_continue')}
                   </button>
                 </form>
               </CardBody>
@@ -201,7 +196,6 @@ function Checkouts() {
           </Tab>
 
           <Tab key="edit" title={t('checkout.edit_delivery_information')}>
-
             <Card className="bg-white/10 backdrop-blur-lg border-none mt-4">
               <CardBody className="p-8">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -209,14 +203,11 @@ function Checkouts() {
                     <input {...register('first_name', { required: true })} placeholder={t('checkout.first_name')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none focus:border-white text-white" />
                     <input {...register('last_name', { required: true })} placeholder={t('checkout.last_name')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none focus:border-white text-white" />
                   </div>
-
                   <div className="flex flex-col sm:flex-row gap-4">
                     <input {...register('email', { required: true })} type="email" placeholder={t('checkout.email')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                     <input {...register('phone', { required: true })} type="tel" placeholder={t('checkout.phone')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                   </div>
-
                   <hr className="border-white/10" />
-
                   <div className="flex flex-col sm:flex-row gap-4">
                     <div className="w-full">
                       <Select
@@ -224,11 +215,7 @@ function Checkouts() {
                         placeholder={t('checkout.select_country')}
                         selectedKeys={[watch('country') || "Syria"]}
                         className="w-full"
-                        classNames={{
-                          trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]",
-                          value: "text-white",
-                          popoverContent: "bg-[#025043] text-white border border-white/10"
-                        }}
+                        classNames={{ trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]", value: "text-white", popoverContent: "bg-[#025043] text-white" }}
                         onChange={(e) => {
                           setValue('country', e.target.value);
                           if (e.target.value !== 'Syria') setValue('shipping_city_id', '');
@@ -237,56 +224,36 @@ function Checkouts() {
                         <SelectItem key="Syria" textValue={t('countries.syria')}>{t('countries.syria')}</SelectItem>
                         <SelectItem key="International" textValue={t('countries.outside_syria')}>{t('countries.outside_syria')}</SelectItem>
                       </Select>
-                      <input type="hidden" {...register('country', { required: true })} />
                     </div>
-
                     <div className="w-full">
                       {selectedCountry === 'Syria' ? (
-                        <>
-                          <Select
-                            aria-label={t('checkout.select_city')}
-                            placeholder={t('checkout.select_city')}
-                            selectedKeys={watch('shipping_city_id') ? [String(watch('shipping_city_id'))] : []}
-                            className="w-full"
-                            classNames={{
-                              trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]",
-                              value: "text-white",
-                              popoverContent: "bg-[#025043] text-white border border-white/10"
-                            }}
-                            onChange={(e) => setValue('shipping_city_id', e.target.value)}
-                          >
-                            {(shippingCities || []).map((city) => (
-                              <SelectItem key={city.id} textValue={city.city_name}>{city.city_name}</SelectItem>
-                            ))}
-                          </Select>
-                          <input type="hidden" {...register('shipping_city_id', { required: selectedCountry === 'Syria' })} />
-                        </>
+                        <Select
+                          aria-label={t('checkout.select_city')}
+                          placeholder={t('checkout.select_city')}
+                          selectedKeys={watch('shipping_city_id') ? [String(watch('shipping_city_id'))] : []}
+                          className="w-full"
+                          classNames={{ trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]", value: "text-white" }}
+                          onChange={(e) => setValue('shipping_city_id', e.target.value)}
+                        >
+                          {(shippingCities || []).map((city) => (
+                            <SelectItem key={city.id} textValue={city.city_name}>{city.city_name}</SelectItem>
+                          ))}
+                        </Select>
                       ) : (
-                        <input
-                          {...register('city', { required: selectedCountry !== 'Syria' })}
-                          placeholder={t('checkout.enter_country_and_city')}
-                          className="w-full p-4 h-[58px] rounded-xl bg-white/20 border border-white/40 outline-none text-white"
-                        />
+                        <input {...register('city', { required: selectedCountry !== 'Syria' })} placeholder={t('checkout.enter_country_and_city')} className="w-full p-4 h-[58px] rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                       )}
                     </div>
                   </div>
-
                   <div className="flex flex-col sm:flex-row gap-4">
                     <input {...register('street')} placeholder={t('checkout.street')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                     <input {...register('floor')} placeholder={t('checkout.floor')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                   </div>
-
                   <div className="flex flex-col sm:flex-row gap-4">
                     <input {...register('postal_code')} type="number" placeholder={t('checkout.postal_code')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                     <input {...register('additional_information')} placeholder={t('checkout.additional_information')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                   </div>
-
-                  <button
-                    disabled={loading}
-                    type="submit"
-                    className={`w-full py-4 cursor-pointer rounded-xl font-bold active:scale-95 transition ${loading ? 'bg-gray-400' : 'bg-black text-white hover:opacity-90'}`}
-                  >
-                    {loading ? t('checkout.sending') : t('checkout.save_continue')}
+                  <button disabled={isLoading} type="submit" className={`w-full py-4 cursor-pointer rounded-xl font-bold active:scale-95 transition ${isLoading ? 'bg-gray-400' : 'bg-black text-white hover:opacity-90'}`}>
+                    {isLoading ? t('checkout.sending') : t('checkout.save_continue')}
                   </button>
                 </form>
               </CardBody>

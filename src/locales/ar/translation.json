@@ -49,7 +49,9 @@
     "location_label": "الموقع",
     "address_line1": "حلب، السويقة",
     "address_line2": "مقابل جامع الخير",
-    "contact": "تواصل معنا"
+    "contact": "تواصل معنا",
+    "mobile": "الموبايل",
+    "landline": "التلفون"
   },
 
   "auth": {
@@ -129,8 +131,10 @@
 
   "checkout": {
     "contact_information": "معلومات الاتصال",
-    "delivery_information": "معلومات التوصيل",
-    "edit_delivery_information": "تعديل معلومات التوصيل",
+    "keep_current_address": "الحفاظ على العنوان الحالي ومتابعة الطلب",
+    "change_delivery_address": "تغيير عنوان التوصيل أو إضافة جديد",
+    "delivery_information": "عنوان التوصيل الحالي",
+    "edit_delivery_information": "تغيير العنوان",
     "address": "العنوان",
     "first_name": "الاسم الأول",
     "last_name": "اسم العائلة",

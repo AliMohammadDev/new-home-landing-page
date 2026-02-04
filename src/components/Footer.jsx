@@ -163,7 +163,7 @@ const Footer = () => {
           {/* Copyright Text */}
           <div className={`text-sm md:text-xs  uppercase tracking-widest 
     ${isLightFooter ? 'text-gray-600' : 'text-gray-400'}
-    ${isRTL ? 'md:ml-20' : ''}
+    ${isRTL ? 'md:ml-45' : ''}
     `
 
           }>
@@ -172,7 +172,8 @@ const Footer = () => {
 
           {/* Company Name */}
           <h2 className={`mt-6 md:mt-0 text-2xl md:text-4xl lg:text-3xl xl:text-5xl font-[Expo-arabic] 
-    ${isLightFooter ? 'text-black' : 'text-white'}`}>
+    ${isLightFooter ? 'text-black' : 'text-white'}
+    `}>
             {t('footer.company_name')}
           </h2>
         </div>
