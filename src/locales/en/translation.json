@@ -153,10 +153,13 @@
     "country_and_city": "Country and City",
     "enter_country_and_city": "Enter country and city (e.g. UAE, Dubai)",
 
-    "select_city": "Select City",
     "enter_city": "Enter city name",
     "specify_country": "Please specify your country",
-    "type_country_name": "Type your country name here"
+    "type_country_name": "Type your country name here",
+    "estimated_delivery": "Estimated Delivery",
+    "shipping_fee": "Shipping Fee",
+    "free_shipping": "Free Shipping",
+    "select_city": "Select City"
   },
   "toast": {
     "no_active_cart": "No active cart found!",

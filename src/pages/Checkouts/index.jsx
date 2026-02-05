@@ -109,6 +109,8 @@ function Checkouts() {
 
   const isLoading = updateLoading || createLoading;
 
+  const selectedCityData = shippingCities?.find(c => String(c.id) === String(watch('shipping_city_id')));
+
   return (
     <div className="w-full flex flex-col lg:flex-row mt-10 justify-between items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]">
 
@@ -144,6 +146,8 @@ function Checkouts() {
                   </div>
                   <hr className="border-white/10" />
                   <div className="flex flex-col sm:flex-row gap-4">
+
+
                     <div className="w-full">
                       <Select
                         aria-label={t('checkout.country')}
@@ -159,25 +163,48 @@ function Checkouts() {
                         <SelectItem key="Syria" textValue={t('countries.syria')}>{t('countries.syria')}</SelectItem>
                         <SelectItem key="International" textValue={t('countries.outside_syria')}>{t('countries.outside_syria')}</SelectItem>
                       </Select>
+
                     </div>
+
                     <div className="w-full">
                       {selectedCountry === 'Syria' ? (
-                        <Select
-                          aria-label={t('checkout.select_city')}
-                          placeholder={t('checkout.select_city')}
-                          selectedKeys={watch('shipping_city_id') ? [String(watch('shipping_city_id'))] : []}
-                          className="w-full"
-                          classNames={{ trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]", value: "text-white" }}
-                          onChange={(e) => setValue('shipping_city_id', e.target.value)}
-                        >
-                          {(shippingCities || []).map((city) => (
-                            <SelectItem key={city.id} textValue={city.city_name}>{city.city_name}</SelectItem>
-                          ))}
-                        </Select>
+                        <>
+                          <Select
+                            aria-label={t('checkout.select_city')}
+                            placeholder={t('checkout.select_city')}
+                            selectedKeys={watch('shipping_city_id') ? [String(watch('shipping_city_id'))] : []}
+                            className="w-full"
+                            classNames={{ trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]", value: "text-white" }}
+                            onChange={(e) => setValue('shipping_city_id', e.target.value)}
+                          >
+                            {(shippingCities || []).map((city) => (
+                              <SelectItem key={city.id} textValue={city.city_name}>{city.city_name}</SelectItem>
+                            ))}
+                          </Select>
+
+                          {selectedCityData && (
+                            <div className="mt-3 p-3 rounded-xl bg-white/5 border border-white/10 animate-appearance-in">
+                              <div className="flex justify-between items-center text-sm">
+                                <span className="text-white/60">{t('checkout.estimated_delivery')}:</span>
+                                <span className="font-bold text-white">{selectedCityData.estimated_delivery}</span>
+                              </div>
+                              <div className="flex justify-between items-center text-sm mt-1">
+                                <span className="text-white/60">{t('checkout.shipping_fee')}:</span>
+                                <span className={`font-bold ${selectedCityData.is_free_shipping ? 'text-green-400' : 'text-white'}`}>
+                                  {selectedCityData.is_free_shipping ? t('checkout.free_shipping') : `${selectedCityData.shipping_fee} SYP`}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                          {/* ----------------------- */}
+                        </>
                       ) : (
                         <input {...register('city', { required: selectedCountry !== 'Syria' })} placeholder={t('checkout.enter_country_and_city')} className="w-full p-4 h-[58px] rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                       )}
                     </div>
+
+
+
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <input {...register('street')} placeholder={t('checkout.street')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
@@ -225,24 +252,45 @@ function Checkouts() {
                         <SelectItem key="International" textValue={t('countries.outside_syria')}>{t('countries.outside_syria')}</SelectItem>
                       </Select>
                     </div>
+
                     <div className="w-full">
                       {selectedCountry === 'Syria' ? (
-                        <Select
-                          aria-label={t('checkout.select_city')}
-                          placeholder={t('checkout.select_city')}
-                          selectedKeys={watch('shipping_city_id') ? [String(watch('shipping_city_id'))] : []}
-                          className="w-full"
-                          classNames={{ trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]", value: "text-white" }}
-                          onChange={(e) => setValue('shipping_city_id', e.target.value)}
-                        >
-                          {(shippingCities || []).map((city) => (
-                            <SelectItem key={city.id} textValue={city.city_name}>{city.city_name}</SelectItem>
-                          ))}
-                        </Select>
+                        <>
+                          <Select
+                            aria-label={t('checkout.select_city')}
+                            placeholder={t('checkout.select_city')}
+                            selectedKeys={watch('shipping_city_id') ? [String(watch('shipping_city_id'))] : []}
+                            className="w-full"
+                            classNames={{ trigger: "bg-white/20 border border-white/40 rounded-xl h-[58px]", value: "text-white" }}
+                            onChange={(e) => setValue('shipping_city_id', e.target.value)}
+                          >
+                            {(shippingCities || []).map((city) => (
+                              <SelectItem key={city.id} textValue={city.city_name}>{city.city_name}</SelectItem>
+                            ))}
+                          </Select>
+
+                          {selectedCityData && (
+                            <div className="mt-3 p-3 rounded-xl bg-white/5 border border-white/10 animate-appearance-in">
+                              <div className="flex justify-between items-center text-sm">
+                                <span className="text-white/60">{t('checkout.estimated_delivery')}:</span>
+                                <span className="font-bold text-white">{selectedCityData.estimated_delivery}</span>
+                              </div>
+                              <div className="flex justify-between items-center text-sm mt-1">
+                                <span className="text-white/60">{t('checkout.shipping_fee')}:</span>
+                                <span className={`font-bold ${selectedCityData.is_free_shipping ? 'text-green-400' : 'text-white'}`}>
+                                  {selectedCityData.is_free_shipping ? t('checkout.free_shipping') : `${selectedCityData.shipping_fee} SYP`}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                          {/* ----------------------- */}
+                        </>
                       ) : (
                         <input {...register('city', { required: selectedCountry !== 'Syria' })} placeholder={t('checkout.enter_country_and_city')} className="w-full p-4 h-[58px] rounded-xl bg-white/20 border border-white/40 outline-none text-white" />
                       )}
                     </div>
+
+
                   </div>
                   <div className="flex flex-col sm:flex-row gap-4">
                     <input {...register('street')} placeholder={t('checkout.street')} className="w-full p-4 rounded-xl bg-white/20 border border-white/40 outline-none text-white" />

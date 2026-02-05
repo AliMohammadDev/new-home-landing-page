@@ -40,13 +40,14 @@ function ShowAllOrders() {
       </Link>
 
       {/* Header */}
-      <div className="flex items-center gap-4 mb-10 mt-30">
+      <div className="flex flex-col items-center gap-3 mb-8 mt-20">
         <div className="p-3 rounded-2xl bg-white/10">
           <OrderIcon className="w-7 h-7" />
         </div>
-        <h2 className="text-3xl font-bold tracking-wide">{t('orders.myOrders')}</h2>
+        <h2 className="text-2xl md:text-3xl font-bold tracking-wide text-center">
+          {t('orders.myOrders')}
+        </h2>
       </div>
-
 
       {/* Empty State */}
       {orders.length === 0 ? (

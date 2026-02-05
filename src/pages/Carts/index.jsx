@@ -192,8 +192,8 @@ function Carts() {
       </Link>
 
       {/* Header */}
-      <div className="text-center mb-16">
-        <div className="flex justify-center mb-4 mt-10">
+      <div className="text-center mb-8">
+        <div className="flex justify-center mb-4 mt-10 transition-transform hover:scale-110 duration-300">
           <CartIcon size={48} color="white" />
         </div>
         <h1 className="text-4xl font-bold tracking-wide">{t('cart.my_cart')}</h1>
@@ -232,7 +232,7 @@ function Carts() {
                 <tbody>
                   {items.map((item) => (
                     <tr key={item.id} className="border-b last:border-none transition-colors hover:bg-white/5">
-                      {/* عمود الصورة */}
+
                       <td className="py-6 px-2">
                         <div className="flex items-center gap-4">
                           <button
@@ -275,11 +275,11 @@ function Carts() {
                           <Dropdown>
                             <DropdownTrigger>
                               <Button variant="bordered"
-                                className="w-50 text-white flex justify-between">
+                                className="w-45 text-white flex justify-between">
                                 <span className="flex items-center gap-2 overflow-hidden">
                                   {selectedColor[item.id] && (
                                     <span
-                                      className="w-3 h-3 min-w-[12px] rounded-full border border-gray-300"
+                                      className="w-3 h-3 min-w-3 rounded-full border border-gray-300"
                                       style={{ backgroundColor: selectedColor[item.id].hex }}
                                     ></span>
                                   )}

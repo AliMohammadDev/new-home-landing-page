@@ -121,19 +121,17 @@ function Wishlists() {
         <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
       </Link>
       {/* Header */}
-      <div className="text-center mb-16 mt-10">
+      <div className="text-center mb-8 mt-10">
         <div className="flex justify-center mb-4 transition-transform hover:scale-110 duration-300">
           <FavoriteIcon size={54} color="white" />
         </div>
         <h1 className="text-3xl md:text-4xl font-bold tracking-wide">
           {t('wishlist.title')}
         </h1>
-
-
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {wishlistItems.length === 0 ? (
           <div className="text-center py-20 bg-white/5 rounded-3xl border  border-white/10">
             <p className="text-xl text-gray-300 mb-6">
@@ -150,8 +148,6 @@ function Wishlists() {
 
         ) : (
           <div className="w-full overflow-x-auto custom-scrollbar">
-
-
             <div className="flex justify-end items-center gap-3 mb-4">
               <button
                 onClick={handleClearAll}
@@ -231,14 +227,22 @@ function Wishlists() {
 
                     {/* Color */}
                     <td className="py-6 px-4">
-                      <span
-                        className="px-2 py-1 font-semibold"
-                        style={{ color: item.product_variant?.color || '#ffffff' }}
-                      >
-                        {item.product_variant?.color || t('wishlist.noColor')}
-                      </span>
-                    </td>
+                      <div className="flex items-center gap-2">
+                        {item.product_variant?.color && (
+                          <span
+                            className="w-4 h-4 rounded-full border border-white/20 shadow-sm"
+                            style={{ backgroundColor: item.product_variant.color }}
+                          ></span>
+                        )}
 
+                        <span className="text-white text-sm font-medium">
+                          {item.product_variant?.color
+                            ? (t(`filter.colors.${item.product_variant.color}`) || item.product_variant.color)
+                            : t('wishlist.noColor')
+                          }
+                        </span>
+                      </div>
+                    </td>
 
                     {/* Size */}
                     <td className="py-6 px-4">

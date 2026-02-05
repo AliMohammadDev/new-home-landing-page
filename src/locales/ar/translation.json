@@ -150,12 +150,17 @@
     "sending": "جارٍ الإرسال...",
     "secure_payment": "دفع آمن 100%",
     "payment_desc": "جميع معاملاتك المالية مشفرة ومحمية بأعلى معايير الأمان.",
-    "select_city": "اختر المدينة",
     "enter_city": "أدخل اسم المدينة",
     "specify_country": "يرجى تحديد البلد",
     "type_country_name": "اكتب اسم بلدك هنا",
     "country_and_city": "البلد والمدينة",
-    "enter_country_and_city": "أدخل البلد والمدينة (مثال: الإمارات، دبي)"
+    "enter_country_and_city": "أدخل البلد والمدينة (مثال: الإمارات، دبي)",
+
+    "order_placed_success": "تم تقديم طلبك بنجاح!",
+    "estimated_delivery": "مدة التوصيل المتوقعة",
+    "shipping_fee": "تكلفة الشحن",
+    "free_shipping": "توصيل مجاني",
+    "select_city": "اختر المحافظة"
   },
   "toast": {
     "no_active_cart": "لا يوجد سلة نشطة!",
@@ -211,8 +216,7 @@
     "order_summary": "ملخص الطلب",
     "total": "الإجمالي",
     "place_order": "تأكيد الطلب / الدفع",
-    "placing_order": "جارٍ معالجة الطلب...",
-    "order_placed_success": "تم تقديم طلبك بنجاح!"
+    "placing_order": "جارٍ معالجة الطلب..."
   },
 
   "rating": {
