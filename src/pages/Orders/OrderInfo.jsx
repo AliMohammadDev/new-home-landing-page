@@ -1,10 +1,8 @@
-import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useGetOrder } from '../../api/order';
 import { addToast } from '@heroui/react';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
-import LeftIcon from '../../assets/icons/LeftIcon';
 
 function OrdersInfo() {
     const { t, i18n } = useTranslation();
@@ -29,29 +27,19 @@ function OrdersInfo() {
             </p>
         );
     }
-    const isRtl = i18n.language === 'ar';
     return (
         <div
             className="w-full flex flex-col md:flex-row justify-between  mt-10 items-start text-white px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 bg-[#025043] min-h-screen font-[Expo-arabic]"
             dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
         >
-            {/* Back Button */}
-            <Link
-                to={-1}
-                className={clsx(
-                    "absolute top-35 z-50 cursor-pointer hover:opacity-80 transition active:scale-95",
-                    isRtl ? "right-6 lg:right-24" : "left-6 lg:left-24"
-                )}
-            >
-                <LeftIcon className={i18n.language === 'ar' ? 'rotate-180' : ''} />
-            </Link>
+
 
             {/* Left Side - Checkout / Customer Info */}
             <div className="w-full md:w-1/2 p-8 bg-white/10 backdrop-blur-lg rounded-2xl space-y-8 mt-10">
                 <h2 className="text-2xl md:text-3xl font-bold tracking-wide mb-4">
                     {t('order.info_title', 'Order Information')}
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-12 sm:grid-cols-2 gap-6">
                     <p>
                         <strong>{t('order.status', 'Status')}:</strong>{' '}
                         <span

@@ -122,15 +122,12 @@ function Orders() {
 
                 <div className="w-full h-0.5 bg-white/40"></div>
 
-                {/* تفاصيل الحساب المالي */}
                 <div className="space-y-3 pt-2">
-                    {/* المجموع الفرعي */}
                     <div className="flex justify-between items-center text-lg opacity-80">
                         <span>{t('orders.subtotal') || 'Subtotal'}</span>
                         <span>{cartDataItems?.subtotal || 0} $</span>
                     </div>
 
-                    {/* تكلفة الشحن */}
                     <div className="flex justify-between items-center text-lg opacity-80">
                         <span>{t('orders.shipping_fee') || 'Shipping Fee'}</span>
                         <span>
@@ -140,7 +137,6 @@ function Orders() {
                         </span>
                     </div>
 
-                    {/* المجموع الكلي النهائي */}
                     <div className="flex justify-between text-2xl font-bold pt-4 border-t border-white/20">
                         <span>{t('orders.total')}</span>
                         <span className="text-[#E2995E]">{cartDataItems?.cart_total || 0} $</span>
