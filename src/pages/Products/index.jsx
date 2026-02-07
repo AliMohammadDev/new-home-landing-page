@@ -253,7 +253,14 @@ const Product = () => {
           className="flex items-center gap-2 bg-[#D9D9D9] text-black px-4 py-2 cursor-pointer rounded-lg mb-5 hover:bg-[#cfcfcf] transition"
           onClick={() => isMobile ? onOpen() : setShowFilters(!showFilters)}
         >
-          <FilterIcon /> <span className="font-[Expo-arabic]">{t('filters.show')}</span>
+          <FilterIcon />
+          <div className="w-[1.5px] h-6 bg-[#025043]/20 mx-1"></div>
+          <span className="font-[Expo-arabic] text-black">
+            {(isMobile ? isOpen : showFilters)
+              ? t('filters.hide')
+              : t('filters.show')
+            }
+          </span>
         </button>
 
         <div className="flex flex-col md:flex-row gap-8 items-start">
