@@ -298,7 +298,7 @@ function ShowAllProducts() {
         >
           {[
             {
-              image: "https://kitchenwarehouseltd.com/wp-content/uploads/2025/04/heritagegreen-5-1024x724.jpg",
+              image: "https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770449578/pexels-ranamatloob567-35203641_fi5dx5.jpg",
               title: t('slider.modern_kitchenware'),
               description: t('slider.modern_kitchenware_desc')
             },
@@ -308,7 +308,7 @@ function ShowAllProducts() {
               description: t('slider.premium_collection_desc')
             },
             {
-              image: allProducts,
+              image: 'https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770449584/pexels-notswervo-2398375_sc3sci.jpg',
               title: t('slider.everything_you_need'),
               description: t('slider.everything_you_need_desc')
             }

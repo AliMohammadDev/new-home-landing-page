@@ -4,7 +4,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import MostProduct from '../../components/Products/MostProduct';
 import Header from '../../components/Header';
 import { useGetCategories } from '../../api/categories';
-import AboutSection from '../../components/AboutSection';
 import { useGetSlidersProductsVariants } from '../../api/products';
 import AnimateOnScroll from '../../components/AnimateOnScroll';
 import { useTranslation } from 'react-i18next';

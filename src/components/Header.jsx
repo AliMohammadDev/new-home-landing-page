@@ -21,7 +21,7 @@ const Header = () => {
       bottomSmall: t('slides.slide1.bottomSmall')
     },
     {
-      image: "https://tokyo-design-studio.com/images/categories/og/kitchenware3.jpg",
+      image: "https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770449592/pexels-cihanyuce-12181753_um1xu1.jpg",
       tag: t('slides.slide2.tag'),
       title1: t('slides.slide2.title1'),
       title2: t('slides.slide2.title2'),
@@ -30,7 +30,8 @@ const Header = () => {
       bottomSmall: t('slides.slide2.bottomSmall')
     },
     {
-      image: "https://images.unsplash.com/photo-1590794056226-79ef3a8147e1?q=80&w=2070",
+
+      image: "https://sunnexproducts.com/wp-content/uploads/2022/07/what-is-kitchenware-articles.jpg",
       tag: t('slides.slide3.tag'),
       title1: t('slides.slide3.title1'),
       title2: t('slides.slide3.title2'),
@@ -39,7 +40,7 @@ const Header = () => {
       bottomSmall: t('slides.slide3.bottomSmall')
     },
     {
-      image: "https://sunnexproducts.com/wp-content/uploads/2022/07/what-is-kitchenware-articles.jpg",
+      image: "https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770449580/pexels-rdne-4910217_zddfm8.jpg",
       tag: t('slides.slide4.tag'),
       title1: t('slides.slide4.title1'),
       title2: t('slides.slide4.title2'),
@@ -48,7 +49,7 @@ const Header = () => {
       bottomSmall: t('slides.slide4.bottomSmall')
     },
     {
-      image: "https://officeforproductdesign.com/img/KitchenwareCollection/Kitchenware_Collection_by_OfficeforProductDesign_W01.jpg",
+      image: "https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770449578/pexels-polina-kovaleva-5644353_y67gih.jpg",
       tag: t('slides.slide5.tag'),
       title1: t('slides.slide5.title1'),
       title2: t('slides.slide5.title2'),
