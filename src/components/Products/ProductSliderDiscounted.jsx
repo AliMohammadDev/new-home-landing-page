@@ -164,8 +164,12 @@ function ProductSliderDiscounted({ products = [] }) {
 
         {/* Slider  */}
         <div
-          className="relative w-full  max-w-full lg:max-w-[650px] xl:max-w-[800px]  lg:-mr-20 md:-mt-30 lg:-mt-1"
-          dir={isRTL ? 'rtl' : 'ltr'}>
+          className={clsx(
+            "relative w-full max-w-full lg:max-w-[800px] xl:max-w-[1000px] transition-all duration-500",
+            isRTL ? "lg:-ml-35 xl:-mr-45" : "lg:-mr-35 xl:-ml-45"
+          )}
+          dir={isRTL ? 'rtl' : 'ltr'}
+        >
           <Slider {...settings}>
             {products.map((variant) => {
               const product = variant.product;
