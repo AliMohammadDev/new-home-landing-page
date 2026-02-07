@@ -164,15 +164,61 @@ function OrdersInfo() {
 
                 <div className="w-full h-0.5 bg-white/40"></div>
 
-                <div
-                    className={clsx(
-                        'flex justify-between text-xl font-bold',
-                        i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'
-                    )}
-                >
-                    <span>{t('order.total', 'Total')}</span>
-                    <span>{order.total_amount} $</span>
+
+
+                <div className="mt-8 p-6 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-sm space-y-4 font-[Expo-arabic]">
+
+                    <div className="flex justify-between items-center group">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors">
+                                <svg className="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                </svg>
+                            </div>
+                            <span className="text-white/70 text-base md:text-lg">{t('orders.subtotal', 'Subtotal')}</span>
+                        </div>
+                        <span className="text-white font-medium tracking-wide">
+                            {(parseFloat(order.total_amount) - parseFloat(order.shipping_fee || 0)).toFixed(2)} $
+                        </span>
+                    </div>
+
+                    <div className="flex justify-between items-center group">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-white/10 rounded-lg group-hover:bg-white/20 transition-colors">
+                                <svg className="w-5 h-5 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <span className="text-white/70 text-base md:text-lg">{t('orders.shipping_fee', 'Shipping Fee')}</span>
+                        </div>
+                        <span className="text-white font-medium tracking-wide">
+                            {parseFloat(order.shipping_fee || 0).toFixed(2)} $
+                        </span>
+                    </div>
+
+                    <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent my-2"></div>
+
+                    <div
+                        className={clsx(
+                            'flex justify-between items-center pt-2',
+                            i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'
+                        )}
+                    >
+                        <span className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70">
+                            {t('order.total', 'Total')}
+                        </span>
+                        <div className="flex flex-col items-end">
+                            <span className="text-2xl md:text-3xl font-black text-[#E2995E] drop-shadow-sm">
+                                {parseFloat(order.total_amount).toFixed(2)} $
+                            </span>
+                            <span className="text-[10px] uppercase opacity-40 tracking-widest text-white mt-1">
+                                {t('order.vat_inclusive', 'Tax Inclusive')}
+                            </span>
+                        </div>
+                    </div>
                 </div>
+
+
             </div>
 
 
