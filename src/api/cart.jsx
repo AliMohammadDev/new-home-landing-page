@@ -5,15 +5,17 @@ import { useTranslation } from 'react-i18next';
 
 const cookies = Cookie();
 
-export const useGetAllCartItems = () => {
+export const useGetAllCartItems = (checkoutId) => {
 
   const { i18n } = useTranslation();
 
   return useQuery({
-    queryKey: ['cart-items', i18n.language],
+    queryKey: ['cart-items', i18n.language, checkoutId],
     enabled: !!cookies.get('token'),
     queryFn: async () => {
-      const res = await axios.get('cart-items');
+      const res = await axios.get(`cart-items`, {
+        params: { checkout_id: checkoutId }
+      });
       return res.data;
     },
     retry: 1,

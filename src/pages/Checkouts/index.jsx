@@ -310,7 +310,7 @@ function Checkouts() {
         </Tabs>
       </div>
 
-      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center">
+      <div className="w-full lg:w-1/2 flex flex-col items-center justify-center  -mt-10">
         <div className="w-full max-w-[550px] lg:max-w-[750px]">
           <Lottie animationData={shoppingCart} loop autoplay speed={1.5} />
         </div>

@@ -14,7 +14,7 @@ function Orders() {
     const { t, i18n } = useTranslation();
 
     const { data: checkout } = useGetCheckout(checkoutId);
-    const { data: cartDataItems } = useGetAllCartItems();
+    const { data: cartDataItems } = useGetAllCartItems(checkoutId);
     const { mutate, isPending: loading } = usePlaceOrder();
 
     const handlePlaceOrder = () => {
@@ -92,49 +92,79 @@ function Orders() {
                 )}
                 dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
             >
-                <h2 className="text-2xl md:text-3xl tracking-wide mb-4">
+                <h2 className="text-2xl md:text-3xl tracking-wide mb-4 font-bold">
                     {t('orders.order_summary')}
                 </h2>
 
                 <div className="w-full h-0.5 bg-white/40"></div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                     {cartDataItems?.data?.map((item) => (
                         <div key={item.id} className="flex items-center justify-between gap-4 bg-white/10 p-4 rounded-xl">
                             <img
                                 src={item.image}
-                                className="w-20 h-20 rounded-xl object-cover"
+                                className="w-16 h-20 rounded-xl object-cover"
                                 alt={item.product_variant.name}
                             />
                             <div className="flex-1">
-                                <h3 className="text-lg font-[Expo-arabic]">{item.product_variant.name}</h3>
-                                <p className="text-sm text-white/70">{item.total_price} $</p>
+                                <h3 className="text-lg font-[Expo-arabic] leading-tight">{item.product_variant.name}</h3>
+                                <p className="text-sm text-white/70 mt-1">{item.total_price} $</p>
+                                <p className="text-[11px] text-white/50 mt-1">
+                                    {t('orders.sku') || 'SKU'}: <span className="font-[Expo-arabic]">{item?.product_variant.sku}</span>
+                                </p>
                             </div>
-                            <p className="text-sm text-white ">
-                                Product Code: <span className="text-gray-800 font-[Expo-arabic]">{item?.product_variant.sku}</span>
-                            </p>
+                            <div className="text-sm font-bold bg-white/10 px-3 py-1 rounded-lg">
+                                x{item.quantity}
+                            </div>
                         </div>
                     ))}
                 </div>
 
                 <div className="w-full h-0.5 bg-white/40"></div>
 
-                <div className="flex justify-between text-xl font-bold">
-                    <span>{t('orders.total')}</span>
-                    <span>{cartDataItems?.cart_total || 0} $</span>
+                {/* تفاصيل الحساب المالي */}
+                <div className="space-y-3 pt-2">
+                    {/* المجموع الفرعي */}
+                    <div className="flex justify-between items-center text-lg opacity-80">
+                        <span>{t('orders.subtotal') || 'Subtotal'}</span>
+                        <span>{cartDataItems?.subtotal || 0} $</span>
+                    </div>
+
+                    {/* تكلفة الشحن */}
+                    <div className="flex justify-between items-center text-lg opacity-80">
+                        <span>{t('orders.shipping_fee') || 'Shipping Fee'}</span>
+                        <span>
+                            {cartDataItems?.shipping_fee > 0
+                                ? `+ ${cartDataItems.shipping_fee} $`
+                                : <span className="text-green-400 font-bold">{t('orders.free_shipping') || 'Free'}</span>}
+                        </span>
+                    </div>
+
+                    {/* المجموع الكلي النهائي */}
+                    <div className="flex justify-between text-2xl font-bold pt-4 border-t border-white/20">
+                        <span>{t('orders.total')}</span>
+                        <span className="text-[#E2995E]">{cartDataItems?.cart_total || 0} $</span>
+                    </div>
                 </div>
 
                 <button
                     onClick={handlePlaceOrder}
                     disabled={loading}
                     className={clsx(
-                        "w-full py-4 rounded-xl font-bold transition",
+                        "w-full py-4 mt-4 rounded-xl font-bold transition-all duration-300",
                         loading
                             ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-white text-[#025043] hover:bg-gray-200 shadow-lg cursor-pointer active:scale-[0.98]'
+                            : 'bg-white text-[#025043] hover:bg-[#E2995E] hover:text-white shadow-lg cursor-pointer active:scale-[0.98]'
                     )}
                 >
-                    {loading ? t('orders.placing_order') : t('orders.place_order')}
+                    {loading ? (
+                        <div className="flex items-center justify-center gap-2">
+                            <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin"></span>
+                            {t('orders.placing_order')}
+                        </div>
+                    ) : (
+                        t('orders.place_order')
+                    )}
                 </button>
             </div>
         </div>

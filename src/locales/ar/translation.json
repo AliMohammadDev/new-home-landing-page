@@ -190,6 +190,11 @@
     "myOrders": "طلباتي",
     "noOrders": "لم تقم بتقديم أي طلبات بعد.",
     "order": "الطلب",
+    "subtotal": "المجموع الفرعي",
+    "shipping_fee": "تكلفة الشحن",
+    "free_shipping": "شحن مجاني",
+    "total": "الإجمالي النهائي",
+
     "status": {
       "pending": "قيد الانتظار",
       "completed": "مكتمل",
@@ -214,7 +219,6 @@
     "postal_code": "الرمز البريدي",
     "additional_info": "معلومات إضافية",
     "order_summary": "ملخص الطلب",
-    "total": "الإجمالي",
     "place_order": "تأكيد الطلب / الدفع",
     "placing_order": "جارٍ معالجة الطلب..."
   },
