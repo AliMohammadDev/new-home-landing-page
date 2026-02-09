@@ -160,7 +160,8 @@
     "estimated_delivery": "مدة التوصيل المتوقعة",
     "shipping_fee": "تكلفة الشحن",
     "free_shipping": "توصيل مجاني",
-    "select_city": "اختر المحافظة"
+    "select_city": "اختر المحافظة",
+    "payment_method": "طرق الدفع المتوفرة"
   },
   "toast": {
     "no_active_cart": "لا يوجد سلة نشطة!",

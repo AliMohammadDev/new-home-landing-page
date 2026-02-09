@@ -159,7 +159,8 @@
     "estimated_delivery": "Estimated Delivery",
     "shipping_fee": "Shipping Fee",
     "free_shipping": "Free Shipping",
-    "select_city": "Select City"
+    "select_city": "Select City",
+    "payment_method": "Available payment methods"
   },
   "toast": {
     "no_active_cart": "No active cart found!",
