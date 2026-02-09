@@ -268,7 +268,7 @@ function Profile() {
             <button
               type="submit"
               disabled={isPending}
-              className="w-full mt-10 py-4 bg-black hover:bg-zinc-900 text-white rounded-xl font-bold transition-all disabled:opacity-50 active:scale-[0.98] shadow-lg"
+              className="w-full mt-10 py-4 bg-black cursor-pointer hover:bg-zinc-900 text-white rounded-xl font-bold transition-all disabled:opacity-50 active:scale-[0.98] shadow-lg"
             >
               {isPending ? t('profile.saving') : t('profile.save_changes')}
             </button>
