@@ -323,6 +323,7 @@ function Wishlists() {
           </div>
         )}
       </div>
+
     </div>
   );
 }

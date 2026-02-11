@@ -10,8 +10,9 @@ import { useAddToCartItem } from '../../api/cart.jsx';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { useSubmitReview } from '../../api/reviews.jsx';
+import { ProductSkeleton } from './ProductSkeleton.jsx';
 
-function ProductSliderTopAvg({ products = [] }) {
+function ProductSliderTopAvg({ products = [], isLoadingProducts = false }) {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
@@ -191,8 +192,16 @@ function ProductSliderTopAvg({ products = [] }) {
 
       {/* Slider Container */}
       <div className="relative" dir={isRTL ? 'rtl' : 'ltr'}>
-        {/* Slider Container */}
-        <div className="relative" dir={isRTL ? 'rtl' : 'ltr'}>
+
+
+        {isLoadingProducts ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+          </div>
+        ) : products.length > 0 ? (
           <Slider {...settings}>
             {products.map((variant) => {
               const product = variant.product;
@@ -350,8 +359,13 @@ function ProductSliderTopAvg({ products = [] }) {
               );
             })}
           </Slider>
+        ) : null}
 
-          {/* Progress Bar Container */}
+
+        {/* Progress Bar Container */}
+
+
+        {!isLoadingProducts && products.length > 0 && (
           <div className="mt-8 px-2 md:px-0">
             <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden relative">
               <div
@@ -363,10 +377,9 @@ function ProductSliderTopAvg({ products = [] }) {
               />
             </div>
           </div>
-        </div>
+        )}
+      </div>
 
-
-      </div >
     </section >
   );
 }

@@ -12,8 +12,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import clsx from 'clsx';
 import { useSubmitReview } from '../../api/reviews.jsx';
+import { ProductSkeleton } from './ProductSkeleton.jsx';
 
-function RelatedProductSlider({ variants = [] }) {
+
+function RelatedProductSlider({ variants = [], isLoadingProducts = false }) {
   const { categoryId } = useParams();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
@@ -123,7 +125,7 @@ function RelatedProductSlider({ variants = [] }) {
 
   const progress = variants.length > 0 ? ((currentSlide + 1) / variants.length) * 100 : 0;
 
-  if (!variants.length) return null;
+  if (!isLoading && !variants.length) return null;
 
   return (
     <section className="text-[#025043] px-6 md:px-20 py-12" dir={isRTL ? 'rtl' : 'ltr'}>
@@ -137,128 +139,144 @@ function RelatedProductSlider({ variants = [] }) {
       </div>
 
       <div className="relative">
-        <Slider {...settings}>
-          {variants.map((variant) => {
-            const colors = variant.product?.available_options?.slice(0, 8) || [];
-            const sizes = [
-              ...new Set(variant.product?.available_options?.flatMap(c => c.available_sizes?.map(s => s.name)) || [])
-            ].slice(0, 4);
-            const materials = [
-              ...new Set(variant.product?.available_options?.flatMap(c => c.available_sizes?.flatMap(s => s.available_materials?.map(m => m.name)) || []))
-            ].slice(0, 4);
 
-            const discountVal = parseFloat(variant.discount) || 0;
 
-            return (
-              <div key={variant.id} className="px-2 h-full">
-                <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-[500px] shadow-sm hover:shadow-md transition-all group">
+        {isLoadingProducts ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+          </div>
+        ) : (
 
-                  {/* Image & Discount */}
-                  <div className="relative overflow-hidden">
-                    {discountVal > 0 && (
-                      <div className={clsx(
-                        "absolute top-3 z-20 px-3 py-1 text-[10px] font-bold text-white bg-red-600 shadow-md",
-                        isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
-                      )}>
-                        {isRTL ? `${t('essential_to_prep.off')} ${discountVal}%` : `${discountVal}% ${t('essential_to_prep.off')}`}
+          <>
+            <Slider {...settings}>
+              {variants.map((variant) => {
+                const colors = variant.product?.available_options?.slice(0, 8) || [];
+                const sizes = [
+                  ...new Set(variant.product?.available_options?.flatMap(c => c.available_sizes?.map(s => s.name)) || [])
+                ].slice(0, 4);
+                const materials = [
+                  ...new Set(variant.product?.available_options?.flatMap(c => c.available_sizes?.flatMap(s => s.available_materials?.map(m => m.name)) || []))
+                ].slice(0, 4);
+
+                const discountVal = parseFloat(variant.discount) || 0;
+
+                return (
+                  <div key={variant.id} className="px-2 h-full">
+                    <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-[500px] shadow-sm hover:shadow-md transition-all group">
+
+                      {/* Image & Discount */}
+                      <div className="relative overflow-hidden">
+                        {discountVal > 0 && (
+                          <div className={clsx(
+                            "absolute top-3 z-20 px-3 py-1 text-[10px] font-bold text-white bg-red-600 shadow-md",
+                            isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
+                          )}>
+                            {isRTL ? `${t('essential_to_prep.off')} ${discountVal}%` : `${discountVal}% ${t('essential_to_prep.off')}`}
+                          </div>
+                        )}
+                        <Link to={`/products/${categoryId}/product-info/${variant.id}`}>
+                          <img
+                            src={variant.image}
+                            alt={variant.sku}
+                            className="w-full h-48 md:h-60 object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        </Link>
                       </div>
-                    )}
-                    <Link to={`/products/${categoryId}/product-info/${variant.id}`}>
-                      <img
-                        src={variant.image}
-                        alt={variant.sku}
-                        className="w-full h-48 md:h-60 object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                    </Link>
+
+                      <div className="p-4 flex flex-col gap-2 flex-1">
+
+                        <h3 className={`text-[#025043] text-[16px] font-bold -mb-6 h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
+                          {variant.product?.name}
+                        </h3>
+
+                        <p className="text-sm text-black">
+                          SKU: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
+                        </p>
+
+                        <div className="border-b border-[#025043]/10"></div>
+
+                        <div className={clsx("flex items-baseline gap-2", isRTL ? "flex-row-reverse justify-end" : "flex-row justify-start")}>
+                          <span className="text-[#025043] text-lg font-bold font-[Expo-arabic]">{variant.final_price} $</span>
+                          {discountVal > 0 && (
+                            <span className="text-gray-400 text-xs line-through decoration-red-500/40">{variant.price} $</span>
+                          )}
+                        </div>
+
+                        {/* Colors */}
+                        <div className="flex gap-1.5 flex-wrap min-h-5">
+                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.color')}</span>
+                          {colors.map((color) => (
+                            <div
+                              key={color.id}
+                              title={color.name}
+                              className="w-6 h-6 rounded-full border border-gray-400 shadow-sm hover:scale-125 transition-transform"
+                              style={{ backgroundColor: color.hex }}
+                            />
+                          ))}
+                        </div>
+
+                        {/* Sizes */}
+                        <div className="flex items-center gap-1 mt-1">
+                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
+                          <div className="flex gap-1 flex-wrap">
+                            {sizes.map((size, i) => (
+                              <span key={i} className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]">{size}</span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Materials */}
+                        <div className="flex items-center gap-1">
+                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
+                          <div className="flex gap-1 flex-wrap">
+                            {materials.map((mat, i) => (
+                              <span key={i} className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]">{mat}</span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Ratings & Add to Cart */}
+                        <div className="mt-auto flex flex-col gap-3">
+                          <div className="flex items-center gap-2">
+                            <RatingStars
+                              rating={Number(variant.reviews_avg) || 0}
+                              onRate={(star) => handleRateProduct(variant.id, star)}
+                            />
+                            <span className="text-[10px] text-gray-400">({variant.reviews_count || 0})</span>
+                          </div>
+
+                          <button
+                            onClick={() => handleAddCartItem(variant)}
+                            disabled={isLoading}
+                            className="w-full bg-[#025043] text-white py-2 cursor-pointer rounded-full text-sm font-bold hover:bg-[#01382f] transition active:scale-95 disabled:opacity-50"
+                          >
+                            {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
+                );
+              })}
+            </Slider>
 
-                  <div className="p-4 flex flex-col gap-2 flex-1">
-
-                    <h3 className={`text-[#025043] text-[16px] font-bold -mb-6 h-12 overflow-hidden ${isRTL ? 'font-[Expo-arabic] text-right' : 'font-[Expo-book] text-left'}`}>
-                      {variant.product?.name}
-                    </h3>
-
-                    <p className="text-sm text-black">
-                      SKU: <span className="text-gray-500 font-[Expo-arabic]">{variant?.sku}</span>
-                    </p>
-
-                    <div className="border-b border-[#025043]/10"></div>
-
-                    <div className={clsx("flex items-baseline gap-2", isRTL ? "flex-row-reverse justify-end" : "flex-row justify-start")}>
-                      <span className="text-[#025043] text-lg font-bold font-[Expo-arabic]">{variant.final_price} $</span>
-                      {discountVal > 0 && (
-                        <span className="text-gray-400 text-xs line-through decoration-red-500/40">{variant.price} $</span>
-                      )}
-                    </div>
-
-                    {/* Colors */}
-                    <div className="flex gap-1.5 flex-wrap min-h-5">
-                      <span className="text-[13px] text-gray-400 min-w-10">{t('filter.color')}</span>
-                      {colors.map((color) => (
-                        <div
-                          key={color.id}
-                          title={color.name}
-                          className="w-6 h-6 rounded-full border border-gray-400 shadow-sm hover:scale-125 transition-transform"
-                          style={{ backgroundColor: color.hex }}
-                        />
-                      ))}
-                    </div>
-
-                    {/* Sizes */}
-                    <div className="flex items-center gap-1 mt-1">
-                      <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
-                      <div className="flex gap-1 flex-wrap">
-                        {sizes.map((size, i) => (
-                          <span key={i} className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]">{size}</span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Materials */}
-                    <div className="flex items-center gap-1">
-                      <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
-                      <div className="flex gap-1 flex-wrap">
-                        {materials.map((mat, i) => (
-                          <span key={i} className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]">{mat}</span>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Ratings & Add to Cart */}
-                    <div className="mt-auto flex flex-col gap-3">
-                      <div className="flex items-center gap-2">
-                        <RatingStars
-                          rating={Number(variant.reviews_avg) || 0}
-                          onRate={(star) => handleRateProduct(variant.id, star)}
-                        />
-                        <span className="text-[10px] text-gray-400">({variant.reviews_count || 0})</span>
-                      </div>
-
-                      <button
-                        onClick={() => handleAddCartItem(variant)}
-                        disabled={isLoading}
-                        className="w-full bg-[#025043] text-white py-2 cursor-pointer rounded-full text-sm font-bold hover:bg-[#01382f] transition active:scale-95 disabled:opacity-50"
-                      >
-                        {isLoading ? t('essential_to_prep.adding') : t('essential_to_prep.add_to_cart')}
-                      </button>
-                    </div>
-                  </div>
+            {/* Progress Bar */}
+            {variants.length > 4 && (
+              <div className="mt-8">
+                <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#025043] transition-all duration-500"
+                    style={{ width: `${progress}%`, float: isRTL ? 'right' : 'left' }}
+                  />
                 </div>
               </div>
-            );
-          })}
-        </Slider>
+            )}
+          </>
 
-        {/* Progress Bar */}
-        {variants.length > 4 && (
-          <div className="mt-8">
-            <div className="w-full h-1 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-[#025043] transition-all duration-500"
-                style={{ width: `${progress}%`, float: isRTL ? 'right' : 'left' }}
-              />
-            </div>
-          </div>
+
         )}
       </div>
     </section>

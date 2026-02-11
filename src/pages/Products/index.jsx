@@ -24,6 +24,8 @@ import { Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
+import { ProductSkeleton } from '../../components/Products/ProductSkeleton.jsx';
+import { HeroSkeleton } from '../../components/HeroSkeleton.jsx';
 
 
 
@@ -48,7 +50,7 @@ const Product = () => {
   const { mutate: addToCart, isLoading } = useAddToCartItem();
   const { mutate: addWishlist } = useAddWishlist();
 
-  const { data: productsData = [] } = useGetProductsVariantsByCategory(categoryId);
+  const { data: productsData = [], isLoading: isLoadingProducts } = useGetProductsVariantsByCategory(categoryId);
   const rawProducts = productsData?.data || productsData || [];
 
   const productsList = rawProducts.map(v => ({
@@ -166,80 +168,93 @@ const Product = () => {
 
   return (
     <div className="bg-[#EDEAE2] min-h-screen" dir={isRTL ? 'rtl' : 'ltr'}>
-      {category && (
-        <div className="w-full h-screen relative overflow-hidden bg-black">
-          <Swiper
-            key={i18n.language}
-            dir={isRTL ? 'rtl' : 'ltr'}
-            modules={[Autoplay, EffectFade, Pagination]}
-            effect="fade"
-            speed={1500}
-            autoplay={{ delay: 5000, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            className="h-full w-full"
-          >
-            {category.all_images && category.all_images.length > 0 ? (
-              category.all_images.map((imgUrl, index) => (
-                <SwiperSlide key={index}>
-                  {({ isActive }) => (
-                    <div
-                      className="w-full h-full bg-cover bg-no-repeat bg-center relative"
-                      style={{ backgroundImage: `url(${imgUrl})` }}
-                    >
-                      <div className="absolute inset-0 bg-black/30" />
 
-                      <div
-                        className={clsx(
-                          "absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000",
-                          isRTL ? "text-right" : "text-left",
-                          isActive ? "opacity-100" : "opacity-0"
+
+      {isLoadingProducts ? (
+        <HeroSkeleton />
+      ) : (
+        category && (
+          <div className="w-full h-screen relative overflow-hidden bg-black">
+            {category && (
+              <div className="w-full h-screen relative overflow-hidden bg-black">
+                <Swiper
+                  key={i18n.language}
+                  dir={isRTL ? 'rtl' : 'ltr'}
+                  modules={[Autoplay, EffectFade, Pagination]}
+                  effect="fade"
+                  speed={1500}
+                  autoplay={{ delay: 5000, disableOnInteraction: false }}
+                  pagination={{ clickable: true }}
+                  className="h-full w-full"
+                >
+                  {category.all_images && category.all_images.length > 0 ? (
+                    category.all_images.map((imgUrl, index) => (
+                      <SwiperSlide key={index}>
+                        {({ isActive }) => (
+                          <div
+                            className="w-full h-full bg-cover bg-no-repeat bg-center relative"
+                            style={{ backgroundImage: `url(${imgUrl})` }}
+                          >
+                            <div className="absolute inset-0 bg-black/30" />
+
+                            <div
+                              className={clsx(
+                                "absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000",
+                                isRTL ? "text-right" : "text-left",
+                                isActive ? "opacity-100" : "opacity-0"
+                              )}
+                            >
+
+                              <h1
+                                className={clsx(
+                                  "text-4xl md:text-6xl font-bold",
+                                  isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
+                                )}
+                              >
+                                {index === 0 ? category.name : t('essential_to_prep.exclusive_collection')}
+                              </h1>
+
+                              <p
+                                className={clsx(
+                                  "text-xl md:text-2xl opacity-80 max-w-2xl mt-3",
+                                  isRTL ? "font-[Expo-arabic]" : "italic font-light"
+                                )}
+                              >
+                                {category.description}
+                              </p>
+                            </div>
+                          </div>
                         )}
-                      >
-
-                        <h1
-                          className={clsx(
-                            "text-4xl md:text-6xl font-bold",
-                            isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
-                          )}
-                        >
-                          {index === 0 ? category.name : t('essential_to_prep.exclusive_collection')}
-                        </h1>
-
-                        <p
-                          className={clsx(
-                            "text-xl md:text-2xl opacity-80 max-w-2xl mt-3",
-                            isRTL ? "font-[Expo-arabic]" : "italic font-light"
-                          )}
-                        >
-                          {category.description}
-                        </p>
-                      </div>
-                    </div>
+                      </SwiperSlide>
+                    ))
+                  ) : (
+                    <SwiperSlide>
+                      <div
+                        className="w-full h-full bg-cover bg-no-repeat bg-center"
+                        style={{ backgroundImage: `url(${category.image})` }}
+                      />
+                    </SwiperSlide>
                   )}
-                </SwiperSlide>
-              ))
-            ) : (
-              <SwiperSlide>
-                <div
-                  className="w-full h-full bg-cover bg-no-repeat bg-center"
-                  style={{ backgroundImage: `url(${category.image})` }}
-                />
-              </SwiperSlide>
-            )}
-          </Swiper>
+                </Swiper>
 
-          <style>{`
+                <style>{`
       .swiper-pagination-bullet { background: white !important; opacity: 0.5; }
       .swiper-pagination-bullet-active { background: #E2995E !important; opacity: 1; width: 30px; border-radius: 4px; }
     `}</style>
-        </div>
+              </div>
+            )}
+          </div>
+        )
       )}
 
-
       <div className="mx-auto px-6 py-10">
-        <h1 className={clsx("text-5xl text-black mb-10", isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]")}>
-          {category?.name}
-        </h1>
+        {isLoadingProducts ? (
+          <div className="h-12 bg-gray-300 animate-pulse rounded-lg w-48 mb-10" />
+        ) : (
+          <h1 className={clsx("text-5xl text-black mb-10", isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]")}>
+            {category?.name}
+          </h1>
+        )}
 
         {/* <div className="overflow-hidden whitespace-nowrap mb-10">
           <div className="animate-marquee inline-block">
@@ -264,158 +279,180 @@ const Product = () => {
         </button>
 
         <div className="flex flex-col md:flex-row gap-8 items-start">
-          {showFilters && !isMobile && (
-            <div className="w-full md:w-1/6 transition-all duration-300">
-              <ProductFilters
-                filters={filters}
-                onChange={toggleFilter}
-                onPriceChange={updatePrice}
-                onClearAll={clearFilters}
-              />
 
+          {showFilters && !isMobile && (
+            <div className="w-full md:w-1/6">
+              {isLoadingProducts ? (
+                <div className="space-y-4 animate-pulse">
+                  <div className="h-8 bg-gray-300 rounded w-full" />
+                  <div className="h-40 bg-gray-300 rounded w-full" />
+                </div>
+              ) : (
+                <ProductFilters
+                  filters={filters}
+                  onChange={toggleFilter}
+                  onPriceChange={updatePrice}
+                  onClearAll={clearFilters}
+                />
+              )}
             </div>
           )}
 
           <div className="flex-1 w-full">
             <div className={clsx("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6")}>
-              {filteredProducts.map((product) => {
-                const sizes = [
-                  ...new Set(
-                    product.available_options?.flatMap(color =>
-                      color.available_sizes?.map(size => size.name)
-                    )
-                  )
-                ].slice(0, 4);
 
-                const materials = [
-                  ...new Set(
-                    product.available_options?.flatMap(color =>
-                      color.available_sizes?.flatMap(size =>
-                        size.available_materials?.map(mat => mat.name)
+              {isLoadingProducts ? (
+                Array.from({ length: 8 }).map((_, index) => (
+                  <ProductSkeleton key={index} />
+                ))
+              ) : filteredProducts.length > 0 ? (
+
+                filteredProducts.map((product) => {
+                  const sizes = [
+                    ...new Set(
+                      product.available_options?.flatMap(color =>
+                        color.available_sizes?.map(size => size.name)
                       )
                     )
-                  )
-                ].slice(0, 4);
-                return (
-                  <div key={product.variantId} className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col group">
-                    {product.discount > 0 && (
-                      <div className={clsx(
-                        "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
-                        isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
-                      )}>
-                        {isRTL ? <>{t('essential_to_prep.off')} {Number(product.discount)}%</> : <>{Number(product.discount)}% {t('essential_to_prep.off')}</>}
-                      </div>
-                    )}
-                    <div className="relative overflow-hidden">
-                      <Link to={`/products/${categoryId}/product-info/${product.variantId}`}>
-                        <img
-                          src={product.image}
-                          alt={product.name}
-                          className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </Link>
-                      <button
-                        onClick={() => handleAddWishlist(product)}
-                        className={clsx(
-                          "absolute top-2 z-30 p-2 rounded-full transition cursor-pointer",
-                          isRTL ? "left-2" : "right-2"
-                        )}
-                      >
-                        <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
-                      </button>
-                    </div>
-                    <div className="p-4 flex flex-col flex-1">
-                      <h3 className="text-[#025043] text-[16px] font-bold h-12 overflow-hidden -mb-6">{product.name}</h3>
+                  ].slice(0, 4);
 
-                      <p className="text-xs text-black mt-2">
-                        SKU: <span className="text-gray-500">{product?.sku}</span>
-                      </p>
-
-                      <div className="border-b border-[#025043]/20 my-3"></div>
-
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-[#025043] text-[18px] font-bold">
-                          {product.final_price} $
-                        </span>
-                        {product.discount > 0 && (
-                          <span className="text-gray-400 text-sm line-through decoration-red-500/50">
-                            {product.price} $
-                          </span>
-                        )}
-                      </div>
-
-                      <div className={clsx(
-                        "flex flex-col gap-2 mt-1",
-                        isRTL ? "items-start text-right" : "items-start text-left"
-                      )}>
-                        <div className="flex items-center justify-between w-full">
-                          <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold font-[Expo-arabic]">
-                          </span>
+                  const materials = [
+                    ...new Set(
+                      product.available_options?.flatMap(color =>
+                        color.available_sizes?.flatMap(size =>
+                          size.available_materials?.map(mat => mat.name)
+                        )
+                      )
+                    )
+                  ].slice(0, 4);
+                  return (
+                    <div key={product.variantId} className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col group">
+                      {product.discount > 0 && (
+                        <div className={clsx(
+                          "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
+                          isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
+                        )}>
+                          {isRTL ? <>{t('essential_to_prep.off')} {Number(product.discount)}%</> : <>{Number(product.discount)}% {t('essential_to_prep.off')}</>}
                         </div>
-                        {/* Colors */}
-                        <div className="flex gap-1.5 flex-wrap">
-                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.color')}</span>
-                          {product.available_options?.slice(0, 8).map((option) => (
-                            <div
-                              key={option.id}
-                              title={option.name}
-                              className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
-                              style={{ backgroundColor: option.hex }}
-                            />
-                          ))}
-                        </div>
-
-                        {/* Sizes  */}
-                        <div className="flex items-center gap-1 mt-1">
-                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
-                          <div className="flex gap-1 flex-wrap">
-                            {sizes.map((size, i) => (
-                              <span
-                                key={i}
-                                className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
-                              >
-                                {size}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Materials  */}
-                        <div className="flex items-center gap-1">
-                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
-                          <div className="flex gap-1 flex-wrap">
-                            {materials.map((mat, i) => (
-                              <span
-                                key={i}
-                                className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
-                              >
-                                {mat}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="mt-auto pt-3 border-t border-gray-200 flex flex-col gap-3">
-                        <div className="flex items-center justify-between">
-                          <RatingStars rating={product.rating} onRate={(star) => handleRateProduct(product.variantId, star)} />
-                          <span className="text-xs text-gray-400">({product.reviews_count})</span>
-                        </div>
-
+                      )}
+                      <div className="relative overflow-hidden">
+                        <Link to={`/products/${categoryId}/product-info/${product.variantId}`}>
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            loading="lazy"
+                            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        </Link>
                         <button
-                          onClick={() => handleAddCartItem(product)}
-                          disabled={isLoading}
-                          className="w-full bg-[#025043] text-white py-2 cursor-pointer rounded-full text-sm font-bold hover:bg-[#01382f] transition active:scale-95 disabled:opacity-50"
+                          onClick={() => handleAddWishlist(product)}
+                          className={clsx(
+                            "absolute top-2 z-30 p-2 rounded-full transition cursor-pointer",
+                            isRTL ? "left-2" : "right-2"
+                          )}
                         >
-                          {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
+                          <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
                         </button>
                       </div>
+                      <div className="p-4 flex flex-col flex-1">
+                        <h3 className="text-[#025043] text-[16px] font-bold h-12 overflow-hidden -mb-6">{product.name}</h3>
+
+                        <p className="text-xs text-black mt-2">
+                          SKU: <span className="text-gray-500">{product?.sku}</span>
+                        </p>
+
+                        <div className="border-b border-[#025043]/20 my-3"></div>
+
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-[#025043] text-[18px] font-bold">
+                            {product.final_price} $
+                          </span>
+                          {product.discount > 0 && (
+                            <span className="text-gray-400 text-sm line-through decoration-red-500/50">
+                              {product.price} $
+                            </span>
+                          )}
+                        </div>
+
+                        <div className={clsx(
+                          "flex flex-col gap-2 mt-1",
+                          isRTL ? "items-start text-right" : "items-start text-left"
+                        )}>
+                          <div className="flex items-center justify-between w-full">
+                            <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold font-[Expo-arabic]">
+                            </span>
+                          </div>
+                          {/* Colors */}
+                          <div className="flex gap-1.5 flex-wrap">
+                            <span className="text-[13px] text-gray-400 min-w-10">{t('filter.color')}</span>
+                            {product.available_options?.slice(0, 8).map((option) => (
+                              <div
+                                key={option.id}
+                                title={option.name}
+                                className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
+                                style={{ backgroundColor: option.hex }}
+                              />
+                            ))}
+                          </div>
+
+                          {/* Sizes  */}
+                          <div className="flex items-center gap-1 mt-1">
+                            <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
+                            <div className="flex gap-1 flex-wrap">
+                              {sizes.map((size, i) => (
+                                <span
+                                  key={i}
+                                  className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
+                                >
+                                  {size}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* Materials  */}
+                          <div className="flex items-center gap-1">
+                            <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
+                            <div className="flex gap-1 flex-wrap">
+                              {materials.map((mat, i) => (
+                                <span
+                                  key={i}
+                                  className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
+                                >
+                                  {mat}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="mt-auto pt-3 border-t border-gray-200 flex flex-col gap-3">
+                          <div className="flex items-center justify-between">
+                            <RatingStars rating={product.rating} onRate={(star) => handleRateProduct(product.variantId, star)} />
+                            <span className="text-xs text-gray-400">({product.reviews_count})</span>
+                          </div>
+
+                          <button
+                            onClick={() => handleAddCartItem(product)}
+                            disabled={isLoading}
+                            className="w-full bg-[#025043] text-white py-2 cursor-pointer rounded-full text-sm font-bold hover:bg-[#01382f] transition active:scale-95 disabled:opacity-50"
+                          >
+                            {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
+                          </button>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                )
+                  )
 
 
-              })}
+                })
+
+              ) : (
+                <div className="col-span-full text-center py-20 text-gray-500">
+                  {t('filters.no_results_title')}
+                </div>
+              )}
+
             </div>
           </div>
         </div>

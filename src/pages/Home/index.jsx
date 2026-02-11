@@ -19,7 +19,7 @@ import ProductSliderDiscounted from '../../components/Products/ProductSliderDisc
 const Home = () => {
   const { t, i18n } = useTranslation();
   const { data: categories = [] } = useGetCategories();
-  const { data: sliderProducts = [] } = useGetSlidersProductsVariants();
+  const { data: sliderProducts = [], isLoading: isLoadingSliders } = useGetSlidersProductsVariants();
   const isRTL = i18n.language === 'ar';
 
   return (
@@ -101,19 +101,31 @@ const Home = () => {
         {/* Sliders & Products */}
         {/* Sliders & Products Section */}
         <AnimateOnScroll direction="up" delay={0.3}>
-          <ProductSliderNew products={sliderProducts.new || []} />
+          <ProductSliderNew
+            products={sliderProducts.new || []}
+            isLoadingProducts={isLoadingSliders}
+          />
         </AnimateOnScroll>
 
         <AnimateOnScroll direction="up" delay={0.3}>
-          <ProductSliderTopAvg products={sliderProducts.top_rated || []} />
+          <ProductSliderTopAvg
+            products={sliderProducts.top_rated || []}
+            isLoadingProducts={isLoadingSliders}
+          />
         </AnimateOnScroll>
 
         <AnimateOnScroll direction="up" delay={0.3}>
-          <ProductSliderDiscounted products={sliderProducts.discounted || []} />
+          <ProductSliderDiscounted
+            products={sliderProducts.discounted || []}
+            isLoadingProducts={isLoadingSliders}
+          />
         </AnimateOnScroll>
 
         <AnimateOnScroll direction="up" delay={0.3}>
-          <MostProduct products={sliderProducts.featured || []} />
+          <MostProduct
+            products={sliderProducts.featured || []}
+            isLoadingProducts={isLoadingSliders}
+          />
         </AnimateOnScroll>
 
 

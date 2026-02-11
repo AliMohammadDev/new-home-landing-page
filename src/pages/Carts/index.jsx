@@ -27,7 +27,6 @@ function Carts() {
   const { mutate: updateItem } = useUpdateCartItem();
   const { mutate: removeItem } = useRemoveFromCartItem();
 
-
   const [selectedColor, setSelectedColor] = useState({});
   const [selectedSize, setSelectedSize] = useState({});
   const [selectedMaterial, setSelectedMaterial] = useState({});
@@ -98,14 +97,17 @@ function Carts() {
   }, [items]);
 
 
-
   if (isLoading) {
     return (
-      <div className="text-center mt-40 text-white font-[Expo-arabic]">
-        {t('cart.loading')}
+
+
+      <div className="w-full bg-[#025043] min-h-screen flex items-center justify-center text-white font-[Expo-arabic]">
+        <p className="animate-pulse">{t('cart.loading') || 'Loading...'}</p>
       </div>
     );
   }
+
+
 
   const computedTotal = cartItems?.cart_total || 0;
 
