@@ -193,6 +193,7 @@
     "shipping_fee": "Shipping Fee",
     "free_shipping": "Free Shipping",
     "total": "Total Amount",
+    "shipping_info": "Shipping calculated at checkout",
 
     "status": {
       "pending": "Pending",

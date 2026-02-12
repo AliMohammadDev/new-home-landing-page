@@ -195,6 +195,7 @@
     "shipping_fee": "تكلفة الشحن",
     "free_shipping": "شحن مجاني",
     "total": "الإجمالي النهائي",
+    "shipping_info": "تُحسب تكاليف الشحن عند الدفع",
 
     "status": {
       "pending": "قيد الانتظار",

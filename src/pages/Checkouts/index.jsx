@@ -182,7 +182,7 @@ function Checkouts() {
                             ))}
                           </Select>
 
-                          {selectedCityData && (
+                          {/* {selectedCityData && (
                             <div className="mt-3 p-3 rounded-xl bg-white/5 border border-white/10 animate-appearance-in">
                               <div className="flex justify-between items-center text-sm">
                                 <span className="text-white/60">{t('checkout.estimated_delivery')}:</span>
@@ -195,7 +195,7 @@ function Checkouts() {
                                 </span>
                               </div>
                             </div>
-                          )}
+                          )} */}
                           {/* ----------------------- */}
                         </>
                       ) : (

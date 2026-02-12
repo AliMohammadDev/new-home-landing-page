@@ -200,14 +200,19 @@ function Orders() {
 
           <div className="flex justify-between items-center text-lg opacity-80">
             <span>{t('orders.shipping_fee') || 'Shipping Fee'}</span>
+
+
             <span>
-              {cartDataItems?.shipping_fee > 0 ? (
+              {/* {cartDataItems?.shipping_fee > 0 ? (
                 `+ ${cartDataItems.shipping_fee} $`
               ) : (
                 <span className="text-green-400 font-bold">
                   {t('orders.free_shipping') || 'Free'}
                 </span>
-              )}
+              )} */}
+              <span className="text-sm font-semibold text-green-400">
+                {t('orders.shipping_info') || 'يتم تحديد التكاليف عند الدفع'}
+              </span>
             </span>
           </div>
 

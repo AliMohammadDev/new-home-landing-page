@@ -192,11 +192,14 @@ function OrdersInfo() {
                             <span className="text-white/70 text-base md:text-lg">{t('orders.shipping_fee', 'Shipping Fee')}</span>
                         </div>
                         <span className="text-white font-medium tracking-wide">
-                            {parseFloat(order.shipping_fee || 0).toFixed(2)} $
+                            {/* {parseFloat(order.shipping_fee || 0).toFixed(2)} $ */}
+                            <span className="text-sm font-semibold text-green-400">
+                                {t('orders.shipping_info') || 'يتم تحديد التكاليف عند الدفع'}
+                            </span>
                         </span>
                     </div>
 
-                    <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent my-2"></div>
+                    <div className="w-full h-px bg-gradient-to-r from-transparent via-white/30 to-transparent my-2"></div>
 
                     <div
                         className={clsx(
