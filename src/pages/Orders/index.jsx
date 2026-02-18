@@ -52,7 +52,7 @@ function Orders() {
 
   return (
     <div
-      className={`w-full flex flex-col mt-20 md:flex-row justify-between items-start px-6 lg:px-20 py-16 md:py-32 gap-10 md:gap-16 min-h-screen font-[Expo-arabic] ${i18n.language === 'ar' ? 'text-right' : 'text-left'} bg-[#025043] text-white`}
+      className={`w-full flex flex-col  mt-40 xl:mt-20 xl:flex-row justify-between items-start px-6 xl:px-20 py-16 xl:py-32 gap-10 xl:gap-16 min-h-screen font-[Expo-arabic] ${i18n.language === 'ar' ? 'text-right' : 'text-left'} bg-[#025043] text-white`}
     >
       {/* Back Button */}
       <Link
@@ -66,7 +66,7 @@ function Orders() {
       </Link>
 
       {/* Left Side - Checkout Info */}
-      <div className="w-full md:w-1/2 p-8 bg-white/10 backdrop-blur-lg rounded-2xl">
+      <div className="w-full xl:w-1/2 p-8 bg-white/10 backdrop-blur-lg rounded-2xl">
         <div className="flex items-center gap-3 mb-8">
           <CheckoutIcon className="w-12 h-12 text-white" />
           <h2 className="text-2xl md:text-3xl font-bold tracking-wide">
@@ -119,35 +119,38 @@ function Orders() {
         <Divider className="my-5" />
         <h4 className="my-3 text-base">{t('checkout.payment_method')}:</h4>
 
-        <div className="w-full flex justify-between px-10">
-          <div className="w-[100px]">
+        <div className="w-full flex justify-between items-center px-4 sm:px-10 gap-3">
+          <div className="w-[70px] sm:w-[100px] flex justify-center">
             <img
               src={MTNCash}
               alt="checkout"
-              className="w-max-[150px]  h-max-[150px] object-cover"
+              className="max-w-full max-h-[60px] sm:max-h-[150px] object-contain"
             />
           </div>
-          <div className="w-[150px]">
+
+          <div className="w-[90px] sm:w-[150px] flex justify-center">
             <img
               src={SyriatelCash}
               alt="syriatel cash"
-              className="w-max-[150px]  h-max-[150px] object-cover"
+              className="max-w-full max-h-[60px] sm:max-h-[150px] object-contain"
             />
           </div>
-          <div className="w-[100px]">
+
+          <div className="w-[70px] sm:w-[100px] flex justify-center">
             <img
               src={ShamCash}
               alt="shamcash"
-              className="w-max-[150px]  h-max-[150px] object-cover"
+              className="max-w-full max-h-[60px] sm:max-h-[150px] object-contain"
             />
           </div>
         </div>
+
       </div>
 
       {/* Right Side - Order Summary */}
       <div
         className={clsx(
-          'w-full md:w-1/2 space-y-6 p-8 bg-white/10 rounded-2xl backdrop-blur-lg font-[Expo-bold]',
+          'w-full xl:w-1/2 space-y-6 p-8 bg-white/10 rounded-2xl backdrop-blur-lg font-[Expo-bold]',
           i18n.language === 'ar' ? 'text-right' : 'text-left'
         )}
         dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
@@ -200,17 +203,9 @@ function Orders() {
 
           <div className="flex justify-between items-center text-lg opacity-80">
             <span>{t('orders.shipping_fee') || 'Shipping Fee'}</span>
-
-
             <span>
-              {/* {cartDataItems?.shipping_fee > 0 ? (
-                `+ ${cartDataItems.shipping_fee} $`
-              ) : (
-                <span className="text-green-400 font-bold">
-                  {t('orders.free_shipping') || 'Free'}
-                </span>
-              )} */}
-              <span className="text-sm font-semibold text-green-400">
+
+              <span className="text-sm font-semibold text-red-500">
                 {t('orders.shipping_info') || 'يتم تحديد التكاليف عند الدفع'}
               </span>
             </span>

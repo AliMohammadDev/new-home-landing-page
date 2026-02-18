@@ -193,7 +193,7 @@ function OrdersInfo() {
                         </div>
                         <span className="text-white font-medium tracking-wide">
                             {/* {parseFloat(order.shipping_fee || 0).toFixed(2)} $ */}
-                            <span className="text-sm font-semibold text-green-400">
+                            <span className="text-sm font-semibold text-red-500">
                                 {t('orders.shipping_info') || 'يتم تحديد التكاليف عند الدفع'}
                             </span>
                         </span>
