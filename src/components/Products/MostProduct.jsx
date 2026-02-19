@@ -54,18 +54,30 @@ function MostProduct({ products = [], isLoadingProducts = false }) {
       <div className="grid grid-cols-1 lg:grid-cols-2 items-start">
         {/* Text */}
         <div className="flex flex-col">
-          <div className="flex flex-col mt-40 md:mt-10 md:flex-row items-center gap-10">
-            <span className="font-[Expo-arabic] text-7xl md:text-6xl xl:text-8xl text-black">
+
+          <div className={clsx(
+            "flex mt-40 md:mt-10 gap-4 md:gap-6",
+            isRTL
+              ? "flex-col items-center lg:items-start xl:flex-row xl:items-baseline"
+              : "flex-col md:flex-row md:items-baseline items-center"
+          )}>
+
+            <span className="font-[Expo-arabic] text-6xl md:text-6xl xl:text-7xl 2xl:text-8xl text-black whitespace-nowrap">
               {t('most_product.title_main')}
             </span>
+
             <span className={
-              clsx(" mb-20 md:mb-0 text-[#E2995E] text-8xl sm:text-6xl xl:text-8xl",
-                isRTL ? "font-[Expo-arabic] text-[#E2995E] lg:text-6xl md:text-6xl md:-mr-4  lg:-mr-8" : "font-[Asteroid] lg:text-8xl md:text-7xl"
+              clsx(
+                "mb-20 md:mb-0 text-[#E2995E] text-7xl sm:text-6xl xl:text-7xl 2xl:text-8xl whitespace-nowrap",
+                isRTL
+                  ? "font-[Expo-arabic] lg:-mt-5 xl:mt-0"
+                  : "font-[Asteroid]"
               )
             }>
               {t('most_product.title_sub')}
             </span>
           </div>
+
           <div className="md:text-xl lg:text-xl mt-4 md:mt-8 ml-5 md:ml-0 font-[Expo-arabic] mr-2 md:mr-0">
             <p>{t('most_product.description_line1')}</p>
             <p className="mt-2">{t('most_product.description_line2')}</p>
