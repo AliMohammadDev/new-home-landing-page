@@ -132,7 +132,7 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
     afterChange: (current) => setCurrentSlide(current),
     responsive: [
       { breakpoint: 1280, settings: { slidesToShow: 2 } },
-      { breakpoint: 1024, settings: { slidesToShow: 2 } },
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
       { breakpoint: 640, settings: { slidesToShow: 1 } },
     ],
   };
@@ -152,25 +152,26 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
       </span>
 
       {/* Grid Container */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 md:gap-16 mt-8 justify-items-center">
+      <div className="grid grid-cols-1 xl:grid-cols-2 items-center gap-10 md:gap-16 mt-8 justify-items-center">
         <div className="w-full flex justify-center ml-50 lg:justify-start">
           <img
             src={Group}
             alt="Promotion"
             loading='lazy'
-            className=" object-contain  mr-30 -mt-20 md:mr-1 lg:-ml-20 xl:-ml-30 md:w-[90%] lg:w-full h-auto transform md:scale-110 lg:scale-140 xl:scale-100 origin-center"
+            className=" object-contain  mr-30 -mt-24 md:mr-1 xl:-ml-30 md:w-full h-auto transform md:scale-110 lg:scale-110 xl:scale-100 origin-center"
           />
         </div>
 
         {/* Slider  */}
         <div
           className={clsx(
-            "relative w-full max-w-full lg:max-w-[800px] xl:max-w-[1000px] transition-all duration-500",
-            isRTL ? "lg:-ml-35 xl:-mr-45" : "lg:-mr-35 xl:-ml-45"
+            "relative w-full max-w-full lg:max-w-full xl:max-w-[1000px] transition-all duration-500 md:-mt-40 lg:-mt-50 xl:-mt-0",
+            isRTL
+              ? "lg:-ml-3 xl:-ml-35 2xl:-mr-45"
+              : "lg:-mr-3 xl:-mr-35 2xl:-ml-45"
           )}
           dir={isRTL ? 'rtl' : 'ltr'}
         >
-
 
           {isLoadingProducts ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -367,7 +368,6 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
               </div>
             </>
           ) : null}
-
 
         </div>
 

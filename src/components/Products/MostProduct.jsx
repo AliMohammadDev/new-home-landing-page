@@ -51,14 +51,14 @@ function MostProduct({ products = [], isLoadingProducts = false }) {
 
   return (
     <section className="bg-[#EDEAE2] md:px-20 py-10 md:py-5 -mt-35 md:mt-0">
-      <div className="grid grid-cols-1 lg:grid-cols-2 items-start">
+      <div className="grid grid-cols-1 xl:grid-cols-2 items-start">
         {/* Text */}
         <div className="flex flex-col">
 
           <div className={clsx(
             "flex mt-40 md:mt-10 gap-4 md:gap-6",
             isRTL
-              ? "flex-col items-center lg:items-start xl:flex-row xl:items-baseline"
+              ? "flex-col items-center lg:items-start lg:flex-row xl:items-baseline"
               : "flex-col md:flex-row md:items-baseline items-center"
           )}>
 
@@ -70,7 +70,7 @@ function MostProduct({ products = [], isLoadingProducts = false }) {
               clsx(
                 "mb-20 md:mb-0 text-[#E2995E] text-7xl sm:text-6xl xl:text-7xl 2xl:text-8xl whitespace-nowrap",
                 isRTL
-                  ? "font-[Expo-arabic] lg:-mt-5 xl:mt-0"
+                  ? "font-[Expo-arabic] lg:mb-6 xl:mt-0"
                   : "font-[Asteroid]"
               )
             }>
