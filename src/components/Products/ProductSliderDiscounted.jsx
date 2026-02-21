@@ -165,7 +165,7 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
         {/* Slider  */}
         <div
           className={clsx(
-            "relative w-full max-w-full lg:max-w-full xl:max-w-[1000px] transition-all duration-500 md:-mt-40 lg:-mt-50 xl:-mt-0",
+            "relative w-full max-w-full lg:max-w-full xl:max-w-[1000px] transition-all duration-500 -mt-20 md:-mt-40 lg:-mt-50 xl:-mt-0",
             isRTL
               ? "lg:-ml-3 xl:-ml-35 2xl:-mr-45"
               : "lg:-mr-3 xl:-mr-35 2xl:-ml-45"
