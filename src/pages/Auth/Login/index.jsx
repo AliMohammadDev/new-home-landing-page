@@ -114,7 +114,7 @@ function Login() {
               <button
                 type="button"
                 onClick={() => {
-                  window.location.href = 'http://127.0.0.1:8000/api/login-google';
+                  window.location.href = 'https://api.almanzel-alhadith.com/api/login-google';
                 }}
                 className="w-full flex items-center justify-center gap-3 rounded-xl bg-white py-3 text-black font-medium transition hover:bg-gray-100  cursor-pointer shadow-lg active:scale-95"
               >

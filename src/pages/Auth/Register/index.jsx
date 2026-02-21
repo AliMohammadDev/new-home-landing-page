@@ -143,7 +143,7 @@ function Register() {
 
               {/* Google Register Button */}
               <Link
-                to={'http://127.0.0.1:8000/api/login-google'}
+                to={'https://api.almanzel-alhadith.com/api/login-google'}
                 className="w-full flex items-center justify-center gap-3 rounded-xl bg-white py-3 text-black font-medium transition hover:bg-gray-100 active:scale-95 cursor-pointer shadow-lg"
               >
                 <GoogleIcon />
