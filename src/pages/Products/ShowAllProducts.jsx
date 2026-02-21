@@ -440,7 +440,7 @@ function ShowAllProducts() {
                 ].slice(0, 4);
 
                 return (
-                  <div key={i} className="md:px-1">
+                  <div key={i} className="md:px-1 sm:min-w-96 w-96">
                     <div className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full group">
 
                       {product.discount > 0 && (
