@@ -41,11 +41,12 @@ function ShowAllProducts() {
       max: 100,
     },
   });
-  const { data: products = [], isLoading: isLoadingProducts } = useGetAllProductsVariants();
+  const { data: products = [], isLoading: isLoadingProducts } =
+    useGetAllProductsVariants();
   const { data: wishlistData } = useGetAllWishlist();
   const { mutate: addWishlist } = useAddWishlist();
   const variants = products || [];
-  const productsList = variants.map(v => ({
+  const productsList = variants.map((v) => ({
     variantId: v.id,
     image: v.image,
 
@@ -73,7 +74,7 @@ function ShowAllProducts() {
   const [visibleCount, setVisibleCount] = useState(8);
 
   const handleShowMore = () => {
-    setVisibleCount(prev => prev + 8);
+    setVisibleCount((prev) => prev + 8);
   };
 
   // Add to cart
@@ -101,8 +102,7 @@ function ShowAllProducts() {
             title: t('cart.button'),
             description: t('essential_to_prep.cart_success', {
               product: variant.name,
-            })
-            ,
+            }),
             color: 'success',
             duration: 4000,
             isClosable: true,
@@ -113,8 +113,7 @@ function ShowAllProducts() {
             title: t('cart.button'),
             description: t('essential_to_prep.cart_error', {
               product: variant.name,
-            })
-            ,
+            }),
             color: 'error',
             duration: 4000,
             isClosable: true,
@@ -123,7 +122,6 @@ function ShowAllProducts() {
       }
     );
   };
-
 
   const handleAddWishlist = (variant) => {
     if (!user) {
@@ -136,35 +134,30 @@ function ShowAllProducts() {
       return;
     }
 
-    addWishlist(
-      variant.variantId,
-      {
-        onSuccess: (res) => {
-          const isRemoved = res.status === 'removed';
-          addToast({
-            title: t('wishlist.title'),
-            description: isRemoved
-              ? t('wishlist.removedSuccess')
-              : t('wishlist.addedSuccess'),
-            color: isRemoved ? "warning" : "success",
-            duration: 2000,
-          });
-        },
-        onError: (error) => {
-          addToast({
-            title: t('wishlist.title'),
-            description: error.message,
-            color: 'error',
-          });
-        },
-      }
-    );
+    addWishlist(variant.variantId, {
+      onSuccess: (res) => {
+        const isRemoved = res.status === 'removed';
+        addToast({
+          title: t('wishlist.title'),
+          description: isRemoved
+            ? t('wishlist.removedSuccess')
+            : t('wishlist.addedSuccess'),
+          color: isRemoved ? 'warning' : 'success',
+          duration: 2000,
+        });
+      },
+      onError: (error) => {
+        addToast({
+          title: t('wishlist.title'),
+          description: error.message,
+          color: 'error',
+        });
+      },
+    });
   };
 
-
-  const wishlistProductIds = wishlistData?.data?.map(item =>
-    item.product_variant?.id
-  ) || [];
+  const wishlistProductIds =
+    wishlistData?.data?.map((item) => item.product_variant?.id) || [];
 
   const isProductInWishlist = (variantId) => {
     return wishlistProductIds.includes(variantId);
@@ -180,7 +173,6 @@ function ShowAllProducts() {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
 
   const updatePrice = (type, value) => {
     setFilters((prev) => ({
@@ -216,24 +208,39 @@ function ShowAllProducts() {
     const hasMaterialFilter = filters.materials.length > 0;
     const hasCategoryFilter = filters.categories.length > 0;
 
-    const matchSize = !hasSizeFilter || product.available_options?.some(colorOpt =>
-      colorOpt.available_sizes?.some(sizeOpt => filters.sizes.includes(sizeOpt.name))
+    const matchSize =
+      !hasSizeFilter ||
+      product.available_options?.some((colorOpt) =>
+        colorOpt.available_sizes?.some((sizeOpt) =>
+          filters.sizes.includes(sizeOpt.name)
+        )
+      );
+
+    const matchColor =
+      !hasColorFilter ||
+      product.available_options?.some((colorOpt) =>
+        filters.colors.includes(colorOpt.name)
+      );
+
+    const matchMaterial =
+      !hasMaterialFilter ||
+      product.available_options?.some((colorOpt) =>
+        colorOpt.available_sizes?.some((sizeOpt) =>
+          sizeOpt.available_materials?.some((matOpt) =>
+            filters.materials.includes(matOpt.name)
+          )
+        )
+      );
+
+    const matchPrice =
+      Number(product.final_price) >= filters.price.min &&
+      Number(product.final_price) <= filters.price.max;
+    const matchCategory =
+      !hasCategoryFilter || filters.categories.includes(product.category?.name);
+
+    return (
+      matchSize && matchColor && matchMaterial && matchPrice && matchCategory
     );
-
-    const matchColor = !hasColorFilter || product.available_options?.some(colorOpt =>
-      filters.colors.includes(colorOpt.name)
-    );
-
-    const matchMaterial = !hasMaterialFilter || product.available_options?.some(colorOpt =>
-      colorOpt.available_sizes?.some(sizeOpt =>
-        sizeOpt.available_materials?.some(matOpt => filters.materials.includes(matOpt.name))
-      )
-    );
-
-    const matchPrice = Number(product.final_price) >= filters.price.min && Number(product.final_price) <= filters.price.max;
-    const matchCategory = !hasCategoryFilter || filters.categories.includes(product.category?.name);
-
-    return matchSize && matchColor && matchMaterial && matchPrice && matchCategory;
   });
 
   const { mutate: submitReview } = useSubmitReview();
@@ -269,7 +276,7 @@ function ShowAllProducts() {
             description: error.response?.data?.message || t('rating.error'),
             color: 'error',
           });
-        }
+        },
       }
     );
   };
@@ -280,14 +287,13 @@ function ShowAllProducts() {
       sizes: [],
       colors: [],
       materials: [],
-      price: { min: 1, max: 1000 }
+      price: { min: 1, max: 1000 },
     });
   };
 
   return (
     <div className="bg-[#EDEAE2] min-h-screen">
       <div className="w-full h-screen relative overflow-hidden bg-black">
-
         {isLoadingProducts ? (
           <HeroSkeleton />
         ) : (
@@ -303,20 +309,23 @@ function ShowAllProducts() {
           >
             {[
               {
-                image: "https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770449578/pexels-ranamatloob567-35203641_fi5dx5.jpg",
+                image:
+                  'https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770449578/pexels-ranamatloob567-35203641_fi5dx5.jpg',
                 title: t('slider.modern_kitchenware'),
-                description: t('slider.modern_kitchenware_desc')
+                description: t('slider.modern_kitchenware_desc'),
               },
               {
-                image: "https://www.spotlightstores.com/medias/kitchenware-buying-guide-1.jpg?context=bWFzdGVyfHJvb3R8MjM0MzkzfGltYWdlL2pwZWd8cm9vdC9oM2IvaGYyLzE2ODY1NjY0ODkyOTU4L2tpdGNoZW53YXJlLWJ1eWluZy1ndWlkZS0xLmpwZ3wyOWVjZDg4N2QxY2M3MGE5ZmFmODViYzkxNzNlZGYxODU4MGM5MGI1ZmY5ZjQ5YmJiMDc5ZWI4NjQ1M2IyMmQy",
+                image:
+                  'https://www.spotlightstores.com/medias/kitchenware-buying-guide-1.jpg?context=bWFzdGVyfHJvb3R8MjM0MzkzfGltYWdlL2pwZWd8cm9vdC9oM2IvaGYyLzE2ODY1NjY0ODkyOTU4L2tpdGNoZW53YXJlLWJ1eWluZy1ndWlkZS0xLmpwZ3wyOWVjZDg4N2QxY2M3MGE5ZmFmODViYzkxNzNlZGYxODU4MGM5MGI1ZmY5ZjQ5YmJiMDc5ZWI4NjQ1M2IyMmQy',
                 title: t('slider.premium_collection'),
-                description: t('slider.premium_collection_desc')
+                description: t('slider.premium_collection_desc'),
               },
               {
-                image: 'https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770449584/pexels-notswervo-2398375_sc3sci.jpg',
+                image:
+                  'https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770449584/pexels-notswervo-2398375_sc3sci.jpg',
                 title: t('slider.everything_you_need'),
-                description: t('slider.everything_you_need_desc')
-              }
+                description: t('slider.everything_you_need_desc'),
+              },
             ].map((slide, index) => (
               <SwiperSlide key={index}>
                 {({ isActive }) => (
@@ -325,15 +334,21 @@ function ShowAllProducts() {
                     style={{ backgroundImage: `url(${slide.image})` }}
                   >
                     <div className="absolute inset-0 bg-black/40" />
-                    <div className={clsx(
-                      "absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000 delay-300",
-                      isRTL ? "text-right" : "text-left",
-                      isActive ? "opacity-100 translate-y-[-50%]" : "opacity-0 translate-y-[-40%]"
-                    )}>
-                      <h1 className={clsx(
-                        "text-4xl md:text-6xl font-bold mb-4",
-                        isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
-                      )}>
+                    <div
+                      className={clsx(
+                        'absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000 delay-300',
+                        isRTL ? 'text-right' : 'text-left',
+                        isActive
+                          ? 'opacity-100 translate-y-[-50%]'
+                          : 'opacity-0 translate-y-[-40%]'
+                      )}
+                    >
+                      <h1
+                        className={clsx(
+                          'text-4xl md:text-6xl font-bold mb-4',
+                          isRTL ? 'font-[Expo-arabic]' : 'font-[Qanduchia]'
+                        )}
+                      >
                         {slide.title}
                       </h1>
 
@@ -355,16 +370,18 @@ function ShowAllProducts() {
 
       <div className=" mx-auto px-6 py-10">
         <div className="flex justify-start mb-10">
-
           {isLoadingProducts ? (
             <div className="h-12 bg-gray-300 rounded-lg w-64 animate-pulse" />
           ) : (
-            <h1 className={clsx("text-5xl text-black", isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]")}>
+            <h1
+              className={clsx(
+                'text-5xl text-black',
+                isRTL ? 'font-[Expo-arabic]' : 'font-[Qanduchia]'
+              )}
+            >
               {t('navbar.all_products')}
             </h1>
           )}
-
-
         </div>
         {/* <div className="overflow-hidden whitespace-nowrap mb-10">
           <div className="animate-marquee inline-block">
@@ -391,73 +408,87 @@ function ShowAllProducts() {
             <span className="font-[Expo-arabic] text-black">
               {(isMobile ? isOpen : showFilters)
                 ? t('filters.hide')
-                : t('filters.show')
-              }
+                : t('filters.show')}
             </span>
           </button>
         </div>
 
         <div className="flex flex-col md:flex-row gap-6 items-start">
-
-
           <div
             className={`${showFilters ? 'w-2.8 md:w-1/4' : 'w-0 hidden'} transition-all duration-300`}
           >
-            {!isMobile && showFilters && (
-              isLoadingProducts ? (
+            {!isMobile &&
+              showFilters &&
+              (isLoadingProducts ? (
                 <div className="h-96 w-50 mt-5 bg-gray-200 rounded-xl animate-pulse" />
               ) : (
-                <ProductFilters filters={filters} onChange={toggleFilter} onPriceChange={updatePrice} onClearAll={clearFilters} />
-              )
-            )}
+                <ProductFilters
+                  filters={filters}
+                  onChange={toggleFilter}
+                  onPriceChange={updatePrice}
+                  onClearAll={clearFilters}
+                />
+              ))}
           </div>
 
           {/* All products */}
           <div
-            className={`${showFilters ? 'w-3/2' : 'w-full'} grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-5 transition-all duration-300`}
+            className={`w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 mt-5 transition-all duration-300`}
           >
-
             {isLoadingProducts ? (
-              Array.from({ length: 8 }).map((_, i) => <ProductSkeleton key={i} />)
+              Array.from({ length: 8 }).map((_, i) => (
+                <ProductSkeleton key={i} />
+              ))
             ) : filteredProducts.length > 0 ? (
               filteredProducts.slice(0, visibleCount).map((product, i) => {
                 const sizes = [
                   ...new Set(
-                    product.available_options?.flatMap(color =>
-                      color.available_sizes?.map(size => size.name)
+                    product.available_options?.flatMap((color) =>
+                      color.available_sizes?.map((size) => size.name)
                     )
-                  )
+                  ),
                 ].slice(0, 4);
 
                 const materials = [
                   ...new Set(
-                    product.available_options?.flatMap(color =>
-                      color.available_sizes?.flatMap(size =>
-                        size.available_materials?.map(mat => mat.name)
+                    product.available_options?.flatMap((color) =>
+                      color.available_sizes?.flatMap((size) =>
+                        size.available_materials?.map((mat) => mat.name)
                       )
                     )
-                  )
+                  ),
                 ].slice(0, 4);
 
                 return (
-                  <div key={i} className="md:px-1 sm:min-w-96 w-96">
+                  <div key={i} className="md:px-1 sm:min-w-full w-full">
                     <div className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full group">
-
                       {product.discount > 0 && (
-                        <div className={clsx(
-                          "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
-                          isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
-                        )}>
+                        <div
+                          className={clsx(
+                            'absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg',
+                            isRTL
+                              ? 'right-0 rounded-l-full font-[Expo-arabic]'
+                              : 'left-0 rounded-r-full'
+                          )}
+                        >
                           {isRTL ? (
-                            <>{t('essential_to_prep.off')} {Number(product.discount)}%</>
+                            <>
+                              {t('essential_to_prep.off')}{' '}
+                              {Number(product.discount)}%
+                            </>
                           ) : (
-                            <>{Number(product.discount)}% {t('essential_to_prep.off')}</>
+                            <>
+                              {Number(product.discount)}%{' '}
+                              {t('essential_to_prep.off')}
+                            </>
                           )}
                         </div>
                       )}
 
                       <div className="relative overflow-hidden">
-                        <Link to={`/products/${product.category.id}/product-info/${product.variantId}`}>
+                        <Link
+                          to={`/products/${product.category.id}/product-info/${product.variantId}`}
+                        >
                           <img
                             src={product.image}
                             alt={product.name}
@@ -468,11 +499,13 @@ function ShowAllProducts() {
                         <button
                           onClick={() => handleAddWishlist(product)}
                           className={clsx(
-                            "absolute top-2 z-30 p-2 rounded-full transition cursor-pointer",
-                            isRTL ? "left-2" : "right-2"
+                            'absolute top-2 z-30 p-2 rounded-full transition cursor-pointer',
+                            isRTL ? 'left-2' : 'right-2'
                           )}
                         >
-                          <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
+                          <WishListIcon
+                            isFavorite={isProductInWishlist(product.variantId)}
+                          />
                         </button>
                       </div>
 
@@ -482,7 +515,8 @@ function ShowAllProducts() {
                         </h3>
 
                         <p className="text-xs text-black">
-                          SKU: <span className="text-gray-500">{product?.sku}</span>
+                          SKU:{' '}
+                          <span className="text-gray-500">{product?.sku}</span>
                         </p>
 
                         <div className="border-b border-[#025043]/20 my-1"></div>
@@ -499,20 +533,27 @@ function ShowAllProducts() {
                         </div>
                         {/* Colors  */}
                         <div className="flex gap-1.5 flex-wrap">
-                          <span className="text-[13px] text-gray-400 min-w-10"> {t('filter.color')} </span>
-                          {product.available_options?.slice(0, 8).map((option) => (
-                            <div
-                              key={option.id}
-                              title={option.name}
-                              className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
-                              style={{ backgroundColor: option.hex }}
-                            />
-                          ))}
+                          <span className="text-[13px] text-gray-400 min-w-10">
+                            {' '}
+                            {t('filter.color')}{' '}
+                          </span>
+                          {product.available_options
+                            ?.slice(0, 8)
+                            .map((option) => (
+                              <div
+                                key={option.id}
+                                title={option.name}
+                                className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
+                                style={{ backgroundColor: option.hex }}
+                              />
+                            ))}
                         </div>
 
                         {/* Sizes  */}
                         <div className="flex items-center gap-1 mt-1">
-                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
+                          <span className="text-[13px] text-gray-400 min-w-10">
+                            {t('filter.size')}
+                          </span>
                           <div className="flex gap-1 flex-wrap">
                             {sizes.map((size, i) => (
                               <span
@@ -527,7 +568,9 @@ function ShowAllProducts() {
 
                         {/* Materials  */}
                         <div className="flex items-center gap-1">
-                          <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
+                          <span className="text-[13px] text-gray-400 min-w-10">
+                            {t('filter.material')}
+                          </span>
                           <div className="flex gap-1 flex-wrap">
                             {materials.map((mat, i) => (
                               <span
@@ -545,7 +588,9 @@ function ShowAllProducts() {
                             <div className="flex items-center gap-1 text-sm">
                               <RatingStars
                                 rating={product.rating}
-                                onRate={(star) => handleRateProduct(product.variantId, star)}
+                                onRate={(star) =>
+                                  handleRateProduct(product.variantId, star)
+                                }
                               />
                               <span className="text-xs text-gray-500">
                                 ({product.reviews_count})
@@ -558,10 +603,11 @@ function ShowAllProducts() {
                             disabled={isLoading}
                             className="w-full bg-[#025043] text-white cursor-pointer text-sm px-4 py-2.5 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95 font-bold"
                           >
-                            {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
+                            {isLoading
+                              ? t('wishlist.adding')
+                              : t('wishlist.addToCart')}
                           </button>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -569,27 +615,29 @@ function ShowAllProducts() {
               })
             ) : (
               <div className="col-span-full text-center py-20">
-                <p className="text-gray-500 text-lg font-[Expo-arabic]">{t('filters.no_products')}</p>
+                <p className="text-gray-500 text-lg font-[Expo-arabic]">
+                  {t('filters.no_products')}
+                </p>
               </div>
             )}
-
 
             {/* Show More */}
-            {visibleCount < filteredProducts.length && filteredProducts.length > 0 && (
-              <div className="col-span-full flex justify-center mt-5">
-                <button
-                  onClick={handleShowMore}
-                  className="px-6 py-2 bg-[#025043] text-white rounded-md hover:bg-[#01382f] transition"
-                >
-                  <div className="flex items-center gap-2 cursor-pointer">
-                    <span className="text-white">{t('essential_to_prep.view_more')}...</span>
-                  </div>
-                </button>
-              </div>
-            )}
+            {visibleCount < filteredProducts.length &&
+              filteredProducts.length > 0 && (
+                <div className="col-span-full flex justify-center mt-5">
+                  <button
+                    onClick={handleShowMore}
+                    className="px-6 py-2 bg-[#025043] text-white rounded-md hover:bg-[#01382f] transition"
+                  >
+                    <div className="flex items-center gap-2 cursor-pointer">
+                      <span className="text-white">
+                        {t('essential_to_prep.view_more')}...
+                      </span>
+                    </div>
+                  </button>
+                </div>
+              )}
           </div>
-
-
         </div>
 
         <Drawer isOpen={isOpen} placement="bottom" onOpenChange={onOpenChange}>

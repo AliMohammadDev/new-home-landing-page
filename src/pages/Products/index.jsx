@@ -27,8 +27,6 @@ import 'swiper/css/pagination';
 import { ProductSkeleton } from '../../components/Products/ProductSkeleton.jsx';
 import { HeroSkeleton } from '../../components/HeroSkeleton.jsx';
 
-
-
 const Product = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
@@ -49,11 +47,11 @@ const Product = () => {
   const { data: user } = useGetProfile();
   const { mutate: addToCart, isLoading } = useAddToCartItem();
   const { mutate: addWishlist } = useAddWishlist();
-
-  const { data: productsData = [], isLoading: isLoadingProducts } = useGetProductsVariantsByCategory(categoryId);
+  const { data: productsData = [], isLoading: isLoadingProducts } =
+    useGetProductsVariantsByCategory(categoryId);
   const rawProducts = productsData?.data || productsData || [];
 
-  const productsList = rawProducts.map(v => ({
+  const productsList = rawProducts.map((v) => ({
     ...v.product,
     variantId: v.id,
     image: v.image,
@@ -81,45 +79,94 @@ const Product = () => {
 
   const handleAddCartItem = (product) => {
     if (!user) {
-      addToast({ title: t('cart.button'), description: t('wishlist.loginRequired'), color: 'warning' });
+      addToast({
+        title: t('cart.button'),
+        description: t('wishlist.loginRequired'),
+        color: 'warning',
+      });
       navigate('/login');
       return;
     }
-    addToCart({ product_variant_id: product.variantId, quantity: 1 }, {
-      onSuccess: () => addToast({ title: t('cart.button'), description: t('essential_to_prep.cart_success', { product: product.name }), color: 'success' }),
-      onError: () => addToast({ title: t('cart.button'), description: t('essential_to_prep.cart_error', { product: product.name }), color: 'danger' }),
-    });
+    addToCart(
+      { product_variant_id: product.variantId, quantity: 1 },
+      {
+        onSuccess: () =>
+          addToast({
+            title: t('cart.button'),
+            description: t('essential_to_prep.cart_success', {
+              product: product.name,
+            }),
+            color: 'success',
+          }),
+        onError: () =>
+          addToast({
+            title: t('cart.button'),
+            description: t('essential_to_prep.cart_error', {
+              product: product.name,
+            }),
+            color: 'danger',
+          }),
+      }
+    );
   };
 
   const handleAddWishlist = (product) => {
     if (!user) {
-      addToast({ title: t('wishlist.title'), description: t('wishlist.loginRequired'), color: 'warning' });
+      addToast({
+        title: t('wishlist.title'),
+        description: t('wishlist.loginRequired'),
+        color: 'warning',
+      });
       navigate('/login');
       return;
     }
     addWishlist(product.variantId, {
       onSuccess: (res) => {
         const isRemoved = res.status === 'removed';
-        addToast({ title: t('wishlist.title'), description: isRemoved ? t('wishlist.removedSuccess') : t('wishlist.addedSuccess'), color: isRemoved ? "warning" : "success" });
-      }
+        addToast({
+          title: t('wishlist.title'),
+          description: isRemoved
+            ? t('wishlist.removedSuccess')
+            : t('wishlist.addedSuccess'),
+          color: isRemoved ? 'warning' : 'success',
+        });
+      },
     });
   };
 
-  const isProductInWishlist = (id) => wishlistData?.data?.some(item => item.product_variant?.id === id);
+  const isProductInWishlist = (id) =>
+    wishlistData?.data?.some((item) => item.product_variant?.id === id);
 
   const { mutate: submitReview } = useSubmitReview();
   const handleRateProduct = (variantId, rating) => {
-    if (!user) { navigate('/login'); return; }
-    submitReview({ product_variant_id: variantId, rating }, {
-      onSuccess: (data) => addToast({ title: t('rating.successTitle'), description: `${t('rating.successMessage')} : ${data.rating}`, color: 'success' })
-    });
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    submitReview(
+      { product_variant_id: variantId, rating },
+      {
+        onSuccess: (data) =>
+          addToast({
+            title: t('rating.successTitle'),
+            description: `${t('rating.successMessage')} : ${data.rating}`,
+            color: 'success',
+          }),
+      }
+    );
   };
 
-  const updatePrice = (type, value) => setFilters(prev => ({ ...prev, price: { ...prev.price, [type]: Number(value) } }));
-  const toggleFilter = (type, value) => {
-    setFilters(prev => ({
+  const updatePrice = (type, value) =>
+    setFilters((prev) => ({
       ...prev,
-      [type]: prev[type].includes(value) ? prev[type].filter(v => v !== value) : [...prev[type], value],
+      price: { ...prev.price, [type]: Number(value) },
+    }));
+  const toggleFilter = (type, value) => {
+    setFilters((prev) => ({
+      ...prev,
+      [type]: prev[type].includes(value)
+        ? prev[type].filter((v) => v !== value)
+        : [...prev[type], value],
     }));
   };
 
@@ -129,7 +176,7 @@ const Product = () => {
       sizes: [],
       colors: [],
       materials: [],
-      price: { min: 1, max: 1000 }
+      price: { min: 1, max: 1000 },
     });
   };
 
@@ -137,39 +184,48 @@ const Product = () => {
     clearFilters();
   }, [i18n.language]);
 
-
-
   const filteredProducts = productsList.filter((product) => {
     const hasColorFilter = filters.colors.length > 0;
     const hasSizeFilter = filters.sizes.length > 0;
     const hasMaterialFilter = filters.materials.length > 0;
     const hasCategoryFilter = filters.categories.length > 0;
 
-    const matchSize = !hasSizeFilter || product.available_options?.some(colorOpt =>
-      colorOpt.available_sizes?.some(sizeOpt => filters.sizes.includes(sizeOpt.name))
-    );
+    const matchSize =
+      !hasSizeFilter ||
+      product.available_options?.some((colorOpt) =>
+        colorOpt.available_sizes?.some((sizeOpt) =>
+          filters.sizes.includes(sizeOpt.name)
+        )
+      );
 
-    const matchColor = !hasColorFilter || product.available_options?.some(colorOpt =>
-      filters.colors.includes(colorOpt.name)
-    );
+    const matchColor =
+      !hasColorFilter ||
+      product.available_options?.some((colorOpt) =>
+        filters.colors.includes(colorOpt.name)
+      );
 
-    const matchMaterial = !hasMaterialFilter || product.available_options?.some(colorOpt =>
-      colorOpt.available_sizes?.some(sizeOpt =>
-        sizeOpt.available_materials?.some(matOpt => filters.materials.includes(matOpt.name))
-      )
-    );
-    const matchPrice = Number(product.final_price) >= filters.price.min && Number(product.final_price) <= filters.price.max;
-    const matchCategory = !hasCategoryFilter || filters.categories.includes(product.category?.name);
+    const matchMaterial =
+      !hasMaterialFilter ||
+      product.available_options?.some((colorOpt) =>
+        colorOpt.available_sizes?.some((sizeOpt) =>
+          sizeOpt.available_materials?.some((matOpt) =>
+            filters.materials.includes(matOpt.name)
+          )
+        )
+      );
+    const matchPrice =
+      Number(product.final_price) >= filters.price.min &&
+      Number(product.final_price) <= filters.price.max;
+    const matchCategory =
+      !hasCategoryFilter || filters.categories.includes(product.category?.name);
 
-    return matchSize && matchColor && matchMaterial && matchPrice && matchCategory;
+    return (
+      matchSize && matchColor && matchMaterial && matchPrice && matchCategory
+    );
   });
-
-
 
   return (
     <div className="bg-[#EDEAE2] min-h-screen" dir={isRTL ? 'rtl' : 'ltr'}>
-
-
       {isLoadingProducts ? (
         <HeroSkeleton />
       ) : (
@@ -199,25 +255,30 @@ const Product = () => {
 
                             <div
                               className={clsx(
-                                "absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000",
-                                isRTL ? "text-right" : "text-left",
-                                isActive ? "opacity-100" : "opacity-0"
+                                'absolute z-10 top-1/2 -translate-y-1/2 px-10 text-white w-full transition-all duration-1000',
+                                isRTL ? 'text-right' : 'text-left',
+                                isActive ? 'opacity-100' : 'opacity-0'
                               )}
                             >
-
                               <h1
                                 className={clsx(
-                                  "text-4xl md:text-6xl font-bold",
-                                  isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]"
+                                  'text-4xl md:text-6xl font-bold',
+                                  isRTL
+                                    ? 'font-[Expo-arabic]'
+                                    : 'font-[Qanduchia]'
                                 )}
                               >
-                                {index === 0 ? category.name : t('essential_to_prep.exclusive_collection')}
+                                {index === 0
+                                  ? category.name
+                                  : t('essential_to_prep.exclusive_collection')}
                               </h1>
 
                               <p
                                 className={clsx(
-                                  "text-xl md:text-2xl opacity-80 max-w-2xl mt-3",
-                                  isRTL ? "font-[Expo-arabic]" : "italic font-light"
+                                  'text-xl md:text-2xl opacity-80 max-w-2xl mt-3',
+                                  isRTL
+                                    ? 'font-[Expo-arabic]'
+                                    : 'italic font-light'
                                 )}
                               >
                                 {category.description}
@@ -251,7 +312,12 @@ const Product = () => {
         {isLoadingProducts ? (
           <div className="h-12 bg-gray-300 animate-pulse rounded-lg w-48 mb-10" />
         ) : (
-          <h1 className={clsx("text-5xl text-black mb-10", isRTL ? "font-[Expo-arabic]" : "font-[Qanduchia]")}>
+          <h1
+            className={clsx(
+              'text-5xl text-black mb-10',
+              isRTL ? 'font-[Expo-arabic]' : 'font-[Qanduchia]'
+            )}
+          >
             {category?.name}
           </h1>
         )}
@@ -266,20 +332,18 @@ const Product = () => {
 
         <button
           className="flex items-center gap-2 bg-[#D9D9D9] text-black px-4 py-2 cursor-pointer rounded-lg mb-5 hover:bg-[#cfcfcf] transition"
-          onClick={() => isMobile ? onOpen() : setShowFilters(!showFilters)}
+          onClick={() => (isMobile ? onOpen() : setShowFilters(!showFilters))}
         >
           <FilterIcon />
           <div className="w-[1.5px] h-6 bg-[#025043]/20 mx-1"></div>
           <span className="font-[Expo-arabic] text-black">
             {(isMobile ? isOpen : showFilters)
               ? t('filters.hide')
-              : t('filters.show')
-            }
+              : t('filters.show')}
           </span>
         </button>
 
         <div className="flex flex-col md:flex-row gap-8 items-start">
-
           {showFilters && !isMobile && (
             <div className="w-full md:w-1/6">
               {isLoadingProducts ? (
@@ -299,44 +363,65 @@ const Product = () => {
           )}
 
           <div className="flex-1 w-full">
-            <div className={clsx("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6")}>
-
+            <div
+              className={clsx(
+                'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+              )}
+            >
               {isLoadingProducts ? (
                 Array.from({ length: 8 }).map((_, index) => (
                   <ProductSkeleton key={index} />
                 ))
               ) : filteredProducts.length > 0 ? (
-
                 filteredProducts.map((product) => {
                   const sizes = [
                     ...new Set(
-                      product.available_options?.flatMap(color =>
-                        color.available_sizes?.map(size => size.name)
+                      product.available_options?.flatMap((color) =>
+                        color.available_sizes?.map((size) => size.name)
                       )
-                    )
+                    ),
                   ].slice(0, 4);
 
                   const materials = [
                     ...new Set(
-                      product.available_options?.flatMap(color =>
-                        color.available_sizes?.flatMap(size =>
-                          size.available_materials?.map(mat => mat.name)
+                      product.available_options?.flatMap((color) =>
+                        color.available_sizes?.flatMap((size) =>
+                          size.available_materials?.map((mat) => mat.name)
                         )
                       )
-                    )
+                    ),
                   ].slice(0, 4);
                   return (
-                    <div key={product.variantId} className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col group">
+                    <div
+                      key={product.variantId}
+                      className="relative bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col group"
+                    >
                       {product.discount > 0 && (
-                        <div className={clsx(
-                          "absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg",
-                          isRTL ? "right-0 rounded-l-full font-[Expo-arabic]" : "left-0 rounded-r-full"
-                        )}>
-                          {isRTL ? <>{t('essential_to_prep.off')} {Number(product.discount)}%</> : <>{Number(product.discount)}% {t('essential_to_prep.off')}</>}
+                        <div
+                          className={clsx(
+                            'absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg',
+                            isRTL
+                              ? 'right-0 rounded-l-full font-[Expo-arabic]'
+                              : 'left-0 rounded-r-full'
+                          )}
+                        >
+                          {isRTL ? (
+                            <>
+                              {t('essential_to_prep.off')}{' '}
+                              {Number(product.discount)}%
+                            </>
+                          ) : (
+                            <>
+                              {Number(product.discount)}%{' '}
+                              {t('essential_to_prep.off')}
+                            </>
+                          )}
                         </div>
                       )}
                       <div className="relative overflow-hidden">
-                        <Link to={`/products/${categoryId}/product-info/${product.variantId}`}>
+                        <Link
+                          to={`/products/${categoryId}/product-info/${product.variantId}`}
+                        >
                           <img
                             src={product.image}
                             alt={product.name}
@@ -347,18 +432,23 @@ const Product = () => {
                         <button
                           onClick={() => handleAddWishlist(product)}
                           className={clsx(
-                            "absolute top-2 z-30 p-2 rounded-full transition cursor-pointer",
-                            isRTL ? "left-2" : "right-2"
+                            'absolute top-2 z-30 p-2 rounded-full transition cursor-pointer',
+                            isRTL ? 'left-2' : 'right-2'
                           )}
                         >
-                          <WishListIcon isFavorite={isProductInWishlist(product.variantId)} />
+                          <WishListIcon
+                            isFavorite={isProductInWishlist(product.variantId)}
+                          />
                         </button>
                       </div>
                       <div className="p-4 flex flex-col flex-1">
-                        <h3 className="text-[#025043] text-[16px] font-bold h-12 overflow-hidden -mb-6">{product.name}</h3>
+                        <h3 className="text-[#025043] text-[16px] font-bold h-12 overflow-hidden -mb-6">
+                          {product.name}
+                        </h3>
 
                         <p className="text-xs text-black mt-2">
-                          SKU: <span className="text-gray-500">{product?.sku}</span>
+                          SKU:{' '}
+                          <span className="text-gray-500">{product?.sku}</span>
                         </p>
 
                         <div className="border-b border-[#025043]/20 my-3"></div>
@@ -374,30 +464,39 @@ const Product = () => {
                           )}
                         </div>
 
-                        <div className={clsx(
-                          "flex flex-col gap-2 mt-1",
-                          isRTL ? "items-start text-right" : "items-start text-left"
-                        )}>
+                        <div
+                          className={clsx(
+                            'flex flex-col gap-2 mt-1',
+                            isRTL
+                              ? 'items-start text-right'
+                              : 'items-start text-left'
+                          )}
+                        >
                           <div className="flex items-center justify-between w-full">
-                            <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold font-[Expo-arabic]">
-                            </span>
+                            <span className="text-[11px] uppercase tracking-wider text-gray-400 font-bold font-[Expo-arabic]"></span>
                           </div>
                           {/* Colors */}
                           <div className="flex gap-1.5 flex-wrap">
-                            <span className="text-[13px] text-gray-400 min-w-10">{t('filter.color')}</span>
-                            {product.available_options?.slice(0, 8).map((option) => (
-                              <div
-                                key={option.id}
-                                title={option.name}
-                                className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
-                                style={{ backgroundColor: option.hex }}
-                              />
-                            ))}
+                            <span className="text-[13px] text-gray-400 min-w-10">
+                              {t('filter.color')}
+                            </span>
+                            {product.available_options
+                              ?.slice(0, 8)
+                              .map((option) => (
+                                <div
+                                  key={option.id}
+                                  title={option.name}
+                                  className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
+                                  style={{ backgroundColor: option.hex }}
+                                />
+                              ))}
                           </div>
 
                           {/* Sizes  */}
                           <div className="flex items-center gap-1 mt-1">
-                            <span className="text-[13px] text-gray-400 min-w-10">{t('filter.size')}</span>
+                            <span className="text-[13px] text-gray-400 min-w-10">
+                              {t('filter.size')}
+                            </span>
                             <div className="flex gap-1 flex-wrap">
                               {sizes.map((size, i) => (
                                 <span
@@ -412,7 +511,9 @@ const Product = () => {
 
                           {/* Materials  */}
                           <div className="flex items-center gap-1">
-                            <span className="text-[13px] text-gray-400 min-w-10">{t('filter.material')}</span>
+                            <span className="text-[13px] text-gray-400 min-w-10">
+                              {t('filter.material')}
+                            </span>
                             <div className="flex gap-1 flex-wrap">
                               {materials.map((mat, i) => (
                                 <span
@@ -428,8 +529,15 @@ const Product = () => {
 
                         <div className="mt-auto pt-3 border-t border-gray-200 flex flex-col gap-3">
                           <div className="flex items-center justify-between">
-                            <RatingStars rating={product.rating} onRate={(star) => handleRateProduct(product.variantId, star)} />
-                            <span className="text-xs text-gray-400">({product.reviews_count})</span>
+                            <RatingStars
+                              rating={product.rating}
+                              onRate={(star) =>
+                                handleRateProduct(product.variantId, star)
+                              }
+                            />
+                            <span className="text-xs text-gray-400">
+                              ({product.reviews_count})
+                            </span>
                           </div>
 
                           <button
@@ -437,41 +545,43 @@ const Product = () => {
                             disabled={isLoading}
                             className="w-full bg-[#025043] text-white py-2 cursor-pointer rounded-full text-sm font-bold hover:bg-[#01382f] transition active:scale-95 disabled:opacity-50"
                           >
-                            {isLoading ? t('wishlist.adding') : t('wishlist.addToCart')}
+                            {isLoading
+                              ? t('wishlist.adding')
+                              : t('wishlist.addToCart')}
                           </button>
                         </div>
                       </div>
                     </div>
-                  )
-
-
+                  );
                 })
-
               ) : (
                 <div className="col-span-full text-center py-20 text-gray-500">
                   {t('filters.no_results_title')}
                 </div>
               )}
-
             </div>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-8">
-
-
-          <div className={clsx("grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full transition-all duration-300")}>
-
-          </div>
+          <div
+            className={clsx(
+              'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full transition-all duration-300'
+            )}
+          ></div>
         </div>
-
-
       </div>
 
       <Drawer isOpen={isOpen} placement="bottom" onOpenChange={onOpenChange}>
         <DrawerContent>
           <DrawerHeader>Filters</DrawerHeader>
-          <DrawerBody><ProductFilters filters={filters} onChange={toggleFilter} onPriceChange={updatePrice} /></DrawerBody>
+          <DrawerBody>
+            <ProductFilters
+              filters={filters}
+              onChange={toggleFilter}
+              onPriceChange={updatePrice}
+            />
+          </DrawerBody>
         </DrawerContent>
       </Drawer>
     </div>

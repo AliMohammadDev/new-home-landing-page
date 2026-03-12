@@ -7,19 +7,20 @@ import { useGetCategories } from '../../api/categories';
 import { useGetSlidersProductsVariants } from '../../api/products';
 import AnimateOnScroll from '../../components/AnimateOnScroll';
 import { useTranslation } from 'react-i18next';
-import homeLogoWhite from "../../assets/images/home-logo-white.svg";
-import footer1 from "../../assets/images/footer1.png";
-import footer2 from "../../assets/images/footer2.png";
+import homeLogoWhite from '../../assets/images/home-logo-white.svg';
+import footer1 from '../../assets/images/footer1.png';
+import footer2 from '../../assets/images/footer2.png';
 import clsx from 'clsx';
 import ProductSliderTopAvg from '../../components/Products/ProductSliderTopAvg';
 import ProductSliderNew from '../../components/Products/ProductSliderNew';
 import ProductSliderDiscounted from '../../components/Products/ProductSliderDiscounted';
-
+import OurPartners from '../../components/OurPartners';
 
 const Home = () => {
   const { t, i18n } = useTranslation();
   const { data: categories = [] } = useGetCategories();
-  const { data: sliderProducts = [], isLoading: isLoadingSliders } = useGetSlidersProductsVariants();
+  const { data: sliderProducts = [], isLoading: isLoadingSliders } =
+    useGetSlidersProductsVariants();
   const isRTL = i18n.language === 'ar';
 
   return (
@@ -27,16 +28,15 @@ const Home = () => {
       <Header />
       {/* HomePage */}
       <div className="bg-[#025043] py-10">
-
-
         {/* Hero / Welcome Section */}
         <AnimateOnScroll direction="up" delay={0.1}>
           {/* Title */}
-          <h1 className={clsx(
-            "text-center text-white text-5xl sm:text-2xl md:text-8xl lg:text-8xl",
-            isRTL ? "font-[Expo-arabic] text-7xl" : "font-[Qanduchia]"
-          )}>
-
+          <h1
+            className={clsx(
+              'text-center text-white text-5xl sm:text-2xl md:text-8xl lg:text-8xl',
+              isRTL ? 'font-[Expo-arabic] text-7xl' : 'font-[Qanduchia]'
+            )}
+          >
             {t('hero.welcome')}
           </h1>
 
@@ -58,8 +58,6 @@ const Home = () => {
           </div>
         </AnimateOnScroll>
 
-
-
         {/* All Categories */}
         <AnimateOnScroll direction="up" delay={0.2}>
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mt-10 p-2 sm:p-2 md:p-4">
@@ -70,17 +68,25 @@ const Home = () => {
                 </span>
               ) : (
                 <>
-                  {t('navbar.our_products').split(' ').map((word, idx) => (
-                    idx === 0 ? (
-                      <span key={idx} className="text-[100px] sm:text-[100px] md:text-[150px] lg:text-[100px] font-[Qanduchia] block">
-                        {word}
-                      </span>
-                    ) : (
-                      <p key={idx} className="transform -translate-y-12 translate-x-5 md:-translate-y-14 md:translate-x-9 font-[Asteroid] text-[75px] md:text-[100px] lg:text-[100px] block">
-                        {word}
-                      </p>
-                    )
-                  ))}
+                  {t('navbar.our_products')
+                    .split(' ')
+                    .map((word, idx) =>
+                      idx === 0 ? (
+                        <span
+                          key={idx}
+                          className="text-[100px] sm:text-[100px] md:text-[150px] lg:text-[100px] font-[Qanduchia] block"
+                        >
+                          {word}
+                        </span>
+                      ) : (
+                        <p
+                          key={idx}
+                          className="transform -translate-y-12 translate-x-5 md:-translate-y-14 md:translate-x-9 font-[Asteroid] text-[75px] md:text-[100px] lg:text-[100px] block"
+                        >
+                          {word}
+                        </p>
+                      )
+                    )}
                 </>
               )}
             </div>
@@ -96,7 +102,16 @@ const Home = () => {
           </div>
         </AnimateOnScroll>
 
-
+        {/* Partners */}
+        <h1
+          className={clsx(
+            'text-center text-white mt-10 text-5xl sm:text-2xl md:text-8xl lg:text-8xl',
+            isRTL ? 'font-[Expo-arabic] text-7xl' : 'font-[Qanduchia]'
+          )}
+        >
+          {t('partners.name')}
+        </h1>
+        <OurPartners />
 
         {/* Sliders & Products */}
         {/* Sliders & Products Section */}
@@ -128,12 +143,10 @@ const Home = () => {
           />
         </AnimateOnScroll>
 
-
         {/* About Us Section */}
         {/* <AnimateOnScroll direction="left" delay={0.5}>
           <AboutSection />
         </AnimateOnScroll> */}
-
 
         {/* <AnimateOnScroll direction="zoom" delay={0.3}>
           <AllProductSlider3 products={productsByLimit} />
@@ -150,15 +163,11 @@ const Home = () => {
               />
             </div>
             <div className="w-full md:w-1/2 flex justify-center-safe">
-              <img
-                src={footer1}
-                alt="final"
-                className="w-full max-w-[700px]"
-              />
+              <img src={footer1} alt="final" className="w-full max-w-[700px]" />
             </div>
           </div>
         </AnimateOnScroll>
-      </div >
+      </div>
     </>
   );
 };
