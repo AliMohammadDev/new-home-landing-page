@@ -566,8 +566,17 @@ const Navbar = () => {
                     />
                   </button>
 
+
                   {isCategoryMenuOpen && (
-                    <div className="flex flex-col pl-4 pr-4 mt-1 border-l border-white/10">
+                    <div className="flex flex-col pl-4 pr-4 mt-1">
+                      <NavLink
+                        to={`/products`}
+                        className="py-2 text-xs text-gray-300 font-semibold"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        {t('navbar.all_products')}
+                      </NavLink>
+
                       {categories.slice(0, 9).map((cat) => (
                         <NavLink
                           key={cat.id}
@@ -587,6 +596,11 @@ const Navbar = () => {
                     <NavLink to="/profile" className="px-4 py-2">
                       {t('navbar.my_profile')}
                     </NavLink>
+
+                    <NavLink to="/wishlists" className="px-4 py-2">
+                      {t('navbar.my_wishlist')}
+                    </NavLink>
+
                     <NavLink to="/carts" className="px-4 py-2">
                       {t('navbar.my_cart')}
                     </NavLink>
