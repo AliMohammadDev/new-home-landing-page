@@ -118,7 +118,7 @@ function Orders() {
         )}
         <Divider className="my-5" />
         <h4 className="my-3 text-base">{t('checkout.payment_method')}:</h4>
-
+        ssss
         <div className="w-full flex justify-between items-center px-4 sm:px-10 gap-3">
           <div className="w-[70px] sm:w-[100px] flex justify-center">
             <img

@@ -194,6 +194,7 @@
     "free_shipping": "Free Shipping",
     "total": "Total Amount",
     "shipping_info": "Shipping calculated at checkout",
+    "sku": "SKU",
 
     "status": {
       "pending": "Pending",
