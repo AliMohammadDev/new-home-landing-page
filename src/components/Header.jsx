@@ -12,7 +12,7 @@ const Header = () => {
 
   const slides = [
     {
-      image: "https://souvy.nl/cdn/shop/collections/keukengerei.jpg?v=1710320853&width=2048",
+      image: "https://res.cloudinary.com/dzvrf9xe3/image/upload/v1774509451/keukengerei_toms6y.webp",
       tag: t('slides.slide1.tag'),
       title1: t('slides.slide1.title1'),
       title2: t('slides.slide1.title2'),
@@ -31,7 +31,7 @@ const Header = () => {
     },
     {
 
-      image: "https://sunnexproducts.com/wp-content/uploads/2022/07/what-is-kitchenware-articles.jpg",
+      image: "https://res.cloudinary.com/dzvrf9xe3/image/upload/v1770884134/cat17_o7fdyb.jpg",
       tag: t('slides.slide3.tag'),
       title1: t('slides.slide3.title1'),
       title2: t('slides.slide3.title2'),
@@ -58,7 +58,7 @@ const Header = () => {
       bottomSmall: t('slides.slide5.bottomSmall')
     },
     {
-      image: "https://www.buyandship.com.my/contents/uploads/2024/07/stainless-steel-kitchenware-table.jpg",
+      image: "https://res.cloudinary.com/dzvrf9xe3/image/upload/v1774509648/stainless-steel-kitchenware-table_qb7kim.jpg",
       tag: t('slides.slide6.tag'),
       title1: t('slides.slide6.title1'),
       title2: t('slides.slide6.title2'),
