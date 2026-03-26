@@ -163,6 +163,10 @@ function ProductSliderNew({ products = [], isLoadingProducts = false }) {
         breakpoint: 640,
         settings: { slidesToShow: 1, rows: 1 },
       },
+      {
+        breakpoint: 15,
+        settings: { slidesToShow: 1, rows: 1 },
+      },
     ],
   };
 
