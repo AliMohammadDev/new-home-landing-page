@@ -13,6 +13,9 @@ import 'slick-carousel/slick/slick-theme.css';
 import clsx from 'clsx';
 import { useSubmitReview } from '../../api/reviews.jsx';
 import { ProductSkeleton } from './ProductSkeleton.jsx';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 
 function RelatedProductSlider({ variants = [], isLoadingProducts = false }) {
   const { categoryId } = useParams();
@@ -89,66 +92,34 @@ function RelatedProductSlider({ variants = [], isLoadingProducts = false }) {
     );
   };
 
-  const CustomArrow = ({ onClick, direction, currentSlide, slideCount }) => {
-    const isDisabled =
-      (direction === 'prev' && currentSlide === 0) ||
-      (direction === 'next' && currentSlide === slideCount - 1);
-    const isNext = direction === 'next';
-    return (
-      <button
-        onClick={onClick}
-        disabled={isDisabled}
-        className={`absolute -top-10 md:-top-14 cursor-pointer rounded-full w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition z-10
-        ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300'}
-      `}
-        style={{ [isRTL ? 'left' : 'right']: isNext ? 0 : 56 }}
-      >
-        {isNext ? (
-          isRTL ? (
-            <ChevronLeftIcon />
-          ) : (
-            <ChevronRightIcon />
-          )
-        ) : isRTL ? (
-          <ChevronRightIcon />
-        ) : (
-          <ChevronLeftIcon />
-        )}
-      </button>
-    );
-  };
-
-  const settings = {
-    dots: false,
-    infinite: variants.length > 4,
-    speed: 500,
-    slidesToShow: 4,
-    rows: 1,
-    slidesPerRow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    nextArrow: <CustomArrow direction="next" />,
-    prevArrow: <CustomArrow direction="prev" />,
-    afterChange: (current) => setCurrentSlide(current),
-    responsive: [
-      {
-        breakpoint: 1280,
-        settings: { slidesToShow: 4, rows: 1 },
-      },
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 2, rows: 1 },
-      },
-      {
-        breakpoint: 768,
-        settings: { slidesToShow: 2, rows: 1 },
-      },
-      {
-        breakpoint: 640,
-        settings: { slidesToShow: 1, rows: 1 },
-      },
-    ],
-  };
+  // const CustomArrow = ({ onClick, direction, currentSlide, slideCount }) => {
+  //   const isDisabled =
+  //     (direction === 'prev' && currentSlide === 0) ||
+  //     (direction === 'next' && currentSlide === slideCount - 1);
+  //   const isNext = direction === 'next';
+  //   return (
+  //     <button
+  //       onClick={onClick}
+  //       disabled={isDisabled}
+  //       className={`absolute -top-10 md:-top-14 cursor-pointer rounded-full w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition z-10
+  //       ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300'}
+  //     `}
+  //       style={{ [isRTL ? 'left' : 'right']: isNext ? 0 : 56 }}
+  //     >
+  //       {isNext ? (
+  //         isRTL ? (
+  //           <ChevronLeftIcon />
+  //         ) : (
+  //           <ChevronRightIcon />
+  //         )
+  //       ) : isRTL ? (
+  //         <ChevronRightIcon />
+  //       ) : (
+  //         <ChevronLeftIcon />
+  //       )}
+  //     </button>
+  //   );
+  // };
 
   const progress =
     variants.length > 0 ? ((currentSlide + 1) / variants.length) * 100 : 0;
@@ -184,7 +155,41 @@ function RelatedProductSlider({ variants = [], isLoadingProducts = false }) {
           </div>
         ) : (
           <>
-            <Slider {...settings}>
+            <Swiper
+              modules={[Pagination]}
+              onSlideChange={(swiper) => {
+                setCurrentSlide(swiper.activeIndex);
+                console.log('Slide changed to:', swiper.activeIndex);
+              }}
+              onClick={(swiper, event) => {
+                // swiper.clickedIndex is the index of the clicked slide
+                if (swiper.clickedIndex !== undefined) {
+                  setCurrentSlide(swiper.clickedIndex);
+                  console.log('Slide clicked:', swiper.clickedIndex);
+                }
+              }}
+              spaceBetween={5}
+              slidesPerView={3}
+              breakpoints={{
+                150: {
+                  slidesPerView: 1,
+                },
+                640: {
+                  slidesPerView: 2,
+                },
+                1024: {
+                  slidesPerView: 2,
+                },
+                1280: {
+                  slidesPerView: 3,
+                },
+              }}
+              pagination={{
+                el: '.swiper-pagination',
+                type: 'progressbar',
+                clickable: true,
+              }}
+            >
               {variants.map((variant) => {
                 const colors =
                   variant.product?.available_options?.slice(0, 8) || [];
@@ -209,7 +214,7 @@ function RelatedProductSlider({ variants = [], isLoadingProducts = false }) {
                 const discountVal = parseFloat(variant.discount) || 0;
 
                 return (
-                  <div key={variant.id} className="px-2 w-full h-full">
+                  <SwiperSlide key={variant.id} className="px-2 h-full">
                     <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-[500px] shadow-sm hover:shadow-md transition-all group">
                       {/* Image & Discount */}
                       <div className="relative overflow-hidden">
@@ -347,10 +352,10 @@ function RelatedProductSlider({ variants = [], isLoadingProducts = false }) {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </SwiperSlide>
                 );
               })}
-            </Slider>
+            </Swiper>
 
             {/* Progress Bar */}
             {variants.length > 4 && (

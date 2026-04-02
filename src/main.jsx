@@ -4,33 +4,41 @@ import Providers from './provider.jsx';
 import { RouterProvider } from 'react-router-dom';
 import router from './utils/router.jsx';
 import './index.css';
-import axios from "axios";
-import Cookie from "cookie-universal";
+import axios from 'axios';
+import Cookie from 'cookie-universal';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import './i18n/i18n.js';
 import i18n from './i18n/i18n.js';
 import { Suspense } from 'react';
 import Loading from './components/Loading.jsx';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 
 const cookies = Cookie();
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_API;
 // axios.defaults.headers.common.Authorization = "Bearer " + Cookie().get("token");
 
-axios.interceptors.request.use((config) => {
-  const token = cookies.get("token");
-  const lang = i18n.language || localStorage.getItem('lang') || 'en';
+axios.interceptors.request.use(
+  (config) => {
+    const token = cookies.get('token');
+    const lang = i18n.language || localStorage.getItem('lang') || 'en';
 
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    config.headers['Accept-Language'] = lang;
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
-
-  config.headers['Accept-Language'] = lang;
-
-  return config;
-}, (error) => {
-  return Promise.reject(error);
-});
+);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,11 +49,9 @@ const queryClient = new QueryClient({
   },
 });
 
-
 const savedLang = localStorage.getItem('lang') || 'en';
 i18n.changeLanguage(savedLang);
 document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
-
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -57,5 +63,5 @@ createRoot(document.getElementById('root')).render(
         </Suspense>
       </QueryClientProvider>
     </Providers>
-  </StrictMode >
+  </StrictMode>
 );

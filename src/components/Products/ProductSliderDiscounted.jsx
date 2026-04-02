@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Slider from 'react-slick';
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
 import Group from '../../assets/images/group.png';
@@ -16,12 +15,6 @@ import { ProductSkeleton } from '../Products/ProductSkeleton.jsx';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
-
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
 
 function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
   const navigate = useNavigate();

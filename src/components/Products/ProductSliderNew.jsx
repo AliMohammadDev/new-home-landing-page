@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Slider from 'react-slick';
+
 import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
 import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
 import { Link, useNavigate } from 'react-router-dom';
@@ -11,6 +11,9 @@ import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 import { useSubmitReview } from '../../api/reviews.jsx';
 import { ProductSkeleton } from './ProductSkeleton.jsx';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
+
+import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 
 function ProductSliderNew({ products = [], isLoadingProducts = false }) {
   const navigate = useNavigate();
@@ -101,74 +104,38 @@ function ProductSliderNew({ products = [], isLoadingProducts = false }) {
     );
   };
 
-  const CustomArrow = ({ onClick, direction, currentSlide, slideCount }) => {
-    const isDisabled =
-      (direction === 'prev' && currentSlide === 0) ||
-      (direction === 'next' && currentSlide === slideCount - 1);
+  // const CustomArrow = ({ onClick, direction, currentSlide, slideCount }) => {
+  //   const isDisabled =
+  //     (direction === 'prev' && currentSlide === 0) ||
+  //     (direction === 'next' && currentSlide === slideCount - 1);
 
-    const isNext = direction === 'next';
+  //   const isNext = direction === 'next';
 
-    return (
-      <button
-        onClick={onClick}
-        disabled={isDisabled}
-        className={`absolute -top-10 md:-top-14 cursor-pointer rounded-full w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition z-10
-        ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300'}
-      `}
-        style={{
-          [isRTL ? 'left' : 'right']: isNext ? 0 : 56,
-        }}
-      >
-        {isNext ? (
-          isRTL ? (
-            <ChevronLeftIcon />
-          ) : (
-            <ChevronRightIcon />
-          )
-        ) : isRTL ? (
-          <ChevronRightIcon />
-        ) : (
-          <ChevronLeftIcon />
-        )}
-      </button>
-    );
-  };
-
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    rows: 1,
-    slidesPerRow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    nextArrow: <CustomArrow direction="next" />,
-    prevArrow: <CustomArrow direction="prev" />,
-    afterChange: (current) => setCurrentSlide(current),
-    responsive: [
-      {
-        breakpoint: 1280,
-        settings: { slidesToShow: 4, rows: 1 },
-      },
-      {
-        breakpoint: 1024,
-        settings: { slidesToShow: 3, rows: 1 },
-      },
-      {
-        breakpoint: 768,
-        settings: { slidesToShow: 1, rows: 1 },
-      },
-      {
-        breakpoint: 640,
-        settings: { slidesToShow: 1, rows: 1 },
-      },
-      {
-        breakpoint: 15,
-        settings: { slidesToShow: 1, rows: 1 },
-      },
-    ],
-  };
+  //   return (
+  //     <button
+  //       onClick={onClick}
+  //       disabled={isDisabled}
+  //       className={`absolute -top-10 md:-top-14 cursor-pointer rounded-full w-8 h-8 md:w-12 md:h-12 flex items-center justify-center transition z-10
+  //       ${isDisabled ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-[#D9D9D9] text-[#025043] hover:bg-gray-300'}
+  //     `}
+  //       style={{
+  //         [isRTL ? 'left' : 'right']: isNext ? 0 : 56,
+  //       }}
+  //     >
+  //       {isNext ? (
+  //         isRTL ? (
+  //           <ChevronLeftIcon />
+  //         ) : (
+  //           <ChevronRightIcon />
+  //         )
+  //       ) : isRTL ? (
+  //         <ChevronRightIcon />
+  //       ) : (
+  //         <ChevronLeftIcon />
+  //       )}
+  //     </button>
+  //   );
+  // };
 
   const progress =
     products.length > 0 ? ((currentSlide + 1) / products.length) * 100 : 0;
@@ -210,7 +177,41 @@ function ProductSliderNew({ products = [], isLoadingProducts = false }) {
             <ProductSkeleton />
           </div>
         ) : products.length > 0 ? (
-          <Slider {...settings}>
+          <Swiper
+            modules={[Pagination]}
+            onSlideChange={(swiper) => {
+              setCurrentSlide(swiper.activeIndex);
+              console.log('Slide changed to:', swiper.activeIndex);
+            }}
+            onClick={(swiper, event) => {
+              // swiper.clickedIndex is the index of the clicked slide
+              if (swiper.clickedIndex !== undefined) {
+                setCurrentSlide(swiper.clickedIndex);
+                console.log('Slide clicked:', swiper.clickedIndex);
+              }
+            }}
+            spaceBetween={5}
+            slidesPerView={3}
+            breakpoints={{
+              150: {
+                slidesPerView: 1,
+              },
+              640: {
+                slidesPerView: 2,
+              },
+              1024: {
+                slidesPerView: 2,
+              },
+              1280: {
+                slidesPerView: 3,
+              },
+            }}
+            pagination={{
+              el: '.swiper-pagination',
+              type: 'progressbar',
+              clickable: true,
+            }}
+          >
             {products.map((variant) => {
               const product = variant.product;
 
@@ -232,7 +233,7 @@ function ProductSliderNew({ products = [], isLoadingProducts = false }) {
               ].slice(0, 4);
 
               return (
-                <div key={variant.id} className="px-2 min-w-full">
+                <SwiperSlide key={variant.id} className="px-2 h-full">
                   <div className="bg-[#EDEAE2]  rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
                     {/* Image Section */}
                     <div className="relative group overflow-hidden">
@@ -446,10 +447,10 @@ function ProductSliderNew({ products = [], isLoadingProducts = false }) {
                       </button>
                     </div>
                   </div>
-                </div>
+                </SwiperSlide>
               );
             })}
-          </Slider>
+          </Swiper>
         ) : null}
 
         {/* Progress Bar Container */}
