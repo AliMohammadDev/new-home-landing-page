@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import Slider from 'react-slick';
-import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
-import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { addToast } from '@heroui/react';
 import { useGetProfile } from '../../api/auth.jsx';
@@ -191,7 +188,7 @@ function ProductSliderTopAvg({ products = [], isLoadingProducts = false }) {
               }
             }}
             spaceBetween={5}
-            slidesPerView={3}
+            slidesPerView={4}
             breakpoints={{
               150: {
                 slidesPerView: 1,
@@ -203,7 +200,7 @@ function ProductSliderTopAvg({ products = [], isLoadingProducts = false }) {
                 slidesPerView: 2,
               },
               1280: {
-                slidesPerView: 3,
+                slidesPerView: 4,
               },
             }}
             pagination={{

@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
-import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
 import Group from '../../assets/images/group.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useGetProfile } from '../../api/auth.jsx';
@@ -100,31 +98,6 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
           });
         },
       }
-    );
-  };
-
-  const CustomArrow = ({ onClick, direction }) => {
-    const isNext = direction === 'next';
-    return (
-      <button
-        onClick={onClick}
-        className="absolute -top-14 bg-[#D9D9D9] cursor-pointer  text-black hover:bg-gray-300 rounded-full w-9 h-9 md:w-12 md:h-12 transition flex items-center justify-center z-10"
-        style={{
-          [isRTL ? 'left' : 'right']: isNext ? 0 : 56,
-        }}
-      >
-        {isNext ? (
-          isRTL ? (
-            <ChevronLeftIcon color="black" />
-          ) : (
-            <ChevronRightIcon color="black" />
-          )
-        ) : isRTL ? (
-          <ChevronRightIcon color="black" />
-        ) : (
-          <ChevronLeftIcon color="black" />
-        )}
-      </button>
     );
   };
 

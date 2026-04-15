@@ -1,5 +1,3 @@
-import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
-import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
 import ArrowRightIcon from '../../assets/icons/ArrowRightIcon.jsx';
 import ArrowLeftIcon from '../../assets/icons/ArrowLeftIcon.jsx';
 import { ProductSkeleton } from '../Products/ProductSkeleton.jsx';
@@ -7,9 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import clsx from 'clsx';
-import Slider from 'react-slick';
 import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
-
 import { Swiper, SwiperSlide, useSwiper } from 'swiper/react';
 
 // Import Swiper styles

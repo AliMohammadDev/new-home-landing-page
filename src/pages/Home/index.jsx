@@ -1,6 +1,5 @@
 import CategoryCard from '../../components/CategoryCard';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+
 import MostProduct from '../../components/Products/MostProduct';
 import Header from '../../components/Header';
 import { useGetCategories } from '../../api/categories';

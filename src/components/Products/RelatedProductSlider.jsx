@@ -6,10 +6,7 @@ import RatingStars from '../RatingStars.jsx';
 import { useTranslation } from 'react-i18next';
 import { useGetProfile } from '../../api/auth.jsx';
 import { useAddToCartItem } from '../../api/cart.jsx';
-import ChevronLeftIcon from '../../assets/icons/ChevronLeftIcon.jsx';
-import ChevronRightIcon from '../../assets/icons/ChevronRightIcon.jsx';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+
 import clsx from 'clsx';
 import { useSubmitReview } from '../../api/reviews.jsx';
 import { ProductSkeleton } from './ProductSkeleton.jsx';
