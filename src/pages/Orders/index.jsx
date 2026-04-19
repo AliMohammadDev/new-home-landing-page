@@ -143,7 +143,6 @@ function Orders() {
             />
           </div>
         </div>
-
       </div>
 
       {/* Right Side - Order Summary */}
@@ -203,9 +202,10 @@ function Orders() {
           <div className="flex justify-between items-center text-lg opacity-80">
             <span>{t('orders.shipping_fee') || 'Shipping Fee'}</span>
             <span>
-
               <span className="text-sm font-semibold text-red-500">
-                {t('orders.shipping_info') || 'يتم تحديد التكاليف عند الدفع'}
+                {cartDataItems?.shipping_fee ||
+                  t('orders.shipping_info') ||
+                  'يتم تحديد التكاليف عند الدفع'}
               </span>
             </span>
           </div>

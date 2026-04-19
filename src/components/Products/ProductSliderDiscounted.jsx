@@ -167,13 +167,13 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
                     slidesPerView: 1,
                   },
                   640: {
-                    slidesPerView: 2,
+                    slidesPerView: 1,
                   },
                   1024: {
                     slidesPerView: 2,
                   },
                   1280: {
-                    slidesPerView: 3,
+                    slidesPerView: 2,
                   },
                 }}
                 pagination={{
@@ -205,48 +205,51 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
 
                   return (
                     <SwiperSlide key={variant.id} className="px-2 h-full">
-                      <div className="bg-[#EDEAE2] rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-                        <Link
-                          to={`/products/${product.category.id}/product-info/${variant.id}`}
-                        >
-                          <div className="relative group overflow-hidden">
-                            {variant.discount > 0 && (
-                              <div
-                                className={clsx(
-                                  'absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg',
-                                  isRTL
-                                    ? 'right-0 rounded-l-full font-[Expo-arabic]'
-                                    : 'left-0 rounded-r-full'
-                                )}
-                              >
-                                {isRTL ? (
-                                  <>
-                                    {t('essential_to_prep.off')}{' '}
-                                    {Number(variant.discount)}%
-                                  </>
-                                ) : (
-                                  <>
-                                    {Number(variant.discount)}%{' '}
-                                    {t('essential_to_prep.off')}
-                                  </>
-                                )}
-                              </div>
-                            )}
+                      <div className="bg-[#EDEAE2]  rounded-xl overflow-hidden border border-[#D8D5CD] flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+                        {/* Image Section */}
+                        <div className="relative group overflow-hidden">
+                          {variant.discount > 0 && (
+                            <div
+                              className={clsx(
+                                'absolute top-3 z-20 px-3 py-1 text-xs font-bold text-white bg-red-600 shadow-lg',
+                                isRTL
+                                  ? 'right-0 rounded-l-full font-[Expo-arabic]'
+                                  : 'left-0 rounded-r-full font-bold'
+                              )}
+                            >
+                              {isRTL ? (
+                                <>
+                                  {t('essential_to_prep.off')}{' '}
+                                  {Number(variant.discount)}%
+                                </>
+                              ) : (
+                                <>
+                                  {Number(variant.discount)}%{' '}
+                                  {t('essential_to_prep.off')}
+                                </>
+                              )}
+                            </div>
+                          )}
+
+                          <Link
+                            to={`/products/${product.category.id}/product-info/${variant.id}`}
+                          >
                             <img
                               src={variant.image}
                               alt={product.name}
-                              className="w-full h-48 sm:h-56 md:h-60 object-cover hover:scale-105 transition-transform duration-500 ease-in-out"
+                              className="w-full h-48 sm:h-56 md:h-64 object-cover hover:scale-110 transition-transform duration-500 ease-in-out"
                             />
-                          </div>
-                        </Link>
+                          </Link>
+                        </div>
 
-                        <div className="p-4 flex-1 flex flex-col">
+                        {/* Content Section */}
+                        <div className="p-4 flex flex-col gap-3 flex-1">
                           <h3
                             className={clsx(
-                              'text-[#025043] text-[16px] font-bold -mb-4 h-12 overflow-hidden',
+                              'text-[#025043] text-[16px] -mb-6 font-bold h-12 overflow-hidden',
                               isRTL
                                 ? 'font-[Expo-arabic] text-right'
-                                : 'font-[Expo-book] text-left'
+                                : 'font-bold text-left'
                             )}
                           >
                             {product.name}
@@ -254,7 +257,7 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
 
                           <p
                             className={clsx(
-                              'text-sm text-black mb-1',
+                              'text-sm text-black',
                               isRTL ? 'text-right' : 'text-left'
                             )}
                           >
@@ -264,101 +267,66 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
                             </span>
                           </p>
 
-                          <div className="border-b border-[#025043]/20 mb-3"></div>
+                          <div className="border-b border-[#025043]/20"></div>
 
-                          <div
-                            className={clsx(
-                              'flex items-baseline gap-2',
-                              isRTL
-                                ? 'flex-row-reverse justify-start'
-                                : 'flex-row justify-start'
-                            )}
-                          >
-                            <p className="text-[#025043] text-[20px] font-bold font-[Expo-arabic]">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="text-[#025043] text-[18px] font-bold">
                               {variant.final_price} $
-                            </p>
-                            {variant.discount > 0 && (
-                              <p className="text-gray-400 text-sm line-through decoration-red-500/50">
+                            </span>
+                            {product.discount > 0 && (
+                              <span className="text-gray-400 text-sm line-through decoration-red-500/50">
                                 {variant.price} $
-                              </p>
+                              </span>
                             )}
                           </div>
 
+                          {/* Options Container */}
                           <div className="flex flex-col gap-2 mb-4">
-                            {/* colors */}
-                            <div
-                              className={clsx(
-                                'flex items-center w-full',
-                                isRTL ? 'flex-row-reverse' : 'flex-row'
-                              )}
-                            >
-                              <span
-                                className={clsx(
-                                  'text-[13px] text-gray-400 min-w-10 shrink-0',
-                                  isRTL ? 'ml-1 text-right' : 'mr-4 text-left'
-                                )}
-                              >
-                                {t('filter.color')}
+                            {/* Colors  */}
+                            <div className="flex gap-1.5 flex-wrap">
+                              <span className="text-[13px] text-gray-400 min-w-10">
+                                {' '}
+                                {t('filter.color')}{' '}
                               </span>
-                              <div className="flex gap-1.5 flex-wrap">
-                                {product.available_options
-                                  ?.slice(0, 8)
-                                  .map((option) => (
-                                    <div
-                                      key={option.id}
-                                      title={option.name}
-                                      className="w-6 h-6 rounded-full border border-gray-400 hover:scale-110 transition shadow-sm"
-                                      style={{ backgroundColor: option.hex }}
-                                    />
-                                  ))}
-                              </div>
+                              {product.available_options
+                                ?.slice(0, 8)
+                                .map((option) => (
+                                  <div
+                                    key={option.id}
+                                    title={option.name}
+                                    className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
+                                    style={{ backgroundColor: option.hex }}
+                                  />
+                                ))}
                             </div>
-                            {/* sizes */}
-                            <div
-                              className={clsx(
-                                'flex items-center w-full',
-                                isRTL ? 'flex-row-reverse' : 'flex-row'
-                              )}
-                            >
-                              <span
-                                className={clsx(
-                                  'text-[13px] text-gray-400 min-w-10 shrink-0',
-                                  isRTL ? 'ml-1 text-right' : 'mr-4 text-left'
-                                )}
-                              >
+
+                            {/* Sizes  */}
+                            <div className="flex items-center gap-1 mt-1">
+                              <span className="text-[13px] text-gray-400 min-w-10">
                                 {t('filter.size')}
                               </span>
-                              <div className="flex gap-1.5 flex-wrap">
+                              <div className="flex gap-1 flex-wrap">
                                 {sizes.map((size, i) => (
                                   <span
                                     key={i}
-                                    className="px-1.5 py-px text-[12px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
+                                    className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
                                   >
                                     {size}
                                   </span>
                                 ))}
                               </div>
                             </div>
-                            {/* materials */}
-                            <div
-                              className={clsx(
-                                'flex items-center w-full',
-                                isRTL ? 'flex-row-reverse' : 'flex-row'
-                              )}
-                            >
-                              <span
-                                className={clsx(
-                                  'text-[13px] text-gray-400 min-w-10 shrink-0',
-                                  isRTL ? 'ml-1 text-right' : 'mr-4 text-left'
-                                )}
-                              >
+
+                            {/* Materials  */}
+                            <div className="flex items-center gap-1">
+                              <span className="text-[13px] text-gray-400 min-w-10">
                                 {t('filter.material')}
                               </span>
-                              <div className="flex gap-1.5 flex-wrap">
+                              <div className="flex gap-1 flex-wrap">
                                 {materials.map((mat, i) => (
                                   <span
                                     key={i}
-                                    className="px-1.5 py-px text-[12px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
+                                    className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
                                   >
                                     {mat}
                                   </span>
@@ -367,52 +335,51 @@ function ProductSliderDiscounted({ products = [], isLoadingProducts = false }) {
                             </div>
                           </div>
 
-                          <div className="mt-auto flex flex-col">
-                            {/* Rating and View More */}
-                            <div
-                              className={clsx(
-                                'flex items-center justify-between w-full mt-2'
-                              )}
-                            >
-                              {/* Stars + Review Count */}
-                              <div className="flex items-center gap-1 min-w-0">
-                                <RatingStars
-                                  onRate={(star) =>
-                                    handleRateProduct(variant.id, star)
-                                  }
-                                  rating={Number(variant.reviews_avg) || 0}
-                                />
-                                <span className="text-xs text-gray-400 truncate">
-                                  ({variant.reviews_count || 0})
-                                </span>
-                              </div>
-
-                              {/* View More */}
-                              <span
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  navigate('/products');
-                                }}
-                                className="text-xs font-medium hover:underline cursor-pointer whitespace-nowrap"
-                              >
-                                {t('essential_to_prep.view_more')}
+                          {/* Rating and View More */}
+                          <div
+                            className={clsx(
+                              'flex items-center justify-between w-full mt-2'
+                            )}
+                          >
+                            {/* Stars + Review Count */}
+                            <div className="flex items-center gap-1 min-w-0">
+                              <RatingStars
+                                onRate={(star) =>
+                                  handleRateProduct(variant.id, star)
+                                }
+                                rating={Number(variant.reviews_avg) || 0}
+                              />
+                              <span className="text-xs text-gray-400 truncate">
+                                ({variant.reviews_count || 0})
                               </span>
                             </div>
 
-                            <button
+                            {/* View More */}
+                            <span
                               onClick={(e) => {
-                                e.preventDefault();
                                 e.stopPropagation();
-                                handleAddCartItem(variant);
+                                navigate('/products');
                               }}
-                              disabled={isLoading}
-                              className="w-full bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-2 mt-1 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
+                              className="text-xs font-medium hover:underline cursor-pointer whitespace-nowrap"
                             >
-                              {isLoading
-                                ? t('essential_to_prep.adding')
-                                : t('essential_to_prep.add_to_cart')}
-                            </button>
+                              {t('essential_to_prep.view_more')}
+                            </span>
                           </div>
+
+                          {/* Add to Cart Button */}
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleAddCartItem(variant);
+                            }}
+                            disabled={isLoading}
+                            className="w-full bg-[#025043] text-white cursor-pointer text-sm font-bold px-4 py-3 rounded-full hover:bg-[#01382f] transition-all disabled:opacity-50 active:scale-95"
+                          >
+                            {isLoading
+                              ? t('essential_to_prep.adding')
+                              : t('essential_to_prep.add_to_cart')}
+                          </button>
                         </div>
                       </div>
                     </SwiperSlide>

@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import Slider from 'react-slick';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { addToast } from '@heroui/react';
 import RatingStars from '../RatingStars.jsx';
 import { useTranslation } from 'react-i18next';
 import { useGetProfile } from '../../api/auth.jsx';
 import { useAddToCartItem } from '../../api/cart.jsx';
-
 import clsx from 'clsx';
 import { useSubmitReview } from '../../api/reviews.jsx';
 import { ProductSkeleton } from './ProductSkeleton.jsx';
@@ -153,16 +151,14 @@ function RelatedProductSlider({ variants = [], isLoadingProducts = false }) {
         ) : (
           <>
             <Swiper
+              direction={'horizontal'}
               modules={[Pagination]}
               onSlideChange={(swiper) => {
                 setCurrentSlide(swiper.activeIndex);
-                console.log('Slide changed to:', swiper.activeIndex);
               }}
               onClick={(swiper, event) => {
-                // swiper.clickedIndex is the index of the clicked slide
                 if (swiper.clickedIndex !== undefined) {
                   setCurrentSlide(swiper.clickedIndex);
-                  console.log('Slide clicked:', swiper.clickedIndex);
                 }
               }}
               spaceBetween={5}

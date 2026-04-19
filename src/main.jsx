@@ -11,11 +11,9 @@ import './i18n/i18n.js';
 import i18n from './i18n/i18n.js';
 import { Suspense } from 'react';
 import Loading from './components/Loading.jsx';
-// Import Swiper styles
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
-// import 'swiper/css/scrollbar';
+import 'swiper/css';
+import 'swiper/css/effect-fade';
+import 'swiper/css/pagination';
 
 const cookies = Cookie();
 axios.defaults.withCredentials = true;

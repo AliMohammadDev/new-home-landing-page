@@ -295,74 +295,47 @@ function ProductSliderNew({ products = [], isLoadingProducts = false }) {
 
                       <div className="border-b border-[#025043]/20"></div>
 
-                      {/* Price Section */}
-                      <div
-                        className={clsx(
-                          'flex items-baseline gap-2',
-                          isRTL
-                            ? 'flex-row-reverse justify-start'
-                            : 'flex-row justify-start'
-                        )}
-                      >
-                        <p className="text-[#025043] text-[20px] font-bold font-[Expo-arabic]">
+                      <div className="flex items-center gap-2 mb-2">
+                        <span className="text-[#025043] text-[18px] font-bold">
                           {variant.final_price} $
-                        </p>
-                        {variant.discount > 0 && (
-                          <p className="text-gray-400 text-sm line-through decoration-red-500/50">
+                        </span>
+                        {product.discount > 0 && (
+                          <span className="text-gray-400 text-sm line-through decoration-red-500/50">
                             {variant.price} $
-                          </p>
+                          </span>
                         )}
                       </div>
 
                       {/* Options Container */}
                       <div className="flex flex-col gap-2 mb-4">
-                        <div
-                          className={clsx(
-                            'flex items-center w-full',
-                            isRTL ? 'flex-row-reverse' : 'flex-row'
-                          )}
-                        >
-                          <span
-                            className={clsx(
-                              'text-[13px] text-gray-400 min-w-10 shrink-0',
-                              isRTL ? 'ml-1 text-right' : 'mr-4 text-left'
-                            )}
-                          >
-                            {t('filter.color')}
+                        {/* Colors  */}
+                        <div className="flex gap-1.5 flex-wrap">
+                          <span className="text-[13px] text-gray-400 min-w-10">
+                            {' '}
+                            {t('filter.color')}{' '}
                           </span>
-                          <div className="flex gap-1.5 flex-wrap">
-                            {product.available_options
-                              ?.slice(0, 8)
-                              .map((option) => (
-                                <div
-                                  key={option.id}
-                                  title={option.name}
-                                  className="w-6 h-6  rounded-full border border-gray-400 hover:scale-110 transition shadow-sm"
-                                  style={{ backgroundColor: option.hex }}
-                                />
-                              ))}
-                          </div>
+                          {product.available_options
+                            ?.slice(0, 8)
+                            .map((option) => (
+                              <div
+                                key={option.id}
+                                title={option.name}
+                                className="w-6 h-6 rounded-full border border-gray-400 transition-all duration-200 cursor-default hover:scale-110 hover:shadow-md"
+                                style={{ backgroundColor: option.hex }}
+                              />
+                            ))}
                         </div>
 
-                        <div
-                          className={clsx(
-                            'flex items-center w-full',
-                            isRTL ? 'flex-row-reverse' : 'flex-row'
-                          )}
-                        >
-                          <span
-                            className={clsx(
-                              'text-[13px] text-gray-400 min-w-10 shrink-0',
-                              isRTL ? 'ml-1 text-right' : 'mr-4 text-left'
-                            )}
-                          >
+                        {/* Sizes  */}
+                        <div className="flex items-center gap-1 mt-1">
+                          <span className="text-[13px] text-gray-400 min-w-10">
                             {t('filter.size')}
                           </span>
-                          <div className="flex gap-1.5 flex-wrap">
+                          <div className="flex gap-1 flex-wrap">
                             {sizes.map((size, i) => (
                               <span
                                 key={i}
-                                className="px-1.5 py-px text-[12px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
+                                className="px-1.5 py-px text-[13px] rounded-full bg-white border border-[#025043]/20 text-[#025043]"
                               >
                                 {size}
                               </span>
@@ -370,25 +343,16 @@ function ProductSliderNew({ products = [], isLoadingProducts = false }) {
                           </div>
                         </div>
 
-                        <div
-                          className={clsx(
-                            'flex items-center w-full',
-                            isRTL ? 'flex-row-reverse' : 'flex-row'
-                          )}
-                        >
-                          <span
-                            className={clsx(
-                              'text-[13px] text-gray-400 min-w-10 shrink-0',
-                              isRTL ? 'ml-1 text-right' : 'mr-4 text-left'
-                            )}
-                          >
+                        {/* Materials  */}
+                        <div className="flex items-center gap-1">
+                          <span className="text-[13px] text-gray-400 min-w-10">
                             {t('filter.material')}
                           </span>
-                          <div className="flex gap-1.5 flex-wrap">
+                          <div className="flex gap-1 flex-wrap">
                             {materials.map((mat, i) => (
                               <span
                                 key={i}
-                                className="px-1.5 py-px text-[12px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
+                                className="px-1.5 py-px text-[13px] rounded-full bg-[#025043]/5 border border-[#025043]/20 text-[#025043]"
                               >
                                 {mat}
                               </span>

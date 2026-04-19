@@ -25,9 +25,9 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
       <Accordion
         key={i18n.language}
         selectionMode="multiple"
-        defaultExpandedKeys={["1", "2", "3", "4", "5"]}
+        defaultExpandedKeys={['1', '2', '3', '4', '5']}
       >
-        {location.pathname === "/products" && (
+        {location.pathname === '/products' && (
           // category filter
           <AccordionItem
             key="1"
@@ -35,7 +35,7 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
             title={t('filter.categories')}
             className="font-[Expo-arabic]"
           >
-            <ul className="space-y-1 font-[Expo-arabic]">
+            <ul className="space-y-1 overflow-auto h-[200px] font-[Expo-arabic]">
               {categories.slice(0, 7).map((category) => (
                 <li key={category.id} className="flex items-center gap-2">
                   <Checkbox
@@ -50,8 +50,13 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
         )}
 
         {/* size filter */}
-        <AccordionItem key="2" aria-label={t('filter.size')} title={t('filter.size')} className="font-[Expo-arabic]">
-          <ul className="space-y-1 font-[Expo-arabic]">
+        <AccordionItem
+          key="2"
+          aria-label={t('filter.size')}
+          title={t('filter.size')}
+          className="font-[Expo-arabic]"
+        >
+          <ul className="space-y-1 overflow-auto h-[200px] font-[Expo-arabic]">
             {sizes?.map((s) => (
               <li key={s.id}>
                 <Checkbox
@@ -72,14 +77,15 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
           title={t('filter.color')}
           className="font-[Expo-arabic]"
         >
-          <div className="flex flex-wrap gap-2 font-[Expo-arabic]">
+          <div className="flex justify-normal flex-wrap gap-2 w-fit overflow-auto max-h-[200px] font-[Expo-arabic]">
             {colors.map((c) => (
               <label
                 key={c.id}
-                className="flex items-center gap-2 bg-gray-100 px-2 py-1 rounded-full border border-gray-200 hover:bg-gray-200 cursor-pointer transition"
+                className="flex justify-normal items-center gap-2 bg-gray-100 px-1 py-1 h-fit rounded-full border border-gray-200 hover:bg-gray-200 cursor-pointer transition"
               >
                 <Checkbox
                   size="sm"
+                  className="m-0 p-0"
                   isSelected={filters.colors.includes(c.color)}
                   // onChange={() => onChange('colors', c.color)}
                   onChange={() => handleCheckboxChange('colors', c.color)}
@@ -98,19 +104,20 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
           </div>
         </AccordionItem>
 
-
         {/* price filter */}
         <AccordionItem
           key="4"
           aria-label={t('filter.price')}
-          title={<span className="text-[14px] font-medium">{t('filter.price')}</span>}
+          title={
+            <span className="text-[14px] font-medium">{t('filter.price')}</span>
+          }
           className="font-[Expo-arabic]"
         >
           <div className="px-1 pt-4 pb-6 flex flex-col gap-4">
             <Slider
               label={t('filter.price_range')}
               step={1}
-              size='sm'
+              size="sm"
               minValue={1}
               maxValue={100}
               defaultValue={[filters.price.min, filters.price.max]}
@@ -119,25 +126,29 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
                 onPriceChange('min', value[0]);
                 onPriceChange('max', value[1]);
               }}
-              formatOptions={{ style: "currency", currency: "USD" }}
+              formatOptions={{ style: 'currency', currency: 'USD' }}
               className="max-w-md"
               classNames={{
-                base: "max-w-md",
-                filler: "bg-[#025043]",
-                thumb: "bg-[#025043] after:bg-[#025043]",
+                base: 'max-w-md',
+                filler: 'bg-[#025043]',
+                thumb: 'bg-[#025043] after:bg-[#025043]',
               }}
             />
 
             <div className="flex items-center justify-between gap-4">
               <div className="flex flex-col gap-1">
-                <span className="text-tiny text-default-500">{t('filter.min_price')}</span>
+                <span className="text-tiny text-default-500">
+                  {t('filter.min_price')}
+                </span>
                 <div className="px-3 py-1 border rounded-lg text-sm font-semibold">
                   ${filters.price.min}
                 </div>
               </div>
               <div className="h-px w-4 bg-default-300 mt-5"></div>
               <div className="flex flex-col gap-1 text-right">
-                <span className="text-tiny text-default-500">{t('filter.max_price')}</span>
+                <span className="text-tiny text-default-500">
+                  {t('filter.max_price')}
+                </span>
                 <div className="px-3 py-1 border rounded-lg text-sm font-semibold">
                   ${filters.price.max}
                 </div>
@@ -154,7 +165,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
           className="font-[Expo-arabic]"
         >
           <ul className="space-y-1 font-[Expo-arabic]">
-
             {materials?.map((item) => (
               <li key={item.id} className="flex items-center gap-2">
                 <Checkbox
@@ -164,7 +174,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
                 <span className="text-sm">{item.material}</span>
               </li>
             ))}
-
           </ul>
         </AccordionItem>
       </Accordion>
@@ -172,8 +181,8 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
         <button
           onClick={onClearAll}
           className={clsx(
-            "w-full py-2 rounded-xl flex items-center justify-center gap-2  cursor-pointer transition-all duration-300 group",
-            "bg-white border-2 border-gray-100 text-black-600 hover:bg-gray-50 hover:border-gray-200 active:scale-95 shadow-sm"
+            'w-full py-2 rounded-xl flex items-center justify-center gap-2  cursor-pointer transition-all duration-300 group',
+            'bg-white border-2 border-gray-100 text-black-600 hover:bg-gray-50 hover:border-gray-200 active:scale-95 shadow-sm'
           )}
         >
           <span className="text-sm font-[Expo-arabic] cursor-pointer uppercase tracking-wider">
@@ -182,8 +191,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
         </button>
       </div>
     </>
-
-
   );
 };
 
