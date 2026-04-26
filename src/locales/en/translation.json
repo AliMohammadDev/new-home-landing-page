@@ -195,6 +195,7 @@
     "total": "Total Amount",
     "shipping_info": "Shipping calculated at checkout",
     "sku": "SKU",
+    "vat_inclusive": "VAT inclusive",
 
     "status": {
       "pending": "Pending",
@@ -446,6 +447,7 @@
       "olive": "Olive",
       "beige": "Beige",
       "brown": "Brown",
+      "gold": "Gold",
       "copper": "Copper"
     },
     "materials": {
@@ -473,7 +475,7 @@
     "rate_login_first": "You have to login first!",
     "rate_success_title": "Thank you!",
     "rate_success_desc": "Your review has been submitted",
-    "rate_error_title": "Error",
+    "rate_error_title": "Error",         
     "rate_error_desc": "Failed to submit review",
     "add_to_cart": "Add to cart",
     "adding": "Adding...",
