@@ -353,6 +353,7 @@ const Product = () => {
                 </div>
               ) : (
                 <ProductFilters
+                  key={i18n.language}
                   filters={filters}
                   onChange={toggleFilter}
                   onPriceChange={updatePrice}

@@ -87,7 +87,6 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
                   size="sm"
                   className="m-0 p-0"
                   isSelected={filters.colors.includes(c.color)}
-                  // onChange={() => onChange('colors', c.color)}
                   onChange={() => handleCheckboxChange('colors', c.color)}
                 />
 
@@ -97,7 +96,7 @@ const ProductFilters = ({ filters, onChange, onPriceChange, onClearAll }) => {
                 ></span>
 
                 <span className="text-xs text-gray-800">
-                  {t(`filter.colors.${c.color}`) || c.color}
+                  {t(`${c.color}`) || c.color}
                 </span>
               </label>
             ))}
