@@ -285,9 +285,15 @@ function Carts() {
                                       style={{ backgroundColor: selectedColor[item.id].hex }}
                                     ></span>
                                   )}
+                                  {/* <span className="truncate">
+                                    {selectedColor[item.id]
+                                      ? t(`${selectedColor[item.id].name}`) || selectedColor[item.id].name
+                                      : t('filter.color')}
+                                  </span> */}
+
                                   <span className="truncate">
                                     {selectedColor[item.id]
-                                      ? t(`filter.colors.${selectedColor[item.id].name}`) || selectedColor[item.id].name
+                                      ? (isAr ? selectedColor[item.id].name.ar : selectedColor[item.id].name.en)
                                       : t('filter.color')}
                                   </span>
                                 </span>
@@ -299,7 +305,7 @@ function Carts() {
                                 <DropdownItem key={color.id} onClick={() => handleColorChange(item.id, color)}>
                                   <div className="flex items-center gap-2">
                                     <span className="w-3 h-3 rounded-full" style={{ backgroundColor: color.hex }}></span>
-                                    {t(`filter.colors.${color.name}`) || color.name}
+                                    {isAr ? color.name.ar : color.name.en}
                                   </div>
                                 </DropdownItem>
                               ))}
